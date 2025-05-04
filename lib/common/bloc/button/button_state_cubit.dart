@@ -8,9 +8,11 @@ import '../../../core/usecase/usecase.dart';
 import 'button_state.dart';
 
 class ButtonStateCubit extends Cubit<ButtonState>{
-  ButtonStateCubit(super.initialState);
+  ButtonStateCubit() : super(ButtonInitialState());
 
   void execute({dynamic params, required UseCase usecase}) async{
+
+    emit(ButtonLoadingState());
 
     try {
       Either result = await usecase.call(param: params);
