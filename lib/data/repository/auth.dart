@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/repository/auth.dart';
 import '../../service_locator.dart';
+import '../source/auth_local_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   @override
@@ -33,4 +34,17 @@ class AuthRepositoryImpl extends AuthRepository {
       },
     );
   }
+
+  @override
+  Future<bool> isLoggedIn() async {
+    return await sl<AuthLocalService>().isLoggedIn();
+  }
+
+
+
+  @override
+  Future<Either> logout() async {
+    return await sl<AuthLocalService>().logout();
+  }
+
 }

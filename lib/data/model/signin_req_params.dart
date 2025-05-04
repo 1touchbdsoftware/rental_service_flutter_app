@@ -2,13 +2,13 @@
 
 class SignInReqParams{
 
-  final String email;
+  final String userName;
   final String password;
 
-  SignInReqParams({required this.email, required this.password});
+  SignInReqParams({required this.userName, required this.password});
 
   Map<String, dynamic> toJson() {
-    return {"email": email, "password": password,};
+    return {"userName": userName, "password": password,};
   }
 
 
