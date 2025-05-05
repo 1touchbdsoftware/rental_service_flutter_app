@@ -7,6 +7,7 @@ import 'package:rental_service/data/model/signin_req_params.dart';
 import 'package:rental_service/domain/usecases/signin.dart';
 import 'package:rental_service/presentation/dashboard/LandlordDashboard.dart';
 
+import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
 
 class SignInPage extends StatelessWidget {
@@ -142,7 +143,12 @@ class SignInPage extends StatelessWidget {
       keyboardType: TextInputType.name,
       decoration: const InputDecoration(
         labelText: 'Username',
-        prefixIcon: Icon(Icons.email),
+        labelStyle: TextStyle(
+          color: Colors.white, // Change label text color here
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+        prefixIcon: Icon(Icons.email  ,color: Colors.lightBlue),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -158,8 +164,13 @@ class SignInPage extends StatelessWidget {
       controller: _passwordController,
       obscureText: true,
       decoration: const InputDecoration(
+        labelStyle: TextStyle(
+          color: Colors.white, // Change label text color here
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
         labelText: 'Password',
-        prefixIcon: Icon(Icons.lock),
+        prefixIcon: Icon(Icons.lock, color: Colors.lightBlue),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -201,9 +212,10 @@ class SignInPage extends StatelessWidget {
               ? null
               : () => _handleLogin(context),
           style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.logInButton,
             padding: const EdgeInsets.symmetric(vertical: 15),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(15),
             ),
           ),
           child: state is ButtonLoadingState
