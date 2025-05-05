@@ -14,8 +14,6 @@ class ButtonStateCubit extends Cubit<ButtonState> {
   void execute({dynamic params, required UseCase usecase}) async {
     emit(ButtonLoadingState());
 
-
-
     try {
       Either result = await usecase.call(param: params);
 
@@ -26,13 +24,13 @@ class ButtonStateCubit extends Cubit<ButtonState> {
           emit(ButtonFailureState(errorMessage: error));
         },
         (data) {
-          print("Success changed Called: ");
+
           emit(ButtonSuccessState());
         },
       );
     } catch (e, stackTrace) {
 
-      _logger.e("Exception in ButtonStateCubit: ${e.toString()}", error: e, stackTrace: stackTrace);
+      // _logger.e("Exception in ButtonStateCubit: ${e.toString()}", error: e, stackTrace: stackTrace);
       emit(ButtonFailureState(errorMessage: e.toString()));
     }
   }

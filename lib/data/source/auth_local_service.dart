@@ -12,8 +12,6 @@ abstract class AuthLocalService{
   Future<bool> isLoggedIn();
   Future<Either> logout();
 
-
-
 }
 
 class AuthLocalServiceImpl extends AuthLocalService{
