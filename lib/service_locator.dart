@@ -2,6 +2,7 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
+import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 
 import 'data/repository/auth.dart';
 import 'data/source/auth_api_service.dart';
@@ -38,6 +39,9 @@ void setupServiceLocator(){
 
   sl.registerSingleton<SigninUseCase>(
     SigninUseCase()
+  );
+  sl.registerSingleton<IsLoggedinUsecase>(
+      IsLoggedinUsecase()
   );
 
   //logout or other use cases

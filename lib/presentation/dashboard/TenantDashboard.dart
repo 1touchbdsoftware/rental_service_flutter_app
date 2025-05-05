@@ -1,0 +1,18 @@
+
+
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class TenantDashboard extends StatelessWidget {
+  const TenantDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Tenant Dashboard"),
+      ),
+    );
+  }
+}
