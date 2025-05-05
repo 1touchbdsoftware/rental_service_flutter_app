@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_service/core/theme/app_theme.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/service_locator.dart';
 
@@ -14,11 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Service App',
-      theme: ThemeData(
+      title: 'Rental Service App',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
       home:  SignInPage(),
     );
   }
