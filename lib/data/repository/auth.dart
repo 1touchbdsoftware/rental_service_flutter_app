@@ -29,7 +29,7 @@ class AuthRepositoryImpl extends AuthRepository {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
 
-        sharedPreferences.setString('token', response.data['token']);
+        sharedPreferences.setString('token', response.data['data']['token']);
         return Right(response);
       },
     );
