@@ -8,8 +8,6 @@ abstract class GetUserLocalService{
   Future<String?> getUserType();
   Future<String?> getSavedUsername();
 
-
-
 }
 
 class GetUserLocalServiceImpl extends GetUserLocalService{
