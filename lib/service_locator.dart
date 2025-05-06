@@ -2,6 +2,8 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
+import 'package:rental_service/data/repository/user_repository.dart';
+import 'package:rental_service/domain/repository/user_repository.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 
 import 'data/repository/auth.dart';
@@ -33,6 +35,10 @@ void setupServiceLocator(){
   // Repositories
   sl.registerSingleton<AuthRepository>(
       AuthRepositoryImpl()
+  );
+
+  sl.registerSingleton<UserRepository>(
+      UserRepositoryImpl()
   );
 
   //UseCases:

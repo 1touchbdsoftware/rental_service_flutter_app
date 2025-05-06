@@ -9,7 +9,7 @@ import 'button_state.dart';
 class ButtonStateCubit extends Cubit<ButtonState> {
   ButtonStateCubit() : super(ButtonInitialState());
 
-  final Logger _logger = Logger(); // Use logger for better debugging
+  // final Logger _logger = Logger(); // Use logger for better debugging
 
   void execute({dynamic params, required UseCase usecase}) async {
     emit(ButtonLoadingState());
@@ -20,11 +20,9 @@ class ButtonStateCubit extends Cubit<ButtonState> {
       result.fold(
         //left
         (error) {
-
           emit(ButtonFailureState(errorMessage: error));
         },
         (data) {
-
           emit(ButtonSuccessState());
         },
       );

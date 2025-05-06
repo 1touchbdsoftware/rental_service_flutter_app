@@ -1,8 +1,4 @@
 
-
-
-
-
 //we will call the api from here
 import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
