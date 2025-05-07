@@ -6,9 +6,11 @@ import 'package:rental_service/common/widgets/loading.dart';
 import 'package:rental_service/data/model/signin_req_params.dart';
 import 'package:rental_service/domain/usecases/signin.dart';
 import 'package:rental_service/presentation/dashboard/LandlordDashboard.dart';
+import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
+import '../dashboard/TenantDashboard.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
@@ -20,27 +22,93 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BlocProvider(
-        create: (context) => ButtonStateCubit(),
-        child: BlocListener<ButtonStateCubit, ButtonState>(
-          listener: _handleStateChanges,
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => ButtonStateCubit()),
+          BlocProvider(create: (context) => UserTypeCubit()),
+        ],
+        child: MultiBlocListener(
+          listeners: [
+            // Primary listener for login success/failure
+            BlocListener<ButtonStateCubit, ButtonState>(
+              listener: (context, state) async {
+                if (state is ButtonSuccessState) {
+                  // On login success, fetch user type
+                  try {
+                    // Using Future.delayed to ensure proper state management
+                    await Future.delayed(Duration.zero, () async {
+                      await context.read<UserTypeCubit>().getUserType();
+                    });
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to get user type: $e')),
+                    );
+                  }
+                } else if (state is ButtonFailureState) {
+                  print("BUTTON FAILED STATE CALLED");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(state.errorMessage)),
+                  );
+                }
+              },
+            ),
+
+            // Listener for user type changes
+            BlocListener<UserTypeCubit, UserTypeState>(
+              listener: (context, state) {
+                if (state is UserTypeLandLord) {
+                  // Using Future.microtask for proper navigation timing
+                  Future.microtask(() {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Landlorddashboard()),
+                    );
+                  });
+                } else if (state is UserTypeTenant) {
+                  print("TENANT DASH BEING CALLED");
+                  Future.microtask(() {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const TenantDashboard()),
+                    );
+                  });
+                }
+                // No need to handle initial/loading states here as they're handled by button state
+              },
+            ),
+
+            // Add more listeners for other cubits if needed
+          ],
           child: _buildPageContent(context),
         ),
       ),
     );
   }
 
-  void _handleStateChanges(BuildContext context, ButtonState state) {
-    if (state is ButtonSuccessState) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Landlorddashboard()),
-      );
-    } else if (state is ButtonFailureState) {
-      var snackBar = SnackBar(content: Text(state.errorMessage));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
+  // void _handleStateChanges(BuildContext context, ButtonState state, UserTypeState type) {
+  //   if (state is ButtonSuccessState) {
+  //
+  //     if(type is UserTypeLandLord){
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const Landlorddashboard()),
+  //       );
+  //     }else if (type is UserTypeTenant){
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const TenantDashboard()),
+  //       );
+  //     }
+  //
+  //     // Navigator.pushReplacement(
+  //     //   context,
+  //     //   MaterialPageRoute(builder: (context) => const Landlorddashboard()),
+  //     // );
+  //   } else if (state is ButtonFailureState) {
+  //     var snackBar = SnackBar(content: Text(state.errorMessage));
+  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //   }
+  // }
 
   Widget _buildPageContent(BuildContext context) {
     return Stack(

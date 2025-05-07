@@ -3,10 +3,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
+import 'package:rental_service/data/source/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
+import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 
-import 'data/repository/auth.dart';
+import 'data/repository/auth_repository.dart';
 import 'data/source/auth_api_service.dart';
 import 'data/source/auth_local_service.dart';
 import 'domain/repository/auth.dart';
@@ -31,6 +33,10 @@ void setupServiceLocator(){
       AuthLocalServiceImpl()
   );
 
+  sl.registerSingleton<GetUserLocalService>(
+      GetUserLocalServiceImpl()
+  );
+
 
   // Repositories
   sl.registerSingleton<AuthRepository>(
@@ -46,8 +52,13 @@ void setupServiceLocator(){
   sl.registerSingleton<SigninUseCase>(
     SigninUseCase()
   );
+
   sl.registerSingleton<IsLoggedinUsecase>(
       IsLoggedinUsecase()
+  );
+
+  sl.registerSingleton<GetUserTypeUseCase>(
+      GetUserTypeUseCase()
   );
 
   //logout or other use cases

@@ -41,9 +41,12 @@ class AuthRepositoryImpl extends AuthRepository {
 
         if(userType == "LANDLORD") {
           sharedPreferences.setString('userType', "LANDLORD");
-        }else{
+        }else if (userType == "TENANT"){
           sharedPreferences.setString('userType', "TENANT");
+        }else{
+          sharedPreferences.setString('userType', "");
         }
+
 
 
         //check registrationType and save name also from landlordName

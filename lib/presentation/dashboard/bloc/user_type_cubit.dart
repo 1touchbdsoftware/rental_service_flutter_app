@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
+
+import '../../../service_locator.dart';
 
 part 'user_type_state.dart';
 
@@ -8,7 +11,22 @@ class UserTypeCubit extends Cubit<UserTypeState> {
 
   //this will emit the new states or changed data
 
-void getUserType() async {
+  Future<void> getUserType() async {
+    emit(UserTypeLoadingState()); // Add a loading state
 
-}
+    try {
+      var userType = await sl<GetUserTypeUseCase>().call();
+
+      if (userType == "LANDLORD") {
+        emit(UserTypeLandLord());
+      } else if (userType == "TENANT") {
+        emit(UserTypeTenant());
+      } else {
+        emit(UserTypeError(message: "Unknown user type: $userType"));
+      }
+    } catch (e) {
+      emit(UserTypeError(message: "Failed to get user type: $e"));
+    }
+  }
+
 }
