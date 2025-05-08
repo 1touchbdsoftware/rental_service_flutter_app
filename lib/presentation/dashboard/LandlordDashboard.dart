@@ -31,7 +31,7 @@ class Landlorddashboard extends StatelessWidget {
           ),
         ),
         body: const Center(
-          child: Text("Dashboard Content"),
+          child: Text("Land Dashboard Content"),
         ),
       ),
     );

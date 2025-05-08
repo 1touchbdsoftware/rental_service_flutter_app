@@ -36,6 +36,13 @@ class AuthRepositoryImpl extends AuthRepository {
         final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences.setString('token', userModel.token);
         sharedPreferences.setString('userName', userModel.userInfo.userName);
+        sharedPreferences.setString('tenantName', userModel.userInfo.tenantName!);
+        sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
+        sharedPreferences.setString('tenantID', userModel.userInfo.tenantID!);
+        sharedPreferences.setString('landlordID', userModel.userInfo.landlordID!);
+        sharedPreferences.setString('propertyID', userModel.userInfo.propertyID!);
+        sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
+
 
         final userType = userModel.userInfo.registrationType;
 
@@ -46,8 +53,6 @@ class AuthRepositoryImpl extends AuthRepository {
         }else{
           sharedPreferences.setString('userType', "");
         }
-
-
 
         //check registrationType and save name also from landlordName
 

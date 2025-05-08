@@ -2,9 +2,13 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
+import 'package:rental_service/data/repository/complains_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
+import 'package:rental_service/data/source/get_complains_api_service.dart';
 import 'package:rental_service/data/source/get_user_local_service.dart';
+import 'package:rental_service/domain/repository/complains_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
+import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 
@@ -37,6 +41,9 @@ void setupServiceLocator(){
       GetUserLocalServiceImpl()
   );
 
+  sl.registerSingleton<ComplainApiService>(
+      ComplainApiServiceImpl()
+  );
 
   // Repositories
   sl.registerSingleton<AuthRepository>(
@@ -46,6 +53,11 @@ void setupServiceLocator(){
   sl.registerSingleton<UserRepository>(
       UserRepositoryImpl()
   );
+
+  sl.registerSingleton<ComplainsRepository>(
+      ComplainsRepositoryImpl()
+  );
+
 
   //UseCases:
 
@@ -60,6 +72,11 @@ void setupServiceLocator(){
   sl.registerSingleton<GetUserTypeUseCase>(
       GetUserTypeUseCase()
   );
+
+  sl.registerSingleton<GetTenantComplainsUseCase>(
+      GetTenantComplainsUseCase()
+  );
+
 
   //logout or other use cases
 

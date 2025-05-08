@@ -5,4 +5,7 @@ class ApiUrls{
   static const register = '${baseURL}auth/register';
 
   static const signin = '${baseURL}access/login';
+
+  static const getComplainInfo = '${baseURL}Complain/GetComplainInfo';
+
 }

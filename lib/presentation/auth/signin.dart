@@ -69,7 +69,7 @@ class SignInPage extends StatelessWidget {
                   Future.microtask(() {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const TenantDashboard()),
+                      MaterialPageRoute(builder: (context) => TenantDashboardScreen()),
                     );
                   });
                 }
