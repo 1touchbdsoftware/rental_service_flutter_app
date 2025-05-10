@@ -10,16 +10,17 @@ import '../model/complain_response_model.dart';
 import '../model/get_complain_req_params.dart';
 
 abstract class ComplainApiService {
-  Future<Either<String, ComplainResponseModel>> getComplains(GetComplainsParams params);
+  // Change type to accept nullable String to match implementation
+  Future<Either> getComplains(GetComplainsParams params);
 }
 
+// 1. First, let's fix the ComplainApiServiceImpl class:
 class ComplainApiServiceImpl implements ComplainApiService {
-
   ComplainApiServiceImpl();
 
   @override
-  Future<Either<String, ComplainResponseModel>> getComplains(
-      GetComplainsParams params,
+  Future<Either> getComplains(
+      GetComplainsParams params
       ) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,7 +28,7 @@ class ComplainApiServiceImpl implements ComplainApiService {
       // Get token from SharedPreferences
       final token = prefs.getString('token');
       if (token == null) {
-        return Left('Authentication token not found');
+        return const Left('Authentication token not found');
       }
 
       final queryParams = {
@@ -51,11 +52,18 @@ class ComplainApiServiceImpl implements ComplainApiService {
         ),
       );
 
-      final complainResponse = ComplainResponseModel.fromJson(response.data);
-      return Right(complainResponse);
+
+      print(response.data);
+
+      return Right(response);
     } on DioException catch (e) {
-      return Left(e.response?.data['message'] ?? 'Something went wrong');
+      // Ensure we never return null as error - use empty string if needed
+      final errorMsg = e.response?.data?['message']?.toString()
+          ?? e.message
+          ?? 'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(errorMsg);
     } catch (e) {
+      // Always return a non-null string
       return Left(e.toString());
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_cubit.dart';
 
+import '../../common/widgets/drawer.dart';
 import '../../core/theme/app_theme.dart';
 
 class Landlorddashboard extends StatelessWidget {
@@ -30,6 +31,7 @@ class Landlorddashboard extends StatelessWidget {
             },
           ),
         ),
+        drawer: buildAppDrawer(context, 'John Doe', 'Landlord Dashboard'),
         body: const Center(
           child: Text("Land Dashboard Content"),
         ),

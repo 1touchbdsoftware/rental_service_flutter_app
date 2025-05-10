@@ -16,7 +16,7 @@ import 'data/repository/auth_repository.dart';
 import 'data/source/auth_api_service.dart';
 import 'data/source/auth_local_service.dart';
 import 'domain/repository/auth.dart';
-import 'domain/usecases/signin.dart';
+import 'domain/usecases/signin_usecase.dart';
 
 
 //dependency injection file service_locator.dart
@@ -59,6 +59,8 @@ void setupServiceLocator(){
   );
 
 
+
+
   //UseCases:
 
   sl.registerSingleton<SigninUseCase>(
@@ -73,8 +75,8 @@ void setupServiceLocator(){
       GetUserTypeUseCase()
   );
 
-  sl.registerSingleton<GetTenantComplainsUseCase>(
-      GetTenantComplainsUseCase()
+  sl.registerLazySingleton<GetTenantComplainsUseCase>(
+        () => GetTenantComplainsUseCase(),
   );
 
 

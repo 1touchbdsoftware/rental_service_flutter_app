@@ -1,25 +1,38 @@
 import 'package:dartz/dartz.dart';
 import 'package:rental_service/core/usecase/usecase.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
-
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../data/model/complain_response_model.dart';
 import '../../service_locator.dart';
 
-class GetTenantComplainsUseCase implements UseCase<Either<String, ComplainResponseModel>, GetComplainsParams> {
+
+
+// 5. Update the use case to handle nullable String
+
+class GetTenantComplainsUseCase implements UseCase<Either, GetComplainsParams> {
+
+
 
   @override
-  Future<Either<String, ComplainResponseModel>> call({GetComplainsParams? param}) async {
+  Future<Either> call({
+    GetComplainsParams? param,
+  }) async {
+    try {
+      print("UseCase: Validating parameters");
+      if (param == null) {
+        print("UseCase: Parameters are null");
+        return const Left('Parameters cannot be null');
+      }
 
-    print("USECASE BEING CALLED");
-    final repo = sl<ComplainsRepository>();
+      print("UseCase: Calling repository");
+      final result = sl<ComplainsRepository>().getTenantComplains(param);
+      print("UseCase: Repository result received");
 
-    final result = await repo.getTenantComplains(param!);
-
-    if (result == null) {
-      print("Failed to fetch complaints");
+      return result;
+    } catch (e) {
+      print("UseCase: Exception caught: $e");
+      return Left(e.toString());
     }
-
-    return result;
   }
 }
+

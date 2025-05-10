@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_service/common/widgets/drawer.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
+import 'package:rental_service/presentation/dashboard/get_complains_state.dart';
+import 'package:rental_service/presentation/dashboard/get_complains_state_cubit.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'get_complains_state.dart';
-import 'get_complains_state_cubit.dart';
 
 class TenantDashboardContent extends StatelessWidget {
   const TenantDashboardContent({super.key});
 
-  Future<void> _refreshComplains(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    final agencyID = prefs.getString('agencyID') ?? '';
-    final tenantID = prefs.getString('tenantID') ?? '';
-    final landlordID = prefs.getString('landlordId') ?? '';
-    final propertyID = prefs.getString('propertyID') ?? '';
+  Future<void> refreshComplains(BuildContext context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    final params = GetComplainsParams(
-      agencyID: agencyID,
-      tenantID: tenantID,
-      landlordID: landlordID,
-      propertyID: propertyID,
-      pageNumber: 1,
-      pageSize: 15,
-      isActive: true,
-      flag: 'TENANT',
-    );
+      final agencyID = prefs.getString('agencyID') ?? '';
+      final tenantID = prefs.getString('tenantID') ?? '';
+      final landlordID = prefs.getString('landlordID') ?? '';
+      final propertyID = prefs.getString('propertyID') ?? '';
 
-    context.read<GetTenantComplainsCubit>().fetchComplains(
-      useCase: sl<GetTenantComplainsUseCase>(),
-      params: params,
-    );
+      final params = GetComplainsParams(
+        agencyID: agencyID,
+        tenantID: tenantID,
+        landlordID: landlordID,
+        propertyID: propertyID,
+        pageNumber: 1,
+        pageSize: 15,
+        isActive: true,
+        flag: 'TENANT',
+      );
+
+      await context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+    } catch (e) {
+      print("Error in refreshComplains: $e");
+    }
   }
 
   @override
@@ -46,13 +48,19 @@ class TenantDashboardContent extends StatelessWidget {
           'Tenant Complaints',
           style: TextStyle(color: Colors.white),
         ),
+
       ),
+      drawer: buildAppDrawer(context, 'John Doe', 'Tenant Dashboard'),
       body: RefreshIndicator(
-        onRefresh: () => _refreshComplains(context),
+        onRefresh: () => refreshComplains(context),
         child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
           builder: (context, state) {
             if (state is GetTenantComplainsLoadingState) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              );
             } else if (state is GetTenantComplainsFailureState) {
               return Center(
                 child: Column(
@@ -64,17 +72,28 @@ class TenantDashboardContent extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () => _refreshComplains(context),
+                      onPressed: () => refreshComplains(context),
                       child: const Text('Retry'),
                     ),
                   ],
                 ),
               );
             } else if (state is GetTenantComplainsSuccessState) {
+              final complaints = state.response.data.list;
+
+              if (complaints.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No complaints found',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }
+
               return ListView.builder(
-                itemCount: state.response.data.list.length,
+                itemCount: complaints.length,
                 itemBuilder: (context, index) {
-                  final complaint = state.response.data.list[index];
+                  final complaint = complaints[index];
                   return Card(
                     color: Colors.white,
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -90,12 +109,19 @@ class TenantDashboardContent extends StatelessWidget {
                 },
               );
             }
-            return const Center(child: Text('No complaints found', style: TextStyle(color: Colors.white)));
+
+            // Initial state or unexpected state
+            return const Center(
+              child: Text(
+                'No complaints found',
+                style: TextStyle(color: Colors.white),
+              ),
+            );
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _refreshComplains(context),
+        onPressed: () => refreshComplains(context),
         child: const Icon(Icons.refresh),
       ),
     );

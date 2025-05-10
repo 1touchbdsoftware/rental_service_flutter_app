@@ -2,18 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/presentation/dashboard/get_complains_state_cubit.dart';
 import 'package:rental_service/presentation/dashboard/tenent_dashboard_content.dart';
-import 'package:rental_service/service_locator.dart';
-
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/presentation/dashboard/get_complains_state_cubit.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
 
 class TenantDashboardScreen extends StatelessWidget {
   const TenantDashboardScreen({super.key});
@@ -24,16 +16,18 @@ class TenantDashboardScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         print("Creating GetTenantComplainsCubit");
-        final cubit = GetTenantComplainsCubit();
-        _fetchComplains(cubit); // Fetch data as soon as cubit is created
+        // Create cubit with injected useCase
+        final cubit = GetTenantComplainsCubit(useCase: sl<GetTenantComplainsUseCase>());
+        // Fetch data as soon as cubit is created
+        fetchComplains(cubit);
         return cubit;
       },
       child: const TenantDashboardContent(),
     );
   }
 
-  Future<void> _fetchComplains(GetTenantComplainsCubit cubit) async {
-    print("Starting _fetchComplains");
+  Future<void> fetchComplains(GetTenantComplainsCubit cubit) async {
+    print("Starting fetchComplains in TenantDashboardScreen");
     try {
       final prefs = await SharedPreferences.getInstance();
       print("SharedPreferences instance obtained");
@@ -43,7 +37,11 @@ class TenantDashboardScreen extends StatelessWidget {
       final landlordID = prefs.getString('landlordID') ?? '';
       final propertyID = prefs.getString('propertyID') ?? '';
 
-      print("IDs retrieved - Agency: $agencyID, Tenant: $tenantID, Landlord: $landlordID, Property: $propertyID");
+      print("IDs retrieved:");
+      print("- Agency: '$agencyID'");
+      print("- Tenant: '$tenantID'");
+      print("- Landlord: '$landlordID'");
+      print("- Property: '$propertyID'");
 
       final params = GetComplainsParams(
         agencyID: agencyID,
@@ -56,18 +54,11 @@ class TenantDashboardScreen extends StatelessWidget {
         flag: 'TENANT',
       );
 
-      print("Params created, getting usecase");
-      final useCase = sl<GetTenantComplainsUseCase>();
-      print("UseCase retrieved from service locator");
-
-      print("Calling cubit.fetchComplains");
-      cubit.fetchComplains(
-        useCase: useCase,
-        params: params,
-      );
-      print("cubit.fetchComplains called");
+      print("Params created, calling cubit.fetchComplains");
+      await cubit.fetchComplains(params: params);
+      print("cubit.fetchComplains completed");
     } catch (e) {
-      print("Error in _fetchComplains: $e");
+      print("Error in fetchComplains: $e");
     }
   }
 }

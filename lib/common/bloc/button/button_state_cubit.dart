@@ -16,7 +16,7 @@ class ButtonStateCubit extends Cubit<ButtonState> {
 
     try {
       Either result = await usecase.call(param: params);
-
+      print("Login Cubit: Result type: $result");
       result.fold(
         //left
         (error) {
