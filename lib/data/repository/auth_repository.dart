@@ -39,8 +39,8 @@ class AuthRepositoryImpl extends AuthRepository {
         sharedPreferences.setString('tenantName', userModel.userInfo.tenantName?? "");
         sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
         sharedPreferences.setString('tenantID', userModel.userInfo.tenantID?? "");
-        sharedPreferences.setString('landlordID', userModel.userInfo.landlordID!);
-        sharedPreferences.setString('propertyID', userModel.userInfo.propertyID!);
+        sharedPreferences.setString('landlordID', userModel.userInfo.landlordID ?? "");
+        sharedPreferences.setString('propertyID', userModel.userInfo.propertyID?? "");
         sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
 
 

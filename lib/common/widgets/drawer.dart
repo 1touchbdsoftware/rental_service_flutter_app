@@ -83,7 +83,7 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           listener: (context, state) {
             if (state is UnAuthenticated) {
               // Close the drawer
-              Navigator.pop(context);
+              // Navigator.pop(context);
               // You might want to navigate to login screen here if not handled by main BlocBuilder
             } else if (state is AuthErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(

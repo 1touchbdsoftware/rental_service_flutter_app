@@ -207,7 +207,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildUsernameField() {
     return TextFormField(
-      style: const TextStyle( // 👈 This changes the input text color
+      style: const TextStyle(
         color: Colors.white,
       ),
       controller: _usernameController,

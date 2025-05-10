@@ -4,8 +4,11 @@ import 'package:rental_service/presentation/dashboard/get_complains_state_cubit.
 import 'package:rental_service/presentation/dashboard/tenent_dashboard_content.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
+import 'package:rental_service/presentation/tenent_home_screen.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../common/bloc/auth/auth_cubit.dart';
 
 class TenantDashboardScreen extends StatelessWidget {
   const TenantDashboardScreen({super.key});
@@ -13,17 +16,24 @@ class TenantDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Building TenantDashboardScreen");
-    return BlocProvider(
-      create: (context) {
-        print("Creating GetTenantComplainsCubit");
-        // Create cubit with injected useCase
-        final cubit = GetTenantComplainsCubit(useCase: sl<GetTenantComplainsUseCase>());
-        // Fetch data as soon as cubit is created
-        fetchComplains(cubit);
-        return cubit;
-      },
-      child: const TenantDashboardContent(),
-    );
+    return
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              final cubit = GetTenantComplainsCubit(useCase: sl<GetTenantComplainsUseCase>());
+              fetchComplains(cubit);
+              return cubit;
+            },
+          ),
+          // This makes the existing AuthCubit available to children
+          BlocProvider.value(
+            value: BlocProvider.of<AuthCubit>(context),
+          ),
+        ],
+        child: const TenantHomeScreen(),
+      );
+
   }
 
   Future<void> fetchComplains(GetTenantComplainsCubit cubit) async {
