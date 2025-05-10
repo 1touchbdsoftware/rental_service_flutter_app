@@ -11,6 +11,7 @@ import 'package:rental_service/domain/repository/user_repository.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
+import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import 'data/repository/auth_repository.dart';
 import 'data/source/auth_api_service.dart';
@@ -78,6 +79,11 @@ void setupServiceLocator(){
   sl.registerLazySingleton<GetTenantComplainsUseCase>(
         () => GetTenantComplainsUseCase(),
   );
+
+  sl.registerSingleton<LogoutUseCase>(
+      LogoutUseCase()
+  );
+
 
 
   //logout or other use cases

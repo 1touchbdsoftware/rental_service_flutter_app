@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
+import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
+import 'package:rental_service/domain/usecases/logout_usecase.dart';
+
+import '../../service_locator.dart';
 
 Widget buildAppDrawer(BuildContext context, String username, String dashboardTitle) {
   return Drawer(
@@ -73,15 +79,28 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
         ),
 
         // Logout
-        ListTile(
-          leading: Icon(Icons.logout, color: Colors.white),
-          title: Text('Logout',  style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          )),
-          onTap: () {
-            Navigator.pop(context);
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is UnAuthenticated) {
+              // Close the drawer
+              Navigator.pop(context);
+              // You might want to navigate to login screen here if not handled by main BlocBuilder
+            } else if (state is AuthErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+            }
           },
+          child: ListTile(
+            leading: Icon(Icons.logout, color: Colors.white),
+            title: Text('Logout', style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+            onTap: () {
+              context.read<AuthCubit>().logOut(usecase: sl<LogoutUseCase>());
+            },
+          ),
         ),
       ],
     ),

@@ -8,7 +8,7 @@ import '../../common/widgets/drawer.dart';
 import '../../core/theme/app_theme.dart';
 
 class Landlorddashboard extends StatelessWidget {
-  const Landlorddashboard({super.key});
+  const Landlorddashboard( {super.key});
 
   @override
   Widget build(BuildContext context) {

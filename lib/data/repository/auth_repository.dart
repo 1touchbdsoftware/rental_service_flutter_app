@@ -36,9 +36,9 @@ class AuthRepositoryImpl extends AuthRepository {
         final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences.setString('token', userModel.token);
         sharedPreferences.setString('userName', userModel.userInfo.userName);
-        sharedPreferences.setString('tenantName', userModel.userInfo.tenantName!);
+        sharedPreferences.setString('tenantName', userModel.userInfo.tenantName?? "");
         sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
-        sharedPreferences.setString('tenantID', userModel.userInfo.tenantID!);
+        sharedPreferences.setString('tenantID', userModel.userInfo.tenantID?? "");
         sharedPreferences.setString('landlordID', userModel.userInfo.landlordID!);
         sharedPreferences.setString('propertyID', userModel.userInfo.propertyID!);
         sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);

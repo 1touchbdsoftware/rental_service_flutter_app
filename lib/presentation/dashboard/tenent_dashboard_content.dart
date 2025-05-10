@@ -46,7 +46,7 @@ class TenantDashboardContent extends StatelessWidget {
         backgroundColor: AppColors.primary,
         title: const Text(
           'Tenant Complaints',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
 
       ),
