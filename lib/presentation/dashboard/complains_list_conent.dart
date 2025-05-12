@@ -12,8 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../auth/signin.dart';
 
-class TenantDashboardContent extends StatelessWidget {
-  const TenantDashboardContent({super.key});
+class ComplainsListContent extends StatelessWidget {
+  const ComplainsListContent({super.key});
 
   Future<void> refreshComplains(BuildContext context) async {
     try {

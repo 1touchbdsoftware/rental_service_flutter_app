@@ -5,12 +5,12 @@ import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
 import 'package:rental_service/common/widgets/loading.dart';
 import 'package:rental_service/data/model/signin_req_params.dart';
 import 'package:rental_service/domain/usecases/signin_usecase.dart';
-import 'package:rental_service/presentation/dashboard/LandlordDashboard.dart';
+import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
-import '../dashboard/TenantDashboard.dart';
+import '../dashboard/tenant/TenantDashboard.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
@@ -149,7 +149,7 @@ class SignInPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 100),
           _buildLogo(),
           const SizedBox(height: 30),
           _buildWelcomeText(),
@@ -157,7 +157,7 @@ class SignInPage extends StatelessWidget {
           _buildUsernameField(),
           const SizedBox(height: 20),
           _buildPasswordField(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           _buildRememberForgotRow(),
           const SizedBox(height: 20),
           _buildLoginButton(context),
@@ -169,7 +169,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildLogo() {
     return Container(
-      height: 100,
+      height: 70,
       width: 100,
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -232,7 +232,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildPasswordField() {
     return TextFormField(
-      style: const TextStyle( // 👈 This changes the input text color
+      style: const TextStyle(
         color: Colors.white,
       ),
       controller: _passwordController,

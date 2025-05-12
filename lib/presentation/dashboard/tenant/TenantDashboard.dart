@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/presentation/dashboard/get_complains_state_cubit.dart';
-import 'package:rental_service/presentation/dashboard/tenent_dashboard_content.dart';
+import 'package:rental_service/presentation/dashboard/complains_list_conent.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
-import 'package:rental_service/presentation/tenent_home_screen.dart';
+import 'package:rental_service/presentation/dashboard/tenant/tenent_home_screen.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../common/bloc/auth/auth_cubit.dart';
+import '../../../common/bloc/auth/auth_cubit.dart';
 
 class TenantDashboardScreen extends StatelessWidget {
   const TenantDashboardScreen({super.key});

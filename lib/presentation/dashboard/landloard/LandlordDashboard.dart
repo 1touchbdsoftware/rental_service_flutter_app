@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_cubit.dart';
 
-import '../../common/widgets/drawer.dart';
-import '../../core/theme/app_theme.dart';
+import '../../../common/widgets/drawer.dart';
+import '../../../core/theme/app_theme.dart';
 
 class Landlorddashboard extends StatelessWidget {
   const Landlorddashboard( {super.key});
