@@ -10,6 +10,8 @@ import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/bloc/auth/auth_cubit.dart';
+import '../../common/widgets/complain_list_card.dart';
+import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 
 class ComplainsListContent extends StatelessWidget {
@@ -108,19 +110,13 @@ class ComplainsListContent extends StatelessWidget {
                   itemCount: complaints.length,
                   itemBuilder: (context, index) {
                     final complaint = complaints[index];
-                    return Card(
-                      color: Colors.white,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: ListTile(
-                        title: Text(complaint.segmentName ?? 'No segment name'),
-                        subtitle: Text(
-                            complaint.description ?? 'No description'),
-                        trailing: Text(complaint.complainID ?? 'No ID'),
-                        onTap: () {
-                          // Handle complaint tap
-                        },
-                      ),
+                    return ComplainCard(
+                      complaint: complaint,
+                      onDelete: () => _handleDelete(context, complaint),
+                      onHistoryPressed: () => _handleHistory(context, complaint),
+                      onCommentsPressed: () => _handleComments(context, complaint),
+                      onReadMorePressed: () => _handleReadMore(context, complaint),
+                      onImagePressed: () => _handleImage(context, complaint),
                     );
                   },
                 );
@@ -143,4 +139,27 @@ class ComplainsListContent extends StatelessWidget {
       ),
     );
   }
+}
+
+void _handleDelete(BuildContext context, ComplainEntity complaint) {
+  // Implement delete logic
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('Deleted: ${complaint.complainName}')),
+  );
+}
+
+void _handleHistory(BuildContext context, ComplainEntity complaint) {
+  // Navigate or show history
+}
+
+void _handleComments(BuildContext context, ComplainEntity complaint) {
+  // Navigate to comment screen
+}
+
+void _handleReadMore(BuildContext context, ComplainEntity complaint) {
+  // Show detailed dialog or screen
+}
+
+void _handleImage(BuildContext context, ComplainEntity complaint) {
+  // Open full screen image viewer
 }
