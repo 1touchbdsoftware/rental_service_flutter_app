@@ -1,6 +1,7 @@
 // lib/core/routes/app_routes.dart
 import 'package:flutter/material.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
+import 'package:rental_service/presentation/complain_list_screen.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/TenantDashboard.dart';
 
@@ -8,6 +9,7 @@ class AppRoutes {
   static const String signIn = '/sign-in';
   static const String landlordDashboard = '/landlord-dashboard';
   static const String tenantDashboard = '/tenant-dashboard';
+  static const String complainListScreen = '/complain-list-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -17,6 +19,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const Landlorddashboard());
       case tenantDashboard:
         return MaterialPageRoute(builder: (_) => const TenantDashboardScreen());
+      case complainListScreen:
+        return MaterialPageRoute(builder: (_) => const ComplainsListScreen());
+
+
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -33,6 +39,7 @@ class AppRoutes {
       signIn: (context) => SignInPage(),
       landlordDashboard: (context) => const Landlorddashboard(),
       tenantDashboard: (context) => const TenantDashboardScreen(),
+      complainListScreen: (context) => ComplainsListScreen(),
     };
   }
 }

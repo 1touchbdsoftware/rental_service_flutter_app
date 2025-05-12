@@ -62,7 +62,7 @@ class TenantHomeScreen extends StatelessWidget {
                   text: 'Complaint Pending List',
                   color: Colors.orange,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/pending-complaints');
+                    Navigator.pushNamed(context, '/complain-list-screen');
                   },
                 ),
                 const SizedBox(height: 20),
