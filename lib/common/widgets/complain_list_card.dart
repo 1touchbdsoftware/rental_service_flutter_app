@@ -59,23 +59,29 @@ class ComplainCard extends StatelessWidget {
             const SizedBox(height: 8),
 
             // Complaint description with read more
-            Text(
-              complaint.complainName,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14),
-            ),
-            if ((complaint.complainName.length > 100) ||
-                complaint.complainName.split('\n').length > 2)
-              TextButton(
-                onPressed: onReadMorePressed,
-                child: const Text('Read More'),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  complaint.complainName,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 14),
                 ),
-              ),
+                if (complaint.complainName.length > 50) // Adjust this threshold as needed
+                  TextButton(
+                    onPressed: onReadMorePressed,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child:  Text('Read More', style: const TextStyle(fontSize: 12)),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
             const SizedBox(height: 12),
 
             // History and Comments buttons
@@ -84,7 +90,10 @@ class ComplainCard extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onHistoryPressed,
                   icon: const Icon(Icons.history, size: 16),
-                  label: const Text('History'),
+                  label: const Text('History', style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  )),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[200],
                     foregroundColor: Colors.black,
@@ -98,6 +107,10 @@ class ComplainCard extends StatelessWidget {
                   icon: const Icon(Icons.comment, size: 16),
                   label: Text(
                     'Comments (${complaint.currentComments?.isNotEmpty == true ? '1' : '0'})',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      )
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[200],
