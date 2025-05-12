@@ -14,7 +14,7 @@ class ComplainsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetTenantComplainsCubit(useCase: sl<GetTenantComplainsUseCase>()),
+      create: (context) => GetTenantComplainsCubit(),
       child: const ComplainsListContent(),
     );
   }

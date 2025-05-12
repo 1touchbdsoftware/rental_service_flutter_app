@@ -21,7 +21,7 @@ class TenantDashboardScreen extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) {
-              final cubit = GetTenantComplainsCubit(useCase: sl<GetTenantComplainsUseCase>());
+              final cubit = GetTenantComplainsCubit();
               fetchComplains(cubit);
               return cubit;
             },

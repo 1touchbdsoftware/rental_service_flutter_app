@@ -6,33 +6,24 @@ import '../../data/model/complain_response_model.dart';
 import '../../service_locator.dart';
 
 
-
-// 5. Update the use case to handle nullable String
-
-class GetTenantComplainsUseCase implements UseCase<Either, GetComplainsParams> {
-
-
-
+class GetTenantComplainsUseCase implements UseCase<Either<String, ComplainResponseModel>, GetComplainsParams> {
   @override
-  Future<Either> call({
+  Future<Either<String, ComplainResponseModel>> call({
     GetComplainsParams? param,
   }) async {
     try {
-      print("UseCase: Validating parameters");
       if (param == null) {
-        print("UseCase: Parameters are null");
         return const Left('Parameters cannot be null');
       }
 
-      print("UseCase: Calling repository");
-      final result = sl<ComplainsRepository>().getTenantComplains(param);
-      print("UseCase: Repository result received");
-
-      return result;
+      // Directly return the result from repository - don't wrap in another try/catch
+      return await sl<ComplainsRepository>().getTenantComplains(param);
     } catch (e) {
-      print("UseCase: Exception caught: $e");
+      print("USECASE: CATCH CALLED");
+      // This catch block should only handle exceptions from the service locator
       return Left(e.toString());
     }
   }
 }
+
 

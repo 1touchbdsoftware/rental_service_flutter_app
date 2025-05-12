@@ -9,26 +9,29 @@ import '../../service_locator.dart';
 import '../model/complain_response_model.dart';
 import '../model/get_complain_req_params.dart';
 
-abstract class ComplainApiService {
-  // Change type to accept nullable String to match implementation
-  Future<Either> getComplains(GetComplainsParams params);
+class ApiFailure {
+  final String message;
+  ApiFailure(this.message);
 }
 
-// 1. First, let's fix the ComplainApiServiceImpl class:
+abstract class ComplainApiService {
+  // Change type to accept nullable String to match implementation
+  Future<Either<ApiFailure, Response>> getComplains(GetComplainsParams params);
+}
+
 class ComplainApiServiceImpl implements ComplainApiService {
   ComplainApiServiceImpl();
 
   @override
-  Future<Either> getComplains(
-      GetComplainsParams params
-      ) async {
+  Future<Either<ApiFailure, Response>> getComplains(
+      GetComplainsParams params) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       // Get token from SharedPreferences
       final token = prefs.getString('token');
       if (token == null) {
-        return const Left('Authentication token not found');
+        return Left(ApiFailure('Authentication token not found'));
       }
 
       final queryParams = {
@@ -52,19 +55,14 @@ class ComplainApiServiceImpl implements ComplainApiService {
         ),
       );
 
-
-      print(response.data);
-
       return Right(response);
     } on DioException catch (e) {
-      // Ensure we never return null as error - use empty string if needed
-      final errorMsg = e.response?.data?['message']?.toString()
-          ?? e.message
-          ?? 'Request failed with status ${e.response?.statusCode ?? "unknown"}';
-      return Left(errorMsg);
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
     } catch (e) {
-      // Always return a non-null string
-      return Left(e.toString());
+      return Left(ApiFailure(e.toString()));
     }
   }
 }

@@ -7,44 +7,25 @@ import '../../service_locator.dart';
 import '../model/complain_response_model.dart';
 
 
-class ComplainsRepositoryImpl extends ComplainsRepository {
-
-
-
+class ComplainsRepositoryImpl implements ComplainsRepository {
   @override
   Future<Either<String, ComplainResponseModel>> getTenantComplains(
       GetComplainsParams params,
       ) async {
-    Either result = await sl<ComplainApiService>().getComplains(params);
-
-    print("COMPLAIN REPO:");
-
+    Either<ApiFailure, Response> result = await sl<ComplainApiService>().getComplains(params);
 
     return result.fold(
-        (error) {
-          print("REPOSITORY: ERROR CALLED");
-          return Left(error);
+            (error) {
+          return Left(error.message);
         },
-        (data) async {
-          print("REPOSITORY: RIGHT CALLED");
-
-          Response response = data;
-
-          final responseModel = ComplainResponseModel.fromJson(response.data);
-
-          return Right(responseModel);
+            (data) {
+          try {
+            final responseModel = ComplainResponseModel.fromJson(data.data);
+            return Right(responseModel);
+          } catch (e) {
+            return Left('Failed to parse response: ${e.toString()}');
+          }
         }
     );
-    // try {
-    //   print("Repository: Getting complains from API");
-    //
-    //   print("Repository: API result received, type: ${result.runtimeType}");
-    //
-    //   // Simply pass through the result - don't manipulate the Either here
-    //   return result;
-    // } catch (e) {
-    //   print("Repository: Exception caught: $e");
-    //   return Left(e.toString());
-    // }
   }
 }

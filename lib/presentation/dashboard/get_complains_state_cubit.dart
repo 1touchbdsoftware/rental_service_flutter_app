@@ -4,37 +4,38 @@ import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/presentation/dashboard/get_complains_state.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 
-class GetTenantComplainsCubit extends Cubit<GetTenantComplainsState> {
-  final GetTenantComplainsUseCase useCase;
+import '../../data/model/complain_response_model.dart';
+import '../../service_locator.dart';
 
-  GetTenantComplainsCubit({required this.useCase}) : super(GetTenantComplainsInitialState());
+
+class GetTenantComplainsCubit extends Cubit<GetTenantComplainsState> {
+  final GetTenantComplainsUseCase _useCase;
+
+  GetTenantComplainsCubit({GetTenantComplainsUseCase? useCase})
+      : _useCase = useCase ?? sl<GetTenantComplainsUseCase>(),
+        super(GetTenantComplainsInitialState());
 
   Future<void> fetchComplains({required GetComplainsParams params}) async {
     emit(GetTenantComplainsLoadingState());
 
     try {
-      print("Cubit: Before calling usecase");
+      // Get the result from the use case
+      final Either<String, ComplainResponseModel> result =
+      await _useCase.call(param: params);
 
-      Either result = await useCase.call(param: params);
-      print("Cubit: Result type: ${result.runtimeType}");
-      print("Cubit: Result type: $result");
-      print("Cubit: After calling usecase");
-
+      print("Cubit:result type: ${result.runtimeType}");
+      // Process the result using fold without a try/catch around it
       result.fold(
-            (error) {
-          // print("Cubit: Error path, error value: '$error'");
-          // Safely handle null by providing a default error message
-          final safeErrorMessage = error ?? "Unknown error occurred";
-          emit(GetTenantComplainsFailureState(errorMessage: safeErrorMessage));
-        },
-            (response) {
-          print("Cubit: Success path, message: ${response.message}");
-          emit(GetTenantComplainsSuccessState(response));
-        },
+              (error) {
+            print("Detailed error: $error"); // Add this line
+            emit(GetTenantComplainsFailureState(errorMessage: error));
+          },
+              (data) => emit(GetTenantComplainsSuccessState(data))
       );
     } catch (e) {
-      print("Cubit: Exception caught: $e");
-      emit(GetTenantComplainsFailureState(errorMessage: e.toString()));
+      print("Cubit:Catch block called}");
+      // This should only catch errors in the service locator or emit calls
+      emit(GetTenantComplainsFailureState(errorMessage: 'Unexpected error: ${e.toString()}'));
     }
   }
 }
