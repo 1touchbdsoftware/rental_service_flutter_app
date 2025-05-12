@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/complain_entity.dart';
+import 'image_handler.dart';
 
 class ComplainCard extends StatelessWidget {
   final ComplainEntity complaint;
+
   final VoidCallback onDelete;
   final VoidCallback onHistoryPressed;
   final VoidCallback onCommentsPressed;
@@ -124,6 +126,7 @@ class ComplainCard extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Images row
+            // Images row
             if (complaint.imageCount > 0)
               SizedBox(
                 height: 80,
@@ -134,23 +137,11 @@ class ComplainCard extends StatelessWidget {
                     final image = complaint.images[index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: GestureDetector(
-                        onTap: onImagePressed,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image.network(
-                            image.filePath ?? '',
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              width: 80,
-                              height: 80,
-                              color: Colors.grey[300],
-                              child: const Icon(Icons.broken_image),
-                            ),
-                          ),
-                        ),
+                      child: Base64ImageHandler.buildBase64Image(
+                        base64String: image.file, // Assuming 'file' is the base64 string
+                        onTap: () => onImagePressed(),
+                        width: 80,
+                        height: 80,
                       ),
                     );
                   },
