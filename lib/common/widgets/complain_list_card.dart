@@ -126,7 +126,6 @@ class ComplainCard extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Images row
-            // Images row
             if (complaint.imageCount! > 0)
               SizedBox(
                 height: 80,
@@ -139,7 +138,7 @@ class ComplainCard extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Base64ImageHandler.buildBase64Image(
                         base64String: image.file, // 'file' is the base64 string
-                        onTap: () => onImagePressed(index),
+                        onTap: () => onImagePressed(index), //on-press callback
                         width: 80,
                         height: 80,
                       ),
