@@ -44,7 +44,9 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           title: Text('Home', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           onTap: () {
             Navigator.pop(context);
-            // TODO: Navigate to home screen if needed
+
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+
           },
         ),
 
