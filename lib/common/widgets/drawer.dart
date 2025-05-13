@@ -6,13 +6,12 @@ import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import '../../service_locator.dart';
-
 Widget buildAppDrawer(BuildContext context, String username, String dashboardTitle) {
   return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        // Image & Dashboard Title Section
+        // Header
         Container(
           color: Colors.blue,
           child: Column(
@@ -21,7 +20,7 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
                 width: double.infinity,
                 height: 150,
                 child: Image.asset(
-                  'asset/images/pro_matrix_logo.png', // Replace with your actual image path
+                  'asset/images/pro_matrix_logo.png',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -39,14 +38,20 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           ),
         ),
 
+        // ✅ Home
+        ListTile(
+          leading: Icon(Icons.home, color: Colors.white),
+          title: Text('Home', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          onTap: () {
+            Navigator.pop(context);
+            // TODO: Navigate to home screen if needed
+          },
+        ),
+
         // Complains List
         ListTile(
           leading: Icon(Icons.list, color: Colors.white),
-          title: Text('Complains List',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              )),
+          title: Text('Complains List', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           onTap: () {
             Navigator.pop(context);
           },
@@ -54,13 +59,10 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
 
         Divider(),
 
-        // Profile with username
+        // Profile
         ListTile(
           leading: Icon(Icons.person, color: Colors.white),
-          title: Text(username,  style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          )),
+          title: Text(username, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           onTap: () {
             Navigator.pop(context);
           },
@@ -69,22 +71,17 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
         // Settings
         ListTile(
           leading: Icon(Icons.settings, color: Colors.white),
-          title: Text('Settings',  style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          )),
+          title: Text('Settings', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           onTap: () {
             Navigator.pop(context);
           },
         ),
 
-        // Logout
+        // ✅ Logout with Confirmation
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is UnAuthenticated) {
-              // Close the drawer
-              // Navigator.pop(context);
-              // You might want to navigate to login screen here if not handled by main BlocBuilder
+              // Optional: Navigate to login if not handled elsewhere
             } else if (state is AuthErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
@@ -93,12 +90,9 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           },
           child: ListTile(
             leading: Icon(Icons.logout, color: Colors.white),
-            title: Text('Logout', style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            )),
+            title: Text('Logout', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             onTap: () {
-              context.read<AuthCubit>().logOut(usecase: sl<LogoutUseCase>());
+              _showLogoutConfirmation(context);
             },
           ),
         ),
@@ -106,3 +100,29 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
     ),
   );
 }
+
+void _showLogoutConfirmation(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      return AlertDialog(
+        title: Text("Confirm Logout"),
+        content: Text("Are you sure you want to log out?"),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () => Navigator.of(dialogContext).pop(),
+          ),
+          ElevatedButton(
+            child: Text("Logout"),
+            onPressed: () {
+              Navigator.of(dialogContext).pop(); // Close the dialog
+              context.read<AuthCubit>().logOut(usecase: sl<LogoutUseCase>());
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
