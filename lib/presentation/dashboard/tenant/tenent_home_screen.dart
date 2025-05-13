@@ -51,7 +51,7 @@ class TenantHomeScreen extends StatelessWidget {
                   text: 'Create Complaint',
                   color: Colors.blue,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/create-complaint');
+                    Navigator.pushNamed(context, '/create-complain-screen');
                   },
                 ),
                 const SizedBox(height: 20),

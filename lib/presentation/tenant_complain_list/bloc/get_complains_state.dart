@@ -1,7 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 
-import '../../data/model/complain_response_model.dart';
+import '../../../data/model/complain/complain_response_model.dart';
 
 abstract class GetTenantComplainsState{
 

@@ -1,7 +1,7 @@
-import 'package:rental_service/data/model/user_info_model.dart';
+import 'package:rental_service/data/model/user/user_info_model.dart';
 
-import '../../domain/entities/user_entity.dart';
-import '../../domain/entities/user_info_entity.dart';
+import '../../../domain/entities/user_entity.dart';
+import '../../../domain/entities/user_info_entity.dart';
 
 class UserModel extends UserEntity {
   UserModel({

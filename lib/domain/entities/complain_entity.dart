@@ -23,19 +23,19 @@ class ComplainEntity {
   final String? currentComments;
   final String? feedback;
   final String? ticketNo;
-  final bool isResubmitted;
+  final bool? isResubmitted;
   final int? countOfRecomplained;
-  final bool isSentToLandlord;
-  final bool isAssignedTechnician;
-  final bool isRejected;
-  final bool isSolved;
-  final bool isCompleted;
-  final bool isNotCompleted;
-  final bool isDone;
+  final bool? isSentToLandlord;
+  final bool? isAssignedTechnician;
+  final bool? isRejected;
+  final bool? isSolved;
+  final bool? isCompleted;
+  final bool? isNotCompleted;
+  final bool? isDone;
   final String? rejectedBy;
   final String? rejectedDate;
-  final int imageCount;
-  final List<ComplainImageEntity> images;
+  final int? imageCount;
+  final List<ComplainImageEntity>? images;
 
   ComplainEntity({
     required this.id,
@@ -61,19 +61,19 @@ class ComplainEntity {
      this.currentComments,
      this.feedback,
      this.ticketNo,
-    required this.isResubmitted,
+     this.isResubmitted,
      this.countOfRecomplained,
-    required this.isSentToLandlord,
-    required this.isAssignedTechnician,
-    required this.isRejected,
-    required this.isSolved,
-    required this.isCompleted,
-    required this.isNotCompleted,
-    required this.isDone,
+     this.isSentToLandlord,
+     this.isAssignedTechnician,
+     this.isRejected,
+     this.isSolved,
+     this.isCompleted,
+     this.isNotCompleted,
+     this.isDone,
      this.rejectedBy,
      this.rejectedDate,
-    required this.imageCount,
-    required this.images,
+     this.imageCount,
+     this.images,
   });
 }
 

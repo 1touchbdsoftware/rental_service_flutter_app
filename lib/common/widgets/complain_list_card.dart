@@ -127,14 +127,14 @@ class ComplainCard extends StatelessWidget {
 
             // Images row
             // Images row
-            if (complaint.imageCount > 0)
+            if (complaint.imageCount! > 0)
               SizedBox(
                 height: 80,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: complaint.images.length,
+                  itemCount: complaint.images!.length,
                   itemBuilder: (context, index) {
-                    final image = complaint.images[index];
+                    final image = complaint.images![index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Base64ImageHandler.buildBase64Image(
@@ -157,19 +157,19 @@ class ComplainCard extends StatelessWidget {
     Color dotColor;
     String statusText;
 
-    if (complaint.isRejected) {
+    if (complaint.isRejected!) {
       dotColor = Colors.red;
       statusText = 'Rejected';
-    } else if (complaint.isSolved) {
+    } else if (complaint.isSolved!) {
       dotColor = Colors.green;
       statusText = 'Resolved';
-    } else if (complaint.isResubmitted) {
+    } else if (complaint.isResubmitted!) {
       dotColor = Colors.orange;
       statusText = 'Resubmitted';
-    } else if (complaint.isSentToLandlord) {
+    } else if (complaint.isSentToLandlord!) {
       dotColor = Colors.blue;
       statusText = 'Sent to Landlord';
-    } else if (complaint.isAssignedTechnician) {
+    } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
       statusText = 'Technician Assigned';
     } else {

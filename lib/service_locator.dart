@@ -5,15 +5,19 @@ import 'package:rental_service/core/network/dio_client.dart';
 import 'package:rental_service/data/repository/complains_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
 import 'package:rental_service/data/source/get_complains_api_service.dart';
+import 'package:rental_service/data/source/get_segment_api_service.dart';
 import 'package:rental_service/data/source/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
+import 'package:rental_service/domain/repository/segment_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
+import 'package:rental_service/domain/usecases/get_segment_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import 'data/repository/auth_repository.dart';
+import 'data/repository/segment_repository.dart';
 import 'data/source/auth_api_service.dart';
 import 'data/source/auth_local_service.dart';
 import 'domain/repository/auth.dart';
@@ -46,6 +50,10 @@ void setupServiceLocator(){
       ComplainApiServiceImpl()
   );
 
+  sl.registerSingleton<SegmentApiService>(
+      SegmentApiServiceImpl()
+  );
+
   // Repositories
   sl.registerSingleton<AuthRepository>(
       AuthRepositoryImpl()
@@ -57,6 +65,10 @@ void setupServiceLocator(){
 
   sl.registerSingleton<ComplainsRepository>(
       ComplainsRepositoryImpl()
+  );
+
+  sl.registerSingleton<SegmentRepository>(
+      SegmentRepositoryImpl()
   );
 
 
@@ -81,6 +93,11 @@ void setupServiceLocator(){
   sl.registerSingleton<LogoutUseCase>(
       LogoutUseCase()
   );
+
+  sl.registerSingleton<GetSegmentUseCase>(
+      GetSegmentUseCase()
+  );
+
 
 
 

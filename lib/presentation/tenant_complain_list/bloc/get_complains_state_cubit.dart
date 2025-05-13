@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
-import 'package:rental_service/presentation/dashboard/get_complains_state.dart';
+import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 
-import '../../data/model/complain_response_model.dart';
-import '../../service_locator.dart';
+import '../../../data/model/complain/complain_response_model.dart';
+import '../../../service_locator.dart';
 
 
 class GetTenantComplainsCubit extends Cubit<GetTenantComplainsState> {

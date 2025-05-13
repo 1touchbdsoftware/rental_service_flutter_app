@@ -1,48 +1,43 @@
+
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:rental_service/data/model/get_segment_params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/constants/api_urls.dart';
 import '../../core/network/dio_client.dart';
-
 import '../../service_locator.dart';
 import '../model/api_failure.dart';
-import '../model/complain/complain_response_model.dart';
-import '../model/get_complain_req_params.dart';
 
-abstract class ComplainApiService {
-  // Change type to accept nullable String to match implementation
-  Future<Either<ApiFailure, Response>> getComplains(GetComplainsParams params);
+abstract class SegmentApiService {
+  Future<Either<ApiFailure, Response>> getSegments(GetSegmentParams params);
 }
 
-class ComplainApiServiceImpl implements ComplainApiService {
-  ComplainApiServiceImpl();
+class SegmentApiServiceImpl implements SegmentApiService {
+  SegmentApiServiceImpl();
 
   @override
-  Future<Either<ApiFailure, Response>> getComplains(
-      GetComplainsParams params) async {
+  Future<Either<ApiFailure, Response>> getSegments(
+      GetSegmentParams params
+      ) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      // Get token from SharedPreferences
       final token = prefs.getString('token');
       if (token == null) {
         return Left(ApiFailure('Authentication token not found'));
       }
 
       final queryParams = {
-        'AgencyID': params.agencyID,
-        'PageNumber': params.pageNumber.toString(),
-        'PageSize': params.pageSize.toString(),
-        'IsActive': params.isActive.toString(),
-        if (params.landlordID != null) 'LandlordID': params.landlordID,
-        if (params.propertyID != null) 'PropertyID': params.propertyID,
-        if (params.tenantID != null) 'TenantID': params.tenantID,
-        'Flag': params.flag,
+        'agencyID': params.agencyID,
+        'landlordID' : params.landlordID,
+        'propertyID' : params.propertyID,
+        'segmentID' : params.segmentID ?? '',
       };
 
       final response = await sl<DioClient>().get(
-        ApiUrls.getComplainInfo,
+        ApiUrls.propertyWiseSegment,
         queryParameters: queryParams,
         options: Options(
           headers: {

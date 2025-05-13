@@ -1,7 +1,7 @@
 
 
-import '../../domain/entities/complain_entity.dart';
-import '../../domain/entities/complain_response_entity.dart';
+import '../../../domain/entities/complain_entity.dart';
+import '../../../domain/entities/complain_response_entity.dart';
 import 'ComplainModel.dart';
 
 class ComplainResponseModel extends ComplainResponseEntity {
@@ -23,3 +23,5 @@ class ComplainResponseModel extends ComplainResponseEntity {
     );
   }
 }
+
+

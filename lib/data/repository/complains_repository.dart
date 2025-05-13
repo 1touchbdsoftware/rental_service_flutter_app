@@ -4,7 +4,8 @@ import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/data/source/get_complains_api_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../service_locator.dart';
-import '../model/complain_response_model.dart';
+import '../model/api_failure.dart';
+import '../model/complain/complain_response_model.dart';
 
 
 class ComplainsRepositoryImpl implements ComplainsRepository {

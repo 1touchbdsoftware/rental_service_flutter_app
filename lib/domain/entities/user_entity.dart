@@ -1,6 +1,6 @@
 import 'package:rental_service/domain/entities/user_info_entity.dart';
 
-import '../../data/model/user_info_model.dart';
+import '../../data/model/user/user_info_model.dart';
 
 class UserEntity {
   final int statusCode;

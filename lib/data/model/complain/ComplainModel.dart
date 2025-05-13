@@ -1,4 +1,5 @@
-import '../../domain/entities/complain_entity.dart';
+import '../../../domain/entities/complain_entity.dart';
+import 'complain_image_model.dart';
 
 class ComplainModel {
   final int id;
@@ -24,19 +25,19 @@ class ComplainModel {
   final String? currentComments;
   final String? feedback;
   final String? ticketNo;
-  final bool isResubmitted;
+  final bool? isResubmitted;
   final int? countOfRecomplained;
-  final bool isSentToLandlord;
-  final bool isAssignedTechnician;
-  final bool isRejected;
-  final bool isSolved;
-  final bool isCompleted;
-  final bool isNotCompleted;
-  final bool isDone;
+  final bool? isSentToLandlord;
+  final bool? isAssignedTechnician;
+  final bool? isRejected;
+  final bool? isSolved;
+  final bool? isCompleted;
+  final bool? isNotCompleted;
+  final bool? isDone;
   final String? rejectedBy;
   final String? rejectedDate;
-  final int imageCount;
-  final List<ComplainImageModel> images;
+  final int? imageCount;
+  final List<ComplainImageModel>? images;
 
   ComplainModel({
     required this.id,
@@ -62,19 +63,19 @@ class ComplainModel {
      this.currentComments,
      this.feedback,
      this.ticketNo,
-    required this.isResubmitted,
+     this.isResubmitted,
      this.countOfRecomplained,
-    required this.isSentToLandlord,
-    required this.isAssignedTechnician,
-    required this.isRejected,
-    required this.isSolved,
-    required this.isCompleted,
-    required this.isNotCompleted,
-    required this.isDone,
+     this.isSentToLandlord,
+     this.isAssignedTechnician,
+     this.isRejected,
+     this.isSolved,
+     this.isCompleted,
+     this.isNotCompleted,
+     this.isDone,
      this.rejectedBy,
      this.rejectedDate,
-    required this.imageCount,
-    required this.images,
+     this.imageCount,
+     this.images,
   });
 
   factory ComplainModel.fromJson(Map<String, dynamic> json) {
@@ -157,91 +158,90 @@ class ComplainModel {
       rejectedBy: rejectedBy,
       rejectedDate: rejectedDate,
       imageCount: imageCount,
-      images: images.map((imageModel) => imageModel.toEntity()).toList(),
-    );
-  }
-}
-
-class ComplainImageModel {
-  final int id;
-  final String fileName;
-  final String actualFileName;
-  final String? fileSize;
-  final String? filePath;
-  final String? fileType;
-  final String? complainID;
-  final String? complainInfoID;
-  final String? agencyID;
-  final String? propertyID;
-  final String? createdBy;
-  final String? flag;
-  final int? imageGroupKey;
-  final String? createdDate;
-  final String? updatedBy;
-  final String? updatedDate;
-  final String? file;
-
-  ComplainImageModel({
-    required this.id,
-    required this.fileName,
-    required this.actualFileName,
-     this.fileSize,
-     this.filePath,
-     this.fileType,
-     this.complainID,
-     this.complainInfoID,
-     this.agencyID,
-     this.propertyID,
-     this.createdBy,
-     this.flag,
-     this.imageGroupKey,
-     this.createdDate,
-     this.updatedBy,
-     this.updatedDate,
-     this.file,
-  });
-
-  factory ComplainImageModel.fromJson(Map<String, dynamic> json) {
-    return ComplainImageModel(
-      id: json['id'],
-      fileName: json['fileName'],
-      actualFileName: json['actualFileName'],
-      fileSize: json['fileSize'],
-      filePath: json['filePath'],
-      fileType: json['fileType'],
-      complainID: json['complainID'],
-      complainInfoID: json['complainInfoID'],
-      agencyID: json['agencyID'],
-      propertyID: json['propertyID'],
-      createdBy: json['createdBy'],
-      flag: json['flag'],
-      imageGroupKey: json['imageGroupKey'],
-      createdDate: json['createdDate'],
-      updatedBy: json['updatedBy'],
-      updatedDate: json['updatedDate'],
-      file: json['file'],
+      images: images!.map((imageModel) => imageModel.toEntity()).toList(),
     );
   }
 
-  ComplainImageEntity toEntity() {
-    return ComplainImageEntity(
-      id: id,
-      fileName: fileName,
-      actualFileName: actualFileName,
-      fileSize: fileSize,
-      filePath: filePath,
-      fileType: fileType,
-      complainID: complainID,
-      complainInfoID: complainInfoID,
-      agencyID: agencyID,
-      propertyID: propertyID,
-      createdBy: createdBy,
-      flag: flag,
-      imageGroupKey: imageGroupKey,
-      createdDate: createdDate,
-      updatedBy: updatedBy,
-      updatedDate: updatedDate,
-      file: file,
+  factory ComplainModel.fromEntity(ComplainEntity entity) {
+    return ComplainModel(
+      id: entity.id,
+      complainInfoID: entity.complainInfoID,
+      complainID: entity.complainID,
+      complainName: entity.complainName,
+      segmentID: entity.segmentID,
+      segmentName: entity.segmentName,
+      segmentLength: entity.segmentLength,
+      segmentWidth: entity.segmentWidth,
+      agencyID: entity.agencyID,
+      description: entity.description,
+      itemID: entity.itemID,
+      itemName: entity.itemName,
+      propertyID: entity.propertyID,
+      propertyName: entity.propertyName,
+      landlordID: entity.landlordID,
+      landlordName: entity.landlordName,
+      tenantID: entity.tenantID,
+      tenantName: entity.tenantName,
+      comments: entity.comments,
+      lastComments: entity.lastComments,
+      currentComments: entity.currentComments,
+      feedback: entity.feedback,
+      ticketNo: entity.ticketNo,
+      isResubmitted: entity.isResubmitted,
+      countOfRecomplained: entity.countOfRecomplained,
+      isSentToLandlord: entity.isSentToLandlord,
+      isAssignedTechnician: entity.isAssignedTechnician,
+      isRejected: entity.isRejected,
+      isSolved: entity.isSolved,
+      isCompleted: entity.isCompleted,
+      isNotCompleted: entity.isNotCompleted,
+      isDone: entity.isDone,
+      rejectedBy: entity.rejectedBy,
+      rejectedDate: entity.rejectedDate,
+      imageCount: entity.imageCount,
+      images: entity.images?.map((img) => ComplainImageModel.fromEntity(img)).toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'complainInfoID': complainInfoID,
+      'complainID': complainID,
+      'complainName': complainName,
+      'segmentID': segmentID,
+      'segmentName': segmentName,
+      'segmentLength': segmentLength,
+      'segmentWidth': segmentWidth,
+      'agencyID': agencyID,
+      'description': description,
+      'itemID': itemID,
+      'itemName': itemName,
+      'propertyID': propertyID,
+      'propertyName': propertyName,
+      'landlordID': landlordID,
+      'landlordName': landlordName,
+      'tenantID': tenantID,
+      'tenantName': tenantName,
+      'comments': comments,
+      'lastComments': lastComments,
+      'currentComments': currentComments,
+      'feedback': feedback,
+      'ticketNo': ticketNo,
+      'isResubmitted': isResubmitted,
+      'countOfRecomplained': countOfRecomplained,
+      'isSentToLandlord': isSentToLandlord,
+      'isAssignedTechnician': isAssignedTechnician,
+      'isRejected': isRejected,
+      'isSolved': isSolved,
+      'isCompleted': isCompleted,
+      'isNotCompleted': isNotCompleted,
+      'isDone': isDone,
+      'rejectedBy': rejectedBy,
+      'rejectedDate': rejectedDate,
+      'imageCount': imageCount,
+      'images': images?.map((img) => img.toJson()).toList(),
+    };
+  }
+
 }

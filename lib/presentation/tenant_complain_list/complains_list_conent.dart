@@ -5,8 +5,8 @@ import 'package:rental_service/common/widgets/center_loader.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
-import 'package:rental_service/presentation/dashboard/get_complains_state.dart';
-import 'package:rental_service/presentation/dashboard/get_complains_state_cubit.dart';
+import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
+import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state_cubit.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
