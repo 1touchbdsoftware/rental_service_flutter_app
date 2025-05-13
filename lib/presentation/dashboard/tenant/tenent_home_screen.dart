@@ -88,7 +88,7 @@ class TenantHomeScreen extends StatelessWidget {
   Widget _buildProfileImage() {
     return SizedBox(
       width: double.infinity,
-      height: 150,
+      height: 50,
       child: Image.asset(
         'asset/images/pro_matrix_logo.png',
         fit: BoxFit.contain,
@@ -116,7 +116,7 @@ class TenantHomeScreen extends StatelessWidget {
       }) {
     return SizedBox(
       width: double.infinity,
-      height: 80,
+      height: 60,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,

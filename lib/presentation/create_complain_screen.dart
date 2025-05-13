@@ -10,7 +10,6 @@ import '../data/model/segment_model.dart';
 import 'get_segment_state.dart';
 import 'get_segment_state_cubit.dart';
 
-
 class CreateComplainScreen extends StatelessWidget {
   const CreateComplainScreen({super.key});
 
@@ -30,7 +29,6 @@ class _CreateComplainScreenContent extends StatefulWidget {
   State<_CreateComplainScreenContent> createState() =>
       _CreateComplainScreenState();
 }
-
 
 class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
   final _formKey = GlobalKey<FormState>();
@@ -88,17 +86,19 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       setState(() {
         // Add only up to the maximum allowed
         final remainingSlots = _maxImages - _selectedImages.length;
-        final imagesToAdd = pickedImages.length > remainingSlots
-            ? pickedImages.sublist(0, remainingSlots)
-            : pickedImages;
+        final imagesToAdd =
+            pickedImages.length > remainingSlots
+                ? pickedImages.sublist(0, remainingSlots)
+                : pickedImages;
 
         _selectedImages.addAll(imagesToAdd);
 
         if (pickedImages.length > remainingSlots) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Only added ${imagesToAdd
-                  .length} images. Maximum limit reached.'),
+              content: Text(
+                'Only added ${imagesToAdd.length} images. Maximum limit reached.',
+              ),
               backgroundColor: Colors.orange,
             ),
           );
@@ -130,9 +130,9 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       body: BlocConsumer<GetSegmentCubit, GetSegmentState>(
         listener: (context, state) {
           if (state is GetSegmentFailureState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
           }
         },
         builder: (context, state) {
@@ -173,72 +173,79 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      const Text(
-      "Complaint Category",
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 16,
-      ),
-    ),
-    const SizedBox(height: 8),
-    if (state is GetSegmentSuccessState)
-    Stack(
-    alignment: Alignment.center,
-    children: [
-    DropdownButtonFormField<SegmentModel>(
-    value: _selectedSegment,
-      dropdownColor: Colors.white,
-      icon: const Icon(Icons.arrow_drop_down),
-    isExpanded: true,
-    decoration: InputDecoration(
-    prefixIcon: const Icon(Icons.category, color: Colors.black87), // Darker icon
-    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-    border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.black54), // Darker border
-    ),
-    enabledBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.black54),
-    ),
-    focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.black),
-    ),
-    hintText: "Select a category",
-    hintStyle: const TextStyle(color: Colors.black54), // Darker hint text
-    ),
-    items: state.response.data.map((segment) {
-    return DropdownMenuItem(
-    value: segment,
-    child: Text(segment.text ?? "Unnamed Segment"),
-    );
-    }).toList(),
-    onChanged: (value) => setState(() => _selectedSegment = value),
-    validator: (value) => value == null ? "Please select a category" : null,
-    ),
-    if (state.response.data.isEmpty)
-    Positioned.fill(
-    child: Container(
-    color: Colors.white.withValues(alpha: 70),
-    child: const Center(
-    child: Text(
-    "No categories available",
-    style: TextStyle(fontStyle: FontStyle.italic),
-    ),
-    ),
-    ),
-    ),
-    ],
-    )
-    else if (state is! GetSegmentLoadingState)
-    const Text(
-    "Failed to load categories. Please try again.",
-    style: TextStyle(color: Colors.red),
-    )
-    ,
-    ]
-    ,
+        const Text(
+          "Segment",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        if (state is GetSegmentSuccessState)
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              DropdownButtonFormField<SegmentModel>(
+                value: _selectedSegment,
+                dropdownColor: Colors.white,
+                icon: const Icon(Icons.arrow_drop_down),
+                isExpanded: true,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.category,
+                    color: Colors.black87,
+                  ), // Darker icon
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(
+                      color: Colors.black54,
+                    ), // Darker border
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.black54),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                  hintText: "Select a Segment",
+                  hintStyle: const TextStyle(
+                    color: Colors.black54,
+                  ), // Darker hint text
+                ),
+                items:
+                    state.response.data.map((segment) {
+                      return DropdownMenuItem(
+                        value: segment,
+                        child: Text(segment.text ?? "Unnamed Segment"),
+                      );
+                    }).toList(),
+                onChanged: (value) => setState(() => _selectedSegment = value),
+                validator:
+                    (value) => value == null ? "Please select a Segment" : null,
+              ),
+              if (state.response.data.isEmpty)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.white.withValues(alpha: 70),
+                    child: const Center(
+                      child: Text(
+                        "No categories available",
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          )
+        else if (state is! GetSegmentLoadingState)
+          const Text(
+            "Failed to load categories. Please try again.",
+            style: TextStyle(color: Colors.red),
+          ),
+      ],
     );
   }
 
@@ -248,41 +255,38 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       children: [
         const Text(
           "Description",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         const SizedBox(height: 8),
         TextFormField(
           controller: _commentController,
+          cursorColor: Colors.black,
           maxLines: 5,
           decoration: InputDecoration(
-    prefixIcon: const Padding(
-    padding: EdgeInsets.only(bottom: 80),
-    child: Icon(Icons.description, color: Colors.black87),
-    ),
-    border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.black54),
-    ),
-    enabledBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.black54),
-    ),
-    focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: Colors.black),
-    ),
-    hintText: "Please describe your complaint in detail...",
-    hintStyle: const TextStyle(color: Colors.black54),
-    contentPadding: const EdgeInsets.all(16),
-    ),
+            prefixIcon: const Padding(
+              padding: EdgeInsets.only(bottom: 80),
+              child: Icon(Icons.description, color: Colors.black87),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.black54),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.black54),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.black),
+            ),
+            hintText: "Please describe your complaint in detail...",
+            hintStyle: const TextStyle(color: Colors.black54),
+            contentPadding: const EdgeInsets.all(16),
+          ),
 
-    validator: (value) =>
-          value?.isEmpty ?? true
-              ? "Description is required"
-              : null,
+          validator:
+              (value) =>
+                  value?.isEmpty ?? true ? "Description is required" : null,
         ),
         const SizedBox(height: 8),
         const Text(
@@ -303,10 +307,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       children: [
         const Text(
           "Attach Images",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         const SizedBox(height: 8),
         Container(
@@ -338,11 +339,13 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                           child: Image.file(
                             File(_selectedImages[index].path),
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) =>
-                                Container(
+                            errorBuilder:
+                                (_, __, ___) => Container(
                                   color: Colors.grey[300],
                                   child: const Icon(
-                                      Icons.error, color: Colors.red),
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
                                 ),
                           ),
                         ),
@@ -408,9 +411,10 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
               '${_selectedImages.length}/$_maxImages images',
               style: TextStyle(
                 fontSize: 12,
-                color: _selectedImages.length >= _maxImages
-                    ? Colors.red
-                    : Colors.black,
+                color:
+                    _selectedImages.length >= _maxImages
+                        ? Colors.red
+                        : Colors.black,
               ),
             ),
             if (_selectedImages.isNotEmpty)
@@ -433,9 +437,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
@@ -459,9 +461,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Center(child: CircularProgressIndicator());
       },
     );
 

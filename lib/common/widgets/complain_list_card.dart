@@ -10,7 +10,7 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onHistoryPressed;
   final VoidCallback onCommentsPressed;
   final VoidCallback onReadMorePressed;
-  final VoidCallback onImagePressed;
+  final void Function(int index) onImagePressed;
 
   const ComplainCard({
     required this.complaint,
@@ -138,8 +138,8 @@ class ComplainCard extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Base64ImageHandler.buildBase64Image(
-                        base64String: image.file, // Assuming 'file' is the base64 string
-                        onTap: () => onImagePressed(),
+                        base64String: image.file, // 'file' is the base64 string
+                        onTap: () => onImagePressed(index),
                         width: 80,
                         height: 80,
                       ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/widgets/drawer.dart';
@@ -12,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../common/widgets/complain_list_card.dart';
+import '../../common/widgets/image_dialog.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 
@@ -122,7 +125,10 @@ class ComplainsListContent extends StatelessWidget {
                       onHistoryPressed: () => _handleHistory(context, complaint),
                       onCommentsPressed: () => _handleComments(context, complaint),
                       onReadMorePressed: () => _handleReadMore(context, complaint),
-                      onImagePressed: () => _handleImage(context, complaint),
+                      onImagePressed: (index) {
+                        final imageList = complaint.images!.map((img) => img.file).toList();
+                        showImageDialog(context, imageList, index);
+                      },
                     );
                   },
                 );
@@ -168,3 +174,28 @@ void _handleReadMore(BuildContext context, ComplainEntity complaint) {
 void _handleImage(BuildContext context, ComplainEntity complaint) {
   // Open full screen image viewer
 }
+
+void _showZoomableImage(BuildContext context, String? base64Image) {
+  if (base64Image == null) return;
+
+  showDialog(
+    context: context,
+    builder: (_) => Dialog(
+      backgroundColor: Colors.black,
+      insetPadding: const EdgeInsets.all(16),
+      child: InteractiveViewer(
+        panEnabled: true,
+        minScale: 1,
+        maxScale: 5,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Image.memory(
+            base64Decode(base64Image),
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
