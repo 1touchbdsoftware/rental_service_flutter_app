@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
 import 'package:rental_service/data/repository/complains_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
-import 'package:rental_service/data/source/get_complains_api_service.dart';
+import 'package:rental_service/data/source/complains_api_service.dart';
 import 'package:rental_service/data/source/get_segment_api_service.dart';
 import 'package:rental_service/data/source/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';

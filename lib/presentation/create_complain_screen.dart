@@ -1,13 +1,22 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rental_service/common/widgets/center_loader.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/constants/app_colors.dart';
+import '../data/model/complain/complain_req_params/complain_post_req_params.dart';
 import '../data/model/get_segment_params.dart';
 import '../data/model/segment_model.dart';
+import '../data/model/user/user_info_model.dart';
+import '../service_locator.dart'; // Import service locator
+
+
+import 'create_complain/bloc/complain_state.dart';
+import 'create_complain/bloc/complain_state_cubit.dart';
+import 'dashboard/bloc/user_cubit.dart';
 import 'get_segment_state.dart';
 import 'get_segment_state_cubit.dart';
 
@@ -16,8 +25,18 @@ class CreateComplainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetSegmentCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => GetSegmentCubit()),
+        BlocProvider(
+          create: (context) =>
+          UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
+        ),
+        // Add ComplainCubit provider
+        BlocProvider(
+          create: (context) => ComplainCubit(sl()),
+        ),
+      ],
       child: const _CreateComplainScreenContent(),
     );
   }
@@ -43,20 +62,23 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
   @override
   void initState() {
     super.initState();
-    _loadSegments();
+    // First load user info, then load segments
+    context.read<UserInfoCubit>().loadUserInfo().then((_) {
+      _loadSegments();
+    });
   }
 
   Future<void> _loadSegments() async {
-    final params = await _prepareSegmentParams();
+    final userInfo = context.read<UserInfoCubit>().state;
+    final params = _prepareSegmentParams(userInfo);
     context.read<GetSegmentCubit>().fetchSegments(params: params);
   }
 
-  Future<GetSegmentParams> _prepareSegmentParams() async {
-    final prefs = await SharedPreferences.getInstance();
+  GetSegmentParams _prepareSegmentParams(UserInfoModel userInfo) {
     return GetSegmentParams(
-      agencyID: prefs.getString('agencyID') ?? '',
-      landlordID: prefs.getString('landlordID') ?? '',
-      propertyID: prefs.getString('propertyID') ?? '',
+      agencyID: userInfo.agencyID,
+      landlordID: userInfo.landlordID ?? '',
+      propertyID: userInfo.propertyID ?? '',
       segmentID: '',
     );
   }
@@ -88,9 +110,9 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
         // Add only up to the maximum allowed
         final remainingSlots = _maxImages - _selectedImages.length;
         final imagesToAdd =
-            pickedImages.length > remainingSlots
-                ? pickedImages.sublist(0, remainingSlots)
-                : pickedImages;
+        pickedImages.length > remainingSlots
+            ? pickedImages.sublist(0, remainingSlots)
+            : pickedImages;
 
         _selectedImages.addAll(imagesToAdd);
 
@@ -159,8 +181,30 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                   _buildImagePicker(),
                   const SizedBox(height: 32),
 
-                  // Submit Button
-                  _buildSubmitButton(),
+                  // Submit Button - Wrapped with BlocConsumer for ComplainCubit
+                  BlocConsumer<ComplainCubit, ComplainState>(
+                    listener: (context, state) {
+                      if (state is ComplainSuccess) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Complaint submitted successfully'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      } else if (state is ComplainError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Submission failed: ${state.message}'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      return _buildSubmitButton(context, state);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -217,12 +261,12 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                   ), // Darker hint text
                 ),
                 items:
-                    state.response.data.map((segment) {
-                      return DropdownMenuItem(
-                        value: segment,
-                        child: Text(segment.text ?? "Unnamed Segment"),
-                      );
-                    }).toList(),
+                state.response.data.map((segment) {
+                  return DropdownMenuItem(
+                    value: segment,
+                    child: Text(segment.text ?? "Unnamed Segment"),
+                  );
+                }).toList(),
                 onChanged: (value) => setState(() => _selectedSegment = value),
                 validator:
                     (value) => value == null ? "Please select a Segment" : null,
@@ -230,7 +274,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
               if (state.response.data.isEmpty)
                 Positioned.fill(
                   child: Container(
-                    color: Colors.white.withValues(alpha: 70),
+                    color: Colors.white.withOpacity(0.7),
                     child: const Center(
                       child: Text(
                         "No categories available",
@@ -287,7 +331,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
 
           validator:
               (value) =>
-                  value?.isEmpty ?? true ? "Description is required" : null,
+          value?.isEmpty ?? true ? "Description is required" : null,
         ),
         const SizedBox(height: 8),
         const Text(
@@ -342,12 +386,12 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                             fit: BoxFit.cover,
                             errorBuilder:
                                 (_, __, ___) => Container(
-                                  color: Colors.grey[300],
-                                  child: const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                  ),
-                                ),
+                              color: Colors.grey[300],
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                            ),
                           ),
                         ),
                         Positioned(
@@ -413,9 +457,9 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
               style: TextStyle(
                 fontSize: 12,
                 color:
-                    _selectedImages.length >= _maxImages
-                        ? Colors.red
-                        : Colors.black,
+                _selectedImages.length >= _maxImages
+                    ? Colors.red
+                    : Colors.black,
               ),
             ),
             if (_selectedImages.isNotEmpty)
@@ -434,18 +478,23 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
     );
   }
 
-  Widget _buildSubmitButton() {
+  // Updated submit button to show loading state
+  Widget _buildSubmitButton(BuildContext context, ComplainState state) {
+    final isLoading = state is ComplainLoading;
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          _submitComplaint();
-        }
-      },
-      child: Row(
+      onPressed: isLoading ? null : () => _handleSubmit(context),
+      child: isLoading
+          ? const SizedBox(
+        height: 24,
+        width: 24,
+        child: CircularProgressIndicator(color: Colors.white),
+      )
+          : Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           Icon(Icons.send),
@@ -456,38 +505,78 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
     );
   }
 
-  void _submitComplaint() {
-    // Display a loading indicator
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
-
-    // Simulate network delay
-    Future.delayed(const Duration(seconds: 2), () {
-      // Close the loading dialog
-      Navigator.of(context).pop();
-
-      // Implement your complaint submission logic here
-      debugPrint("Selected Segment: ${_selectedSegment?.id}");
-      debugPrint("Comment: ${_commentController.text}");
-      debugPrint("Images Count: ${_selectedImages.length}");
-
-      // Here you would typically:
-      // 1. Process the selected images
-      // 2. Upload them to your server or convert to base64
-      // 3. Send the data to your API
-
-      // Show success message
+  // New method to handle submission
+  void _handleSubmit(BuildContext context) {
+    if (!_formKey.currentState!.validate() || _selectedSegment == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Complaint submitted successfully!'),
-          backgroundColor: Colors.green,
+          content: Text('Please fill all required fields'),
+          backgroundColor: Colors.red,
         ),
       );
-    });
+      return;
+    }
+
+    _submitForm(context);
+  }
+
+  Future<void> _submitForm(BuildContext context) async {
+    final userInfo = context.read<UserInfoCubit>().state;
+    if (userInfo.agencyID.isEmpty || userInfo.propertyID!.isEmpty ?? true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('User info not loaded. Try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    try {
+      // Prepare images
+      final images = <MultipartFile>[];
+      for (var image in _selectedImages) {
+        final file = File(image.path);
+        final fileName = file.path.split('/').last;
+        images.add(await MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+          contentType: MediaType('image', 'jpeg'),
+        ));
+      }
+
+      // Create a single complain with the images included
+      final complain = Complain(
+        propertyID: userInfo.propertyID!,
+        agencyID: userInfo.agencyID,
+        tenantID: userInfo.tenantID!,
+        segmentID: _selectedSegment!.id ?? '',
+        complainName: _commentController.text.trim(),
+        images: images, // Add images to the complain directly
+      );
+
+      print("COMPLAIN MODEL: $complain");
+
+      // Create the complete model with the complain inside the list
+      final complainPostModel = ComplainPostModel(
+        complainInfo: ComplainInfo(
+          agencyID: userInfo.agencyID,
+          propertyID: userInfo.propertyID!,
+          tenantID: userInfo.tenantID!,
+        ),
+        complains: [complain], // List with the single complain
+      );
+
+      print("COMPLAIN POST MODEL: $complainPostModel");
+      // Submit using ComplainCubit
+      context.read<ComplainCubit>().submitComplaint(complainPostModel);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to prepare submission: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }

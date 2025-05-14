@@ -8,8 +8,8 @@ class ApiUrls{
 
   static const getComplainInfo = '${baseURL}Complain/GetComplainInfo';
 
-
-
   static const propertyWiseSegment = '${baseURL}Segment/GetSegmentsExtension';
+
+  static const saveComplain = '${baseURL}Complain/SaveComplain';
 
 }
