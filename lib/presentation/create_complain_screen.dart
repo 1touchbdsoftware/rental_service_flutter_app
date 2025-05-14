@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rental_service/common/widgets/center_loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/constants/app_colors.dart';
@@ -137,7 +138,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
         },
         builder: (context, state) {
           if (state is GetSegmentLoadingState) {
-            return const Center(child: CircularProgressIndicator());
+            return CenterLoader();
           }
 
           return Padding(
