@@ -5,6 +5,9 @@ import 'package:rental_service/common/widgets/drawer.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 
+import '../../../data/model/user/user_info_model.dart';
+import '../bloc/user_cubit.dart';
+
 class TenantHomeScreen extends StatelessWidget {
   const TenantHomeScreen({super.key});
 
@@ -28,7 +31,18 @@ class TenantHomeScreen extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
         ),
-        drawer: buildAppDrawer(context, 'John Doe', 'Tenant Dashboard'),
+        drawer: BlocProvider(
+          create: (context) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
+          child: BlocBuilder<UserInfoCubit, UserInfoModel>(
+            builder: (context, userInfo) {
+              return buildAppDrawer(
+                  context,
+                  userInfo.tenantName?? "",
+                  'Tenant Dashboard'
+              );
+            },
+          ),
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -107,13 +121,12 @@ class TenantHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(
-      BuildContext context, {
-        required IconData icon,
-        required String text,
-        required Color color,
-        required VoidCallback onPressed,
-      }) {
+  Widget _buildActionButton(BuildContext context, {
+    required IconData icon,
+    required String text,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
     return SizedBox(
       width: double.infinity,
       height: 60,

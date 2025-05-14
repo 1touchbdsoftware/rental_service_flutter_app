@@ -31,7 +31,7 @@ class LandlordDashboard extends StatelessWidget {
           builder: (context, userInfo) {
             return buildAppDrawer(
                 context,
-                userInfo.landlordName!,
+                userInfo.landlordName?? "",
                 'Landlord Dashboard'
             );
           },
