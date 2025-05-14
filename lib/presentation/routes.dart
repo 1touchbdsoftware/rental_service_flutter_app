@@ -18,7 +18,7 @@ class AppRoutes {
       case signIn:
         return MaterialPageRoute(builder: (_) => SignInPage());
       case landlordDashboard:
-        return MaterialPageRoute(builder: (_) => const Landlorddashboard());
+        return MaterialPageRoute(builder: (_) => const LandlordDashboard());
       case tenantDashboard:
         return MaterialPageRoute(builder: (_) => const TenantDashboardScreen());
       case complainListScreen:
@@ -42,7 +42,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       signIn: (context) => SignInPage(),
-      landlordDashboard: (context) => const Landlorddashboard(),
+      landlordDashboard: (context) => const LandlordDashboard(),
       tenantDashboard: (context) => const TenantDashboardScreen(),
       complainListScreen: (context) => ComplainsListScreen(),
       createComplainScreen: (context) => CreateComplainScreen(),

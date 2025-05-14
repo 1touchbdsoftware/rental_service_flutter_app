@@ -10,11 +10,11 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl();
 
   @override
-  Future<UserInfoModel> getSavedUsername() async {
+  Future<UserInfoModel> getSavedUserInfo() async {
 
     print("USER REPO: USER INFO CALLED");
     // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sl<GetUserLocalService>().getSavedUsername();
+    return await sl<GetUserLocalService>().getSavedUserInfo();
   }
 
   @override

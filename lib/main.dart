@@ -85,7 +85,7 @@ class SplashWrapper extends StatelessWidget {
             // Authenticated and user type known
             if (authState is Authenticated) {
               if (userTypeState is UserTypeLandLord) {
-                return Landlorddashboard();// Replace with actual widget
+                return LandlordDashboard();// Replace with actual widget
               } else if (userTypeState is UserTypeTenant) {
                 return TenantHomeScreen(); // Replace with actual widget
               } else {

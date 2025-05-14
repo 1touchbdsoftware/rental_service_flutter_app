@@ -61,7 +61,7 @@ class SignInPage extends StatelessWidget {
                   Future.microtask(() {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const Landlorddashboard()),
+                      MaterialPageRoute(builder: (context) => const LandlordDashboard()),
                     );
                   });
                 } else if (state is UserTypeTenant) {

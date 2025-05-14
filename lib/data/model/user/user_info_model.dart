@@ -48,4 +48,12 @@ class UserInfoModel extends UserInfoEntity {
       emailAddress: json['emailAddress'],
     );
   }
+
+  factory UserInfoModel.empty() => UserInfoModel(
+    id: '',
+    userName: 'Loading...',
+    agencyID: '',
+    isActive: false, registrationType: '', contactNumber: '', emailAddress: '',
+    // ... other empty fields
+  );
 }
