@@ -104,14 +104,6 @@ void setupServiceLocator(){
       GetSegmentUseCase()
   );
 
-
-
-
-
-
-
-
-
   //logout or other use cases
 
 }

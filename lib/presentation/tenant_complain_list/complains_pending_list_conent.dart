@@ -164,8 +164,45 @@ void _handleHistory(BuildContext context, ComplainEntity complaint) {
 }
 
 void _handleComments(BuildContext context, ComplainEntity complaint) {
-  // Navigate to comment screen
+  final lastComment = complaint.lastComments;
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: AppColors.primary,
+        titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Center(
+              child: Text(
+                "Last Comment",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
+            Divider(thickness: 1, color: Colors.black),
+          ],
+        ),
+        content: lastComment != null
+            ? Text(lastComment, style: TextStyle(color: Colors.black))
+            : const Text('No comments yet.', style: TextStyle(color: Colors.black)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close', style: TextStyle(color: Colors.black)),
+          ),
+        ],
+      );
+
+    },
+  );
 }
+
 
 void _handleReadMore(BuildContext context, ComplainEntity complaint) {
   // Show detailed dialog or screen
