@@ -35,7 +35,7 @@ class ComplainsListContent extends StatelessWidget {
       landlordID: landlordID,
       propertyID: propertyID,
       pageNumber: 1,
-      pageSize: 15,
+      pageSize: 20,
       isActive: true,
       flag: 'TENANT',
     );

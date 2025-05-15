@@ -46,7 +46,7 @@ class ComplainsListContent extends StatelessWidget {
       landlordID: landlordID,
       propertyID: propertyID,
       pageNumber: 1,
-      pageSize: 15,
+      pageSize: 20,
       isActive: true,
       flag: 'TENANT',
     );
@@ -215,7 +215,35 @@ void _handleComments(BuildContext context, ComplainEntity complaint) {
 }
 
 void _handleReadMore(BuildContext context, ComplainEntity complaint) {
-  // Show detailed dialog or screen
+  showDialog(
+    context: context,
+    builder: (context) =>
+        AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text('Complaint Details'),
+          content: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: RichText(
+                  text: TextSpan(
+                    style: const TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: complaint.complainName,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close',  style: TextStyle(color: Colors.black),),
+            ),
+          ],
+        ),
+  );
 }
 
 

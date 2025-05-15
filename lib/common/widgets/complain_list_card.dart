@@ -84,7 +84,7 @@ class ComplainCard extends StatelessWidget {
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    child:  Text('Read More', style: const TextStyle(fontSize: 12)),
+                    child:  Text('Read More', style: const TextStyle(fontSize: 12, color: Colors.blue)),
                   ),
               ],
             ),
