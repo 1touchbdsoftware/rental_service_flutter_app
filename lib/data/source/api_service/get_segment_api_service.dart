@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:rental_service/data/model/get_segment_params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/constants/api_urls.dart';
-import '../../core/network/dio_client.dart';
-import '../../service_locator.dart';
-import '../model/api_failure.dart';
+import '../../../core/constants/api_urls.dart';
+import '../../../core/network/dio_client.dart';
+import '../../../service_locator.dart';
+import '../../model/api_failure.dart';
 
 abstract class SegmentApiService {
   Future<Either<ApiFailure, Response>> getSegments(GetSegmentParams params);

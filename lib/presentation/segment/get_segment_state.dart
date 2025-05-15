@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../data/model/segment_response_model.dart';
+import '../../data/model/segment_response_model.dart';
 
 
 abstract class GetSegmentState {}

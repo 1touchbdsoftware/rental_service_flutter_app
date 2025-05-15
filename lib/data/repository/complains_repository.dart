@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
-import 'package:rental_service/data/source/complains_api_service.dart';
+import 'package:rental_service/data/source/api_service/complains_api_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../service_locator.dart';
 import '../model/api_failure.dart';

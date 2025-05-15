@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rental_service/data/model/get_segment_params.dart';
 import 'package:rental_service/data/model/segment_response_model.dart';
-import 'package:rental_service/data/source/get_segment_api_service.dart';
+import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
 import 'package:rental_service/domain/repository/segment_repository.dart';
 
 import '../../service_locator.dart';

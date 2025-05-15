@@ -1,5 +1,5 @@
 import 'package:rental_service/data/model/user/user_info_model.dart';
-import 'package:rental_service/data/source/get_user_local_service.dart';
+import 'package:rental_service/data/source/local_service/get_user_local_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/repository/user_repository.dart';

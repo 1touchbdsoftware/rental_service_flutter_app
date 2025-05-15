@@ -6,20 +6,20 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rental_service/common/widgets/center_loader.dart';
 
-import '../common/utils/image_convert_helper.dart';
-import '../core/constants/app_colors.dart';
-import '../data/model/complain/complain_req_params/complain_post_req_params.dart';
-import '../data/model/get_segment_params.dart';
-import '../data/model/segment_model.dart';
-import '../data/model/user/user_info_model.dart';
-import '../service_locator.dart'; // Import service locator
+import '../../common/utils/image_convert_helper.dart';
+import '../../core/constants/app_colors.dart';
+import '../../data/model/complain/complain_req_params/complain_post_req_params.dart';
+import '../../data/model/get_segment_params.dart';
+import '../../data/model/segment_model.dart';
+import '../../data/model/user/user_info_model.dart';
+import '../../service_locator.dart'; // Import service locator
 
 
-import 'create_complain/bloc/complain_state.dart';
-import 'create_complain/bloc/complain_state_cubit.dart';
-import 'dashboard/bloc/user_cubit.dart';
-import 'get_segment_state.dart';
-import 'get_segment_state_cubit.dart';
+import 'bloc/complain_state.dart';
+import 'bloc/complain_state_cubit.dart';
+import '../dashboard/bloc/user_cubit.dart';
+import '../segment/get_segment_state.dart';
+import '../segment/get_segment_state_cubit.dart';
 
 class CreateComplainScreen extends StatelessWidget {
   const CreateComplainScreen({super.key});

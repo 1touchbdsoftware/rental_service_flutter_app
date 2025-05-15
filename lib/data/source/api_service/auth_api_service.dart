@@ -7,7 +7,7 @@ import 'package:rental_service/core/network/dio_client.dart';
 import 'package:rental_service/data/model/signin_req_params.dart';
 
 
-import '../../service_locator.dart';
+import '../../../service_locator.dart';
 
 
 //we will call the api from here

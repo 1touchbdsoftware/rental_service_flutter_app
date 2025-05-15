@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
 import 'package:rental_service/data/repository/complains_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
-import 'package:rental_service/data/source/complains_api_service.dart';
-import 'package:rental_service/data/source/get_segment_api_service.dart';
-import 'package:rental_service/data/source/get_user_local_service.dart';
+import 'package:rental_service/data/source/api_service/complains_api_service.dart';
+import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
+import 'package:rental_service/data/source/local_service/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import 'package:rental_service/domain/repository/segment_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
@@ -18,8 +18,8 @@ import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import 'data/repository/auth_repository.dart';
 import 'data/repository/segment_repository.dart';
-import 'data/source/auth_api_service.dart';
-import 'data/source/auth_local_service.dart';
+import 'data/source/api_service/auth_api_service.dart';
+import 'data/source/local_service/auth_local_service.dart';
 import 'domain/repository/auth.dart';
 import 'domain/usecases/signin_usecase.dart';
 
