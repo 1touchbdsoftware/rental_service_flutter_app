@@ -6,6 +6,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rental_service/common/widgets/center_loader.dart';
 
+import '../common/utils/image_convert_helper.dart';
 import '../core/constants/app_colors.dart';
 import '../data/model/complain/complain_req_params/complain_post_req_params.dart';
 import '../data/model/get_segment_params.dart';
@@ -534,16 +535,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
 
     try {
       // Prepare images
-      final images = <MultipartFile>[];
-      for (var image in _selectedImages) {
-        final file = File(image.path);
-        final fileName = file.path.split('/').last;
-        images.add(await MultipartFile.fromFile(
-          file.path,
-          filename: fileName,
-          contentType: MediaType('image', 'jpeg'),
-        ));
-      }
+
 
       // Create a single complain with the images included
       final complain = Complain(
@@ -552,8 +544,9 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
         tenantID: userInfo.tenantID!,
         segmentID: _selectedSegment!.id ?? '',
         complainName: _commentController.text.trim(),
-        images: images, // Add images to the complain directly
+        imageFiles: _selectedImages.map((e) => File(e.path)).toList(),
       );
+
 
       print("COMPLAIN MODEL: $complain");
 

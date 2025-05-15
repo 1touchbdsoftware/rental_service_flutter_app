@@ -79,23 +79,13 @@ class ComplainApiServiceImpl implements ComplainApiService {
         return Left(ApiFailure('Authentication token not found'));
       }
 
-      // ✅ Print the original JSON before it’s wrapped into FormData
-      final jsonStructure = model.toJson();
-      print('🟢 JSON Payload:\n${const JsonEncoder.withIndent('  ').convert(jsonStructure)}');
-
       final formData = await model.toFormData();
 
-      // ✅ Print fields
-      print('🟢 FormData Fields:');
-      for (final field in formData.fields) {
-        print("Field: ${field.key} = ${field.value}");
-      }
 
-      // ✅ Print files
-      print('🟢 FormData Files:');
-      for (final file in formData.files) {
-        print("File: ${file.key} => filename: ${file.value.filename}, contentType: ${file.value.contentType}");
-      }
+      print('Sending to ${ApiUrls.saveComplain}');
+      print('Headers: Authorization: Bearer $token');
+      print('FormData fields: ${formData.fields}');
+      print('FormData files: ${formData.files.map((e) => e.key + ' -> ' + (e.value.filename ?? ''))}');
 
 
       final response = await sl<DioClient>().post(
@@ -104,6 +94,7 @@ class ComplainApiServiceImpl implements ComplainApiService {
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
           },
         ),
       );
@@ -118,6 +109,7 @@ class ComplainApiServiceImpl implements ComplainApiService {
       return Left(ApiFailure(e.toString()));
     }
   }
+
 
 
 }
