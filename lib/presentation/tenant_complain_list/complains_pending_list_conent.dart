@@ -121,7 +121,7 @@ class ComplainsListContent extends StatelessWidget {
                     final complaint = complaints[index];
                     return ComplainCard(
                       complaint: complaint,
-                      onDelete: () => _handleDelete(context, complaint),
+                      onEdit: () => _handleDelete(context, complaint),
                       onHistoryPressed: () => _handleHistory(context, complaint),
                       onCommentsPressed: () => _handleComments(context, complaint),
                       onReadMorePressed: () => _handleReadMore(context, complaint),
@@ -171,31 +171,5 @@ void _handleReadMore(BuildContext context, ComplainEntity complaint) {
   // Show detailed dialog or screen
 }
 
-void _handleImage(BuildContext context, ComplainEntity complaint) {
-  // Open full screen image viewer
-}
 
-void _showZoomableImage(BuildContext context, String? base64Image) {
-  if (base64Image == null) return;
-
-  showDialog(
-    context: context,
-    builder: (_) => Dialog(
-      backgroundColor: Colors.black,
-      insetPadding: const EdgeInsets.all(16),
-      child: InteractiveViewer(
-        panEnabled: true,
-        minScale: 1,
-        maxScale: 5,
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Image.memory(
-            base64Decode(base64Image),
-            fit: BoxFit.contain,
-          ),
-        ),
-      ),
-    ),
-  );
-}
 

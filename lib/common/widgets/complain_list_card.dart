@@ -6,7 +6,7 @@ import 'image_handler.dart';
 class ComplainCard extends StatelessWidget {
   final ComplainEntity complaint;
 
-  final VoidCallback onDelete;
+  final VoidCallback onEdit;
   final VoidCallback onHistoryPressed;
   final VoidCallback onCommentsPressed;
   final VoidCallback onReadMorePressed;
@@ -14,7 +14,7 @@ class ComplainCard extends StatelessWidget {
 
   const ComplainCard({
     required this.complaint,
-    required this.onDelete,
+    required this.onEdit,
     required this.onHistoryPressed,
     required this.onCommentsPressed,
     required this.onReadMorePressed,
@@ -51,11 +51,17 @@ class ComplainCard extends StatelessWidget {
                 _buildStatusIndicator(),
                 const SizedBox(width: 8),
                 IconButton(
-                  icon: const Icon(Icons.delete, size: 20),
-                  onPressed: onDelete,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                ),
+                  onPressed: onEdit,
+                  icon: const Icon(
+                    Icons.edit_note,
+                    color: Colors.blue, // Icon color
+                    size: 24, // Optional: icon size
+                  ),
+                  padding: EdgeInsets.zero, // Optional: removes default padding
+                  constraints: const BoxConstraints(), // Optional: shrinks button size
+                )
+
+
               ],
             ),
             const SizedBox(height: 8),
@@ -108,7 +114,7 @@ class ComplainCard extends StatelessWidget {
                   onPressed: onCommentsPressed,
                   icon: const Icon(Icons.comment, size: 16),
                   label: Text(
-                    'Comments (${complaint.currentComments?.isNotEmpty == true ? '1' : '0'})',
+                    'Last Comment',
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

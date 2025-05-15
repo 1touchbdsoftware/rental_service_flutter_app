@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/create_complain/create_complain_screen.dart';
-import 'package:rental_service/presentation/tenant_complain_list/complain_list_screen.dart';
+import 'package:rental_service/presentation/tenant_complain_list/complain_pending_list_screen.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/TenantDashboard.dart';
 

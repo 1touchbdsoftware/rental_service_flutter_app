@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state_cubit.dart';
-import 'package:rental_service/presentation/tenant_complain_list/complains_list_conent.dart';
+import 'package:rental_service/presentation/tenant_complain_list/complains_pending_list_conent.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/presentation/dashboard/tenant/tenent_home_screen.dart';

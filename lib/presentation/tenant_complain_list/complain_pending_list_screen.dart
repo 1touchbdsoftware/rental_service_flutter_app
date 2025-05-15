@@ -6,7 +6,7 @@ import 'package:rental_service/presentation/tenant_complain_list/bloc/get_compla
 import 'package:rental_service/service_locator.dart';
 
 import '../../domain/usecases/get_complains_usecase.dart';
-import 'complains_list_conent.dart';
+import 'complains_pending_list_conent.dart';
 
 class ComplainsListScreen extends StatelessWidget {
   const ComplainsListScreen({super.key});

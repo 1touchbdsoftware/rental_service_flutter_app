@@ -17,7 +17,7 @@ class GetTenantComplainsUseCase implements UseCase<Either<String, ComplainRespon
       }
 
       // Directly return the result from repository - don't wrap in another try/catch
-      return await sl<ComplainsRepository>().getTenantComplains(param);
+      return await sl<ComplainsRepository>().getTenantPendingComplains(param);
     } catch (e) {
       print("USECASE: CATCH CALLED");
       // This catch block should only handle exceptions from the service locator
