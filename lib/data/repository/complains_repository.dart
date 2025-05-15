@@ -12,6 +12,8 @@ import '../model/complain/complain_response_model.dart';
 
 class ComplainsRepositoryImpl implements ComplainsRepository {
 
+
+  // FETCH RESPONSE THEN FILTER
   @override
   Future<Either<String, ComplainResponseModel>> getTenantPendingComplains(
       GetComplainsParams params,
@@ -19,6 +21,7 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
     Either<ApiFailure, Response> result =
     await sl<ComplainApiService>().getComplains(params);
 
+    print("REPO: PENDING COMPLAINS CALLED");
     return result.fold(
           (error) => Left(error.message),
           (data) {
@@ -28,6 +31,41 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
           // Filter the complaints where isCompleted == false
           final filteredList = responseModel.data.list
               .where((complain) => complain.isCompleted == false)
+              .toList();
+
+          // Return a new response model with the filtered data
+          final filteredModel = ComplainResponseModel(
+            statusCode: responseModel.statusCode,
+            message: responseModel.message,
+            data: ComplainDataEntity(list: filteredList),
+          );
+
+          return Right(filteredModel);
+        } catch (e) {
+          return Left('Failed to parse response: ${e.toString()}');
+        }
+      },
+    );
+  }
+
+
+  @override
+  Future<Either<String, ComplainResponseModel>> getTenantCompletedComplains(
+      GetComplainsParams params,
+      ) async {
+    Either<ApiFailure, Response> result =
+    await sl<ComplainApiService>().getComplains(params);
+
+    print("REPO: COMPLETED COMPLAINS CALLED");
+    return result.fold(
+          (error) => Left(error.message),
+          (data) {
+        try {
+          final responseModel = ComplainResponseModel.fromJson(data.data);
+
+          // Filter the complaints where isCompleted == false
+          final filteredList = responseModel.data.list
+              .where((complain) => complain.isCompleted == true)
               .toList();
 
           // Return a new response model with the filtered data

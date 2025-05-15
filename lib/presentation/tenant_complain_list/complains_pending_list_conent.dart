@@ -6,9 +6,8 @@ import 'package:rental_service/common/widgets/drawer.dart';
 import 'package:rental_service/common/widgets/center_loader.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
-import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
+import 'package:rental_service/domain/usecases/get_pending_complains_usecase.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
-import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state_cubit.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +16,7 @@ import '../../common/widgets/complain_list_card.dart';
 import '../../common/widgets/image_dialog.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import 'bloc/get_complains_state_cubit.dart';
 
 class ComplainsListContent extends StatelessWidget {
   const ComplainsListContent({super.key});
@@ -58,7 +58,7 @@ class ComplainsListContent extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: const Text(
-            'Tenant Complaints',
+            'Pending Complaints',
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -66,7 +66,7 @@ class ComplainsListContent extends StatelessWidget {
         body: RefreshIndicator(
           onRefresh: () async {
             final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
+            await context.read<GetTenantComplainsCubit>().fetchPendingComplains(
                 params: params);
           },
           child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
@@ -75,7 +75,7 @@ class ComplainsListContent extends StatelessWidget {
                 // Trigger fetch when in initial state
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   _prepareComplainsParams().then((params) {
-                    context.read<GetTenantComplainsCubit>().fetchComplains(
+                    context.read<GetTenantComplainsCubit>().fetchPendingComplains(
                         params: params);
                   });
                 });
@@ -95,7 +95,7 @@ class ComplainsListContent extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           final params = await _prepareComplainsParams();
-                          await context.read<GetTenantComplainsCubit>().fetchComplains(
+                          await context.read<GetTenantComplainsCubit>().fetchPendingComplains(
                               params: params);
                         },
                         child: const Text('Retry'),
@@ -142,7 +142,7 @@ class ComplainsListContent extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
+            await context.read<GetTenantComplainsCubit>().fetchPendingComplains(
                 params: params);
           },
           child: const Icon(Icons.refresh),

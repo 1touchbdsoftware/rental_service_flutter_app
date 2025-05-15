@@ -6,7 +6,7 @@ import '../../data/model/complain/complain_response_model.dart';
 import '../../service_locator.dart';
 
 
-class GetTenantComplainsUseCase implements UseCase<Either<String, ComplainResponseModel>, GetComplainsParams> {
+class GetTenantPendingComplainsUseCase implements UseCase<Either<String, ComplainResponseModel>, GetComplainsParams> {
   @override
   Future<Either<String, ComplainResponseModel>> call({
     GetComplainsParams? param,

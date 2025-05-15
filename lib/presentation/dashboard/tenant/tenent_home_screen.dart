@@ -87,7 +87,7 @@ class TenantHomeScreen extends StatelessWidget {
                   text: 'Complaint Solved List',
                   color: Colors.green,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/solved-complaints');
+                    Navigator.pushNamed(context, '/complain-completed-list-screen');
                   },
                 ),
                 const Spacer(flex: 3),
