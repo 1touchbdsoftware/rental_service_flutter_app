@@ -49,7 +49,7 @@ class ComplainsListContent extends StatelessWidget {
       landlordID: landlordID,
       propertyID: propertyID,
       pageNumber: 1,
-      pageSize: 20,
+      pageSize: 10,
       isActive: true,
       flag: 'TENANT',
       tab: 'SOLVED',
@@ -162,10 +162,10 @@ class ComplainsListContent extends StatelessWidget {
                               landlordID: prefs.getString('landlordID') ?? '',
                               propertyID: prefs.getString('propertyID') ?? '',
                               pageNumber: page,
-                              pageSize: 5,
+                              pageSize: 10,
                               isActive: true,
                               flag: 'TENANT',
-                              tab: 'PENDING',
+                              tab: 'SOLVED',
                             );
                             context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
                           },
