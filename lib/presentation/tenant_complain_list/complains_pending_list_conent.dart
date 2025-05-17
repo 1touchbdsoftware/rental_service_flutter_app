@@ -159,10 +159,7 @@ class ComplainsListContent extends StatelessWidget {
                     }
                   },
                 );
-
-
               }
-
               // Fallback for any unexpected state
               return const CenterLoaderWithText(text: "Loading Complains...");
             },

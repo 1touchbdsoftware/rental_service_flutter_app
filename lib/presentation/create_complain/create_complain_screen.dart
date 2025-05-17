@@ -629,7 +629,10 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
             _selectedImages.add(pickedFile);
           });
         }
-      } else {
+      }else if(!result.isGranted){
+        await Permission.camera.request();
+      }
+      else {
         _showPermissionDeniedMessage('Camera');
       }
     }

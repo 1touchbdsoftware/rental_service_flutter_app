@@ -12,6 +12,8 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onReadMorePressed;
   final void Function(int index) onImagePressed;
 
+
+
   const ComplainCard({
     required this.complaint,
     required this.onEdit,
@@ -62,23 +64,8 @@ class ComplainCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 _buildStatusIndicator(),
                 const SizedBox(width: 8),
-                IconButton(
-                  onPressed: onEdit,
-                  icon: const Icon(
-                    Icons.edit_note,
-                    color: Colors.blue, // Icon color
-                    size: 24, // Optional: icon size
-                  ),
-                  padding: EdgeInsets.zero, // Optional: removes default padding
-                  constraints: const BoxConstraints(), // Optional: shrinks button size
-                )
-
-
               ],
             ),
-
-
-
 
             const SizedBox(height: 8),
 
@@ -141,6 +128,28 @@ class ComplainCard extends StatelessWidget {
                     minimumSize: const Size(0, 30),
                   ),
                 ),
+                const SizedBox(width: 8),
+
+        //edit button
+        if (!complaint.isAssignedTechnician!)
+          ElevatedButton(
+          onPressed: onCommentsPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey[200],
+            foregroundColor: Colors.blue,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            minimumSize: const Size(0, 30),
+          ),
+          child: const Text(
+            'Edit',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+
+
               ],
             ),
             const SizedBox(height: 12),
@@ -181,7 +190,7 @@ class ComplainCard extends StatelessWidget {
       statusText = 'Rejected';
     } else if (complaint.isSolved!) {
       dotColor = Colors.green;
-      statusText = 'Resolved';
+      statusText = 'Completed';
     } else if (complaint.isResubmitted!) {
       dotColor = Colors.orange;
       statusText = 'Resubmitted';
