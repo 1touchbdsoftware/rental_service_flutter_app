@@ -12,6 +12,7 @@ import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
 import '../widgets/info_dialog.dart';
+import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state_cubit.dart';
 
 class ComplainsListContent extends StatelessWidget {
@@ -31,7 +32,7 @@ class ComplainsListContent extends StatelessWidget {
       landlordID: landlordID,
       propertyID: propertyID,
       pageNumber: 1,
-      pageSize: 15,
+      pageSize: 5,
       isActive: true,
       flag: 'TENANT',
       tab: 'PENDING',
@@ -86,7 +87,7 @@ class ComplainsListContent extends StatelessWidget {
                     children: [
                       Text(
                         'Error: ${state.errorMessage}',
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.blue),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
@@ -104,6 +105,8 @@ class ComplainsListContent extends StatelessWidget {
                 final complaints = state.response.data.list;
                 final pagination = state.response.data.pagination;
 
+                final pageCount = pagination.totalPages;
+
                 //use this to show page number and pagination
 
                 if (complaints.isEmpty) {
@@ -116,22 +119,50 @@ class ComplainsListContent extends StatelessWidget {
                 }
 
                 return ListView.builder(
-                  itemCount: complaints.length,
+                  itemCount: complaints.length + 1, // +1 for pagination
                   itemBuilder: (context, index) {
-                    final complaint = complaints[index];
-                    return ComplainCard(
-                      complaint: complaint,
-                      onEdit: () => _handleDelete(context, complaint),
-                      onHistoryPressed: () => _handleHistory(context, complaint),
-                      onCommentsPressed: () => _handleComments(context, complaint.lastComments),
-                      onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
-                      onImagePressed: (index) {
-                        final imageList = complaint.images!.map((img) => img.file).toList();
-                        showImageDialog(context, imageList, index);
-                      },
-                    );
+                    if (index < complaints.length) {
+                      final complaint = complaints[index];
+                      return ComplainCard(
+                        complaint: complaint,
+                        onEdit: () => _handleDelete(context, complaint),
+                        onHistoryPressed: () => _handleHistory(context, complaint),
+                        onCommentsPressed: () => _handleComments(context, complaint.lastComments),
+                        onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
+                        onImagePressed: (imgIndex) {
+                          final imageList = complaint.images!.map((img) => img.file).toList();
+                          showImageDialog(context, imageList, imgIndex);
+                        },
+                      );
+                    } else {
+                      // pagination widget at the end of the list
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: PaginationControls(
+                          currentPage: pagination.pageNumber,
+                          totalPages: pagination.totalPages,
+                          onPageChanged: (page) async {
+                            final prefs = await SharedPreferences.getInstance();
+                            final params = GetComplainsParams(
+                              agencyID: prefs.getString('agencyID') ?? '',
+                              tenantID: prefs.getString('tenantID') ?? '',
+                              landlordID: prefs.getString('landlordID') ?? '',
+                              propertyID: prefs.getString('propertyID') ?? '',
+                              pageNumber: page,
+                              pageSize: 5,
+                              isActive: true,
+                              flag: 'TENANT',
+                              tab: 'PENDING',
+                            );
+                            context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                          },
+                        ),
+                      );
+                    }
                   },
                 );
+
+
               }
 
               // Fallback for any unexpected state
@@ -185,5 +216,6 @@ void _handleReadMore(BuildContext context, String? complainName) {
     ),
   );
 }
+
 
 
