@@ -52,22 +52,24 @@ class PaginationControls extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            if (currentPage > 1)
-              IconButton(
-                icon: const Icon(Icons.chevron_left),
-                onPressed: () => onPageChanged(currentPage - 1),
-              ),
-            ...pageButtons,
-            if (currentPage < totalPages)
-              IconButton(
-                icon: const Icon(Icons.chevron_right),
-                onPressed: () => onPageChanged(currentPage + 1),
-              ),
-          ],
+      child: Center(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              if (currentPage > 1)
+                IconButton(
+                  icon: const Icon(Icons.chevron_left),
+                  onPressed: () => onPageChanged(currentPage - 1),
+                ),
+              ...pageButtons,
+              if (currentPage < totalPages)
+                IconButton(
+                  icon: const Icon(Icons.chevron_right),
+                  onPressed: () => onPageChanged(currentPage + 1),
+                ),
+            ],
+          ),
         ),
       ),
     );
