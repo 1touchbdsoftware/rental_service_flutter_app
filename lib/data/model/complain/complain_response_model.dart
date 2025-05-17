@@ -8,7 +8,6 @@ class ComplainResponseModel extends ComplainResponseEntity {
     required super.statusCode,
     required super.message,
     required super.data,
-    required super.pagination
   });
 
   //convert the response json to model to entity
@@ -21,13 +20,15 @@ class ComplainResponseModel extends ComplainResponseEntity {
         list: (json['data']['list'] as List)
             .map((e) => ComplainModel.fromJson(e).toEntity())
             .toList(),
+
+        pagination: PaginationEntity(
+          pageNumber: json['data']['pagination']['pageNumber'],
+          pageSize: json['data']['pagination']['pageSize'],
+          totalRows: json['data']['pagination']['totalRows'],
+          totalPages: json['data']['pagination']['totalPages'],
+        ),
       ),
-      pagination: PaginationEntity(
-        pageNumber: json['pagination']['pageNumber'],
-        pageSize: json['pagination']['pageSize'],
-        totalRows: json['pagination']['totalRows'],
-        totalPages: json['pagination']['totalPages'],
-      ),
+
     );
   }
 }

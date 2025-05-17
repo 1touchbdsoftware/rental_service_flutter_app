@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
 
-
-import '../../../common/widgets/drawer.dart';
+import '../../widgets/drawer.dart';
 import '../bloc/user_cubit.dart';
 
 class LandlordDashboard extends StatelessWidget {

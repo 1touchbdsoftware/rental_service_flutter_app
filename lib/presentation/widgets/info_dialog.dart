@@ -7,23 +7,21 @@ class SimpleInfoDialog extends StatelessWidget {
   final Color textColor;
 
   const SimpleInfoDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.bodyText,
     this.backgroundColor = Colors.white,
     this.textColor = Colors.black,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: backgroundColor,
-      title: Center(
-        child: Text(
-          title,
-          style: TextStyle(color: textColor),
-          textAlign: TextAlign.center,
-        ),
+      title: Text(
+        title,
+        style: TextStyle(color: textColor),
+        textAlign: TextAlign.left,
       ),
       content: SingleChildScrollView(
         child: Text(

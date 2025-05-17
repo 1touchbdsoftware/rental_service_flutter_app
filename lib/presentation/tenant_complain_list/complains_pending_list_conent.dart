@@ -42,6 +42,7 @@ class ComplainsListContent extends StatelessWidget {
       pageSize: 15,
       isActive: true,
       flag: 'TENANT',
+      tab: 'PENDING',
     );
   }
 
@@ -109,6 +110,9 @@ class ComplainsListContent extends StatelessWidget {
                 );
               } else if (state is GetTenantComplainsSuccessState) {
                 final complaints = state.response.data.list;
+                final pagination = state.response.data.pagination;
+
+                //use this to show page number and pagination
 
                 if (complaints.isEmpty) {
                   return const Center(

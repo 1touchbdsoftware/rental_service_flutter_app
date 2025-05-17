@@ -8,6 +8,7 @@ class GetComplainsParams {
   final String? propertyID;
   final String? tenantID;
   final String flag;
+  final String tab;
 
   GetComplainsParams({
     required this.agencyID,
@@ -18,5 +19,6 @@ class GetComplainsParams {
     this.propertyID,
     this.tenantID,
     required this.flag,
+    required this.tab,
   });
 }

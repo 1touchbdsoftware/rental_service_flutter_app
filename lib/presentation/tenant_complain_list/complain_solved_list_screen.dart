@@ -51,6 +51,7 @@ class ComplainsListContent extends StatelessWidget {
       pageSize: 20,
       isActive: true,
       flag: 'TENANT',
+      tab: 'SOLVED',
     );
   }
 
