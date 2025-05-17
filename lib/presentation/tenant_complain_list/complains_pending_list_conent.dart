@@ -1,18 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
-import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
-import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../common/bloc/auth/auth_cubit.dart';
-
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 import '../widgets/center_loader.dart';
@@ -117,8 +109,8 @@ class ComplainsListContent extends StatelessWidget {
                 if (complaints.isEmpty) {
                   return const Center(
                     child: Text(
-                      'No complaints found',
-                      style: TextStyle(color: Colors.white),
+                      'No complaints to Show',
+                      style: TextStyle(color: Colors.blue),
                     ),
                   );
                 }

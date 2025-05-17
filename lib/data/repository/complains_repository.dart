@@ -12,7 +12,6 @@ import '../model/complain/complain_response_model.dart';
 
 class ComplainsRepositoryImpl implements ComplainsRepository {
 
-
   // FETCH RESPONSE THEN FILTER
   @override
   Future<Either<String, ComplainResponseModel>> getTenantComplains(
@@ -21,7 +20,9 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
     Either<ApiFailure, Response> result =
     await sl<ComplainApiService>().getComplains(params);
 
-    print("REPO: PENDING COMPLAINS CALLED");
+    print('REPO: GET COMPLAINS PARAM: ${params.tab}');
+
+    print("REPO: COMPLAINS CALLED");
     return result.fold(
           (error) => Left(error.message),
           (data) {

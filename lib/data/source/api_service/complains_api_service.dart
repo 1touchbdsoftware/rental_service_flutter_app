@@ -45,6 +45,7 @@ class ComplainApiServiceImpl implements ComplainApiService {
         if (params.propertyID != null) 'PropertyID': params.propertyID,
         if (params.tenantID != null) 'TenantID': params.tenantID,
         'Flag': params.flag,
+        'tab': params.tab,
       };
 
       final response = await sl<DioClient>().get(

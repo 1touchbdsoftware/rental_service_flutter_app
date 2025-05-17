@@ -123,8 +123,8 @@ class ComplainsListContent extends StatelessWidget {
                 if (complaints.isEmpty) {
                   return const Center(
                     child: Text(
-                      'No complaints found',
-                      style: TextStyle(color: Colors.white),
+                      'No Solved Complaints to Show',
+                      style: TextStyle(color: Colors.blue),
                     ),
                   );
                 }
