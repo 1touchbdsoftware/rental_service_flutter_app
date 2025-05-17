@@ -15,6 +15,7 @@ import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
 import '../widgets/info_dialog.dart';
+import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state.dart';
 import 'bloc/get_complains_state_cubit.dart';
 
@@ -119,6 +120,7 @@ class ComplainsListContent extends StatelessWidget {
                 );
               } else if (state is GetTenantComplainsSuccessState) {
                 final complaints = state.response.data.list;
+                final pagination = state.response.data.pagination;
 
                 if (complaints.isEmpty) {
                   return const Center(
@@ -130,20 +132,46 @@ class ComplainsListContent extends StatelessWidget {
                 }
 
                 return ListView.builder(
-                  itemCount: complaints.length,
+                  itemCount: complaints.length + 1, // +1 for pagination
                   itemBuilder: (context, index) {
-                    final complaint = complaints[index];
-                    return ComplainCard(
-                      complaint: complaint,
-                      onEdit: () => _handleDelete(context, complaint),
-                      onHistoryPressed: () => _handleHistory(context, complaint),
-                      onCommentsPressed: () => _handleComments(context, complaint.lastComments),
-                      onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
-                      onImagePressed: (index) {
-                        final imageList = complaint.images!.map((img) => img.file).toList();
-                        showImageDialog(context, imageList, index);
-                      },
-                    );
+                    if (index < complaints.length) {
+                      final complaint = complaints[index];
+                      return ComplainCard(
+                        complaint: complaint,
+                        onEdit: () => _handleDelete(context, complaint),
+                        onHistoryPressed: () => _handleHistory(context, complaint),
+                        onCommentsPressed: () => _handleComments(context, complaint.lastComments),
+                        onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
+                        onImagePressed: (imgIndex) {
+                          final imageList = complaint.images!.map((img) => img.file).toList();
+                          showImageDialog(context, imageList, imgIndex);
+                        },
+                      );
+                    } else {
+                      // pagination widget at the end of the list
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: PaginationControls(
+                          currentPage: pagination.pageNumber,
+                          totalPages: pagination.totalPages,
+                          onPageChanged: (page) async {
+                            final prefs = await SharedPreferences.getInstance();
+                            final params = GetComplainsParams(
+                              agencyID: prefs.getString('agencyID') ?? '',
+                              tenantID: prefs.getString('tenantID') ?? '',
+                              landlordID: prefs.getString('landlordID') ?? '',
+                              propertyID: prefs.getString('propertyID') ?? '',
+                              pageNumber: page,
+                              pageSize: 5,
+                              isActive: true,
+                              flag: 'TENANT',
+                              tab: 'PENDING',
+                            );
+                            context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                          },
+                        ),
+                      );
+                    }
                   },
                 );
               }

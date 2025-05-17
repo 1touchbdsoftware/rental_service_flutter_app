@@ -105,8 +105,6 @@ class ComplainsListContent extends StatelessWidget {
                 final complaints = state.response.data.list;
                 final pagination = state.response.data.pagination;
 
-                final pageCount = pagination.totalPages;
-
                 //use this to show page number and pagination
 
                 if (complaints.isEmpty) {
