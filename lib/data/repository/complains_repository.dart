@@ -20,7 +20,7 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
     Either<ApiFailure, Response> result =
     await sl<ComplainApiService>().getComplains(params);
 
-    print('REPO: GET COMPLAINS PARAM: ${params.tab}');
+    print('REPO: GET COMPLAINS PARAM: ${params.tab} PAGE: ${params.pageNumber} ');
 
     print("REPO: COMPLAINS CALLED");
     return result.fold(
