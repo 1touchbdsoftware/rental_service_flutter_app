@@ -33,6 +33,18 @@ class ComplainCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            Row(
+              children: [
+                Text("Ticket# ${complaint.ticketNo}",
+                  style: const TextStyle(
+                    color: Colors.orange,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
             // Title row with status and delete
             Row(
               children: [
@@ -64,6 +76,10 @@ class ComplainCard extends StatelessWidget {
 
               ],
             ),
+
+
+
+
             const SizedBox(height: 8),
 
             // Complaint description with read more
@@ -88,8 +104,6 @@ class ComplainCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 12),
-
             const SizedBox(height: 12),
 
             // History and Comments buttons

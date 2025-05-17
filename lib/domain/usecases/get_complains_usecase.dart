@@ -6,7 +6,7 @@ import '../../data/model/complain/complain_response_model.dart';
 import '../../service_locator.dart';
 
 
-class GetTenantPendingComplainsUseCase implements UseCase<Either<String, ComplainResponseModel>, GetComplainsParams> {
+class GetTenantComplainsUseCase implements UseCase<Either<String, ComplainResponseModel>, GetComplainsParams> {
   @override
   Future<Either<String, ComplainResponseModel>> call({
     GetComplainsParams? param,
@@ -17,7 +17,7 @@ class GetTenantPendingComplainsUseCase implements UseCase<Either<String, Complai
       }
 
       // Directly return the result from repository - don't wrap in another try/catch
-      return await sl<ComplainsRepository>().getTenantPendingComplains(param);
+      return await sl<ComplainsRepository>().getTenantComplains(param);
     } catch (e) {
       print("USECASE: CATCH CALLED");
       // This catch block should only handle exceptions from the service locator

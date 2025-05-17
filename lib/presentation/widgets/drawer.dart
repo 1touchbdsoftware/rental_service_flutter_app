@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
-import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import '../../service_locator.dart';
@@ -13,18 +12,18 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
       children: [
         // Header
         Container(
-          color: Colors.blue,
+          color: Colors.white,
           child: Column(
             children: [
+              SizedBox(height: 50),
               SizedBox(
-                width: double.infinity,
-                height: 150,
+                width: 200,
+                height: 100,
                 child: Image.asset(
                   'asset/images/pro_matrix_logo.png',
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 10),
               Text(
                 dashboardTitle,
                 style: TextStyle(
@@ -108,6 +107,7 @@ void _showLogoutConfirmation(BuildContext context) {
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog(
+        backgroundColor: Colors.white,
         title: Text("Confirm Logout"),
         content: Text("Are you sure you want to log out?"),
         actions: [

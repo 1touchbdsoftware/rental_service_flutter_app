@@ -10,7 +10,7 @@ import 'package:rental_service/data/source/local_service/get_user_local_service.
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import 'package:rental_service/domain/repository/segment_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
-import 'package:rental_service/domain/usecases/get_pending_complains_usecase.dart';
+import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_segment_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
@@ -87,13 +87,13 @@ void setupServiceLocator(){
       GetUserTypeUseCase()
   );
 
-  sl.registerLazySingleton<GetTenantPendingComplainsUseCase>(
-        () => GetTenantPendingComplainsUseCase(),
+  sl.registerLazySingleton<GetTenantComplainsUseCase>(
+        () => GetTenantComplainsUseCase(),
   );
 
-  sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(
-        () => GetTenantCompletedComplainsUseCase(),
-  );
+  // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(
+  //       () => GetTenantCompletedComplainsUseCase(),
+  // );
 
 
   sl.registerSingleton<LogoutUseCase>(

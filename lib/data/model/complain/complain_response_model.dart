@@ -1,7 +1,6 @@
-
-
 import '../../../domain/entities/complain_entity.dart';
 import '../../../domain/entities/complain_response_entity.dart';
+import '../../../domain/entities/pagination.dart';
 import 'ComplainModel.dart';
 
 class ComplainResponseModel extends ComplainResponseEntity {
@@ -9,8 +8,11 @@ class ComplainResponseModel extends ComplainResponseEntity {
     required super.statusCode,
     required super.message,
     required super.data,
+    required super.pagination
   });
 
+  //convert the response json to model to entity
+  // json -> model -> entity
   factory ComplainResponseModel.fromJson(Map<String, dynamic> json) {
     return ComplainResponseModel(
       statusCode: json['statusCode'],
@@ -19,6 +21,12 @@ class ComplainResponseModel extends ComplainResponseEntity {
         list: (json['data']['list'] as List)
             .map((e) => ComplainModel.fromJson(e).toEntity())
             .toList(),
+      ),
+      pagination: PaginationEntity(
+        pageNumber: json['pagination']['pageNumber'],
+        pageSize: json['pagination']['pageSize'],
+        totalRows: json['pagination']['totalRows'],
+        totalPages: json['pagination']['totalPages'],
       ),
     );
   }

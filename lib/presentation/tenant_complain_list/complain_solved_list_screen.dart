@@ -5,14 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/bloc/auth/auth_cubit.dart';
-import '../../common/widgets/center_loader.dart';
-import '../../common/widgets/complain_list_card.dart';
-import '../../common/widgets/drawer.dart';
-import '../../common/widgets/image_dialog.dart';
+
 import '../../core/constants/app_colors.dart';
 import '../../data/model/get_complain_req_params.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import '../widgets/center_loader.dart';
+import '../widgets/complain_list_card.dart';
+import '../widgets/drawer.dart';
+import '../widgets/image_dialog.dart';
+import '../widgets/info_dialog.dart';
 import 'bloc/get_complains_state.dart';
 import 'bloc/get_complains_state_cubit.dart';
 
@@ -77,7 +79,7 @@ class ComplainsListContent extends StatelessWidget {
         body: RefreshIndicator(
           onRefresh: () async {
             final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchCompletedComplains(
+            await context.read<GetTenantComplainsCubit>().fetchComplains(
                 params: params);
           },
           child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
@@ -86,7 +88,7 @@ class ComplainsListContent extends StatelessWidget {
                 // Trigger fetch when in initial state
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   _prepareComplainsParams().then((params) {
-                    context.read<GetTenantComplainsCubit>().fetchCompletedComplains(
+                    context.read<GetTenantComplainsCubit>().fetchComplains(
                         params: params);
                   });
                 });
@@ -106,7 +108,7 @@ class ComplainsListContent extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () async {
                           final params = await _prepareComplainsParams();
-                          await context.read<GetTenantComplainsCubit>().fetchCompletedComplains(
+                          await context.read<GetTenantComplainsCubit>().fetchComplains(
                               params: params);
                         },
                         child: const Text('Retry'),
@@ -134,8 +136,8 @@ class ComplainsListContent extends StatelessWidget {
                       complaint: complaint,
                       onEdit: () => _handleDelete(context, complaint),
                       onHistoryPressed: () => _handleHistory(context, complaint),
-                      onCommentsPressed: () => _handleComments(context, complaint),
-                      onReadMorePressed: () => _handleReadMore(context, complaint),
+                      onCommentsPressed: () => _handleComments(context, complaint.lastComments),
+                      onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
                       onImagePressed: (index) {
                         final imageList = complaint.images!.map((img) => img.file).toList();
                         showImageDialog(context, imageList, index);
@@ -153,7 +155,7 @@ class ComplainsListContent extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchCompletedComplains(
+            await context.read<GetTenantComplainsCubit>().fetchComplains(
                 params: params);
           },
           child: const Icon(Icons.refresh),
@@ -174,77 +176,27 @@ void _handleHistory(BuildContext context, ComplainEntity complaint) {
   // Navigate or show history
 }
 
-void _handleComments(BuildContext context, ComplainEntity complaint) {
-  final lastComment = complaint.lastComments;
-
+void _handleComments(BuildContext context, String? comment) {
+  // final lastComment = complaint.lastComments;
   showDialog(
     context: context,
-    builder: (context) {
-      return AlertDialog(
-        backgroundColor: AppColors.primary,
-        titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0),
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Center(
-              child: Text(
-                "Last Comment",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Divider(thickness: 1, color: Colors.black),
-          ],
-        ),
-        content: lastComment != null
-            ? Text(lastComment, style: TextStyle(color: Colors.black))
-            : const Text('No comments yet.', style: TextStyle(color: Colors.black)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close', style: TextStyle(color: Colors.black)),
-          ),
-        ],
-      );
-
-    },
+    builder: (context) => SimpleInfoDialog(
+      title: 'Last Comment Details',
+      bodyText: comment?? 'No Comments Yet',
+    ),
   );
+
 }
 
-void _handleReadMore(BuildContext context, ComplainEntity complaint) {
+
+void _handleReadMore(BuildContext context, String? complainName) {
   showDialog(
     context: context,
-    builder: (context) =>
-        AlertDialog(
-          backgroundColor: Colors.white,
-          title: const Text('Complaint Details'),
-          content: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: RichText(
-                  text: TextSpan(
-                    style: const TextStyle(color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: complaint.complainName,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close',  style: TextStyle(color: Colors.black),),
-            ),
-          ],
-        ),
+    builder: (context) => SimpleInfoDialog(
+      title: 'Complaint Details',
+      bodyText: complainName ?? 'No details provided.',
+    ),
   );
 }
-
 
 
