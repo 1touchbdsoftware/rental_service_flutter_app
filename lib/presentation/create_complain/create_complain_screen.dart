@@ -1,17 +1,15 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../common/utils/image_convert_helper.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/complain_post_req_params.dart';
 import '../../data/model/get_segment_params.dart';
 import '../../data/model/segment_model.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../service_locator.dart'; // Import service locator
-
 
 import '../widgets/center_loader.dart';
 import 'bloc/complain_state.dart';
@@ -53,7 +51,7 @@ class _CreateComplainScreenContent extends StatefulWidget {
 class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
   final _formKey = GlobalKey<FormState>();
   final _commentController = TextEditingController();
-  final _imagePicker = ImagePicker();
+
   final List<XFile> _selectedImages = [];
   final int _maxImages = 5;
 
@@ -89,46 +87,6 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
     super.dispose();
   }
 
-  Future<void> _pickImages() async {
-    if (_selectedImages.length >= _maxImages) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Maximum 5 images allowed'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    final pickedImages = await _imagePicker.pickMultiImage(
-      imageQuality: 70,
-      maxWidth: 1000,
-    );
-
-    if (pickedImages.isNotEmpty) {
-      setState(() {
-        // Add only up to the maximum allowed
-        final remainingSlots = _maxImages - _selectedImages.length;
-        final imagesToAdd =
-        pickedImages.length > remainingSlots
-            ? pickedImages.sublist(0, remainingSlots)
-            : pickedImages;
-
-        _selectedImages.addAll(imagesToAdd);
-
-        if (pickedImages.length > remainingSlots) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Only added ${imagesToAdd.length} images. Maximum limit reached.',
-              ),
-              backgroundColor: Colors.orange,
-            ),
-          );
-        }
-      });
-    }
-  }
 
   void _removeImage(int index) {
     setState(() {
@@ -160,7 +118,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
         },
         builder: (context, state) {
           if (state is GetSegmentLoadingState) {
-            return CenterLoader();
+            return CenterLoaderWithText(text: "Hold on, bringing everything together...");
           }
 
           return Padding(
@@ -423,7 +381,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
               // Add Image Button
               if (_selectedImages.length < _maxImages)
                 InkWell(
-                  onTap: _pickImages,
+                  onTap: _showImageSourceSelector,
                   child: Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -533,8 +491,6 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
     }
 
     try {
-      // Prepare images
-
 
       // Create a single complain with the images included
       final complain = Complain(
@@ -571,4 +527,207 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       );
     }
   }
+
+  void _showImageSourceSelector() {
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Take Photo Option
+                InkWell(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _pickFromCamera();
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.camera_alt, size: 36),
+                      SizedBox(height: 8),
+                      Text("Take Photo"),
+                    ],
+                  ),
+                ),
+                // Choose from Gallery Option
+                InkWell(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _pickImagesFromGallery();
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.photo_library, size: 36),
+                      SizedBox(height: 8),
+                      Text("Choose from Gallery"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+  Future<void> _pickFromCamera() async {
+    final cameraStatus = await Permission.camera.status;
+    if (cameraStatus.isGranted) {
+      await _openCamera();
+    } else if (cameraStatus.isDenied) {
+      // Request permission
+      final result = await Permission.camera.request();
+      if (result.isGranted) {
+        await _openCamera();
+      } else {
+        _showPermissionDeniedMessage('Camera');
+      }
+    }
+  }
+
+  Future<void> _openCamera() async {
+    final cameraStatus = await Permission.camera.status;
+    if (cameraStatus.isGranted) {
+      final imagePicker = ImagePicker(); // Create new instance
+      final pickedFile = await imagePicker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 70,
+        maxWidth: 1000,
+      );
+      if (pickedFile != null && _selectedImages.length < _maxImages) {
+        setState(() {
+          _selectedImages.add(pickedFile);
+        });
+      } else {
+        _showMaxImagesMessage();
+      }
+    } else if (cameraStatus.isDenied) {
+      final result = await Permission.camera.request();
+      if (result.isGranted) {
+        final imagePicker = ImagePicker(); // Create new instance
+        final pickedFile = await imagePicker.pickImage(
+          source: ImageSource.camera,
+          imageQuality: 70,
+          maxWidth: 1000,
+        );
+        if (pickedFile != null && _selectedImages.length < _maxImages) {
+          setState(() {
+            _selectedImages.add(pickedFile);
+          });
+        }
+      } else {
+        _showPermissionDeniedMessage('Camera');
+      }
+    }
+  }
+
+  Future<void> _pickImagesFromGallery() async {
+    final galleryStatus = await Permission.photos.status; // On Android <13 use Permission.storage
+    if (galleryStatus.isGranted) {
+      await _openGallery();
+    } else if (galleryStatus.isDenied) {
+      final result = await Permission.photos.request();
+      if (result.isGranted) {
+        await _openGallery();
+      } else {
+        _showPermissionDeniedMessage('Gallery');
+      }
+    }
+  }
+
+  Future<void> _openGallery() async {
+    if (_selectedImages.length >= _maxImages) {
+      _showMaxImagesMessage();
+      return;
+    }
+
+    final galleryStatus = await Permission.photos.status;
+    if (galleryStatus.isGranted) {
+      final imagePicker = ImagePicker(); // Create new instance
+      final pickedImages = await imagePicker.pickMultiImage(
+        imageQuality: 70,
+        maxWidth: 1000,
+      );
+
+      if (pickedImages.isNotEmpty) {
+        setState(() {
+          final remainingSlots = _maxImages - _selectedImages.length;
+          final imagesToAdd = pickedImages.length > remainingSlots
+              ? pickedImages.sublist(0, remainingSlots)
+              : pickedImages;
+
+          _selectedImages.addAll(imagesToAdd);
+
+          if (pickedImages.length > remainingSlots) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Only added ${imagesToAdd.length} images. Maximum limit reached.',
+                ),
+                backgroundColor: Colors.orange,
+              ),
+            );
+          }
+        });
+      }
+    } else if (galleryStatus.isDenied) {
+      final result = await Permission.photos.request();
+      if (result.isGranted) {
+        final imagePicker = ImagePicker(); // Create new instance
+        final pickedImages = await imagePicker.pickMultiImage(
+          imageQuality: 70,
+          maxWidth: 1000,
+        );
+        if (pickedImages.isNotEmpty) {
+          setState(() {
+            final remainingSlots = _maxImages - _selectedImages.length;
+            final imagesToAdd = pickedImages.length > remainingSlots
+                ? pickedImages.sublist(0, remainingSlots)
+                : pickedImages;
+
+            _selectedImages.addAll(imagesToAdd);
+          });
+        }
+      } else {
+        _showPermissionDeniedMessage('Gallery');
+      }
+    }
+  }
+
+
+  void _showMaxImagesMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Maximum 5 images allowed'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  void _showPermissionDeniedMessage(String source) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$source permission denied'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+
+
+
 }

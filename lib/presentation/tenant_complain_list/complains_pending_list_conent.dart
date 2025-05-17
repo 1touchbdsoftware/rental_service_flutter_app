@@ -77,9 +77,9 @@ class ComplainsListContent extends StatelessWidget {
                         params: params);
                   });
                 });
-                return const CenterLoader();
+                return const CenterLoaderWithText(text: "Loading Complains...");
               } else if (state is GetTenantComplainsLoadingState) {
-                return const CenterLoader();
+                return const CenterLoaderWithText(text: "Loading Complains...");
               } else if (state is GetTenantComplainsFailureState) {
                 return Center(
                   child: Column(
@@ -164,7 +164,7 @@ class ComplainsListContent extends StatelessWidget {
               }
 
               // Fallback for any unexpected state
-              return const CenterLoader();
+              return const CenterLoaderWithText(text: "Loading Complains...");
             },
           ),
         ),

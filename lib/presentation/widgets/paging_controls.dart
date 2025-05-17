@@ -11,7 +11,7 @@ class PaginationControls extends StatelessWidget {
     required this.currentPage,
     required this.totalPages,
     required this.onPageChanged,
-    this.visiblePageCount = 5, // how many pages to show at once
+    this.visiblePageCount = 3, // how many pages to show at once
   });
 
   @override
