@@ -12,8 +12,6 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onReadMorePressed;
   final void Function(int index) onImagePressed;
 
-
-
   const ComplainCard({
     required this.complaint,
     required this.onEdit,
@@ -148,7 +146,6 @@ class ComplainCard extends StatelessWidget {
             ),
           ),
         ),
-
 
               ],
             ),

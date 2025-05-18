@@ -35,7 +35,7 @@ class ComplainsListContent extends StatelessWidget {
       pageSize: 10,
       isActive: true,
       flag: 'TENANT',
-      tab: 'PENDING',
+      tab: 'PROBLEM',
     );
   }
 
@@ -150,7 +150,7 @@ class ComplainsListContent extends StatelessWidget {
                               pageSize: 10,
                               isActive: true,
                               flag: 'TENANT',
-                              tab: 'PENDING',
+                              tab: 'PROBLEM',
                             );
                             context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
                           },
