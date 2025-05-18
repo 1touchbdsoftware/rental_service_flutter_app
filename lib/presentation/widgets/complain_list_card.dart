@@ -33,10 +33,10 @@ class ComplainCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Row(
               children: [
-                Text("Ticket# ${complaint.ticketNo}",
+                Text(
+                  "Ticket# ${complaint.ticketNo}",
                   style: const TextStyle(
                     color: Colors.orange,
                     fontSize: 12,
@@ -77,7 +77,8 @@ class ComplainCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 14),
                 ),
-                if (complaint.complainName.length > 50) // Adjust this threshold as needed
+                if (complaint.complainName.length >
+                    50) // Adjust this threshold as needed
                   TextButton(
                     onPressed: onReadMorePressed,
                     style: TextButton.styleFrom(
@@ -85,7 +86,10 @@ class ComplainCard extends StatelessWidget {
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    child:  Text('Read More', style: const TextStyle(fontSize: 12, color: Colors.blue)),
+                    child: Text(
+                      'Read More',
+                      style: const TextStyle(fontSize: 12, color: Colors.blue),
+                    ),
                   ),
               ],
             ),
@@ -97,14 +101,20 @@ class ComplainCard extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onHistoryPressed,
                   icon: const Icon(Icons.history, size: 16),
-                  label: const Text('History', style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  )),
+                  label: const Text(
+                    'History',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[200],
                     foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     minimumSize: const Size(0, 30),
                   ),
                 ),
@@ -114,39 +124,48 @@ class ComplainCard extends StatelessWidget {
                   icon: const Icon(Icons.comment, size: 16),
                   label: Text(
                     'Last Comment',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      )
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[200],
                     foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     minimumSize: const Size(0, 30),
                   ),
                 ),
                 const SizedBox(width: 8),
 
-        //edit button
-        if (!complaint.isAssignedTechnician!)
-          ElevatedButton(
-          onPressed: onCommentsPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[200],
-            foregroundColor: Colors.blue,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            minimumSize: const Size(0, 30),
-          ),
-          child: const Text(
-            'Edit',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-
+                //edit button
+                if (!complaint.isAssignedTechnician! &&
+                    !complaint.isSentToLandlord! &&
+                    !complaint.isRejected! &&
+                    !complaint.isResubmitted! &&
+                    !complaint.isDone!)
+                  ElevatedButton(
+                    onPressed: onCommentsPressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[200],
+                      foregroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      minimumSize: const Size(0, 30),
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: 12),
@@ -208,21 +227,14 @@ class ComplainCard extends StatelessWidget {
         Container(
           width: 10,
           height: 10,
-          decoration: BoxDecoration(
-            color: dotColor,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
         ),
         const SizedBox(width: 4),
         Text(
           statusText,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
         ),
       ],
     );
   }
-
 }
