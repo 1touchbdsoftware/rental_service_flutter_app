@@ -10,6 +10,7 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onHistoryPressed;
   final VoidCallback onCommentsPressed;
   final VoidCallback onReadMorePressed;
+  final VoidCallback onReschedulePressed;
   final void Function(int index) onImagePressed;
 
   const ComplainCard({
@@ -19,8 +20,9 @@ class ComplainCard extends StatelessWidget {
     required this.onCommentsPressed,
     required this.onReadMorePressed,
     required this.onImagePressed,
-    Key? key,
-  }) : super(key: key);
+    required this.onReschedulePressed,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +178,7 @@ class ComplainCard extends StatelessWidget {
                       !complaint.isSolved! &&
                       !complaint.isResubmitted!)
                     ElevatedButton(
-                      onPressed: onCommentsPressed,
+                      onPressed: onReschedulePressed,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[200],
                         foregroundColor: Colors.blue,

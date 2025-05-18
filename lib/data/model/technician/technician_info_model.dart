@@ -6,31 +6,31 @@ class TechnicianInfo {
   final String propertyID;
   final String tenantID;
   final String complainID;
-  final String stateStatus;
-  final String agencyID;
-  final bool isActive;
-  final String activationStatus;
-  final bool isApproved;
-  final String createdBy;
-  final String createdDate;
+  final String? stateStatus;
+  final String? agencyID;
+  final bool? isActive;
+  final String? activationStatus;
+  final bool? isApproved;
+  final String? createdBy;
+  final String? createdDate;
   final String? updatedBy;
   final String? updatedDate;
-  final int billingAmount;
-  final int paidAmount;
-  final String technicianCategoryName;
-  final String technicianName;
-  final String propertyName;
-  final String tenantName;
-  final String complainName;
-  final bool isSolved;
-  final bool isSentToLandlord;
-  final bool isAssignedTechnician;
-  final bool isRejected;
-  final bool isCompleted;
-  final int countOfRecomplained;
-  final String scheduleDate;
-  final String scheduleTime;
-  final String formattedScheduleTime;
+  final int? billingAmount;
+  final int? paidAmount;
+  final String? technicianCategoryName;
+  final String? technicianName;
+  final String? propertyName;
+  final String? tenantName;
+  final String? complainName;
+  final bool? isSolved;
+  final bool? isSentToLandlord;
+  final bool? isAssignedTechnician;
+  final bool? isRejected;
+  final bool? isCompleted;
+  final int? countOfRecomplained;
+  final String? scheduleDate;
+  final String? scheduleTime;
+  final String? formattedScheduleTime;
   final String? rescheduleDate;
   final String? rescheduleTime;
   final String? formattedRescheduleTime;
@@ -46,31 +46,31 @@ class TechnicianInfo {
     required this.propertyID,
     required this.tenantID,
     required this.complainID,
-    required this.stateStatus,
-    required this.agencyID,
-    required this.isActive,
-    required this.activationStatus,
-    required this.isApproved,
-    required this.createdBy,
-    required this.createdDate,
+     this.stateStatus,
+     this.agencyID,
+     this.isActive,
+     this.activationStatus,
+     this.isApproved,
+     this.createdBy,
+     this.createdDate,
     this.updatedBy,
     this.updatedDate,
-    required this.billingAmount,
-    required this.paidAmount,
-    required this.technicianCategoryName,
-    required this.technicianName,
-    required this.propertyName,
-    required this.tenantName,
-    required this.complainName,
-    required this.isSolved,
-    required this.isSentToLandlord,
-    required this.isAssignedTechnician,
-    required this.isRejected,
-    required this.isCompleted,
-    required this.countOfRecomplained,
-    required this.scheduleDate,
-    required this.scheduleTime,
-    required this.formattedScheduleTime,
+     this.billingAmount,
+     this.paidAmount,
+     this.technicianCategoryName,
+     this.technicianName,
+     this.propertyName,
+     this.tenantName,
+     this.complainName,
+     this.isSolved,
+     this.isSentToLandlord,
+     this.isAssignedTechnician,
+     this.isRejected,
+     this.isCompleted,
+     this.countOfRecomplained,
+     this.scheduleDate,
+     this.scheduleTime,
+     this.formattedScheduleTime,
     this.rescheduleDate,
     this.rescheduleTime,
     this.formattedRescheduleTime,

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import '../technician/technician_rechedule_screen.dart';
 import '../widgets/center_loader.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
@@ -132,6 +133,7 @@ class ComplainsListContent extends StatelessWidget {
                           final imageList = complaint.images!.map((img) => img.file).toList();
                           showImageDialog(context, imageList, imgIndex);
                         },
+                        onReschedulePressed: () => _handleReschedule(context, complaint),
                       );
                     } else {
                       // pagination widget at the end of the list
@@ -179,6 +181,7 @@ class ComplainsListContent extends StatelessWidget {
   }
 }
 
+
 void _handleDelete(BuildContext context, ComplainEntity complaint) {
   // Implement delete logic
   ScaffoldMessenger.of(context).showSnackBar(
@@ -189,6 +192,13 @@ void _handleDelete(BuildContext context, ComplainEntity complaint) {
 void _handleHistory(BuildContext context, ComplainEntity complaint) {
   // Navigate or show history
 }
+
+void _handleReschedule(BuildContext context, ComplainEntity complaint) {
+  Navigator.push(context,MaterialPageRoute<void>(
+      builder: (BuildContext context) => AssignedTechnicianScreen(complaint: complaint)));
+
+}
+
 
 void _handleComments(BuildContext context, String? comment) {
   // final lastComment = complaint.lastComments;
