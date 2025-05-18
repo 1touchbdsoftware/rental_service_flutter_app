@@ -75,7 +75,7 @@ class ComplainCard extends StatelessWidget {
               children: [
                 Text(
                   complaint.complainName,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 14),
                 ),
@@ -172,7 +172,9 @@ class ComplainCard extends StatelessWidget {
                     ),
 
                   //reschedule button
-                  if (complaint.isAssignedTechnician! && !complaint.isSolved!)
+                  if (complaint.isAssignedTechnician! &&
+                      !complaint.isSolved! &&
+                      !complaint.isResubmitted!)
                     ElevatedButton(
                       onPressed: onCommentsPressed,
                       style: ElevatedButton.styleFrom(
@@ -196,23 +198,23 @@ class ComplainCard extends StatelessWidget {
                     Row(
                       children: [
                         ElevatedButton(
-                        onPressed: onCommentsPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey[200],
-                          foregroundColor: Colors.blue,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
+                          onPressed: onCommentsPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[200],
+                            foregroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
                           ),
-                          minimumSize: const Size(0, 30),
-                        ),
-                        child: const Text(
-                          'Complete',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                          child: const Text(
+                            'Complete',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
@@ -236,7 +238,6 @@ class ComplainCard extends StatelessWidget {
                         ),
                       ],
                     ),
-
                 ],
               ),
             ),
@@ -277,15 +278,13 @@ class ComplainCard extends StatelessWidget {
     if (complaint.isRejected!) {
       dotColor = Colors.red;
       statusText = 'Rejected';
-    }else if (complaint.isSolved! && complaint.isCompleted!) {
+    } else if (complaint.isSolved! && complaint.isCompleted!) {
       dotColor = Colors.green;
       statusText = 'Completed';
-    }
-    else if (complaint.isSolved!) {
+    } else if (complaint.isSolved!) {
       dotColor = Colors.green;
       statusText = 'Resolved';
-    }
-    else if (complaint.isResubmitted!) {
+    } else if (complaint.isResubmitted!) {
       dotColor = Colors.orange;
       statusText = 'Resubmitted';
     } else if (complaint.isSentToLandlord!) {
