@@ -26,7 +26,7 @@ class ComplainCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -96,77 +96,147 @@ class ComplainCard extends StatelessWidget {
             const SizedBox(height: 12),
 
             // History and Comments buttons
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  onPressed: onHistoryPressed,
-                  icon: const Icon(Icons.history, size: 16),
-                  label: const Text(
-                    'History',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: onHistoryPressed,
+                    icon: const Icon(Icons.history, size: 16),
+                    label: const Text(
+                      'History',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[200],
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    minimumSize: const Size(0, 30),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  onPressed: onCommentsPressed,
-                  icon: const Icon(Icons.comment, size: 16),
-                  label: Text(
-                    'Last Comment',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[200],
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    minimumSize: const Size(0, 30),
-                  ),
-                ),
-                const SizedBox(width: 8),
-
-                //edit button
-                if (!complaint.isAssignedTechnician! &&
-                    !complaint.isSentToLandlord! &&
-                    !complaint.isRejected! &&
-                    !complaint.isResubmitted! &&
-                    !complaint.isDone!)
-                  ElevatedButton(
-                    onPressed: onCommentsPressed,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.blue,
+                      foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
                       ),
                       minimumSize: const Size(0, 30),
                     ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton.icon(
+                    onPressed: onCommentsPressed,
+                    icon: const Icon(Icons.comment, size: 16),
+                    label: Text(
+                      'Last Comment',
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[200],
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      minimumSize: const Size(0, 30),
+                    ),
                   ),
-              ],
+                  const SizedBox(width: 8),
+
+                  //edit button
+                  if (!complaint.isAssignedTechnician! &&
+                      !complaint.isSentToLandlord! &&
+                      !complaint.isRejected! &&
+                      !complaint.isResubmitted! &&
+                      !complaint.isDone!)
+                    ElevatedButton(
+                      onPressed: onCommentsPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                        foregroundColor: Colors.blue,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        minimumSize: const Size(0, 30),
+                      ),
+                      child: const Text(
+                        'Edit',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+
+                  //reschedule button
+                  if (complaint.isAssignedTechnician! && !complaint.isSolved!)
+                    ElevatedButton(
+                      onPressed: onCommentsPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                        foregroundColor: Colors.blue,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        minimumSize: const Size(0, 30),
+                      ),
+                      child: const Text(
+                        'Reschedule',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  if (complaint.isSolved!)
+                    Row(
+                      children: [
+                        ElevatedButton(
+                        onPressed: onCommentsPressed,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[200],
+                          foregroundColor: Colors.blue,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          minimumSize: const Size(0, 30),
+                        ),
+                        child: const Text(
+                          'Complete',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: onCommentsPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey[200],
+                            foregroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: const Text(
+                            'Resubmit',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                ],
+              ),
             ),
             const SizedBox(height: 12),
 
@@ -191,6 +261,7 @@ class ComplainCard extends StatelessWidget {
                   },
                 ),
               ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -204,10 +275,15 @@ class ComplainCard extends StatelessWidget {
     if (complaint.isRejected!) {
       dotColor = Colors.red;
       statusText = 'Rejected';
-    } else if (complaint.isSolved!) {
+    }else if (complaint.isSolved! && complaint.isCompleted!) {
       dotColor = Colors.green;
       statusText = 'Completed';
-    } else if (complaint.isResubmitted!) {
+    }
+    else if (complaint.isSolved!) {
+      dotColor = Colors.green;
+      statusText = 'Resolved';
+    }
+    else if (complaint.isResubmitted!) {
       dotColor = Colors.orange;
       statusText = 'Resubmitted';
     } else if (complaint.isSentToLandlord!) {
