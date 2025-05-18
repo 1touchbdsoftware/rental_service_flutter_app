@@ -1,11 +1,15 @@
 // lib/core/routes/app_routes.dart
 import 'package:flutter/material.dart';
+import 'package:rental_service/domain/entities/complain_entity.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/create_complain/create_complain_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/complain_pending_list_screen.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/TenantDashboard.dart';
 import 'package:rental_service/presentation/tenant_complain_list/complain_solved_list_screen.dart';
+import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
+
+import '../data/model/complain/ComplainModel.dart';
 
 class AppRoutes {
   static const String signIn = '/sign-in';
@@ -14,6 +18,7 @@ class AppRoutes {
   static const String complainListScreen = '/complain-list-screen';
   static const String complainCompletedListScreen = '/complain-completed-list-screen';
   static const String createComplainScreen = '/create-complain-screen';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -51,6 +56,7 @@ class AppRoutes {
       complainListScreen: (context) => ComplainsListScreen(),
       complainCompletedListScreen: (context) => ComplainsCompletedListScreen(),
       createComplainScreen: (context) => CreateComplainScreen(),
+
 
     };
   }

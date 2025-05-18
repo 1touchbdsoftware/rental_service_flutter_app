@@ -138,7 +138,7 @@ class ComplainsListContent extends StatelessWidget {
                       final complaint = complaints[index];
                       return ComplainCard(
                         complaint: complaint,
-                        onEdit: () => _handleDelete(context, complaint),
+                        onEditPressed: () => _handleEdit(context, complaint),
                         onHistoryPressed: () => _handleHistory(context, complaint),
                         onCommentsPressed: () => _handleComments(context, complaint.lastComments),
                         onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
@@ -203,6 +203,11 @@ void _handleDelete(BuildContext context, ComplainEntity complaint) {
 void _handleHistory(BuildContext context, ComplainEntity complaint) {
   // Navigate or show history
 }
+
+void _handleEdit(BuildContext context, ComplainEntity complaint) {
+  // Navigate or show history
+}
+
 
 void _handleComments(BuildContext context, String? comment) {
   // final lastComment = complaint.lastComments;

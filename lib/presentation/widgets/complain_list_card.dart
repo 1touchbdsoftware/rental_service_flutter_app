@@ -6,7 +6,7 @@ import 'image_handler.dart';
 class ComplainCard extends StatelessWidget {
   final ComplainEntity complaint;
 
-  final VoidCallback onEdit;
+  final VoidCallback onEditPressed;
   final VoidCallback onHistoryPressed;
   final VoidCallback onCommentsPressed;
   final VoidCallback onReadMorePressed;
@@ -14,7 +14,7 @@ class ComplainCard extends StatelessWidget {
 
   const ComplainCard({
     required this.complaint,
-    required this.onEdit,
+    required this.onEditPressed,
     required this.onHistoryPressed,
     required this.onCommentsPressed,
     required this.onReadMorePressed,
@@ -33,6 +33,7 @@ class ComplainCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 8),
             Row(
               children: [
                 Text(
@@ -45,6 +46,7 @@ class ComplainCard extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 8),
             // Title row with status and delete
             Row(
               children: [
@@ -65,7 +67,7 @@ class ComplainCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 20),
 
             // Complaint description with read more
             Column(
@@ -93,7 +95,7 @@ class ComplainCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
 
             // History and Comments buttons
             SingleChildScrollView(
@@ -150,7 +152,7 @@ class ComplainCard extends StatelessWidget {
                       !complaint.isResubmitted! &&
                       !complaint.isDone!)
                     ElevatedButton(
-                      onPressed: onCommentsPressed,
+                      onPressed: onEditPressed,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[200],
                         foregroundColor: Colors.blue,
@@ -238,7 +240,7 @@ class ComplainCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
 
             // Images row
             if (complaint.imageCount! > 0)

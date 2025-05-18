@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/get_complain_req_params.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
+import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../domain/entities/complain_entity.dart';
@@ -123,7 +124,7 @@ class ComplainsListContent extends StatelessWidget {
                       final complaint = complaints[index];
                       return ComplainCard(
                         complaint: complaint,
-                        onEdit: () => _handleDelete(context, complaint),
+                        onEditPressed: () => _handleEdit(context, complaint),
                         onHistoryPressed: () => _handleHistory(context, complaint),
                         onCommentsPressed: () => _handleComments(context, complaint.lastComments),
                         onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
@@ -210,6 +211,13 @@ void _handleReadMore(BuildContext context, String? complainName) {
       bodyText: complainName ?? 'No details provided.',
     ),
   );
+}
+
+void _handleEdit(BuildContext context, ComplainEntity complain) {
+
+  Navigator.push(context,MaterialPageRoute<void>(
+  builder: (BuildContext context) => EditComplainScreen(existingComplain: complain)));
+
 }
 
 
