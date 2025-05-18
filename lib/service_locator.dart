@@ -3,15 +3,19 @@
 import 'package:get_it/get_it.dart';
 import 'package:rental_service/core/network/dio_client.dart';
 import 'package:rental_service/data/repository/complains_repository.dart';
+import 'package:rental_service/data/repository/technician_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
 import 'package:rental_service/data/source/api_service/complains_api_service.dart';
+import 'package:rental_service/data/source/api_service/get_assigned_technician_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
 import 'package:rental_service/data/source/local_service/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import 'package:rental_service/domain/repository/segment_repository.dart';
+import 'package:rental_service/domain/repository/technician_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_segment_usecase.dart';
+import 'package:rental_service/domain/usecases/get_technician_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
@@ -55,6 +59,11 @@ void setupServiceLocator(){
       SegmentApiServiceImpl()
   );
 
+  sl.registerSingleton<TechnicianApiService>(
+      TechnicianApiServiceImpl()
+  );
+
+
   // Repositories
   sl.registerSingleton<AuthRepository>(
       AuthRepositoryImpl()
@@ -70,6 +79,10 @@ void setupServiceLocator(){
 
   sl.registerSingleton<SegmentRepository>(
       SegmentRepositoryImpl()
+  );
+
+  sl.registerSingleton<TechnicianRepository>(
+      TechnicianRepositoryImpl()
   );
 
 
@@ -89,6 +102,10 @@ void setupServiceLocator(){
 
   sl.registerLazySingleton<GetTenantComplainsUseCase>(
         () => GetTenantComplainsUseCase(),
+  );
+
+  sl.registerLazySingleton<GetAssignedTechnicianUseCase>(
+        () => GetAssignedTechnicianUseCase(),
   );
 
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(

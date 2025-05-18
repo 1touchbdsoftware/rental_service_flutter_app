@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:rental_service/data/model/signin_req_params.dart';
+import 'package:rental_service/data/model/user/signin_req_params.dart';
 import 'package:rental_service/data/model/user/user_response_model.dart';
 import 'package:rental_service/data/source/api_service/auth_api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';

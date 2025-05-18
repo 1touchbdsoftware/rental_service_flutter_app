@@ -14,7 +14,7 @@ import '../data/model/complain/ComplainModel.dart';
 class AppRoutes {
   static const String signIn = '/sign-in';
   static const String landlordDashboard = '/landlord-dashboard';
-  static const String tenantDashboard = '/tenant-dashboard';
+  static const String tenantDashboard = '/technician-dashboard';
   static const String complainListScreen = '/complain-list-screen';
   static const String complainCompletedListScreen = '/complain-completed-list-screen';
   static const String createComplainScreen = '/create-complain-screen';

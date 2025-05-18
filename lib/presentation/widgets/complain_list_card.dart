@@ -80,7 +80,7 @@ class ComplainCard extends StatelessWidget {
                   style: const TextStyle(fontSize: 14),
                 ),
                 if (complaint.complainName.length >
-                    50) // Adjust this threshold as needed
+                    45) // Adjust this threshold as needed
                   TextButton(
                     onPressed: onReadMorePressed,
                     style: TextButton.styleFrom(

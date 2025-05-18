@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:rental_service/data/model/get_complain_req_params.dart';
+import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
 import 'package:rental_service/data/source/api_service/complains_api_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../domain/entities/complain_response_entity.dart';

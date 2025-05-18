@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/button/button_state.dart';
 import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
 
-import 'package:rental_service/data/model/signin_req_params.dart';
+import 'package:rental_service/data/model/user/signin_req_params.dart';
 import 'package:rental_service/domain/usecases/signin_usecase.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';

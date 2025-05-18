@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/data/model/get_complain_req_params.dart';
+import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_completed_complains_usecase.dart';

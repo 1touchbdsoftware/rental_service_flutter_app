@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 
 import '../../core/constants/app_colors.dart';
-import '../../data/model/get_complain_req_params.dart';
+import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 import '../widgets/center_loader.dart';

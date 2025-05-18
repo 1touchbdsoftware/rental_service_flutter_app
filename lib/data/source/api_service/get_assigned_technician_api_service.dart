@@ -1,26 +1,22 @@
-
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:rental_service/data/model/segment/get_segment_params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/api_urls.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../service_locator.dart';
 import '../../model/api_failure.dart';
+import '../../model/technician/technician_get_params.dart';
 
-abstract class SegmentApiService {
-  Future<Either<ApiFailure, Response>> getSegments(GetSegmentParams params);
+abstract class TechnicianApiService {
+  Future<Either<ApiFailure, Response>> getAssignedTechnician(TechnicianRequestParams params);
 }
 
-class SegmentApiServiceImpl implements SegmentApiService {
-  SegmentApiServiceImpl();
+class TechnicianApiServiceImpl implements TechnicianApiService {
+  TechnicianApiServiceImpl();
 
   @override
-  Future<Either<ApiFailure, Response>> getSegments(
-      GetSegmentParams params
-      ) async {
+  Future<Either<ApiFailure, Response>> getAssignedTechnician(TechnicianRequestParams params) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -30,14 +26,20 @@ class SegmentApiServiceImpl implements SegmentApiService {
       }
 
       final queryParams = {
-        'agencyID': params.agencyID,
-        'landlordID' : params.landlordID,
-        'propertyID' : params.propertyID,
-        'segmentID' : params.segmentID ?? '',
+        'TechnicianAssignID': params.technicianAssignID ?? '',
+        'AgencyID': params.agencyID,
+        'ComplainID': params.complainID,
+        'TenantID': params.tenantID,
+        'TechnicianID': params.technicianID,
+        'PropertyID': params.propertyID,
+        'LandlordID': params.landlordID,
+        'IsActive': params.isActive,
+        'IsApproved': params.isApproved ?? '',
+        // You can add 'StateStatus' if needed
       };
 
       final response = await sl<DioClient>().get(
-        ApiUrls.propertyWiseSegment,
+        ApiUrls.getAssignedTechnician,
         queryParameters: queryParams,
         options: Options(
           headers: {
