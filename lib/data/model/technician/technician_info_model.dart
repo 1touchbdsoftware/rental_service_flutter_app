@@ -15,8 +15,8 @@ class TechnicianInfo {
   final String? createdDate;
   final String? updatedBy;
   final String? updatedDate;
-  final int? billingAmount;
-  final int? paidAmount;
+  final double? billingAmount;
+  final double? paidAmount;
   final String? technicianCategoryName;
   final String? technicianName;
   final String? propertyName;

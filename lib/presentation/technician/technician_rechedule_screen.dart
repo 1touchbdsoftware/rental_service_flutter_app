@@ -52,11 +52,11 @@ class _AssignedTechnicianScreenContentState
     _rescheduleDate = DateTime.now();
     _rescheduleTime = TimeOfDay.now();
     context.read<UserInfoCubit>().loadUserInfo().then((_) {
-      _fetchTechnician(widget.complaint.id);
+      _fetchTechnician(widget.complaint.complainID);
     });
   }
 
-  void _fetchTechnician(int complainID) {
+  void _fetchTechnician(String complainID) {
     final userInfo = context.read<UserInfoCubit>().state;
     final params = _prepareTechnicianParams(userInfo, complainID);
     context.read<GetAssignedTechnicianCubit>().fetchAssignedTechnician(
@@ -64,12 +64,12 @@ class _AssignedTechnicianScreenContentState
     );
   }
 
-  TechnicianRequestParams _prepareTechnicianParams(UserInfoModel userInfo, int complainId) {
+  TechnicianRequestParams _prepareTechnicianParams(UserInfoModel userInfo, String complainId) {
     return TechnicianRequestParams(
       agencyID: userInfo.agencyID,
       propertyID: userInfo.propertyID ?? '',
       tenantID: userInfo.tenantID ?? '',
-      complainID: complainId.toString(),
+      complainID: complainId,
       landlordID: userInfo.landlordID!,
       isActive: 'true',
     );
@@ -145,7 +145,7 @@ class _AssignedTechnicianScreenContentState
                           ),
                           const SizedBox(height: 16),
                           _buildDetailRow('Technician Name:', tech.technicianName ?? 'N/A'),
-                          _buildDetailRow('Technician Name:', tech.technicianCategoryName ?? 'N/A'),
+                          _buildDetailRow('Type:', tech.technicianCategoryName ?? 'N/A'),
                           _buildDetailRow('Email:', tech.emailAddress ?? 'N/A'),
                           _buildDetailRow('Phone:', tech.contactNumber ?? 'N/A'),
                           _buildDetailRow(
