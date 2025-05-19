@@ -14,4 +14,6 @@ class ApiUrls{
 
   static const getAssignedTechnician = '${baseURL}TechnicianAssign/GetAssignedTechnicianInfo';
 
+  static const getHistory = '${baseURL}Complain/GetComplainHistory';
+
 }

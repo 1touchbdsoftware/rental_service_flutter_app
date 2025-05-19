@@ -7,13 +7,16 @@ import 'package:rental_service/data/repository/technician_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
 import 'package:rental_service/data/source/api_service/complains_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_assigned_technician_api_service.dart';
+import 'package:rental_service/data/source/api_service/get_history_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
 import 'package:rental_service/data/source/local_service/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
+import 'package:rental_service/domain/repository/history_repository.dart';
 import 'package:rental_service/domain/repository/segment_repository.dart';
 import 'package:rental_service/domain/repository/technician_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
+import 'package:rental_service/domain/usecases/get_history_usecase.dart';
 import 'package:rental_service/domain/usecases/get_segment_usecase.dart';
 import 'package:rental_service/domain/usecases/get_technician_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
@@ -21,6 +24,7 @@ import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import 'data/repository/auth_repository.dart';
+import 'data/repository/history_repository.dart';
 import 'data/repository/segment_repository.dart';
 import 'data/source/api_service/auth_api_service.dart';
 import 'data/source/local_service/auth_local_service.dart';
@@ -63,6 +67,10 @@ void setupServiceLocator(){
       TechnicianApiServiceImpl()
   );
 
+  sl.registerSingleton<HistoryApiService>(
+      HistoryApiServiceImpl()
+  );
+
 
   // Repositories
   sl.registerSingleton<AuthRepository>(
@@ -83,6 +91,10 @@ void setupServiceLocator(){
 
   sl.registerSingleton<TechnicianRepository>(
       TechnicianRepositoryImpl()
+  );
+
+  sl.registerSingleton<HistoryRepository>(
+      HistoryRepositoryImpl()
   );
 
 
@@ -106,6 +118,10 @@ void setupServiceLocator(){
 
   sl.registerLazySingleton<GetAssignedTechnicianUseCase>(
         () => GetAssignedTechnicianUseCase(),
+  );
+
+  sl.registerLazySingleton<GetHistoryUseCase>(
+        () => GetHistoryUseCase(),
   );
 
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(
