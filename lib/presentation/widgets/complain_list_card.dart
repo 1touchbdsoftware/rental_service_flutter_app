@@ -23,15 +23,21 @@ class ComplainCard extends StatelessWidget {
     required this.onReadMorePressed,
     required this.onImagePressed,
     required this.onReschedulePressed,
-  required this.onCompletePressed,
-  required this.onResubmitPressed,
+    required this.onCompletePressed,
+    required this.onResubmitPressed,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Get theme colors
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Card(
-      color: Colors.white,
+      // Use surface color from theme instead of hardcoded white
+      color: colorScheme.surface,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       elevation: 2,
       child: Padding(
@@ -44,9 +50,9 @@ class ComplainCard extends StatelessWidget {
               children: [
                 Text(
                   "Ticket# ${complaint.ticketNo}",
-                  style: const TextStyle(
-                    color: Colors.orange,
-                    fontSize: 12,
+                  style: textTheme.labelMedium?.copyWith(
+                    // Use secondary color instead of hardcoded orange
+                    color: Colors.deepOrangeAccent,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -59,8 +65,8 @@ class ComplainCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     complaint.segmentName ?? 'No Segment',
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 2,
@@ -68,7 +74,7 @@ class ComplainCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                _buildStatusIndicator(),
+                _buildStatusIndicator(context),
                 const SizedBox(width: 8),
               ],
             ),
@@ -83,20 +89,23 @@ class ComplainCard extends StatelessWidget {
                   complaint.complainName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 14),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
                 ),
-                if (complaint.complainName.length >
-                    45) // Adjust this threshold as needed
+                if (complaint.complainName.length > 45)
                   TextButton(
                     onPressed: onReadMorePressed,
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: Size.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      // Use primary color instead of hardcoded blue
+                      foregroundColor: colorScheme.primary,
                     ),
                     child: Text(
                       'Read More',
-                      style: const TextStyle(fontSize: 12, color: Colors.blue),
+                      style: textTheme.labelMedium,
                     ),
                   ),
               ],
@@ -110,17 +119,17 @@ class ComplainCard extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: onHistoryPressed,
-                    icon: const Icon(Icons.history, size: 16),
-                    label: const Text(
+                    icon: Icon(Icons.history, size: 16),
+                    label: Text(
                       'History',
-                      style: const TextStyle(
-                        fontSize: 12,
+                      style: textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black,
+                      // Use surfaceContainerLow instead of hardcoded grey
+                      backgroundColor: colorScheme.surfaceContainerLow,
+                      foregroundColor: colorScheme.onSurface,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
@@ -131,17 +140,16 @@ class ComplainCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   ElevatedButton.icon(
                     onPressed: onCommentsPressed,
-                    icon: const Icon(Icons.comment, size: 16),
+                    icon: Icon(Icons.comment, size: 16),
                     label: Text(
                       'Last Comment',
-                      style: const TextStyle(
-                        fontSize: 12,
+                      style: textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black,
+                      backgroundColor: colorScheme.surfaceContainerLow,
+                      foregroundColor: colorScheme.onSurface,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
@@ -160,20 +168,18 @@ class ComplainCard extends StatelessWidget {
                     ElevatedButton(
                       onPressed: onEditPressed,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.blue,
+                        backgroundColor: colorScheme.surfaceContainerLow,
+                        // Use primary color instead of hardcoded blue
+                        foregroundColor: colorScheme.primary,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,
                         ),
                         minimumSize: const Size(0, 30),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Edit',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
                       ),
                     ),
 
@@ -184,20 +190,17 @@ class ComplainCard extends StatelessWidget {
                     ElevatedButton(
                       onPressed: onReschedulePressed,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.blue,
+                        backgroundColor: colorScheme.surfaceContainerLow,
+                        foregroundColor: colorScheme.primary,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,
                         ),
                         minimumSize: const Size(0, 30),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Reschedule',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
                       ),
                     ),
                   if (complaint.isSolved!)
@@ -206,40 +209,35 @@ class ComplainCard extends StatelessWidget {
                         ElevatedButton(
                           onPressed: onCompletePressed,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey[200],
-                            foregroundColor: Colors.blue,
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 4,
                             ),
                             minimumSize: const Size(0, 30),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Complete',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+
                           ),
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
                           onPressed: onResubmitPressed,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey[200],
-                            foregroundColor: Colors.blue,
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 4,
                             ),
                             minimumSize: const Size(0, 30),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Resubmit',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
                           ),
                         ),
                       ],
@@ -261,8 +259,8 @@ class ComplainCard extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Base64ImageHandler.buildBase64Image(
-                        base64String: image.file, // 'file' is the base64 string
-                        onTap: () => onImagePressed(index), //on-press callback
+                        base64String: image.file,
+                        onTap: () => onImagePressed(index),
                         width: 80,
                         height: 80,
                       ),
@@ -277,7 +275,12 @@ class ComplainCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusIndicator() {
+  Widget _buildStatusIndicator(BuildContext context) {
+    // Get theme colors
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    // Status colors using semantically appropriate theme colors
     Color dotColor;
     String statusText;
 
@@ -315,7 +318,10 @@ class ComplainCard extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           statusText,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          style: textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: colorScheme.onSurface,
+          ),
         ),
       ],
     );

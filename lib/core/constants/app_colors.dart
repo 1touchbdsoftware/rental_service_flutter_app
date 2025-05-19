@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// eventually we will delete this file, to convert to our app theme with material theme
+//still this file is being used in someplaces, so after converting those, delete this
 class AppColors {
   // Primary colors
   static const Color primary =  Color(0xFFFFFFFF);

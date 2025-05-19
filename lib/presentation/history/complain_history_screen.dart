@@ -50,7 +50,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
               if (state is GetHistoryInitialState) {
                 return const CenterLoaderWithText(text: "Preparing...");
               } else if (state is GetHistoryLoadingState) {
-                return const CenterLoaderWithText(text: "Loading history...");
+                return const CenterLoaderWithText(text: "Hold on, Getting history...");
               } else if (state is GetHistoryFailureState) {
                 return Center(
                   child: Column(
