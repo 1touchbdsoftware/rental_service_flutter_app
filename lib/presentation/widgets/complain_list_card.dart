@@ -13,6 +13,7 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onReschedulePressed;
   final VoidCallback onCompletePressed;
   final VoidCallback onResubmitPressed;
+  final VoidCallback onAcceptPressed;
   final void Function(int index) onImagePressed;
 
   const ComplainCard({
@@ -25,6 +26,7 @@ class ComplainCard extends StatelessWidget {
     required this.onReschedulePressed,
     required this.onCompletePressed,
     required this.onResubmitPressed,
+    required this.onAcceptPressed,
     super.key,
   });
 
@@ -58,7 +60,7 @@ class ComplainCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 14),
             // Title row with status and delete
             Row(
               children: [
@@ -187,21 +189,42 @@ class ComplainCard extends StatelessWidget {
                   if (complaint.isAssignedTechnician! &&
                       !complaint.isSolved! &&
                       !complaint.isResubmitted!)
-                    ElevatedButton(
-                      onPressed: onReschedulePressed,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colorScheme.surfaceContainerLow,
-                        foregroundColor: colorScheme.primary,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: onReschedulePressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text(
+                            'Reschedule',
+                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                          ),
                         ),
-                        minimumSize: const Size(0, 30),
-                      ),
-                      child: Text(
-                        'Reschedule',
-                        style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
-                      ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: onAcceptPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text(
+                            'Accept',
+                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                          ),
+                        ),
+                      ],
                     ),
                   if (complaint.isSolved!)
                     Row(

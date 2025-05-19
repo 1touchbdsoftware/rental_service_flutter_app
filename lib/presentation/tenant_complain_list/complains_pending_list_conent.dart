@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
 import 'package:rental_service/presentation/history/complain_history_screen.dart';
+import 'package:rental_service/presentation/technician/accept_technician_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
 import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -138,6 +139,7 @@ class ComplainsListContent extends StatelessWidget {
                           showImageDialog(context, imageList, imgIndex);
                         },
                         onReschedulePressed: () => _handleReschedule(context, complaint),
+                        onAcceptPressed: () => _handleAccept(context, complaint),
                       );
                     } else {
                       // pagination widget at the end of the list
@@ -284,6 +286,12 @@ void _markTicketAsComplete(BuildContext context, String ticketNo, String comment
 void _handleReschedule(BuildContext context, ComplainEntity complaint) {
   Navigator.push(context,MaterialPageRoute<void>(
       builder: (BuildContext context) => AssignedTechnicianScreen(complaint: complaint)));
+
+}
+
+void _handleAccept(BuildContext context, ComplainEntity complaint) {
+  Navigator.push(context,MaterialPageRoute<void>(
+      builder: (BuildContext context) => AcceptTechnicianScreen(complaint: complaint)));
 
 }
 
