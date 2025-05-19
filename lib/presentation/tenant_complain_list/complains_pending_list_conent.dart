@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
+import 'package:rental_service/presentation/history/complain_history_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
 import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -193,7 +194,8 @@ void _handleDelete(BuildContext context, ComplainEntity complaint) {
 }
 
 void _handleHistory(BuildContext context, ComplainEntity complaint) {
-  // Navigate or show history
+  Navigator.push(context,MaterialPageRoute<void>(
+      builder: (BuildContext context) => ComplaintHistoryScreen(complainID: complaint.complainID,)));
 }
 
 void _handleComplete(BuildContext context, String ticketNo) {

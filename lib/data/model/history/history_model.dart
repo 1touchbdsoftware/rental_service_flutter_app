@@ -6,7 +6,7 @@ class History {
   final String comments;
   final String stateStatus;
   final String updatedBy;
-  final DateTime updatedDate;
+  final String updatedDate;
   final bool? isActive;
   final String? activationStatus;
 
@@ -32,7 +32,7 @@ class History {
       comments: json['comments'],
       stateStatus: json['stateStatus'],
       updatedBy: json['updatedBy'],
-      updatedDate: DateTime.parse(json['updatedDate']),
+      updatedDate: json['updatedDate'],
       isActive: json['isActive'],
       activationStatus: json['activationStatus'],
     );
