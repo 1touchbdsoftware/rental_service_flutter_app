@@ -5,14 +5,21 @@ import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
 import '../../service_locator.dart';
+
 Widget buildAppDrawer(BuildContext context, String username, String dashboardTitle) {
+  // Get theme colors from the current theme
+  final theme = Theme.of(context);
+  final colorScheme = theme.colorScheme;
+  final textTheme = theme.textTheme;
+
   return Drawer(
+    backgroundColor: colorScheme.surface, // Use surface color for drawer background
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
         // Header
         Container(
-          color: Colors.white,
+          color: colorScheme.surface, // Use surface color for header background
           child: Column(
             children: [
               SizedBox(height: 50),
@@ -26,9 +33,8 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
               ),
               Text(
                 dashboardTitle,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+                style: textTheme.titleLarge?.copyWith(
+                  color: colorScheme.onSurface, // Use onSurface for text on surface
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -39,31 +45,47 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
 
         // ✅ Home
         ListTile(
-          leading: Icon(Icons.home, color: Colors.white),
-          title: Text('Home', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          leading: Icon(Icons.home, color: colorScheme.primary), // Use primary color for icons
+          title: Text(
+            'Home',
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface, // Use onSurface for text
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           onTap: () {
             Navigator.pop(context);
-
             Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-
           },
         ),
 
         // Complains List
         ListTile(
-          leading: Icon(Icons.list, color: Colors.white),
-          title: Text('Complains List', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          leading: Icon(Icons.list, color: colorScheme.primary),
+          title: Text(
+            'Complains List',
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           onTap: () {
             Navigator.pop(context);
           },
         ),
 
-        Divider(),
+        Divider(color: colorScheme.outline), // Use outline color for dividers
 
         // Profile
         ListTile(
-          leading: Icon(Icons.person, color: Colors.white),
-          title: Text(username, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          leading: Icon(Icons.person, color: colorScheme.primary),
+          title: Text(
+            username,
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           onTap: () {
             Navigator.pop(context);
           },
@@ -71,8 +93,14 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
 
         // Settings
         ListTile(
-          leading: Icon(Icons.settings, color: Colors.white),
-          title: Text('Settings', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          leading: Icon(Icons.settings, color: colorScheme.primary),
+          title: Text(
+            'Settings',
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           onTap: () {
             Navigator.pop(context);
           },
@@ -90,10 +118,16 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
             }
           },
           child: ListTile(
-            leading: Icon(Icons.logout, color: Colors.white),
-            title: Text('Logout', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            leading: Icon(Icons.logout, color: colorScheme.error), // Use error color for logout icon
+            title: Text(
+              'Logout',
+              style: textTheme.titleMedium?.copyWith(
+                color: colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onTap: () {
-              _showLogoutConfirmation(context);
+              showLogoutConfirmation(context);
             },
           ),
         ),
@@ -102,20 +136,41 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
   );
 }
 
-void _showLogoutConfirmation(BuildContext context) {
+void showLogoutConfirmation(BuildContext context) {
+  final theme = Theme.of(context);
+  final colorScheme = theme.colorScheme;
+  final textTheme = theme.textTheme;
+
   showDialog(
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text("Confirm Logout"),
-        content: Text("Are you sure you want to log out?"),
+        backgroundColor: colorScheme.surface,
+        title: Text(
+          "Confirm Logout",
+          style: textTheme.titleLarge?.copyWith(
+            color: colorScheme.onSurface,
+          ),
+        ),
+        content: Text(
+          "Are you sure you want to log out?",
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurface,
+          ),
+        ),
         actions: [
           TextButton(
-            child: Text("Cancel"),
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: colorScheme.primary),
+            ),
             onPressed: () => Navigator.of(dialogContext).pop(),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
+            ),
             child: Text("Logout"),
             onPressed: () {
               Navigator.of(dialogContext).pop(); // Close the dialog
@@ -127,4 +182,3 @@ void _showLogoutConfirmation(BuildContext context) {
     },
   );
 }
-
