@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import '../resubmit/resubmit_form_screen.dart';
 import '../technician/technician_rechedule_screen.dart';
 import '../widgets/center_loader.dart';
 import '../widgets/complain_list_card.dart';
@@ -34,7 +35,7 @@ class ComplainsListContent extends StatelessWidget {
       landlordID: landlordID,
       propertyID: propertyID,
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 5,
       isActive: true,
       flag: 'TENANT',
       tab: 'PROBLEM',
@@ -129,6 +130,8 @@ class ComplainsListContent extends StatelessWidget {
                         onHistoryPressed: () => _handleHistory(context, complaint),
                         onCommentsPressed: () => _handleComments(context, complaint.lastComments),
                         onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
+                        onCompletePressed: () => _handleComplete(context, complaint.ticketNo!),
+                        onResubmitPressed: () => _handleResubmit(context, complaint),
                         onImagePressed: (imgIndex) {
                           final imageList = complaint.images!.map((img) => img.file).toList();
                           showImageDialog(context, imageList, imgIndex);
@@ -150,7 +153,7 @@ class ComplainsListContent extends StatelessWidget {
                               landlordID: prefs.getString('landlordID') ?? '',
                               propertyID: prefs.getString('propertyID') ?? '',
                               pageNumber: page,
-                              pageSize: 10,
+                              pageSize: 5,
                               isActive: true,
                               flag: 'TENANT',
                               tab: 'PROBLEM',
@@ -193,11 +196,101 @@ void _handleHistory(BuildContext context, ComplainEntity complaint) {
   // Navigate or show history
 }
 
+void _handleComplete(BuildContext context, String ticketNo) {
+  final TextEditingController _completeCommentController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Ticket#'),
+          Text(ticketNo),
+          const SizedBox(height: 8),
+          const Divider(),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text('Please provide comments before completing the ticket:'),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _completeCommentController,
+            decoration: const InputDecoration(
+              labelText: 'Completion Comments',
+              border: OutlineInputBorder(),
+              hintText: 'Describe the work done or resolution...',
+            ),
+            maxLines: 4,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('CANCEL'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (_completeCommentController.text.trim().isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please provide comments')),
+              );
+              return;
+            }
+
+            // Call your API or state management to mark as complete
+            _markTicketAsComplete(
+              context,
+              ticketNo,
+              _completeCommentController.text.trim(),
+            );
+
+            Navigator.pop(context);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green, // Green color for complete action
+          ),
+          child: const Text('MARK AS COMPLETE'),
+        ),
+      ],
+    ),
+  );
+}
+
+void _markTicketAsComplete(BuildContext context, String ticketNo, String comments) {
+  // Implement your actual completion logic here
+  // This might involve calling an API or updating state through a bloc/cubit
+
+  // Example:
+  // context.read<ComplaintCubit>().markAsComplete(
+  //   ticketNo: ticketNo,
+  //   comments: comments,
+  // );
+
+  // Show success message
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Ticket #$ticketNo marked as complete'),
+      backgroundColor: Colors.green,
+    ),
+  );
+}
+
 void _handleReschedule(BuildContext context, ComplainEntity complaint) {
   Navigator.push(context,MaterialPageRoute<void>(
       builder: (BuildContext context) => AssignedTechnicianScreen(complaint: complaint)));
 
 }
+
+void _handleResubmit(BuildContext context, ComplainEntity complaint) {
+  Navigator.push(context,MaterialPageRoute<void>(
+      builder: (BuildContext context) => ResubmitFormScreen(complaint: complaint)));
+
+}
+
 
 
 void _handleComments(BuildContext context, String? comment) {

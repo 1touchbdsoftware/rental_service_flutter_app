@@ -11,6 +11,8 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onCommentsPressed;
   final VoidCallback onReadMorePressed;
   final VoidCallback onReschedulePressed;
+  final VoidCallback onCompletePressed;
+  final VoidCallback onResubmitPressed;
   final void Function(int index) onImagePressed;
 
   const ComplainCard({
@@ -21,6 +23,8 @@ class ComplainCard extends StatelessWidget {
     required this.onReadMorePressed,
     required this.onImagePressed,
     required this.onReschedulePressed,
+  required this.onCompletePressed,
+  required this.onResubmitPressed,
     super.key,
   });
 
@@ -200,7 +204,7 @@ class ComplainCard extends StatelessWidget {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: onCommentsPressed,
+                          onPressed: onCompletePressed,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey[200],
                             foregroundColor: Colors.blue,
@@ -220,7 +224,7 @@ class ComplainCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
-                          onPressed: onCommentsPressed,
+                          onPressed: onResubmitPressed,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey[200],
                             foregroundColor: Colors.blue,

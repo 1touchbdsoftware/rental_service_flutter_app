@@ -145,7 +145,7 @@ class ComplainsListContent extends StatelessWidget {
                         onImagePressed: (imgIndex) {
                           final imageList = complaint.images!.map((img) => img.file).toList();
                           showImageDialog(context, imageList, imgIndex);
-                        }, onReschedulePressed: () {  },
+                        }, onReschedulePressed: () {  }, onCompletePressed: () {  }, onResubmitPressed: () {  },
                       );
                     } else {
                       // pagination widget at the end of the list

@@ -16,7 +16,7 @@ class MultilineTextField extends StatelessWidget {
     required this.controller,
     this.validator,
     this.hintText = "Enter text here...",
-    this.prefixIcon = Icons.description,
+    this.prefixIcon = Icons.post_add,
     this.helperText,
     this.maxLines = 5,
   });
