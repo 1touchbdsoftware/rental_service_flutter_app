@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 /// A reusable text input field for multiline text entry
 class MultilineTextField extends StatelessWidget {
   final String label;
@@ -23,49 +23,71 @@ class MultilineTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get theme colors
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+          ),
         ),
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
-          cursorColor: Colors.black,
+          cursorColor: colorScheme.primary,
           maxLines: maxLines,
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurface,
+          ),
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: EdgeInsets.only(bottom: (maxLines - 1) * 16.0),
-              child: Icon(prefixIcon, color: Colors.black87),
+              child: Icon(prefixIcon, color: colorScheme.onSurfaceVariant),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.black54),
+              borderSide: BorderSide(color: colorScheme.outline),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.black54),
+              borderSide: BorderSide(color: colorScheme.outline),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.black),
+              borderSide: BorderSide(color: colorScheme.primary),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: colorScheme.error),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: colorScheme.error),
             ),
             hintText: hintText,
-            hintStyle: const TextStyle(color: Colors.black54),
+            hintStyle: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
             contentPadding: const EdgeInsets.all(16),
+            filled: true,
+            fillColor: colorScheme.surfaceContainer,
           ),
           validator: validator,
         ),
         if (helperText != null)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 8.0, left: 8.0),
             child: Text(
               helperText!,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
+              style: textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
                 fontStyle: FontStyle.italic,
               ),
             ),

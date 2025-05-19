@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -29,17 +28,25 @@ class ImagePickerWidget extends StatefulWidget {
 class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   @override
   Widget build(BuildContext context) {
+    // Get theme colors
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Attach Images",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+          ),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black54),
+            border: Border.all(color: colorScheme.outline),
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.all(12),
@@ -67,10 +74,10 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                             File(widget.selectedImages[index].path),
                             fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) => Container(
-                              color: Colors.grey[300],
-                              child: const Icon(
+                              color: colorScheme.surfaceContainerHighest,
+                              child: Icon(
                                 Icons.error,
-                                color: Colors.red,
+                                color: colorScheme.error,
                               ),
                             ),
                           ),
@@ -83,12 +90,12 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                             child: Container(
                               padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
-                                color: Colors.black54,
+                                color: colorScheme.surfaceContainerHighest.withOpacity(0.7),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.close,
-                                color: Colors.white,
+                                color: colorScheme.onSurface,
                                 size: 16,
                               ),
                             ),
@@ -109,19 +116,27 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Colors.grey,
+                        color: colorScheme.outline,
                         style: BorderStyle.solid,
                       ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.add_a_photo, size: 32),
-                        SizedBox(height: 4),
-                        Text('Add Photos'),
+                      children: [
+                        Icon(Icons.add_a_photo,
+                          size: 32,
+                          color: colorScheme.primary,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Add Photos',
+                          style: textTheme.labelMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -135,21 +150,24 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
           children: [
             Text(
               '${widget.selectedImages.length}/${widget.maxImages} images',
-              style: TextStyle(
-                fontSize: 12,
+              style: textTheme.bodySmall?.copyWith(
                 color: widget.selectedImages.length >= widget.maxImages
-                    ? Colors.red
-                    : Colors.black,
+                    ? colorScheme.error
+                    : colorScheme.onSurfaceVariant,
               ),
             ),
             if (widget.selectedImages.isNotEmpty)
               TextButton(
                 onPressed: widget.onClearImages,
-                child: const Text('Clear all'),
                 style: TextButton.styleFrom(
+                  foregroundColor: colorScheme.primary,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  'Clear all',
+                  style: textTheme.labelMedium,
                 ),
               ),
           ],
@@ -159,8 +177,11 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   }
 
   void _showImageSourceSelector(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     showModalBottomSheet(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -181,10 +202,19 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   borderRadius: BorderRadius.circular(12),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.camera_alt, size: 36),
-                      SizedBox(height: 8),
-                      Text("Take Photo"),
+                    children: [
+                      Icon(
+                        Icons.camera_alt,
+                        size: 36,
+                        color: colorScheme.primary,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Take Photo",
+                        style: textTheme.labelMedium?.copyWith(
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -197,10 +227,19 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   borderRadius: BorderRadius.circular(12),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.photo_library, size: 36),
-                      SizedBox(height: 8),
-                      Text("Choose from Gallery"),
+                    children: [
+                      Icon(
+                        Icons.photo_library,
+                        size: 36,
+                        color: colorScheme.primary,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Choose from Gallery",
+                        style: textTheme.labelMedium?.copyWith(
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -284,7 +323,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             content: Text(
               'Only added ${imagesToAdd.length} images. Maximum limit reached.',
             ),
-            backgroundColor: Colors.orange,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
         );
       }
@@ -295,7 +334,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Maximum ${widget.maxImages} images allowed'),
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -304,7 +343,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('$source permission denied'),
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -327,24 +366,40 @@ class SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
         padding: const EdgeInsets.symmetric(vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        disabledBackgroundColor: colorScheme.surfaceContainerHighest,
+        disabledForegroundColor: colorScheme.onSurfaceVariant,
       ),
       onPressed: isLoading ? null : onPressed,
       child: isLoading
-          ? const SizedBox(
+          ? SizedBox(
         height: 24,
         width: 24,
-        child: CircularProgressIndicator(color: Colors.white),
+        child: CircularProgressIndicator(
+          color: colorScheme.onPrimary,
+          strokeWidth: 2.0,
+        ),
       )
           : Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon),
           const SizedBox(width: 8),
-          Text(buttonText),
+          Text(
+            buttonText,
+            style: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

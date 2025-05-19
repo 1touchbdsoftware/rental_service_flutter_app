@@ -46,6 +46,8 @@ class _AssignedTechnicianScreenContentState
   late TimeOfDay _rescheduleTime;
   final TextEditingController _commentController = TextEditingController();
 
+
+
   @override
   void initState() {
     super.initState();
@@ -103,8 +105,20 @@ class _AssignedTechnicianScreenContentState
 
   @override
   Widget build(BuildContext context) {
+
+    // Get theme colors
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Assigned Technician')),
+      appBar: AppBar(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        title: Text('Assigned Technician',
+        style: textTheme.titleLarge?.copyWith(
+          color: colorScheme.onPrimary,
+        ), ), ),
       body: BlocConsumer<GetAssignedTechnicianCubit, GetAssignedTechnicianState>(
         listener: (context, state) {
           if (state is GetAssignedTechnicianFailureState) {

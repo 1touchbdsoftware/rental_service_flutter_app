@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../core/constants/app_colors.dart';
 
 import '../../data/model/complain/complain_req_params/complain_post_req_params.dart';
 import '../../data/model/user/user_info_model.dart';
@@ -52,9 +51,9 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
   void _handleSubmit(BuildContext context) {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text('Please provide your feedback'),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
       return;
@@ -68,9 +67,9 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
 
     if (userInfo.agencyID.isEmpty || userInfo.propertyID!.isEmpty ?? true) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text('User info not loaded. Try again.'),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
       return;
@@ -100,7 +99,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Submission failed: $e'),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
     }
@@ -108,16 +107,27 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Get theme colors
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo()),
         BlocProvider(create: (context) => ComplainCubit(sl())),
       ],
       child: Scaffold(
-        backgroundColor: AppColors.primary,
+        backgroundColor: colorScheme.surface,
         appBar: AppBar(
-          backgroundColor: AppColors.primary,
-          title: const Text('Resubmit Complaint'),
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
+          title: Text(
+            'Resubmit Complaint',
+            style: textTheme.titleLarge?.copyWith(
+              color: colorScheme.onPrimary,
+            ),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -125,13 +135,35 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
             key: _formKey,
             child: ListView(
               children: [
-                Text('Segment:', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  'Segment:',
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(widget.complaint.segmentName ?? 'N/A'),
+                Text(
+                  widget.complaint.segmentName ?? 'N/A',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
+                ),
                 const SizedBox(height: 16),
-                Text('Original Comment:', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  'Original Comment:',
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(widget.complaint.complainName ?? 'N/A'),
+                Text(
+                  widget.complaint.complainName ?? 'N/A',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
+                ),
                 const SizedBox(height: 24),
                 MultilineTextField(
                   label: "Your Feedback",
@@ -152,9 +184,9 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                   listener: (context, state) {
                     if (state is ComplainSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text('Resubmitted successfully'),
-                          backgroundColor: Colors.green,
+                          backgroundColor: colorScheme.tertiary, // Use tertiary for success
                         ),
                       );
                       Navigator.pop(context);
@@ -162,7 +194,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Resubmission failed: ${state.message}'),
-                          backgroundColor: Colors.red,
+                          backgroundColor: colorScheme.error,
                         ),
                       );
                     }
@@ -178,6 +210,56 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// You'll also need to update this SubmitButton widget to use theme colors
+class SubmitButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final bool isLoading;
+  final String buttonText;
+
+  const SubmitButton({
+    Key? key,
+    required this.onPressed,
+    this.isLoading = false,
+    required this.buttonText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return ElevatedButton(
+      onPressed: isLoading ? null : onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        disabledBackgroundColor: colorScheme.surfaceContainerHighest,
+        disabledForegroundColor: colorScheme.onSurfaceVariant,
+      ),
+      child: isLoading
+          ? SizedBox(
+        height: 24,
+        width: 24,
+        child: CircularProgressIndicator(
+          color: colorScheme.onPrimary,
+          strokeWidth: 2.0,
+        ),
+      )
+          : Text(
+        buttonText,
+        style: textTheme.labelLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: colorScheme.onPrimary,
         ),
       ),
     );

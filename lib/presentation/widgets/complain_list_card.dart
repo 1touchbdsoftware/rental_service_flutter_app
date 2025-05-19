@@ -107,7 +107,7 @@ class ComplainCard extends StatelessWidget {
                     ),
                     child: Text(
                       'Read More',
-                      style: textTheme.labelMedium,
+                      style: TextStyle(fontSize: 12, color: Colors.blue)
                     ),
                   ),
               ],

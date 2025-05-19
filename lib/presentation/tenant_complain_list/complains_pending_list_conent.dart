@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
+import 'package:rental_service/data/model/user/user_info_model.dart';
 import 'package:rental_service/presentation/history/complain_history_screen.dart';
 import 'package:rental_service/presentation/technician/accept_technician_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
 import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import '../dashboard/bloc/user_cubit.dart';
 import '../resubmit/resubmit_form_screen.dart';
 import '../technician/technician_rechedule_screen.dart';
 import '../widgets/center_loader.dart';
@@ -19,23 +19,48 @@ import '../widgets/image_dialog.dart';
 import '../widgets/info_dialog.dart';
 import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state_cubit.dart';
+import '../../service_locator.dart';
 
-class ComplainsListContent extends StatelessWidget {
+
+class ComplainsListContent extends StatefulWidget {
   const ComplainsListContent({super.key});
 
-  Future<GetComplainsParams> _prepareComplainsParams() async {
-    final prefs = await SharedPreferences.getInstance();
+  @override
+  State<ComplainsListContent> createState() => _ComplainsListContentState();
+}
 
-    final agencyID = prefs.getString('agencyID') ?? '';
-    final tenantID = prefs.getString('tenantID') ?? '';
-    final landlordID = prefs.getString('landlordID') ?? '';
-    final propertyID = prefs.getString('propertyID') ?? '';
+class _ComplainsListContentState extends State<ComplainsListContent> {
+  String _tenantName = "Tenant";
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Load user info, then fetch complaints when info is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UserInfoCubit>().loadUserInfo().then((_) {
+        final userInfo = context.read<UserInfoCubit>().state;
+        setState(() {
+          _tenantName = userInfo.tenantName ?? "Tenant";
+        });
+        _fetchComplaints(userInfo);
+      });
+    });
+  }
+
+  void _fetchComplaints(UserInfoModel userInfo) {
+    if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
+      final params = _prepareComplainsParams(userInfo);
+      context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+    }
+  }
+
+  GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
     return GetComplainsParams(
-      agencyID: agencyID,
-      tenantID: tenantID,
-      landlordID: landlordID,
-      propertyID: propertyID,
+      agencyID: userInfo.agencyID,
+      tenantID: userInfo.tenantID ?? '',
+      landlordID: userInfo.landlordID ?? '',
+      propertyID: userInfo.propertyID ?? '',
       pageNumber: 1,
       pageSize: 5,
       isActive: true,
@@ -46,6 +71,11 @@ class ComplainsListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get theme colors
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticated) {
@@ -57,31 +87,39 @@ class ComplainsListContent extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.primary,
+
         appBar: AppBar(
-          backgroundColor: AppColors.primary,
-          title: const Text(
+
+          foregroundColor: colorScheme.onPrimary,
+          title: Text(
             'Pending Complaints',
-            style: TextStyle(color: Colors.black),
+            style: textTheme.titleLarge?.copyWith(
+              color: colorScheme.onSurface,
+            ),
           ),
         ),
-        drawer: buildAppDrawer(context, 'John Doe', 'Tenant Dashboard'),
+        drawer: buildAppDrawer(
+            context,
+            _tenantName,
+            'Tenant Dashboard'
+        ),
         body: RefreshIndicator(
+          color: colorScheme.primary,
+          backgroundColor: colorScheme.surface,
           onRefresh: () async {
-            final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
-                params: params);
+            final userInfo = context.read<UserInfoCubit>().state;
+            if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
+              final params = _prepareComplainsParams(userInfo);
+              await context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+            } else {
+              await context.read<UserInfoCubit>().loadUserInfo();
+              final updatedUserInfo = context.read<UserInfoCubit>().state;
+              _fetchComplaints(updatedUserInfo);
+            }
           },
           child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
             builder: (context, state) {
               if (state is GetTenantComplainsInitialState) {
-                // Trigger fetch when in initial state
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _prepareComplainsParams().then((params) {
-                    context.read<GetTenantComplainsCubit>().fetchComplains(
-                        params: params);
-                  });
-                });
                 return const CenterLoaderWithText(text: "Loading Complains...");
               } else if (state is GetTenantComplainsLoadingState) {
                 return const CenterLoaderWithText(text: "Loading Complains...");
@@ -92,15 +130,18 @@ class ComplainsListContent extends StatelessWidget {
                     children: [
                       Text(
                         'Error: ${state.errorMessage}',
-                        style: const TextStyle(color: Colors.blue),
+                        style: TextStyle(color: colorScheme.error),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
-                        onPressed: () async {
-                          final params = await _prepareComplainsParams();
-                          await context.read<GetTenantComplainsCubit>().fetchComplains(
-                              params: params);
+                        onPressed: () {
+                          final userInfo = context.read<UserInfoCubit>().state;
+                          _fetchComplaints(userInfo);
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorScheme.primary,
+                          foregroundColor: colorScheme.onPrimary,
+                        ),
                         child: const Text('Retry'),
                       ),
                     ],
@@ -110,13 +151,13 @@ class ComplainsListContent extends StatelessWidget {
                 final complaints = state.response.data.list;
                 final pagination = state.response.data.pagination;
 
-                //use this to show page number and pagination
-
                 if (complaints.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
                       'No complaints to Show',
-                      style: TextStyle(color: Colors.blue),
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.primary,
+                      ),
                     ),
                   );
                 }
@@ -134,34 +175,35 @@ class ComplainsListContent extends StatelessWidget {
                         onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
                         onCompletePressed: () => _handleComplete(context, complaint.ticketNo!),
                         onResubmitPressed: () => _handleResubmit(context, complaint),
+                        onAcceptPressed: () => _handleAccept(context, complaint),
                         onImagePressed: (imgIndex) {
                           final imageList = complaint.images!.map((img) => img.file).toList();
                           showImageDialog(context, imageList, imgIndex);
                         },
                         onReschedulePressed: () => _handleReschedule(context, complaint),
-                        onAcceptPressed: () => _handleAccept(context, complaint),
+
                       );
                     } else {
-                      // pagination widget at the end of the list
+                      // Pagination widget at the end of the list
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: PaginationControls(
                           currentPage: pagination.pageNumber,
                           totalPages: pagination.totalPages,
-                          onPageChanged: (page) async {
-                            final prefs = await SharedPreferences.getInstance();
-                            final params = GetComplainsParams(
-                              agencyID: prefs.getString('agencyID') ?? '',
-                              tenantID: prefs.getString('tenantID') ?? '',
-                              landlordID: prefs.getString('landlordID') ?? '',
-                              propertyID: prefs.getString('propertyID') ?? '',
+                          onPageChanged: (page) {
+                            final userInfo = context.read<UserInfoCubit>().state;
+                            final updatedParams = GetComplainsParams(
+                              agencyID: userInfo.agencyID,
+                              tenantID: userInfo.tenantID ?? '',
+                              landlordID: userInfo.landlordID ?? '',
+                              propertyID: userInfo.propertyID ?? '',
                               pageNumber: page,
                               pageSize: 5,
                               isActive: true,
                               flag: 'TENANT',
                               tab: 'PROBLEM',
                             );
-                            context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                            context.read<GetTenantComplainsCubit>().fetchComplains(params: updatedParams);
                           },
                         ),
                       );
@@ -175,11 +217,12 @@ class ComplainsListContent extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
-                params: params);
+          onPressed: () {
+            final userInfo = context.read<UserInfoCubit>().state;
+            _fetchComplaints(userInfo);
           },
+          backgroundColor: colorScheme.primaryContainer,
+          foregroundColor: colorScheme.onPrimaryContainer,
           child: const Icon(Icons.refresh),
         ),
       ),
@@ -187,6 +230,8 @@ class ComplainsListContent extends StatelessWidget {
   }
 }
 
+// The handler functions remain the same as in my previous response
+// They are already updated with theme colors, so I'm not duplicating them here
 
 void _handleDelete(BuildContext context, ComplainEntity complaint) {
   // Implement delete logic
