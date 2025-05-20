@@ -89,6 +89,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
 
 
   Future<void> _loadUserAndSegments() async {
+
     await context.read<UserInfoCubit>().loadUserInfo();
     final userInfo = context.read<UserInfoCubit>().state;
     final params = GetSegmentParams(
@@ -98,6 +99,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
       segmentID: '',
     );
     context.read<GetSegmentCubit>().fetchSegments(params: params);
+
   }
 
   void _handleImageAdded(XFile image) {
@@ -119,7 +121,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
   }
 
   void _handleSubmit(BuildContext context) {
-    if (!_formKey.currentState!.validate() || _selectedSegment == null) {
+    if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill all required fields'),
@@ -135,6 +137,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
     final userInfo = context.read<UserInfoCubit>().state;
 
     try {
+      _selectedSegment ??= SegmentModel(id: widget.existingComplain.segmentID ?? '', text: '');
       // Print debug info
       print('Editing complainID: ${widget.existingComplain.complainID}');
       print('segmentID: ${_selectedSegment?.id}');
