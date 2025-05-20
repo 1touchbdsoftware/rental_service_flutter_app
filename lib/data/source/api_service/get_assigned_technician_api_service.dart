@@ -32,9 +32,6 @@ class TechnicianApiServiceImpl implements TechnicianApiService {
         'TenantID': params.tenantID,
         'TechnicianID': params.technicianID,
         'PropertyID': params.propertyID,
-        'LandlordID': params.landlordID,
-        'IsActive': params.isActive,
-        'IsApproved': params.isApproved ?? '',
         // You can add 'StateStatus' if needed
       };
 

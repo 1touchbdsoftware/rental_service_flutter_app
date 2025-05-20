@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/model/technician/technician_get_params.dart';
 import '../../data/model/user/user_info_model.dart';
 
 import '../dashboard/bloc/user_cubit.dart';
 import '../widgets/center_loader.dart';
+import 'build_phone_row.dart';
 import 'get_assigned_technician_cubit.dart';
 
 class AssignedTechnicianScreen extends StatelessWidget {
@@ -72,8 +74,6 @@ class _AssignedTechnicianScreenContentState
       propertyID: userInfo.propertyID ?? '',
       tenantID: userInfo.tenantID ?? '',
       complainID: complainId,
-      landlordID: userInfo.landlordID!,
-      isActive: 'true',
     );
   }
 
@@ -137,7 +137,7 @@ class _AssignedTechnicianScreenContentState
               child: Text('Failed to load technician information'),
             );
           } else if (state is GetAssignedTechnicianSuccessState) {
-            final tech = state.response.data.list[0];
+            final tech = state.response.data.list;
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -160,16 +160,14 @@ class _AssignedTechnicianScreenContentState
                           const SizedBox(height: 16),
                           _buildDetailRow('Technician Name:', tech.technicianName ?? 'N/A'),
                           _buildDetailRow('Type:', tech.technicianCategoryName ?? 'N/A'),
-                          _buildDetailRow('Email:', tech.emailAddress ?? 'N/A'),
-                          _buildDetailRow('Phone:', tech.contactNumber ?? 'N/A'),
                           _buildDetailRow(
-                              'Schedule Date:',
-                              _formatDateString(tech.scheduleDate)
-                          ),
+                              'Schedule Date:',tech.scheduleDate ?? ""),
                           _buildDetailRow(
                               'Schedule Time:',
                               _formatTimeString(tech.scheduleTime)
                           ),
+                          PhoneUtils.buildEmailRow('Email:', tech.emailAddress?? 'N/A', context),
+                          PhoneUtils.buildPhoneRow('Phone:', tech.contactNumber ?? '', context),
                         ],
                       ),
                     ),
@@ -243,6 +241,8 @@ class _AssignedTechnicianScreenContentState
       ),
     );
   }
+
+
 
   Widget _buildDatePickerField(BuildContext context) {
     return InkWell(

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/model/technician/technician_get_params.dart';
 import '../../data/model/user/user_info_model.dart';
 
 import '../dashboard/bloc/user_cubit.dart';
 import '../widgets/center_loader.dart';
+import 'build_phone_row.dart';
 import 'get_assigned_technician_cubit.dart';
 
 class AcceptTechnicianScreen extends StatelessWidget {
@@ -65,8 +67,6 @@ class _AcceptTechnicianScreenContentState
       propertyID: userInfo.propertyID ?? '',
       tenantID: userInfo.tenantID ?? '',
       complainID: complainId,
-      landlordID: userInfo.landlordID!,
-      isActive: 'true',
     );
   }
 
@@ -112,7 +112,7 @@ class _AcceptTechnicianScreenContentState
               ),
             );
           } else if (state is GetAssignedTechnicianSuccessState) {
-            final tech = state.response.data.list[0];
+            final tech = state.response.data.list;
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -135,17 +135,15 @@ class _AcceptTechnicianScreenContentState
                           ),
                           const SizedBox(height: 16),
                           _buildDetailRow('Technician Name:', tech.technicianName ?? 'N/A'),
-                          _buildDetailRow('Type:', tech.technicianCategoryName ?? 'N/A'),
-                          _buildDetailRow('Email:', tech.emailAddress ?? 'N/A'),
-                          _buildDetailRow('Phone:', tech.contactNumber ?? 'N/A'),
                           _buildDetailRow(
-                              'Schedule Date:',
-                              _formatDateString(tech.scheduleDate)
+                              'Schedule Date:',tech.scheduleDate ?? ""
                           ),
                           _buildDetailRow(
                               'Schedule Time:',
                               _formatTimeString(tech.scheduleTime)
                           ),
+                          PhoneUtils.buildEmailRow('Email:', tech.emailAddress?? 'N/A', context),
+                          PhoneUtils.buildPhoneRow('Phone:', tech.contactNumber ?? 'N/A', context),
                         ],
                       ),
                     ),
@@ -267,6 +265,8 @@ class _AcceptTechnicianScreenContentState
     );
   }
 
+
+
   void _submitAcceptance(bool accepted) {
     // Get the comment
     final comment = _commentController.text.trim();
@@ -296,16 +296,16 @@ class _AcceptTechnicianScreenContentState
     super.dispose();
   }
 
-  String _formatDateString(String? dateString) {
-    if (dateString == null || dateString.isEmpty) return 'N/A';
-
-    try {
-      final date = DateTime.parse(dateString);
-      return DateFormat('dd-MMM-yyyy').format(date);
-    } catch (e) {
-      return 'Invalid Date';
-    }
-  }
+  // String _formatDateString(String? dateString) {
+  //   if (dateString == null || dateString.isEmpty) return 'N/A';
+  //
+  //   try {
+  //     final date = DateTime.parse(dateString);
+  //     return DateFormat('dd-MMM-yyyy').format(date);
+  //   } catch (e) {
+  //     return 'Invalid Date';
+  //   }
+  // }
 
   String _formatTimeString(String? timeString) {
     if (timeString == null || timeString.isEmpty) return 'N/A';

@@ -144,7 +144,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             ],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

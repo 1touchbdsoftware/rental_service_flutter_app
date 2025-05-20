@@ -5,9 +5,7 @@ class TechnicianRequestParams {
   final String tenantID;
   final String? technicianID;
   final String propertyID;
-  final String landlordID;
-  final String isActive;
-  final String? isApproved;
+
 
 
   TechnicianRequestParams({
@@ -17,9 +15,6 @@ class TechnicianRequestParams {
     required this.tenantID,
      this.technicianID,
     required this.propertyID,
-    required this.landlordID,
-    required this.isActive,
-     this.isApproved,
   });
 
 }

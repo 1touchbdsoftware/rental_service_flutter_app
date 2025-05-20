@@ -45,5 +45,24 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Camera access -->
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to take photos.</string>
+
+    <!-- Photo library (Gallery) access -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to select images.</string>
+
+    <!-- For iOS 14+ if accessing saved photos (optional but recommended) -->
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need permission to save photos to your gallery.</string>
+
+    <!-- Phone call access (note: actual call uses tel: URL, no real permission) -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>tel</string>
+    </array>
+
 </dict>
 </plist>

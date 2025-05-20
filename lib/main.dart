@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 title: 'Rental Service App',
                 theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                themeMode: ThemeMode.system,
+                // darkTheme: AppTheme.darkTheme,
+                // themeMode: ThemeMode.system,
                 home: const SplashWrapper(),
                 onGenerateRoute: AppRoutes.generateRoute,
                 routes: AppRoutes.getRoutes(),
