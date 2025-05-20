@@ -31,6 +31,7 @@ import 'data/source/local_service/auth_local_service.dart';
 import 'domain/repository/auth.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
 import 'domain/usecases/post_accept_technician_usecase.dart';
+import 'domain/usecases/post_reschedule_technician_usecase.dart';
 import 'domain/usecases/signin_usecase.dart';
 
 
@@ -127,6 +128,10 @@ void setupServiceLocator(){
 
   sl.registerLazySingleton<AcceptTechnicianUseCase>(
         () => AcceptTechnicianUseCase(),
+  );
+
+  sl.registerLazySingleton<RescheduleTechnicianUseCase>(
+        () => RescheduleTechnicianUseCase(),
   );
 
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(

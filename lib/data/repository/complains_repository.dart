@@ -9,7 +9,6 @@ import '../model/api_failure.dart';
 import '../model/complain/complain_req_params/complain_post_req_params.dart';
 import '../model/complain/complain_response_model.dart';
 
-
 class ComplainsRepositoryImpl implements ComplainsRepository {
 
   // FETCH RESPONSE THEN FILTER
@@ -35,29 +34,6 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
       },
     );
   }
-
-
-  // @override
-  // Future<Either<String, ComplainResponseModel>> getTenantCompletedComplains(
-  //     GetComplainsParams params,
-  //     ) async {
-  //   Either<ApiFailure, Response> result =
-  //   await sl<ComplainApiService>().getComplains(params);
-  //
-  //   print("REPO: COMPLETED COMPLAINS CALLED");
-  //   return result.fold(
-  //         (error) => Left(error.message),
-  //         (data) {
-  //       try {
-  //         final responseModel = ComplainResponseModel.fromJson(data.data);
-  //
-  //         return Right(responseModel);
-  //       } catch (e) {
-  //         return Left('Failed to parse response: ${e.toString()}');
-  //       }
-  //     },
-  //   );
-  // }
 
 
   ///New method: Save complain

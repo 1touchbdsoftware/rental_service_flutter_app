@@ -2,7 +2,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/presentation/technician/bloc/tecnician_post_state.dart';
+import 'package:rental_service/presentation/technician/bloc/technician_post_state.dart';
 
 import '../../../data/model/technician/post_accept_technician_params.dart';
 import '../../../data/model/technician/technician_response_model.dart';

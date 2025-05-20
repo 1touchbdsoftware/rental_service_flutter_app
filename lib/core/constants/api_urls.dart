@@ -20,7 +20,7 @@ class ApiUrls{
 
   static const acceptAssignedTechnician = '${baseURL}TechnicianAssign/SaveAcceptAssignTechnician';
 
-  static const rescheduleAssignedTechnician = '${baseURL}';
+  static const rescheduleTechnician = '${baseURL}TechnicianAssign/SaveRescheduleAssignTechnician';
 
 
 

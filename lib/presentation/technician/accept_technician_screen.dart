@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
 import 'package:rental_service/presentation/technician/bloc/technician_accept_post_cubit.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../data/model/technician/post_accept_technician_params.dart';
 import '../../data/model/technician/technician_get_params.dart';
 import '../../data/model/user/user_info_model.dart';
-
 import '../dashboard/bloc/user_cubit.dart';
 import '../widgets/center_loader.dart';
-import 'bloc/tecnician_post_state.dart';
+import 'bloc/technician_post_state.dart';
 import 'build_phone_row.dart';
 import 'get_assigned_technician_cubit.dart';
 
