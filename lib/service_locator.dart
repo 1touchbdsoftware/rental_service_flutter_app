@@ -15,6 +15,7 @@ import 'package:rental_service/domain/repository/history_repository.dart';
 import 'package:rental_service/domain/repository/segment_repository.dart';
 import 'package:rental_service/domain/repository/technician_repository.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
+import 'package:rental_service/domain/usecases/edit_complain_usecase.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_history_usecase.dart';
 import 'package:rental_service/domain/usecases/get_segment_usecase.dart';
@@ -132,6 +133,10 @@ void setupServiceLocator(){
 
   sl.registerLazySingleton<RescheduleTechnicianUseCase>(
         () => RescheduleTechnicianUseCase(),
+  );
+
+  sl.registerLazySingleton<EditComplainUseCase>(
+        () => EditComplainUseCase(),
   );
 
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(

@@ -5,7 +5,7 @@ import 'package:rental_service/data/model/user/user_info_model.dart';
 import 'package:rental_service/presentation/history/complain_history_screen.dart';
 import 'package:rental_service/presentation/technician/accept_technician_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
-import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
+import 'package:rental_service/presentation/edit_complain/edit_complain_screen.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';

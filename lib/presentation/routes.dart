@@ -7,7 +7,7 @@ import 'package:rental_service/presentation/tenant_complain_list/complain_pendin
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/TenantDashboard.dart';
 import 'package:rental_service/presentation/tenant_complain_list/complain_solved_list_screen.dart';
-import 'package:rental_service/presentation/widgets/complain_form/edit_complain.dart';
+import 'package:rental_service/presentation/edit_complain/edit_complain_screen.dart';
 
 import '../data/model/complain/ComplainModel.dart';
 
