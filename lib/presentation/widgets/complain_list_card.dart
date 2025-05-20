@@ -188,7 +188,7 @@ class ComplainCard extends StatelessWidget {
                   //reschedule button
                   if (complaint.isAssignedTechnician! &&
                       !complaint.isSolved! &&
-                      !complaint.isResubmitted!)
+                      !complaint.isResubmitted! && !complaint.isAccepted!)
                     Row(
                       children: [
                         ElevatedButton(
@@ -322,6 +322,9 @@ class ComplainCard extends StatelessWidget {
     } else if (complaint.isSentToLandlord!) {
       dotColor = Colors.blue;
       statusText = 'Sent to Landlord';
+    }else if (complaint.isAssignedTechnician! && complaint.isAccepted!) {
+      dotColor = Colors.purple;
+      statusText = 'Technician Accepted';
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
       statusText = 'Technician Assigned';

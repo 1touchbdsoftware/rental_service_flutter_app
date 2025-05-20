@@ -34,6 +34,7 @@ class ComplainModel {
   final bool? isCompleted;
   final bool? isNotCompleted;
   final bool? isDone;
+  final bool? isAccepted;
   final String? rejectedBy;
   final String? rejectedDate;
   final int? imageCount;
@@ -76,6 +77,7 @@ class ComplainModel {
      this.rejectedDate,
      this.imageCount,
      this.images,
+    this.isAccepted
   });
 
   factory ComplainModel.fromJson(Map<String, dynamic> json) {
@@ -114,6 +116,7 @@ class ComplainModel {
       isDone: json['isDone'],
       rejectedBy: json['rejectedBy'],
       rejectedDate: json['rejectedDate'],
+      isAccepted: json['isAccepted'],
       imageCount: json['imageCount'],
       images: (json['images'] as List)
           .map((e) => ComplainImageModel.fromJson(e))
@@ -157,6 +160,7 @@ class ComplainModel {
       isDone: isDone,
       rejectedBy: rejectedBy,
       rejectedDate: rejectedDate,
+      isAccepted: isAccepted,
       imageCount: imageCount,
       images: images!.map((imageModel) => imageModel.toEntity()).toList(),
     );
@@ -199,6 +203,7 @@ class ComplainModel {
       rejectedBy: entity.rejectedBy,
       rejectedDate: entity.rejectedDate,
       imageCount: entity.imageCount,
+      isAccepted:entity.isAccepted,
       images: entity.images?.map((img) => ComplainImageModel.fromEntity(img)).toList(),
     );
   }
@@ -237,6 +242,7 @@ class ComplainModel {
       'isCompleted': isCompleted,
       'isNotCompleted': isNotCompleted,
       'isDone': isDone,
+      'isAccepted': isAccepted,
       'rejectedBy': rejectedBy,
       'rejectedDate': rejectedDate,
       'imageCount': imageCount,
