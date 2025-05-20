@@ -23,6 +23,7 @@ import 'package:rental_service/domain/usecases/get_technician_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
 import 'package:rental_service/domain/usecases/is_loggedin_usecase.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
+import 'package:rental_service/presentation/resubmit/resubmit_form_screen.dart';
 
 import 'data/repository/auth_repository.dart';
 import 'data/repository/history_repository.dart';
@@ -33,6 +34,7 @@ import 'domain/repository/auth.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
 import 'domain/usecases/post_accept_technician_usecase.dart';
 import 'domain/usecases/post_reschedule_technician_usecase.dart';
+import 'domain/usecases/recomplain_usecase.dart';
 import 'domain/usecases/signin_usecase.dart';
 
 
@@ -137,6 +139,10 @@ void setupServiceLocator(){
 
   sl.registerLazySingleton<EditComplainUseCase>(
         () => EditComplainUseCase(),
+  );
+
+  sl.registerLazySingleton<ReComplainUseCase>(
+        () => ReComplainUseCase()
   );
 
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(

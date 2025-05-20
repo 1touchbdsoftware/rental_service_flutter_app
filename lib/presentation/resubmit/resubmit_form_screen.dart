@@ -1,14 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rental_service/presentation/resubmit/recomplain_state_cubit.dart';
 
-import '../../data/model/complain/complain_req_params/complain_post_req_params.dart';
+
+import '../../data/model/complain/complain_req_params/recomplain_post_params.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
-import '../../service_locator.dart';
+
 import '../create_complain/bloc/complain_state.dart';
-import '../create_complain/bloc/complain_state_cubit.dart';
-import '../widgets/center_loader.dart';
+
+
 import '../widgets/complain_form/image_selector.dart';
 import '../widgets/complain_form/multiline_text_input.dart';
 import '../dashboard/bloc/user_cubit.dart';
@@ -63,38 +65,21 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
   }
 
   Future<void> _submitForm(BuildContext context) async {
-    final userInfo = context.read<UserInfoCubit>().state;
-
-    if (userInfo.agencyID.isEmpty || userInfo.propertyID!.isEmpty ?? true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('User info not loaded. Try again.'),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
-      return;
-    }
-
+    // No need to check user info since we're just using the complaint ID and feedback
     try {
-      final complain = Complain(
-        propertyID: userInfo.propertyID!,
-        agencyID: userInfo.agencyID,
-        tenantID: userInfo.tenantID!,
-        segmentID: widget.complaint.segmentID ?? '',
-        complainName: _feedbackController.text.trim(),
-        imageFiles: _selectedImages.map((e) => File(e.path)).toList(),
+      print('Resubmitting complaint ID: ${widget.complaint.complainID}');
+
+      // Create ReComplain params instead of a new complaint
+      final reComplainParams = ReComplainParams(
+        complainID: widget.complaint.complainID,
+        feedback: _feedbackController.text.trim(),
+        images: _selectedImages.isNotEmpty
+            ? _selectedImages.map((e) => File(e.path)).toList()
+            : null,
       );
 
-      final complainPostModel = ComplainPostModel(
-        complainInfo: ComplainInfo(
-          agencyID: userInfo.agencyID,
-          propertyID: userInfo.propertyID!,
-          tenantID: userInfo.tenantID!,
-        ),
-        complains: [complain],
-      );
-
-      context.read<ComplainCubit>().submitComplaint(complainPostModel);
+      // Use the ReComplainCubit to submit the request
+      context.read<ReComplainCubit>().submitReComplain(reComplainParams);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -115,7 +100,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo()),
-        BlocProvider(create: (context) => ComplainCubit(sl())),
+        BlocProvider(create: (context) => ReComplainCubit()), // Changed to ReComplainCubit
       ],
       child: Scaffold(
         backgroundColor: colorScheme.surface,
@@ -180,7 +165,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                   onClearImages: _handleClearImages,
                 ),
                 const SizedBox(height: 24),
-                BlocConsumer<ComplainCubit, ComplainState>(
+                BlocConsumer<ReComplainCubit, ComplainState>( // Changed to ReComplainCubit
                   listener: (context, state) {
                     if (state is ComplainSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -189,7 +174,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                           backgroundColor: colorScheme.tertiary, // Use tertiary for success
                         ),
                       );
-                      Navigator.pop(context);
+                      Navigator.pop(context, true); // Return true to indicate success
                     } else if (state is ComplainError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -216,7 +201,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
   }
 }
 
-// You'll also need to update this SubmitButton widget to use theme colors
+// SubmitButton widget unchanged
 class SubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;

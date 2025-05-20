@@ -11,6 +11,7 @@ import '../../../core/network/dio_client.dart';
 import '../../../service_locator.dart';
 import '../../model/api_failure.dart';
 import '../../model/complain/complain_req_params/complain_edit_post_params.dart';
+import '../../model/complain/complain_req_params/recomplain_post_params.dart';
 import '../../model/complain/complain_response_model.dart';
 import '../../model/complain/complain_req_params/get_complain_req_params.dart';
 
@@ -19,6 +20,7 @@ abstract class ComplainApiService {
   Future<Either<ApiFailure, Response>> getComplains(GetComplainsParams params);
   Future<Either<ApiFailure, Response>> saveComplain(ComplainPostModel model);
   Future<Either<ApiFailure, Response>> editComplain(ComplainEditPostParams model);
+  Future<Either<ApiFailure, Response>> reComplain(ReComplainParams model);
 
 }
 
@@ -130,6 +132,45 @@ class ComplainApiServiceImpl implements ComplainApiService {
 
       final response = await sl<DioClient>().post(
         ApiUrls.editComplain, // Make sure to add this endpoint to your ApiUrls class
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, Response>> reComplain(ReComplainParams model) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        return Left(ApiFailure('Authentication token not found'));
+      }
+
+      final formData = await model.toFormData();
+
+      print('Sending to ${ApiUrls.reComplain}');
+      print('Headers: Authorization: Bearer $token');
+      print('FormData fields: ${formData.fields}');
+      print('FormData files: ${formData.files.map((e) => e.key + ' -> ' + (e.value.filename ?? ''))}');
+
+      final response = await sl<DioClient>().post(
+        ApiUrls.reComplain,
         data: formData,
         options: Options(
           headers: {

@@ -8,6 +8,7 @@ import '../../service_locator.dart';
 import '../model/api_failure.dart';
 import '../model/complain/complain_req_params/complain_edit_post_params.dart';
 import '../model/complain/complain_req_params/complain_post_req_params.dart';
+import '../model/complain/complain_req_params/recomplain_post_params.dart';
 import '../model/complain/complain_response_model.dart';
 
 class ComplainsRepositoryImpl implements ComplainsRepository {
@@ -75,4 +76,25 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
       },
     );
   }
+
+  @override
+  Future<Either<String, bool>> reComplain(ReComplainParams model) async {
+    Either<ApiFailure, Response> result =
+    await sl<ComplainApiService>().reComplain(model);
+
+    return result.fold(
+          (error) => Left(error.message),
+          (response) {
+        try {
+          // You can adjust based on what your API returns.
+          final success = response.statusCode == 200 || response.statusCode == 201;
+          return Right(success);
+        } catch (e) {
+          return Left('Failed to save complain: ${e.toString()}');
+        }
+      },
+    );
+  }
+
+
 }
