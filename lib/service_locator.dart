@@ -6,7 +6,7 @@ import 'package:rental_service/data/repository/complains_repository.dart';
 import 'package:rental_service/data/repository/technician_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
 import 'package:rental_service/data/source/api_service/complains_api_service.dart';
-import 'package:rental_service/data/source/api_service/get_assigned_technician_api_service.dart';
+import 'package:rental_service/data/source/api_service/technician_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_history_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
 import 'package:rental_service/data/source/local_service/get_user_local_service.dart';
@@ -30,6 +30,7 @@ import 'data/source/api_service/auth_api_service.dart';
 import 'data/source/local_service/auth_local_service.dart';
 import 'domain/repository/auth.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
+import 'domain/usecases/post_accept_technician_usecase.dart';
 import 'domain/usecases/signin_usecase.dart';
 
 
@@ -122,6 +123,10 @@ void setupServiceLocator(){
 
   sl.registerLazySingleton<GetHistoryUseCase>(
         () => GetHistoryUseCase(),
+  );
+
+  sl.registerLazySingleton<AcceptTechnicianUseCase>(
+        () => AcceptTechnicianUseCase(),
   );
 
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(

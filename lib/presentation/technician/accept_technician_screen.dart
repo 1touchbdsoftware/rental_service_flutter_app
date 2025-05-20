@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
+import 'package:rental_service/presentation/technician/bloc/technician_accept_post_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data/model/technician/post_accept_technician_params.dart';
 import '../../data/model/technician/technician_get_params.dart';
 import '../../data/model/user/user_info_model.dart';
 
 import '../dashboard/bloc/user_cubit.dart';
 import '../widgets/center_loader.dart';
+import 'bloc/tecnician_post_state.dart';
 import 'build_phone_row.dart';
 import 'get_assigned_technician_cubit.dart';
 
@@ -25,6 +28,7 @@ class AcceptTechnicianScreen extends StatelessWidget {
         BlocProvider(
           create: (_) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
         ),
+        BlocProvider(create: (_) => AcceptTechnicianCubit()),
       ],
       child: _AcceptTechnicianScreenContent(complaint: complaint),
     );
@@ -57,11 +61,14 @@ class _AcceptTechnicianScreenContentState
     final userInfo = context.read<UserInfoCubit>().state;
     final params = _prepareTechnicianParams(userInfo, complainID);
     context.read<GetAssignedTechnicianCubit>().fetchAssignedTechnician(
-        params: params
+      params: params,
     );
   }
 
-  TechnicianRequestParams _prepareTechnicianParams(UserInfoModel userInfo, String complainId) {
+  TechnicianRequestParams _prepareTechnicianParams(
+      UserInfoModel userInfo,
+      String complainId,
+      ) {
     return TechnicianRequestParams(
       agencyID: userInfo.agencyID,
       propertyID: userInfo.propertyID ?? '',
@@ -79,155 +86,270 @@ class _AcceptTechnicianScreenContentState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Accept Technician',
-          style: textTheme.titleLarge?.copyWith(
-            color: colorScheme.onPrimary,
-          ),
+        title: Text(
+          'Accept Technician',
+          style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
         ),
         backgroundColor: colorScheme.primary,
       ),
-      body: BlocConsumer<GetAssignedTechnicianCubit, GetAssignedTechnicianState>(
+      body: BlocListener<AcceptTechnicianCubit, TechnicianPostState>(
         listener: (context, state) {
-          if (state is GetAssignedTechnicianFailureState) {
+          if (state is TechnicianPostSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Error: ${state.errorMessage}'),
+                content: Text('Technician accepted successfully'),
+                backgroundColor: colorScheme.primary,
+              ),
+            );
+            // Navigate back after successful acceptance with a result value
+            Navigator.of(context).pop(true); // Return true to indicate success
+          } else if (state is TechnicianPostError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error Accepting Technician: ${state.message}'),
                 backgroundColor: colorScheme.error,
               ),
             );
           }
         },
-        builder: (context, state) {
-          if (state is GetAssignedTechnicianLoadingState) {
-            return const CenterLoaderWithText(
-              text: 'Fetching assigned technician...',
-            );
-          } else if (state is GetAssignedTechnicianFailureState) {
-            return Center(
-              child: Text(
-                'Failed to load technician information',
-                style: textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.error,
+        child: BlocConsumer<
+            GetAssignedTechnicianCubit,
+            GetAssignedTechnicianState
+        >(
+          listener: (context, state) {
+            if (state is GetAssignedTechnicianFailureState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Error: ${state.errorMessage}'),
+                  backgroundColor: colorScheme.error,
                 ),
-              ),
-            );
-          } else if (state is GetAssignedTechnicianSuccessState) {
-            final tech = state.response.data.list;
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Card(
-                    elevation: 4,
-                    color: colorScheme.surface,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Technician Details',
-                            style: textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.onSurface,
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is GetAssignedTechnicianLoadingState) {
+              return const CenterLoaderWithText(
+                text: 'Fetching assigned technician...',
+              );
+            } else if (state is GetAssignedTechnicianFailureState) {
+              return Center(
+                child: Text(
+                  'Failed to load technician information',
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: colorScheme.error,
+                  ),
+                ),
+              );
+            } else if (state is GetAssignedTechnicianSuccessState) {
+              final tech = state.response.data.list;
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      elevation: 4,
+                      color: colorScheme.surface,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Technician Details',
+                              style: textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: colorScheme.onSurface,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          _buildDetailRow('Technician Name:', tech.technicianName ?? 'N/A'),
-                          _buildDetailRow(
-                              'Schedule Date:',tech.scheduleDate ?? ""
-                          ),
-                          _buildDetailRow(
+                            const SizedBox(height: 16),
+                            _buildDetailRow(
+                              'Technician Name:',
+                              tech.technicianName ?? 'N/A',
+                            ),
+                            _buildDetailRow(
+                              'Schedule Date:',
+                              tech.scheduleDate ?? "",
+                            ),
+                            _buildDetailRow(
                               'Schedule Time:',
-                              _formatTimeString(tech.scheduleTime)
-                          ),
-                          PhoneUtils.buildEmailRow('Email:', tech.emailAddress?? 'N/A', context),
-                          PhoneUtils.buildPhoneRow('Phone:', tech.contactNumber ?? 'N/A', context),
-                        ],
+                              _formatTimeString(tech.scheduleTime),
+                            ),
+                            PhoneUtils.buildEmailRow(
+                              'Email:',
+                              tech.emailAddress ?? 'N/A',
+                              context,
+                            ),
+                            PhoneUtils.buildPhoneRow(
+                              'Phone:',
+                              tech.contactNumber ?? 'N/A',
+                              context,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Comment',
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onBackground,
+                    const SizedBox(height: 24),
+                    Text(
+                      'Comment',
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onBackground,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Card(
-                    elevation: 4,
-                    color: colorScheme.surface,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: _commentController,
-                            decoration: InputDecoration(
-                              labelText: 'Write Comment or Instructions',
-                              labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: colorScheme.outline),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: colorScheme.primary),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: colorScheme.outline),
-                              ),
-                              filled: true,
-                              fillColor: colorScheme.surfaceContainerLow,
-                            ),
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onSurface,
-                            ),
-                            maxLines: 3,
-                          ),
-                          const SizedBox(height: 24),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _submitAcceptance(true);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: colorScheme.primary,
-                                    foregroundColor: colorScheme.onPrimary,
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'Accept Technician',
-                                    style: textTheme.labelLarge?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      elevation: 4,
+                      color: colorScheme.surface,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: _commentController,
+                              decoration: InputDecoration(
+                                labelText: 'Write Comment or Instructions',
+                                labelStyle: TextStyle(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                    color: colorScheme.outline,
                                   ),
                                 ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide(
+                                    color: colorScheme.outline,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: colorScheme.surfaceContainerLow,
                               ),
-                              const SizedBox(width: 12),
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.onSurface,
+                              ),
+                              maxLines: 3,
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              children: [
+                                BlocBuilder<
+                                    AcceptTechnicianCubit,
+                                    TechnicianPostState
+                                >(
+                                  builder: (context, acceptState) {
+                                    final bool isSubmitting =
+                                    acceptState is TechnicianPostLoading;
+                                    return Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: isSubmitting
+                                            ? null
+                                            : () {
+                                          // Get the current user info
+                                          final userInfo = context
+                                              .read<UserInfoCubit>()
+                                              .state;
 
-                            ],
-                          ),
-                        ],
+                                          // Get the technician info from the state
+                                          final technicianState = context
+                                              .read<
+                                              GetAssignedTechnicianCubit>()
+                                              .state;
+                                          if (technicianState
+                                          is GetAssignedTechnicianSuccessState) {
+                                            final tech = technicianState
+                                                .response.data.list;
+
+                                            // Create the params directly
+                                            final params =
+                                            AcceptTechnicianParams(
+                                              technicianID:
+                                              tech.technicianID,
+                                              tenantID:
+                                              userInfo.tenantID ?? '',
+                                              complainID: widget
+                                                  .complaint.complainID,
+                                              agencyID: userInfo.agencyID,
+                                              currentComments:
+                                              _commentController.text,
+                                            );
+
+                                            // Call the accept technician method from the cubit
+                                            context
+                                                .read<
+                                                AcceptTechnicianCubit>()
+                                                .acceptTechnician(
+                                                params: params);
+                                          } else {
+                                            // Handle the case where technician data isn't available
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Technician data not available. Please try again.',
+                                                ),
+                                                backgroundColor:
+                                                colorScheme.error,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: colorScheme.primary,
+                                          foregroundColor:
+                                          colorScheme.onPrimary,
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 16,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        child: isSubmitting
+                                            ? SizedBox(
+                                          height: 20,
+                                          width: 20,
+                                          child:
+                                          CircularProgressIndicator(
+                                            color: colorScheme.onPrimary,
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                            : Text(
+                                          'Accept Technician',
+                                          style: textTheme.labelLarge
+                                              ?.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(width: 12),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
+                  ],
+                ),
+              );
+            }
 
-          return const SizedBox.shrink();
-        },
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }
@@ -265,48 +387,6 @@ class _AcceptTechnicianScreenContentState
     );
   }
 
-
-
-  void _submitAcceptance(bool accepted) {
-    // Get the comment
-    final comment = _commentController.text.trim();
-
-    // You would implement your API call or state management logic here
-    // For now, just show a confirmation message
-    final message = accepted
-        ? 'Technician accepted${comment.isNotEmpty ? ' with comment' : ''}'
-        : 'Technician declined${comment.isNotEmpty ? ' with comment' : ''}';
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: accepted
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.error,
-      ),
-    );
-
-    // After API call completes successfully, navigate back
-    Navigator.of(context).pop();
-  }
-
-  @override
-  void dispose() {
-    _commentController.dispose();
-    super.dispose();
-  }
-
-  // String _formatDateString(String? dateString) {
-  //   if (dateString == null || dateString.isEmpty) return 'N/A';
-  //
-  //   try {
-  //     final date = DateTime.parse(dateString);
-  //     return DateFormat('dd-MMM-yyyy').format(date);
-  //   } catch (e) {
-  //     return 'Invalid Date';
-  //   }
-  // }
-
   String _formatTimeString(String? timeString) {
     if (timeString == null || timeString.isEmpty) return 'N/A';
 
@@ -322,5 +402,11 @@ class _AcceptTechnicianScreenContentState
     } catch (e) {
       return 'Invalid Time';
     }
+  }
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
   }
 }
