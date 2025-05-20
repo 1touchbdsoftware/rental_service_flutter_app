@@ -324,7 +324,7 @@ class ComplainCard extends StatelessWidget {
       statusText = 'Sent to Landlord';
     }else if (complaint.isAssignedTechnician! && complaint.isAccepted!) {
       dotColor = Colors.purple;
-      statusText = 'Technician Accepted';
+      statusText = 'Accepted Schedule';
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
       statusText = 'Technician Assigned';
