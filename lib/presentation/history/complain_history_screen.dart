@@ -85,8 +85,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
 
                 // Sort history items by date (newest first)
                 historyItems.sort((a, b) {
-                  if (a.updatedDate == null || b.updatedDate == null) return 0;
-                  return DateTime.parse(b.updatedDate!).compareTo(DateTime.parse(a.updatedDate!));
+                  return DateTime.parse(b.updatedDate).compareTo(DateTime.parse(a.updatedDate));
                 });
 
                 return Padding(
@@ -168,6 +167,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
       case 'pending':
+      case 'complaint resubmitted':
         return Colors.orange;
       case 'completed':
       case 'solved':
@@ -183,7 +183,8 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
 
 }
 
-class HistoryTimelineCard extends StatelessWidget {
+
+class HistoryTimelineCard extends StatefulWidget {
   final String comments;
   final String stateStatus;
   final String updatedBy;
@@ -197,6 +198,21 @@ class HistoryTimelineCard extends StatelessWidget {
     required this.updatedDate,
   });
 
+  @override
+  State<HistoryTimelineCard> createState() => _HistoryTimelineCardState();
+}
+
+class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
+  bool _expanded = false;
+  bool _showReadMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if comment needs "Read More" button
+    _showReadMore = widget.comments.length > 60;
+  }
+
   String _formatDate(String dateString) {
     try {
       final date = DateTime.parse(dateString);
@@ -207,112 +223,54 @@ class HistoryTimelineCard extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0, bottom: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Date and time
-          Text(
-            _formatDate(updatedDate),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: Colors.grey.shade700,
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          // Content card
-          Card(
-            margin: EdgeInsets.zero,
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: Colors.grey.shade200, width: 1),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Comments
-                  Text(
-                    comments,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Footer with status and updatedBy
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Status indicator
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: _getStatusColor(stateStatus),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          stateStatus,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-
-                      // Updated by
-                      Row(
-                        children: [
-                          Icon(
-                            _getUpdaterIcon(updatedBy),
-                            size: 14,
-                            color: Colors.grey.shade700,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            "by $updatedBy",
-                            style: TextStyle(
-                              color: Colors.grey.shade700,
-                              fontStyle: FontStyle.italic,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
-      case 'pending':
-        return Colors.orange;
-      case 'completed':
-      case 'solved':
-        return Colors.green;
       case 'rejected':
         return Colors.red;
-      case 'in progress':
+      case 'completed':
+      case 'solved':
+      case 'resolved':
+        return Colors.green;
+      case 'resubmitted':
+        return Colors.orange;
+      case 'sent to landlord':
         return Colors.blue;
+      case 'accepted schedule':
+      case 'technician assigned':
+      case 'rescheduled':
+        return Colors.purple;
+      case 'pending':
       default:
-        return Colors.grey;
+        return Colors.orange;
     }
+  }
+
+  Widget _buildStatusIndicator(BuildContext context) {
+    // Get theme colors
+    final textTheme = Theme.of(context).textTheme;
+
+    // Get status color
+    final Color dotColor = _getStatusColor(widget.stateStatus);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          widget.stateStatus,
+          style: textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: dotColor, // Make the text color match the dot color
+          ),
+        ),
+      ],
+    );
   }
 
   IconData _getUpdaterIcon(String updater) {
@@ -328,18 +286,112 @@ class HistoryTimelineCard extends StatelessWidget {
         return Icons.person_outline;
     }
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, bottom: 24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Date and time
+          Text(
+            _formatDate(widget.updatedDate),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+              color: Colors.grey.shade700,
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // Content card
+          Card(
+            margin: EdgeInsets.zero,
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: Colors.grey.shade200, width: 1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 12),
+                  // Status and updated by at the top
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Status indicator
+                      _buildStatusIndicator(context),
+
+                      // Updated by
+                      Row(
+                        children: [
+                          Icon(
+                            _getUpdaterIcon(widget.updatedBy),
+                            size: 14,
+                            color: Colors.grey.shade700,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            "by ${widget.updatedBy}",
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  const SizedBox(height: 12),
+
+                  // Comments with Read More functionality
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _expanded ? widget.comments : (_showReadMore ? widget.comments.substring(0, 60) + "..." : widget.comments),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          height: 1.4,
+                        ),
+                      ),
+
+                      if (_showReadMore)
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _expanded = !_expanded;
+                            });
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                            minimumSize: const Size(0, 30),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Text(
+                            _expanded ? "Read Less" : "Read More",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
-
-
-// Create a custom transparent connector that implements ConnectorWidget
-// class TransparentConnector extends ConnectorWidget {
-//   const TransparentConnector({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context, Widget? child) {
-//     return SolidLineConnector(
-//       color: Colors.transparent,
-//       thickness: 0,
-//     );
-//   }
-// }
