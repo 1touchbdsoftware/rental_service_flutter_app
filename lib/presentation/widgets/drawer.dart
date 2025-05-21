@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
+
 import '../../service_locator.dart';
+import '../dashboard/bloc/user_type_cubit.dart';
 
 Widget buildAppDrawer(BuildContext context, String username, String dashboardTitle) {
   // Get theme colors from the current theme
@@ -13,13 +15,13 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
   final textTheme = theme.textTheme;
 
   return Drawer(
-    backgroundColor: colorScheme.surface, // Use surface color for drawer background
+    backgroundColor: colorScheme.surface,
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
         // Header
         Container(
-          color: colorScheme.surface, // Use surface color for header background
+          color: colorScheme.surface,
           child: Column(
             children: [
               SizedBox(height: 50),
@@ -34,7 +36,7 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
               Text(
                 dashboardTitle,
                 style: textTheme.titleLarge?.copyWith(
-                  color: colorScheme.onSurface, // Use onSurface for text on surface
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -43,19 +45,44 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           ),
         ),
 
-        // ✅ Home
-        ListTile(
-          leading: Icon(Icons.home, color: colorScheme.primary), // Use primary color for icons
-          title: Text(
-            'Home',
-            style: textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurface, // Use onSurface for text
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+        // Home with User Type-based navigation
+        BlocBuilder<UserTypeCubit, UserTypeState>(
+          builder: (context, state) {
+            return ListTile(
+              leading: Icon(Icons.home, color: colorScheme.primary),
+              title: Text(
+                'Home',
+                style: textTheme.titleMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+
+                // Navigate based on user type
+                if (state is UserTypeLandLord) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/landlord-dashboard',
+                          (route) => false
+                  );
+                } else if (state is UserTypeTenant) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/technician-dashboard',
+                          (route) => false
+                  );
+                } else {
+                  // If user type not determined yet, try to get it
+                  context.read<UserTypeCubit>().getUserType();
+                  // Show feedback to user
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Opening dashboard...'))
+                  );
+                }
+              },
+            );
           },
         ),
 
@@ -71,10 +98,18 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           ),
           onTap: () {
             Navigator.pop(context);
+            // Use BlocBuilder to determine which complaints list to show
+            final userTypeState = context.read<UserTypeCubit>().state;
+            if (userTypeState is UserTypeLandLord) {
+              print("LANDLORD ROUTE CLALED");
+              Navigator.pushReplacementNamed(context, '/landlord-complaints');
+            } else if (userTypeState is UserTypeTenant) {
+              Navigator.pushReplacementNamed(context, '/tenant-complaints');
+            }
           },
         ),
 
-        Divider(color: colorScheme.outline), // Use outline color for dividers
+        Divider(color: colorScheme.outline),
 
         // Profile
         ListTile(
@@ -88,6 +123,13 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           ),
           onTap: () {
             Navigator.pop(context);
+            // Navigate to profile based on user type
+            final userTypeState = context.read<UserTypeCubit>().state;
+            if (userTypeState is UserTypeLandLord) {
+              Navigator.pushNamed(context, '/landlord-profile');
+            } else if (userTypeState is UserTypeTenant) {
+              Navigator.pushNamed(context, '/tenant-profile');
+            }
           },
         ),
 
@@ -103,10 +145,11 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
           ),
           onTap: () {
             Navigator.pop(context);
+            Navigator.pushNamed(context, '/settings');
           },
         ),
 
-        // ✅ Logout with Confirmation
+        // Logout with Confirmation
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is UnAuthenticated) {
@@ -118,7 +161,7 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
             }
           },
           child: ListTile(
-            leading: Icon(Icons.logout, color: colorScheme.error), // Use error color for logout icon
+            leading: Icon(Icons.logout, color: colorScheme.error),
             title: Text(
               'Logout',
               style: textTheme.titleMedium?.copyWith(
@@ -135,7 +178,6 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
     ),
   );
 }
-
 
 void showLogoutConfirmation(BuildContext context) {
   final theme = Theme.of(context);

@@ -5,7 +5,7 @@ import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import '../../../data/model/user/user_info_model.dart';
 import '../../widgets/drawer.dart';
-import '../bloc/user_cubit.dart';
+import '../bloc/user_info_cubit.dart';
 
 class TenantHomeScreen extends StatelessWidget {
   const TenantHomeScreen({super.key});

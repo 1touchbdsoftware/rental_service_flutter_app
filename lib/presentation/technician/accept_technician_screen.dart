@@ -5,7 +5,7 @@ import 'package:rental_service/presentation/technician/bloc/technician_accept_po
 import '../../data/model/technician/post_accept_technician_params.dart';
 import '../../data/model/technician/technician_get_params.dart';
 import '../../data/model/user/user_info_model.dart';
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 import '../widgets/center_loader.dart';
 import 'bloc/technician_post_state.dart';
 import 'build_phone_row.dart';

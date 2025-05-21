@@ -13,7 +13,7 @@ import '../create_complain/bloc/complain_state.dart';
 
 import '../widgets/complain_form/image_selector.dart';
 import '../widgets/complain_form/multiline_text_input.dart';
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 

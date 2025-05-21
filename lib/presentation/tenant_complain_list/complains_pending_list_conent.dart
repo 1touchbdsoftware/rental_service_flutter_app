@@ -12,7 +12,7 @@ import '../../data/model/complain/complain_req_params/completed_post_req.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 import '../create_complain/bloc/complain_state.dart';
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 import '../resubmit/resubmit_form_screen.dart';
 import '../technician/technician_rechedule_screen.dart';
 import '../widgets/center_loader.dart';

@@ -10,7 +10,7 @@ import '../../data/model/technician/technician_get_params.dart';
 
 import '../../data/model/user/user_info_model.dart';
 
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 import '../widgets/center_loader.dart';
 import 'bloc/reschedule_technician_cubit.dart';
 

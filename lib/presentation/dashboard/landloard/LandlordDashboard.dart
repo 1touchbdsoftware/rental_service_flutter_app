@@ -4,7 +4,7 @@ import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
 import '../../widgets/drawer.dart';
-import '../bloc/user_cubit.dart';
+import '../bloc/user_info_cubit.dart';
 
 class LandlordDashboard extends StatelessWidget {
   const LandlordDashboard({super.key});

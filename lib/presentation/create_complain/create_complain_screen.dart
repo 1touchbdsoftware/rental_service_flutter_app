@@ -15,7 +15,7 @@ import '../widgets/complain_form/image_selector.dart';
 import '../widgets/complain_form/multiline_text_input.dart';
 import 'bloc/complain_state.dart';
 import 'bloc/complain_state_cubit.dart';
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 import '../segment/get_segment_state.dart';
 import '../segment/get_segment_state_cubit.dart';
 

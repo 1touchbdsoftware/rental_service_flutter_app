@@ -14,7 +14,7 @@ import '../../data/model/user/user_info_model.dart';
 import '../../service_locator.dart';
 import '../create_complain/bloc/complain_state.dart';
 
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 import '../segment/get_segment_state.dart';
 import '../segment/get_segment_state_cubit.dart';
 import '../widgets/center_loader.dart';

@@ -6,7 +6,7 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/history/history_query_params.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../widgets/center_loader.dart';
-import '../dashboard/bloc/user_cubit.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
 import 'get_history_cubit.dart';
 
 class ComplaintHistoryScreen extends StatefulWidget {
