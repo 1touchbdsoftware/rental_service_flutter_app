@@ -11,22 +11,16 @@ class ApiUrls{
   static const propertyWiseSegment = '${baseURL}Segment/GetSegmentsExtension';
 
   static const saveComplain = '${baseURL}Complain/SaveComplain';
-
   static const editComplain = '${baseURL}Complain/EditComplain';
-
   static const updateComplain = '${baseURL}Complain/SaveComplain';
-
   static const reComplain = '${baseURL}Complain/Recomplain';
+  static const markComplainCompleted = '${baseURL}Complain/UpdateCompletionStatus';
 
   static const getAssignedTechnician = '${baseURL}TechnicianAssign/GetAssignedTechnicianInfos';
-
-  static const getHistory = '${baseURL}Complain/GetComplainHistory';
-
   static const acceptAssignedTechnician = '${baseURL}TechnicianAssign/SaveAcceptAssignTechnician';
-
   static const rescheduleTechnician = '${baseURL}TechnicianAssign/SaveRescheduleAssignTechnician';
 
-
+  static const getHistory = '${baseURL}Complain/GetComplainHistory';
 
 
 

@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rental_service/presentation/resubmit/recomplain_state_cubit.dart';
 
 
-import '../../data/model/complain/complain_req_params/recomplain_post_params.dart';
+import '../../data/model/complain/complain_req_params/recomplain_post_req.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
 

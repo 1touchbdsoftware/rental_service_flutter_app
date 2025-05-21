@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
 
-import '../../data/model/complain/complain_req_params/complain_edit_post_params.dart';
-import '../../data/model/complain/complain_req_params/complain_post_req_params.dart';
-import '../../data/model/complain/complain_req_params/recomplain_post_params.dart';
+import '../../data/model/complain/complain_req_params/complain_edit_post.dart';
+import '../../data/model/complain/complain_req_params/complain_post_req.dart';
+import '../../data/model/complain/complain_req_params/completed_post_req.dart';
+import '../../data/model/complain/complain_req_params/recomplain_post_req.dart';
 import '../../data/model/complain/complain_response_model.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 
@@ -14,4 +15,5 @@ abstract class ComplainsRepository {
   Future<Either<String, bool>> saveComplain(ComplainPostModel model);
   Future<Either<String, bool>> editComplain(ComplainEditPostParams model);
   Future<Either<String, bool>> reComplain(ReComplainParams model);
+  Future<Either<String, bool>> markComplainAsCompleted(ComplainCompletedRequest model);
 }

@@ -1,4 +1,4 @@
-// lib/data/model/complain/complain_edit_post_params.dart
+// lib/data/model/complain/complain_edit_post.dart
 
 import 'dart:io';
 

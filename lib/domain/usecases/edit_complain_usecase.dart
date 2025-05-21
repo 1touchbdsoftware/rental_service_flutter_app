@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../core/usecase/usecase.dart';
 
-import '../../data/model/complain/complain_req_params/complain_edit_post_params.dart';
+import '../../data/model/complain/complain_req_params/complain_edit_post.dart';
 import '../../domain/repository/complains_repository.dart';
 import '../../service_locator.dart';
 

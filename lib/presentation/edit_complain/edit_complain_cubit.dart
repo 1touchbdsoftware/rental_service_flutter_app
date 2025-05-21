@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../service_locator.dart';
-import '../../data/model/complain/complain_req_params/complain_edit_post_params.dart';
+import '../../data/model/complain/complain_req_params/complain_edit_post.dart';
 import '../../domain/usecases/edit_complain_usecase.dart';
 import '../create_complain/bloc/complain_state.dart';
 

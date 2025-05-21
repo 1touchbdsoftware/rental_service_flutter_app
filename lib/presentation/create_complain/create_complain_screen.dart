@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/constants/app_colors.dart';
-import '../../data/model/complain/complain_req_params/complain_post_req_params.dart';
+import '../../data/model/complain/complain_req_params/complain_post_req.dart';
 import '../../data/model/segment/get_segment_params.dart';
 import '../../data/model/segment/segment_model.dart';
 import '../../data/model/user/user_info_model.dart';

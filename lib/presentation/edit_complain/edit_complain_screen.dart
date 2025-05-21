@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
 import '../../core/constants/app_colors.dart';
 
-import '../../data/model/complain/complain_req_params/complain_edit_post_params.dart';
+import '../../data/model/complain/complain_req_params/complain_edit_post.dart';
 import '../../data/model/segment/get_segment_params.dart';
 import '../../data/model/segment/segment_model.dart';
 import '../../data/model/user/user_info_model.dart';

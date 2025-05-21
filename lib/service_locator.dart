@@ -32,6 +32,7 @@ import 'data/source/api_service/auth_api_service.dart';
 import 'data/source/local_service/auth_local_service.dart';
 import 'domain/repository/auth.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
+import 'domain/usecases/mark_as_complete_usecase.dart';
 import 'domain/usecases/post_accept_technician_usecase.dart';
 import 'domain/usecases/post_reschedule_technician_usecase.dart';
 import 'domain/usecases/recomplain_usecase.dart';
@@ -145,6 +146,7 @@ void setupServiceLocator(){
         () => ReComplainUseCase()
   );
 
+
   // sl.registerLazySingleton<GetTenantCompletedComplainsUseCase>(
   //       () => GetTenantCompletedComplainsUseCase(),
   // );
@@ -156,6 +158,11 @@ void setupServiceLocator(){
 
   sl.registerSingleton<GetSegmentUseCase>(
       GetSegmentUseCase()
+  );
+
+
+  sl.registerSingleton<MarkComplainCompletedUseCase>(
+      MarkComplainCompletedUseCase()
   );
 
   //logout or other use cases

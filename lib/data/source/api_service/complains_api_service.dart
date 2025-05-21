@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:rental_service/data/model/complain/complain_req_params/complain_post_req_params.dart';
+import 'package:rental_service/data/model/complain/complain_req_params/complain_post_req.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/api_urls.dart';
@@ -10,8 +10,9 @@ import '../../../core/network/dio_client.dart';
 
 import '../../../service_locator.dart';
 import '../../model/api_failure.dart';
-import '../../model/complain/complain_req_params/complain_edit_post_params.dart';
-import '../../model/complain/complain_req_params/recomplain_post_params.dart';
+import '../../model/complain/complain_req_params/complain_edit_post.dart';
+import '../../model/complain/complain_req_params/completed_post_req.dart';
+import '../../model/complain/complain_req_params/recomplain_post_req.dart';
 import '../../model/complain/complain_response_model.dart';
 import '../../model/complain/complain_req_params/get_complain_req_params.dart';
 
@@ -21,6 +22,7 @@ abstract class ComplainApiService {
   Future<Either<ApiFailure, Response>> saveComplain(ComplainPostModel model);
   Future<Either<ApiFailure, Response>> editComplain(ComplainEditPostParams model);
   Future<Either<ApiFailure, Response>> reComplain(ReComplainParams model);
+  Future<Either<ApiFailure, Response>> markAsCompleted(ComplainCompletedRequest model);
 
 }
 
@@ -176,6 +178,47 @@ class ComplainApiServiceImpl implements ComplainApiService {
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+
+
+  @override
+  Future<Either<ApiFailure, Response>> markAsCompleted(ComplainCompletedRequest model) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        return Left(ApiFailure('Authentication token not found'));
+      }
+
+      // Convert model to JSON
+      final requestData = model.toJson();
+
+      print('Sending to ${ApiUrls.markComplainCompleted}');
+      print('Headers: Authorization: Bearer $token');
+      print('Request data: $requestData');
+
+      final response = await sl<DioClient>().post(
+        ApiUrls.markComplainCompleted, // Make sure to add this endpoint to your ApiUrls class
+        data: requestData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
           },
         ),
       );

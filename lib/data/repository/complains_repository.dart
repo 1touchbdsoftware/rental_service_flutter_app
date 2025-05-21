@@ -6,9 +6,10 @@ import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../domain/entities/complain_response_entity.dart';
 import '../../service_locator.dart';
 import '../model/api_failure.dart';
-import '../model/complain/complain_req_params/complain_edit_post_params.dart';
-import '../model/complain/complain_req_params/complain_post_req_params.dart';
-import '../model/complain/complain_req_params/recomplain_post_params.dart';
+import '../model/complain/complain_req_params/complain_edit_post.dart';
+import '../model/complain/complain_req_params/complain_post_req.dart';
+import '../model/complain/complain_req_params/completed_post_req.dart';
+import '../model/complain/complain_req_params/recomplain_post_req.dart';
 import '../model/complain/complain_response_model.dart';
 
 class ComplainsRepositoryImpl implements ComplainsRepository {
@@ -91,6 +92,31 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
           return Right(success);
         } catch (e) {
           return Left('Failed to save complain: ${e.toString()}');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<String, bool>> markComplainAsCompleted(ComplainCompletedRequest model) async {
+    Either<ApiFailure, Response> result =
+    await sl<ComplainApiService>().markAsCompleted(model);
+
+    print('REPO: MARK COMPLAIN COMPLETED - COMPLAIN ID: ${model.complainID}');
+
+    return result.fold(
+          (error) => Left(error.message),
+          (response) {
+        try {
+          // Check if response indicates success
+          final success = response.statusCode == 200 || response.statusCode == 201;
+          if (success) {
+            // You can add additional handling for specific response data if needed
+            print('REPO: COMPLAIN MARKED AS COMPLETED SUCCESSFULLY');
+          }
+          return Right(success);
+        } catch (e) {
+          return Left('Failed to mark complain as completed: ${e.toString()}');
         }
       },
     );

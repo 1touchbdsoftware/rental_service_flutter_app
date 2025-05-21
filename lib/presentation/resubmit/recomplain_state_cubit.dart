@@ -1,7 +1,7 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../service_locator.dart';
-import '../../data/model/complain/complain_req_params/recomplain_post_params.dart';
+import '../../data/model/complain/complain_req_params/recomplain_post_req.dart';
 import '../../domain/usecases/recomplain_usecase.dart';
 import '../create_complain/bloc/complain_state.dart';
 
