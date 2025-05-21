@@ -48,7 +48,7 @@ class SignInPage extends StatelessWidget {
                 } else if (state is ButtonFailureState) {
                   print("BUTTON FAILED STATE CALLED");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.errorMessage)),
+                    SnackBar(content: Text("Couldn't Sign you in")),
                   );
                 }
               },
@@ -86,30 +86,6 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  // void _handleStateChanges(BuildContext context, ButtonState state, UserTypeState type) {
-  //   if (state is ButtonSuccessState) {
-  //
-  //     if(type is UserTypeLandLord){
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => const Landlorddashboard()),
-  //       );
-  //     }else if (type is UserTypeTenant){
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => const TenantDashboard()),
-  //       );
-  //     }
-  //
-  //     // Navigator.pushReplacement(
-  //     //   context,
-  //     //   MaterialPageRoute(builder: (context) => const Landlorddashboard()),
-  //     // );
-  //   } else if (state is ButtonFailureState) {
-  //     var snackBar = SnackBar(content: Text(state.errorMessage));
-  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //   }
-  // }
 
   Widget _buildPageContent(BuildContext context) {
     return Stack(

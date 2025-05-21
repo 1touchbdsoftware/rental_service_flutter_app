@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/repository/auth.dart';
 import '../../service_locator.dart';
+import '../model/api_failure.dart';
 import '../source/local_service/auth_local_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -17,12 +18,12 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either> signin(SignInReqParams signinReq) async {
-    Either result = await sl<AuthApiService>().signin(signinReq);
+  Future<Either<String, bool>> signin(SignInReqParams signinReq) async {
+    Either<ApiFailure, Response> result = await sl<AuthApiService>().signin(signinReq);
 
     return result.fold(
       (error) {
-        return Left(error);
+        return Left(error.message);
       },
 
       (data) async {
@@ -31,6 +32,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
         // Convert to model
         final userModel = UserModel.fromJson(response.data);
+        final success = response.statusCode == 200 || response.statusCode == 201;
 
         // Save token
         final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -58,8 +60,13 @@ class AuthRepositoryImpl extends AuthRepository {
 
         //check registrationType and save name also from landlordName
 
+        if (success) {
+          return Right(success);
+        }else {
+          return Left('Could not log you in');
+        }
         // Return as entity
-        return Right(userModel); // Since UserModel extends UserEntity
+        // Since UserModel extends UserEntity
 
         // return Right(response);
       },

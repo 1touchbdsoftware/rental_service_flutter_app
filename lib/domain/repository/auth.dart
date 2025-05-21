@@ -11,7 +11,7 @@ abstract class AuthRepository{
   //Either is from dart z package
   Future<Either> signup();
 
-  Future<Either> signin(SignInReqParams signinReq);
+  Future<Either<String, bool>> signin(SignInReqParams signinReq);
   Future<bool> isLoggedIn();
   Future<Either> logout();
 

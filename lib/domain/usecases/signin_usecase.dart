@@ -7,10 +7,10 @@ import 'package:rental_service/domain/repository/auth.dart';
 
 import '../../service_locator.dart';
 
-class SigninUseCase implements UseCase<Either, SignInReqParams>{
+class SigninUseCase implements UseCase<Either<String, bool>, SignInReqParams>{
 
   @override
-  Future<Either> call({SignInReqParams? param}) async {
+  Future<Either<String, bool>> call({SignInReqParams? param}) async {
 
     return sl<AuthRepository>().signin(param!);
   }
