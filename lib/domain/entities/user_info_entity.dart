@@ -12,6 +12,7 @@ class UserInfoEntity {
   final String registrationType;
   final String contactNumber;
   final String emailAddress;
+  final String? propertyName;
 
   const UserInfoEntity({
     required this.id,
@@ -24,6 +25,7 @@ class UserInfoEntity {
     this.tenantName,
     this.propertyID,
     this.tenantInfoID,
+    this.propertyName,
     required this.registrationType,
     required this.contactNumber,
     required this.emailAddress,

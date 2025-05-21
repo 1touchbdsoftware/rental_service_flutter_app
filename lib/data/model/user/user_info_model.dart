@@ -11,6 +11,7 @@ class UserInfoModel extends UserInfoEntity {
     String? tenantID,
     String? tenantName,
     String? propertyID,
+    String? propertyName,
     String? tenantInfoID,
     required String registrationType,
     required String contactNumber,
@@ -29,6 +30,7 @@ class UserInfoModel extends UserInfoEntity {
     registrationType: registrationType,
     contactNumber: contactNumber,
     emailAddress: emailAddress,
+    propertyName: propertyName,
   );
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class UserInfoModel extends UserInfoEntity {
       registrationType: json['registrationType'],
       contactNumber: json['contactNumber'],
       emailAddress: json['emailAddress'],
+      propertyName: json['propertyName'],
     );
   }
 

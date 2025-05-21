@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:timelines_plus/timelines_plus.dart';
-
 import '../../core/constants/app_colors.dart';
 import '../../data/model/history/history_query_params.dart';
 import '../../data/model/user/user_info_model.dart';
-import '../../service_locator.dart';
 import '../widgets/center_loader.dart';
 import '../dashboard/bloc/user_cubit.dart';
 import 'get_history_cubit.dart';
