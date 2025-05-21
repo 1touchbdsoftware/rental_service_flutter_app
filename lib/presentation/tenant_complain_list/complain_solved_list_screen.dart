@@ -1,6 +1,9 @@
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:rental_service/presentation/widgets/no_internet_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/bloc/auth/auth_cubit.dart';
@@ -32,8 +35,25 @@ class ComplainsCompletedListScreen extends StatelessWidget {
 }
 
 
+
+
 class ComplainsListContent extends StatelessWidget {
   const ComplainsListContent({super.key});
+
+  Future<bool> _checkInternetConnection() async {
+    bool result = await InternetConnection().hasInternetAccess;
+    return result;
+  }
+
+  Future<void> _fetchComplainsWithConnectionCheck(BuildContext context) async {
+    final hasConnection = await _checkInternetConnection();
+    if (!hasConnection) {
+      return;
+    }
+
+    final params = await _prepareComplainsParams();
+    await context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+  }
 
   Future<GetComplainsParams> _prepareComplainsParams() async {
     final prefs = await SharedPreferences.getInstance();
@@ -61,7 +81,6 @@ class ComplainsListContent extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticated) {
-          // Navigate to login screen
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => SignInPage()),
                 (Route<dynamic> route) => false,
@@ -80,22 +99,29 @@ class ComplainsListContent extends StatelessWidget {
         drawer: buildAppDrawer(context, 'John Doe', 'Tenant Dashboard'),
         body: RefreshIndicator(
           onRefresh: () async {
-            final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
-                params: params);
+            await _fetchComplainsWithConnectionCheck(context);
           },
           child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
             builder: (context, state) {
+              // Handle no internet state first
+              if (state is GetTenantComplainsNoInternetState) {
+                return NoInternetWidget(
+                  onRetry: () async {
+                    final params = await _prepareComplainsParams();
+                    context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                  },
+                );
+              }
               if (state is GetTenantComplainsInitialState) {
                 // Trigger fetch when in initial state
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   _prepareComplainsParams().then((params) {
-                    context.read<GetTenantComplainsCubit>().fetchComplains(
-                        params: params);
+                    context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
                   });
                 });
                 return const CenterLoaderWithText(text: "Loading Complains...");
-              } else if (state is GetTenantComplainsLoadingState) {
+              }
+              else if (state is GetTenantComplainsLoadingState) {
                 return const CenterLoaderWithText(text: "Loading Complains...");
               } else if (state is GetTenantComplainsFailureState) {
                 return Center(
@@ -109,9 +135,7 @@ class ComplainsListContent extends StatelessWidget {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () async {
-                          final params = await _prepareComplainsParams();
-                          await context.read<GetTenantComplainsCubit>().fetchComplains(
-                              params: params);
+                          await _fetchComplainsWithConnectionCheck(context);
                         },
                         child: const Text('Retry'),
                       ),
@@ -132,7 +156,7 @@ class ComplainsListContent extends StatelessWidget {
                 }
 
                 return ListView.builder(
-                  itemCount: complaints.length + 1, // +1 for pagination
+                  itemCount: complaints.length + 1,
                   itemBuilder: (context, index) {
                     if (index < complaints.length) {
                       final complaint = complaints[index];
@@ -145,16 +169,24 @@ class ComplainsListContent extends StatelessWidget {
                         onImagePressed: (imgIndex) {
                           final imageList = complaint.images!.map((img) => img.file).toList();
                           showImageDialog(context, imageList, imgIndex);
-                        }, onReschedulePressed: () {  }, onCompletePressed: () {  }, onResubmitPressed: () {  }, onAcceptPressed: () {  },
+                        },
+                        onReschedulePressed: () {},
+                        onCompletePressed: () {},
+                        onResubmitPressed: () {},
+                        onAcceptPressed: () {},
                       );
                     } else {
-                      // pagination widget at the end of the list
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: PaginationControls(
                           currentPage: pagination.pageNumber,
                           totalPages: pagination.totalPages,
                           onPageChanged: (page) async {
+                            final hasConnection = await _checkInternetConnection();
+                            if (!hasConnection) {
+                              return;
+                            }
+
                             final prefs = await SharedPreferences.getInstance();
                             final params = GetComplainsParams(
                               agencyID: prefs.getString('agencyID') ?? '',
@@ -175,18 +207,9 @@ class ComplainsListContent extends StatelessWidget {
                   },
                 );
               }
-              // Fallback for any unexpected state
               return const CenterLoaderWithText(text: "Loading Complains...");
             },
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
-                params: params);
-          },
-          child: const Icon(Icons.refresh),
         ),
       ),
     );
@@ -230,6 +253,7 @@ void _handleReadMore(BuildContext context, String? complainName) {
       bodyText: complainName ?? 'No details provided.',
     ),
   );
+
 }
 
 

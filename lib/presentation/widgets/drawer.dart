@@ -136,6 +136,7 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
   );
 }
 
+
 void showLogoutConfirmation(BuildContext context) {
   final theme = Theme.of(context);
   final colorScheme = theme.colorScheme;
@@ -146,32 +147,64 @@ void showLogoutConfirmation(BuildContext context) {
     builder: (BuildContext dialogContext) {
       return AlertDialog(
         backgroundColor: colorScheme.surface,
-        title: Text(
-          "Confirm Logout",
-          style: textTheme.titleLarge?.copyWith(
-            color: colorScheme.onSurface,
-          ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Icon(
+              Icons.logout_rounded,
+              color: colorScheme.error,
+              size: 24,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              "Confirm Logout",
+              style: textTheme.titleLarge?.copyWith(
+                color: colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
         content: Text(
-          "Are you sure you want to log out?",
+          "Are you sure you want to log out of your account?",
           style: textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurface,
+            color: colorScheme.onSurfaceVariant,
           ),
         ),
         actions: [
           TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: colorScheme.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
             child: Text(
               "Cancel",
-              style: TextStyle(color: colorScheme.primary),
+              style: textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
             ),
             onPressed: () => Navigator.of(dialogContext).pop(),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              foregroundColor: colorScheme.onPrimary,
+              backgroundColor: colorScheme.error,
+              foregroundColor: colorScheme.onError,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            child: Text("Logout"),
+            child: Text(
+              "Logout",
+              style: textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             onPressed: () {
               Navigator.of(dialogContext).pop(); // Close the dialog
               context.read<AuthCubit>().logOut(usecase: sl<LogoutUseCase>());

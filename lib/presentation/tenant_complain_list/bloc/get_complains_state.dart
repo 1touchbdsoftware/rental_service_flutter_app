@@ -11,6 +11,8 @@ class GetTenantComplainsInitialState extends GetTenantComplainsState{}
 
 class GetTenantComplainsLoadingState extends GetTenantComplainsState{}
 
+class GetTenantComplainsNoInternetState extends GetTenantComplainsState{}
+
 class GetTenantComplainsSuccessState extends GetTenantComplainsState with EquatableMixin {
   final ComplainResponseModel response;
 

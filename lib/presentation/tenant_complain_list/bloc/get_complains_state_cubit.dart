@@ -1,5 +1,7 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
 import 'package:rental_service/presentation/tenant_complain_list/bloc/get_complains_state.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
@@ -16,12 +18,16 @@ class GetTenantComplainsCubit extends Cubit<GetTenantComplainsState> {
   super(GetTenantComplainsInitialState());
 
   Future<void> fetchComplains({required GetComplainsParams params}) async {
-    emit(GetTenantComplainsLoadingState());
 
     try {
+      bool connection = await InternetConnection().hasInternetAccess;
+      if (!connection) {
+        emit(GetTenantComplainsNoInternetState());
+        return;
+      }
+      emit(GetTenantComplainsLoadingState());
       final Either<String, ComplainResponseModel> result =
       await _useCase.call(param: params);
-
       result.fold(
             (error) {
           print("Pending error: $error");
