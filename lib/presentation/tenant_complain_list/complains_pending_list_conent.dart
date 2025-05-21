@@ -38,18 +38,10 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
   void initState() {
     super.initState();
 
-    // We'll move user info loading to didChangeDependencies instead
-    // so we can access BLoC properly
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // Load user info once when widget is first built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<UserInfoCubit>().loadUserInfo();
     });
+    // so we can access BLoC properly
   }
 
   void _fetchComplaints(UserInfoModel userInfo) {
@@ -94,13 +86,17 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
               },
             ),
             BlocListener<UserInfoCubit, UserInfoModel>(
+              listenWhen: (previous, current) {
+                // Only respond when the tenantID actually changes from empty to non-empty
+                return previous.tenantID != current.tenantID &&
+                    current.tenantID != null &&
+                    current.tenantID!.isNotEmpty;
+              },
               listener: (context, userInfo) {
-                if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
-                  setState(() {
-                    _tenantName = userInfo.tenantName ?? "Tenant";
-                  });
-                  _fetchComplaints(userInfo);
-                }
+                setState(() {
+                  _tenantName = userInfo.tenantName ?? "Tenant";
+                });
+                _fetchComplaints(userInfo);
               },
             ),
             BlocListener<MarkComplainCompletedCubit, ComplainState>(

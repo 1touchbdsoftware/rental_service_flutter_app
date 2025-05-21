@@ -226,7 +226,7 @@ class ComplainCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (complaint.isSolved!)
+                  if (complaint.isSolved! && !complaint.isCompleted!)
                     Row(
                       children: [
                         ElevatedButton(

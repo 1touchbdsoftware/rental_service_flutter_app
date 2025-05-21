@@ -10,6 +10,7 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import '../history/complain_history_screen.dart';
 import '../widgets/center_loader.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
@@ -201,8 +202,14 @@ void _handleDelete(BuildContext context, ComplainEntity complaint) {
 }
 
 void _handleHistory(BuildContext context, ComplainEntity complaint) {
-  // Navigate or show history
+  Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) => ComplaintHistoryScreen(complainID: complaint.complainID)
+      )
+  );
 }
+
 
 void _handleEdit(BuildContext context, ComplainEntity complaint) {
   // Navigate or show history

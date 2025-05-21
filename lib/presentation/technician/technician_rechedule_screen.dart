@@ -159,7 +159,7 @@ class _AssignedTechnicianScreenContentState
           builder: (context, state) {
             if (state is GetAssignedTechnicianLoadingState) {
               return const CenterLoaderWithText(
-                text: 'Fetching assigned technician...',
+                text: 'Getting Technician Info...',
               );
             } else if (state is GetAssignedTechnicianFailureState) {
               return Center(
