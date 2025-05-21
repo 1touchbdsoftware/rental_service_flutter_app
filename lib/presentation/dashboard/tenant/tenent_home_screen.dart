@@ -95,7 +95,7 @@ class TenantHomeScreen extends StatelessWidget {
                                   title: 'Create Complaint',
                                   color: Colors.blue,
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/create-complain-screen');
+                                    Navigator.pushNamed(context, '/create_complain-screen');
                                   },
                                 ),
                                 _buildActionCard(
@@ -110,7 +110,7 @@ class TenantHomeScreen extends StatelessWidget {
                                 _buildActionCard(
                                   context,
                                   icon: Icons.check_circle_outline,
-                                  title: 'Resolved',
+                                  title: 'Resolved List',
                                   color: Colors.green,
                                   onTap: () {
                                     Navigator.pushNamed(context, '/complain-completed-list-screen');
@@ -119,7 +119,7 @@ class TenantHomeScreen extends StatelessWidget {
                                 _buildActionCard(
                                   context,
                                   icon: Icons.cancel_outlined,
-                                  title: 'Declined',
+                                  title: 'Declined List',
                                   color: Colors.red,
                                   onTap: () {
                                     Navigator.pushNamed(context, '/complain-declined-list-screen');

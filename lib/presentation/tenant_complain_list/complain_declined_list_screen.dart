@@ -19,21 +19,21 @@ import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state.dart';
 import 'bloc/get_complains_state_cubit.dart';
 
-class ComplainsCompletedListScreen extends StatelessWidget {
-  const ComplainsCompletedListScreen({super.key});
+class ComplainsDeclinedListScreen extends StatelessWidget {
+  const ComplainsDeclinedListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetTenantComplainsCubit(),
-      child: const ComplainsListContent(),
+      child: const ComplainsDeclinedListContent(),
     );
   }
 }
 
 
-class ComplainsListContent extends StatelessWidget {
-  const ComplainsListContent({super.key});
+class ComplainsDeclinedListContent extends StatelessWidget {
+  const ComplainsDeclinedListContent({super.key});
 
   Future<GetComplainsParams> _prepareComplainsParams() async {
     final prefs = await SharedPreferences.getInstance();
@@ -52,7 +52,7 @@ class ComplainsListContent extends StatelessWidget {
       pageSize: 10,
       isActive: true,
       flag: 'TENANT',
-      tab: 'SOLVED',
+      tab: 'DECLINED',
     );
   }
 
@@ -73,7 +73,7 @@ class ComplainsListContent extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: const Text(
-            'Solved Complaints',
+            'Declined Complaints',
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -125,7 +125,7 @@ class ComplainsListContent extends StatelessWidget {
                 if (complaints.isEmpty) {
                   return const Center(
                     child: Text(
-                      'No Solved Complaints to Show',
+                      'No Declined Complaints to Show',
                       style: TextStyle(color: Colors.blue),
                     ),
                   );
@@ -165,7 +165,7 @@ class ComplainsListContent extends StatelessWidget {
                               pageSize: 10,
                               isActive: true,
                               flag: 'TENANT',
-                              tab: 'SOLVED',
+                              tab: 'DECLINED',
                             );
                             context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
                           },

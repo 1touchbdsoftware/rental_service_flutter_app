@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/create_complain/create_complain_screen.dart';
+import 'package:rental_service/presentation/tenant_complain_list/complain_declined_list_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/complain_pending_list_screen.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/TenantDashboard.dart';
@@ -17,7 +18,8 @@ class AppRoutes {
   static const String tenantDashboard = '/technician-dashboard';
   static const String complainListScreen = '/complain-list-screen';
   static const String complainCompletedListScreen = '/complain-completed-list-screen';
-  static const String createComplainScreen = '/create-complain-screen';
+  static const String complainDeclinedListScreen = '/complain-declined-list-screen';
+  static const String createComplainScreen = '/create_complain-screen';
 
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,14 +30,14 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const LandlordDashboard());
       case tenantDashboard:
         return MaterialPageRoute(builder: (_) => const TenantDashboardScreen());
+      case createComplainScreen:
+        return MaterialPageRoute(builder: (_) => const CreateComplainScreen());
       case complainListScreen:
         return MaterialPageRoute(builder: (_) => const ComplainsListScreen());
       case complainCompletedListScreen:
         return MaterialPageRoute(builder: (_) => const ComplainsCompletedListScreen());
-
-      case createComplainScreen:
-        return MaterialPageRoute(builder: (_) => const CreateComplainScreen());
-
+      case complainDeclinedListScreen:
+        return MaterialPageRoute(builder: (_) => const ComplainsDeclinedListScreen());
 
       default:
         return MaterialPageRoute(
@@ -55,6 +57,7 @@ class AppRoutes {
       tenantDashboard: (context) => const TenantDashboardScreen(),
       complainListScreen: (context) => ComplainsListScreen(),
       complainCompletedListScreen: (context) => ComplainsCompletedListScreen(),
+      complainDeclinedListScreen: (context) => ComplainsDeclinedListScreen(),
       createComplainScreen: (context) => CreateComplainScreen(),
 
 
