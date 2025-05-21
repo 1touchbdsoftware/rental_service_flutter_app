@@ -9,12 +9,14 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
+import '../dashboard/bloc/user_cubit.dart';
 import '../history/complain_history_screen.dart';
 import '../widgets/center_loader.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
 import '../widgets/info_dialog.dart';
+import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state.dart';
 import 'bloc/get_complains_state_cubit.dart';
@@ -86,6 +88,17 @@ class ComplainsDeclinedListContent extends StatelessWidget {
           },
           child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
             builder: (context, state) {
+
+              // Handle no internet state first
+              if (state is GetTenantComplainsNoInternetState) {
+                return NoInternetWidget(
+                  onRetry: () async {
+                    final params = await _prepareComplainsParams();
+                    context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                  },
+                );
+              }
+
               if (state is GetTenantComplainsInitialState) {
                 // Trigger fetch when in initial state
                 WidgetsBinding.instance.addPostFrameCallback((_) {

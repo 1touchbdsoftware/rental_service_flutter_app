@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
 import 'package:rental_service/presentation/history/complain_history_screen.dart';
@@ -19,6 +20,7 @@ import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
 import '../widgets/info_dialog.dart';
+import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state_cubit.dart';
 import '../../service_locator.dart';
@@ -50,6 +52,13 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
     }
   }
+
+  Future<bool> _checkInternetConnection() async {
+    bool result = await InternetConnection().hasInternetAccess;
+    return result;
+  }
+
+
 
   GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
     return GetComplainsParams(
@@ -166,6 +175,17 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         },
         child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
           builder: (context, state) {
+            // Handle no internet state first
+            if (state is GetTenantComplainsNoInternetState) {
+              return NoInternetWidget(
+                onRetry: () async {
+                  final userInfo = context.read<UserInfoCubit>().state;
+                  final params = await _prepareComplainsParams(userInfo);
+                  context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                },
+              );
+            }
+
             if (state is GetTenantComplainsInitialState) {
               return const CenterLoaderWithText(text: "Loading Complains...");
             } else if (state is GetTenantComplainsLoadingState) {
