@@ -34,9 +34,20 @@ class ComplainApiServiceImpl implements ComplainApiService {
       GetComplainsParams params) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-
+      var url = '';
       // Get token from SharedPreferences
       final token = prefs.getString('token');
+      //get user type
+      final userType = prefs.getString('userType');
+
+      if(userType=="TENANT"){
+        url = ApiUrls.getComplainInfo;
+      }else if(userType =="LANDLORD"){
+        url = ApiUrls.getComplainInfoLandlord;
+      }else{
+        url = ApiUrls.baseURL;
+      }
+
       if (token == null) {
         return Left(ApiFailure('Authentication token not found'));
       }
@@ -45,7 +56,7 @@ class ComplainApiServiceImpl implements ComplainApiService {
         'AgencyID': params.agencyID,
         'PageNumber': params.pageNumber.toString(),
         'PageSize': params.pageSize.toString(),
-        'IsActive': params.isActive.toString(),
+        if (params.isActive != null) 'IsActive': params.isActive.toString(),
         if (params.landlordID != null) 'LandlordID': params.landlordID,
         if (params.propertyID != null) 'PropertyID': params.propertyID,
         if (params.tenantID != null) 'TenantID': params.tenantID,
@@ -54,7 +65,7 @@ class ComplainApiServiceImpl implements ComplainApiService {
       };
 
       final response = await sl<DioClient>().get(
-        ApiUrls.getComplainInfo,
+        url,
         queryParameters: queryParams,
         options: Options(
           headers: {

@@ -3,7 +3,7 @@ class GetComplainsParams {
   final String agencyID;
   final int pageNumber;
   final int pageSize;
-  final bool isActive;
+  final bool? isActive;
   final String? landlordID;
   final String? propertyID;
   final String? tenantID;
@@ -14,7 +14,7 @@ class GetComplainsParams {
     required this.agencyID,
     required this.pageNumber,
     required this.pageSize,
-    required this.isActive,
+    this.isActive,
     this.landlordID,
     this.propertyID,
     this.tenantID,

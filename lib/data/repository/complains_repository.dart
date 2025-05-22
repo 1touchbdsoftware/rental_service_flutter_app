@@ -17,7 +17,7 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
   // FETCH RESPONSE THEN FILTER
   @override
   Future<Either<String, ComplainResponseModel>> getTenantComplains(
-      GetComplainsParams params,
+      GetComplainsParams params
       ) async {
     Either<ApiFailure, Response> result =
     await sl<ComplainApiService>().getComplains(params);

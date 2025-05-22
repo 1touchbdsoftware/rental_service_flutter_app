@@ -7,6 +7,7 @@ class ApiUrls{
   static const signin = '${baseURL}access/login';
 
   static const getComplainInfo = '${baseURL}Complain/GetComplainInfo';
+  static const getComplainInfoLandlord = '${baseURL}Complain/GetComplainInfoForLandlord';
 
   static const propertyWiseSegment = '${baseURL}Segment/GetSegmentsExtension';
 

@@ -19,6 +19,8 @@ class GetComplainsCubit extends Cubit<GetComplainsState> {
 
   Future<void> fetchComplains({required GetComplainsParams params}) async {
 
+    print("CUBIT CALLED");
+
     try {
       bool connection = await InternetConnection().hasInternetAccess;
       if (!connection) {
