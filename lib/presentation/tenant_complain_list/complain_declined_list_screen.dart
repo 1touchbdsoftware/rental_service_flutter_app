@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/bloc/auth/auth_cubit.dart';
-
 import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
+import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
@@ -26,30 +25,48 @@ class ComplainsDeclinedListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetTenantComplainsCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => GetTenantComplainsCubit()),
+        BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
+      ],
       child: const ComplainsDeclinedListContent(),
     );
   }
 }
 
-
-class ComplainsDeclinedListContent extends StatelessWidget {
+class ComplainsDeclinedListContent extends StatefulWidget {
   const ComplainsDeclinedListContent({super.key});
 
-  Future<GetComplainsParams> _prepareComplainsParams() async {
-    final prefs = await SharedPreferences.getInstance();
+  @override
+  State<ComplainsDeclinedListContent> createState() => _ComplainsDeclinedListContentState();
+}
 
-    final agencyID = prefs.getString('agencyID') ?? '';
-    final tenantID = prefs.getString('tenantID') ?? '';
-    final landlordID = prefs.getString('landlordID') ?? '';
-    final propertyID = prefs.getString('propertyID') ?? '';
+class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListContent> {
+  String _tenantName = "Tenant";
 
+  @override
+  void initState() {
+    super.initState();
+    // Load user info when the widget initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UserInfoCubit>().loadUserInfo();
+    });
+  }
+
+  void _fetchComplaints(UserInfoModel userInfo) {
+    if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
+      final params = _prepareComplainsParams(userInfo);
+      context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+    }
+  }
+
+  GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
     return GetComplainsParams(
-      agencyID: agencyID,
-      tenantID: tenantID,
-      landlordID: landlordID,
-      propertyID: propertyID,
+      agencyID: userInfo.agencyID,
+      tenantID: userInfo.tenantID ?? '',
+      landlordID: userInfo.landlordID ?? '',
+      propertyID: userInfo.propertyID ?? '',
       pageNumber: 1,
       pageSize: 10,
       isActive: true,
@@ -60,189 +77,266 @@ class ComplainsDeclinedListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is UnAuthenticated) {
-          // Navigate to login screen
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => SignInPage()),
-                (Route<dynamic> route) => false,
-          );
-        }
-      },
+    // Get theme colors for better theming
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
+    return MultiBlocListener(
+      listeners: [
+        // Listen to authentication state changes
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is UnAuthenticated) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => SignInPage()),
+                    (Route<dynamic> route) => false,
+              );
+            }
+          },
+        ),
+        // Listen to user info changes
+        BlocListener<UserInfoCubit, UserInfoModel>(
+          listenWhen: (previous, current) {
+            // Only respond when the tenantID actually changes from empty to non-empty
+            return previous.tenantID != current.tenantID &&
+                current.tenantID != null &&
+                current.tenantID!.isNotEmpty;
+          },
+          listener: (context, userInfo) {
+            setState(() {
+              _tenantName = userInfo.tenantName ?? "Tenant";
+            });
+            _fetchComplaints(userInfo);
+          },
+        ),
+      ],
       child: Scaffold(
         backgroundColor: AppColors.primary,
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          title: const Text(
+          title: Text(
             'Declined Complaints',
-            style: TextStyle(color: Colors.black),
+            style: textTheme.titleLarge?.copyWith(
+              color: Colors.black,
+            ),
           ),
         ),
-        drawer: buildAppDrawer(context, 'John Doe', 'Tenant Dashboard'),
+        drawer: buildAppDrawer(
+          context,
+          _tenantName,
+          'Tenant Dashboard',
+        ),
         body: RefreshIndicator(
+          color: colorScheme.primary,
+          backgroundColor: colorScheme.surface,
           onRefresh: () async {
-            final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
-                params: params);
+            final userInfo = context.read<UserInfoCubit>().state;
+            if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
+              _fetchComplaints(userInfo);
+            } else {
+              await context.read<UserInfoCubit>().loadUserInfo();
+            }
           },
           child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
             builder: (context, state) {
-
               // Handle no internet state first
               if (state is GetTenantComplainsNoInternetState) {
                 return NoInternetWidget(
                   onRetry: () async {
-                    final params = await _prepareComplainsParams();
-                    context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+                    final userInfo = context.read<UserInfoCubit>().state;
+                    _fetchComplaints(userInfo);
                   },
                 );
               }
 
               if (state is GetTenantComplainsInitialState) {
-                // Trigger fetch when in initial state
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _prepareComplainsParams().then((params) {
-                    context.read<GetTenantComplainsCubit>().fetchComplains(
-                        params: params);
-                  });
-                });
-                return const CenterLoaderWithText(text: "Loading Complains...");
+                return const CenterLoaderWithText(text: "Loading Declined Complaints...");
               } else if (state is GetTenantComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Complains...");
+                return const CenterLoaderWithText(text: "Loading Declined Complaints...");
               } else if (state is GetTenantComplainsFailureState) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Error: ${state.errorMessage}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () async {
-                          final params = await _prepareComplainsParams();
-                          await context.read<GetTenantComplainsCubit>().fetchComplains(
-                              params: params);
-                        },
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetTenantComplainsSuccessState) {
-                final complaints = state.response.data.list;
-                final pagination = state.response.data.pagination;
-
-                if (complaints.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No Declined Complaints to Show',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  itemCount: complaints.length + 1, // +1 for pagination
-                  itemBuilder: (context, index) {
-                    if (index < complaints.length) {
-                      final complaint = complaints[index];
-                      return ComplainCard(
-                        complaint: complaint,
-                        onEditPressed: () => _handleEdit(context, complaint),
-                        onHistoryPressed: () => _handleHistory(context, complaint),
-                        onCommentsPressed: () => _handleComments(context, complaint.lastComments),
-                        onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
-                        onImagePressed: (imgIndex) {
-                          final imageList = complaint.images!.map((img) => img.file).toList();
-                          showImageDialog(context, imageList, imgIndex);
-                        }, onReschedulePressed: () {  }, onCompletePressed: () {  }, onResubmitPressed: () {  }, onAcceptPressed: () {  },
-                      );
-                    } else {
-                      // pagination widget at the end of the list
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: PaginationControls(
-                          currentPage: pagination.pageNumber,
-                          totalPages: pagination.totalPages,
-                          onPageChanged: (page) async {
-                            final prefs = await SharedPreferences.getInstance();
-                            final params = GetComplainsParams(
-                              agencyID: prefs.getString('agencyID') ?? '',
-                              tenantID: prefs.getString('tenantID') ?? '',
-                              landlordID: prefs.getString('landlordID') ?? '',
-                              propertyID: prefs.getString('propertyID') ?? '',
-                              pageNumber: page,
-                              pageSize: 10,
-                              isActive: true,
-                              flag: 'TENANT',
-                              tab: 'DECLINED',
-                            );
-                            context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
-                          },
-                        ),
-                      );
-                    }
-                  },
-                );
+                return _buildComplaintsList(context, state, colorScheme, textTheme);
               }
+
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Complains...");
+              return const CenterLoaderWithText(text: "Loading Declined Complaints...");
             },
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final params = await _prepareComplainsParams();
-            await context.read<GetTenantComplainsCubit>().fetchComplains(
-                params: params);
+            final userInfo = context.read<UserInfoCubit>().state;
+            _fetchComplaints(userInfo);
           },
+          backgroundColor: colorScheme.primaryContainer,
+          foregroundColor: colorScheme.onPrimaryContainer,
           child: const Icon(Icons.refresh),
         ),
       ),
     );
   }
-}
 
+  Widget _buildErrorView(BuildContext context, String errorMessage, ColorScheme colorScheme) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Error: $errorMessage',
+            style: TextStyle(color: colorScheme.error),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () async {
+              final userInfo = context.read<UserInfoCubit>().state;
+              _fetchComplaints(userInfo);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
+            ),
+            child: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
 
-void _handleHistory(BuildContext context, ComplainEntity complaint) {
-  Navigator.push(
+  Widget _buildComplaintsList(
+      BuildContext context,
+      GetTenantComplainsSuccessState state,
+      ColorScheme colorScheme,
+      TextTheme textTheme,
+      ) {
+    final complaints = state.response.data.list;
+    final pagination = state.response.data.pagination;
+
+    if (complaints.isEmpty) {
+      return Center(
+        child: Text(
+          'No Declined Complaints to Show',
+          style: textTheme.bodyLarge?.copyWith(
+            color: Colors.blue,
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: complaints.length + 1, // +1 for pagination
+      itemBuilder: (context, index) {
+        if (index < complaints.length) {
+          final complaint = complaints[index];
+          return ComplainCard(
+            complaint: complaint,
+            onEditPressed: () => _handleEdit(context, complaint),
+            onHistoryPressed: () => _handleHistory(context, complaint),
+            onCommentsPressed: () => _handleComments(context, complaint.lastComments),
+            onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
+            onImagePressed: (imgIndex) {
+              final imageList = complaint.images!.map((img) => img.file).toList();
+              showImageDialog(context, imageList, imgIndex);
+            },
+            // These actions are disabled for declined complaints
+            onReschedulePressed: () {},
+            onCompletePressed: () {},
+            onResubmitPressed: () {},
+            onAcceptPressed: () {},
+          );
+        } else {
+          // Pagination widget at the end of the list
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: PaginationControls(
+              currentPage: pagination.pageNumber,
+              totalPages: pagination.totalPages,
+              onPageChanged: (page) async {
+                final userInfo = context.read<UserInfoCubit>().state;
+                final updatedParams = GetComplainsParams(
+                  agencyID: userInfo.agencyID,
+                  tenantID: userInfo.tenantID ?? '',
+                  landlordID: userInfo.landlordID ?? '',
+                  propertyID: userInfo.propertyID ?? '',
+                  pageNumber: page,
+                  pageSize: 10,
+                  isActive: true,
+                  flag: 'TENANT',
+                  tab: 'DECLINED',
+                );
+                context.read<GetTenantComplainsCubit>().fetchComplains(params: updatedParams);
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  // Handler functions
+  void _handleHistory(BuildContext context, ComplainEntity complaint) {
+    Navigator.push(
       context,
       MaterialPageRoute<void>(
-          builder: (BuildContext context) => ComplaintHistoryScreen(complainID: complaint.complainID)
-      )
-  );
+        builder: (BuildContext context) => ComplaintHistoryScreen(
+          complainID: complaint.complainID,
+        ),
+      ),
+    );
+  }
+
+  void _handleEdit(BuildContext context, ComplainEntity complaint) {
+    // For declined complaints, editing might require special handling
+    // You can show a message or navigate to a resubmit form
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Declined Complaint'),
+        content: const Text(
+          'This complaint has been declined. Would you like to resubmit it with modifications?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Navigate to resubmit form or edit form
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Resubmit functionality coming soon'),
+                  backgroundColor: Colors.blue,
+                ),
+              );
+            },
+            child: const Text('Resubmit'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleComments(BuildContext context, String? comment) {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleInfoDialog(
+        title: 'Decline Reason',
+        bodyText: comment ?? 'No decline reason provided',
+      ),
+    );
+  }
+
+  void _handleReadMore(BuildContext context, String? complainName) {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleInfoDialog(
+        title: 'Complaint Details',
+        bodyText: complainName ?? 'No details provided.',
+      ),
+    );
+  }
 }
-
-
-void _handleEdit(BuildContext context, ComplainEntity complaint) {
-  // Navigate or show history
-}
-
-
-void _handleComments(BuildContext context, String? comment) {
-  // final lastComment = complaint.lastComments;
-  showDialog(
-    context: context,
-    builder: (context) => SimpleInfoDialog(
-      title: 'Last Comment Details',
-      bodyText: comment?? 'No Comments Yet',
-    ),
-  );
-
-}
-
-
-void _handleReadMore(BuildContext context, String? complainName) {
-  showDialog(
-    context: context,
-    builder: (context) => SimpleInfoDialog(
-      title: 'Complaint Details',
-      bodyText: complainName ?? 'No details provided.',
-    ),
-  );
-}
-
-
