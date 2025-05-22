@@ -10,36 +10,36 @@ import 'package:rental_service/domain/usecases/get_completed_complains_usecase.d
 import '../../../data/model/complain/complain_response_model.dart';
 import '../../../service_locator.dart';
 
-class GetTenantComplainsCubit extends Cubit<GetTenantComplainsState> {
+class GetComplainsCubit extends Cubit<GetComplainsState> {
   final GetTenantComplainsUseCase _useCase;
 
-  GetTenantComplainsCubit({GetTenantComplainsUseCase? useCase})
+  GetComplainsCubit({GetTenantComplainsUseCase? useCase})
       : _useCase = useCase ?? sl<GetTenantComplainsUseCase>(),
-  super(GetTenantComplainsInitialState());
+  super(GetComplainsInitialState());
 
   Future<void> fetchComplains({required GetComplainsParams params}) async {
 
     try {
       bool connection = await InternetConnection().hasInternetAccess;
       if (!connection) {
-        emit(GetTenantComplainsNoInternetState());
+        emit(GetComplainsNoInternetState());
         return;
       }
-      emit(GetTenantComplainsLoadingState());
+      emit(GetComplainsLoadingState());
       final Either<String, ComplainResponseModel> result =
       await _useCase.call(param: params);
       result.fold(
             (error) {
           print("Pending error: $error");
-          emit(GetTenantComplainsFailureState(errorMessage: error));
+          emit(GetComplainsFailureState(errorMessage: error));
         },
-            (data) => emit(GetTenantComplainsSuccessState(data)),
+            (data) => emit(GetComplainsSuccessState(data)),
       );
 
     } catch (e) {
       print("Cubit:Catch block called}");
       // This should only catch errors in the service locator or emit calls
-      emit(GetTenantComplainsFailureState(errorMessage: 'Unexpected error: ${e.toString()}'));
+      emit(GetComplainsFailureState(errorMessage: 'Unexpected error: ${e.toString()}'));
     }
 
   }

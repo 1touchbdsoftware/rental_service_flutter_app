@@ -27,7 +27,7 @@ class ComplainsDeclinedListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => GetTenantComplainsCubit()),
+        BlocProvider(create: (_) => GetComplainsCubit()),
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
       ],
       child: const ComplainsDeclinedListContent(),
@@ -57,7 +57,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
   void _fetchComplaints(UserInfoModel userInfo) {
     if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+      context.read<GetComplainsCubit>().fetchComplains(params: params);
     }
   }
 
@@ -138,10 +138,10 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
               await context.read<UserInfoCubit>().loadUserInfo();
             }
           },
-          child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
+          child: BlocBuilder<GetComplainsCubit, GetComplainsState>(
             builder: (context, state) {
               // Handle no internet state first
-              if (state is GetTenantComplainsNoInternetState) {
+              if (state is GetComplainsNoInternetState) {
                 return NoInternetWidget(
                   onRetry: () async {
                     final userInfo = context.read<UserInfoCubit>().state;
@@ -150,13 +150,13 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
                 );
               }
 
-              if (state is GetTenantComplainsInitialState) {
+              if (state is GetComplainsInitialState) {
                 return const CenterLoaderWithText(text: "Loading Declined Complaints...");
-              } else if (state is GetTenantComplainsLoadingState) {
+              } else if (state is GetComplainsLoadingState) {
                 return const CenterLoaderWithText(text: "Loading Declined Complaints...");
-              } else if (state is GetTenantComplainsFailureState) {
+              } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
-              } else if (state is GetTenantComplainsSuccessState) {
+              } else if (state is GetComplainsSuccessState) {
                 return _buildComplaintsList(context, state, colorScheme, textTheme);
               }
 
@@ -207,7 +207,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
 
   Widget _buildComplaintsList(
       BuildContext context,
-      GetTenantComplainsSuccessState state,
+      GetComplainsSuccessState state,
       ColorScheme colorScheme,
       TextTheme textTheme,
       ) {
@@ -266,7 +266,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
                   flag: 'TENANT',
                   tab: 'DECLINED',
                 );
-                context.read<GetTenantComplainsCubit>().fetchComplains(params: updatedParams);
+                context.read<GetComplainsCubit>().fetchComplains(params: updatedParams);
               },
             ),
           );

@@ -18,7 +18,7 @@ class ComplainsListScreen extends StatelessWidget {
           create: (_) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
         ),
         BlocProvider(
-          create: (_) => GetTenantComplainsCubit(),
+          create: (_) => GetComplainsCubit(),
         ),
       ],
       child: const ComplainsListContent(),

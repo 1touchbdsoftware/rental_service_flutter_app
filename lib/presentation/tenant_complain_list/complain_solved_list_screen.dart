@@ -28,7 +28,7 @@ class ComplainsCompletedListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => GetTenantComplainsCubit()),
+        BlocProvider(create: (_) => GetComplainsCubit()),
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
       ],
       child: const ComplainsListContent(),
@@ -63,7 +63,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
   void _fetchComplaints(UserInfoModel userInfo) {
     if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      context.read<GetTenantComplainsCubit>().fetchComplains(params: params);
+      context.read<GetComplainsCubit>().fetchComplains(params: params);
     }
   }
 
@@ -154,10 +154,10 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
               await context.read<UserInfoCubit>().loadUserInfo();
             }
           },
-          child: BlocBuilder<GetTenantComplainsCubit, GetTenantComplainsState>(
+          child: BlocBuilder<GetComplainsCubit, GetComplainsState>(
             builder: (context, state) {
               // Handle no internet state first
-              if (state is GetTenantComplainsNoInternetState) {
+              if (state is GetComplainsNoInternetState) {
                 return NoInternetWidget(
                   onRetry: () async {
                     final userInfo = context.read<UserInfoCubit>().state;
@@ -166,13 +166,13 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
                 );
               }
 
-              if (state is GetTenantComplainsInitialState) {
+              if (state is GetComplainsInitialState) {
                 return const CenterLoaderWithText(text: "Loading Solved Complaints...");
-              } else if (state is GetTenantComplainsLoadingState) {
+              } else if (state is GetComplainsLoadingState) {
                 return const CenterLoaderWithText(text: "Loading Solved Complaints...");
-              } else if (state is GetTenantComplainsFailureState) {
+              } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
-              } else if (state is GetTenantComplainsSuccessState) {
+              } else if (state is GetComplainsSuccessState) {
                 return _buildComplaintsList(context, state, colorScheme, textTheme);
               }
 
@@ -221,7 +221,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
 
   Widget _buildComplaintsList(
       BuildContext context,
-      GetTenantComplainsSuccessState state,
+      GetComplainsSuccessState state,
       ColorScheme colorScheme,
       TextTheme textTheme,
       ) {
@@ -285,7 +285,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
                   flag: 'TENANT',
                   tab: 'SOLVED',
                 );
-                context.read<GetTenantComplainsCubit>().fetchComplains(params: updatedParams);
+                context.read<GetComplainsCubit>().fetchComplains(params: updatedParams);
               },
             ),
           );

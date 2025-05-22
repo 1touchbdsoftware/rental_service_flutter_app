@@ -3,27 +3,27 @@ import 'package:equatable/equatable.dart';
 
 import '../../../data/model/complain/complain_response_model.dart';
 
-abstract class GetTenantComplainsState{
+abstract class GetComplainsState{
 
 }
 
-class GetTenantComplainsInitialState extends GetTenantComplainsState{}
+class GetComplainsInitialState extends GetComplainsState{}
 
-class GetTenantComplainsLoadingState extends GetTenantComplainsState{}
+class GetComplainsLoadingState extends GetComplainsState{}
 
-class GetTenantComplainsNoInternetState extends GetTenantComplainsState{}
+class GetComplainsNoInternetState extends GetComplainsState{}
 
-class GetTenantComplainsSuccessState extends GetTenantComplainsState with EquatableMixin {
+class GetComplainsSuccessState extends GetComplainsState with EquatableMixin {
   final ComplainResponseModel response;
 
-  GetTenantComplainsSuccessState(this.response);
+  GetComplainsSuccessState(this.response);
 
   @override
   List<Object?> get props => [response];
 }
 
-class GetTenantComplainsFailureState extends GetTenantComplainsState{
+class GetComplainsFailureState extends GetComplainsState{
   final String errorMessage;
 
-  GetTenantComplainsFailureState({required this.errorMessage});
+  GetComplainsFailureState({required this.errorMessage});
 }
