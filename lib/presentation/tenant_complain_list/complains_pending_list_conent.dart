@@ -24,7 +24,7 @@ import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state_cubit.dart';
 import '../../service_locator.dart';
-import 'mark_as_complete_state_cubit.dart';
+import 'bloc/mark_as_complete_state_cubit.dart';
 
 class ComplainsListContent extends StatefulWidget {
   const ComplainsListContent({super.key});

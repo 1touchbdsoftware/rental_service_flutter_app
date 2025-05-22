@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
@@ -18,8 +20,8 @@ import '../widgets/info_dialog.dart';
 import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
 
-class LandlordIssueListScreen extends StatelessWidget {
-  const LandlordIssueListScreen({super.key});
+class LandlordDeclinedListScreen extends StatelessWidget {
+  const LandlordDeclinedListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +30,19 @@ class LandlordIssueListScreen extends StatelessWidget {
         BlocProvider(create: (_) => GetComplainsCubit()),
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
       ],
-      child: const LandlordIssueListContent(),
+      child: const LandlordDeclinedListContent(),
     );
   }
 }
 
-class LandlordIssueListContent extends StatefulWidget {
-  const LandlordIssueListContent({super.key});
+class LandlordDeclinedListContent extends StatefulWidget {
+  const LandlordDeclinedListContent({super.key});
 
   @override
-  State<LandlordIssueListContent> createState() => _LandlordIssueListContentState();
+  State<LandlordDeclinedListContent> createState() => _LandlordDeclinedListContentState();
 }
 
-class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
+class _LandlordDeclinedListContentState extends State<LandlordDeclinedListContent> {
   String _landlordName = "Landlord";
 
   @override
@@ -56,7 +58,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     // Check if landlordID exists before fetching
     if (userInfo.landlordID != null && userInfo.landlordID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      print("Fetching complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
+      print("Fetching declined complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
       context.read<GetComplainsCubit>().fetchComplains(params: params);
     } else {
       print("LandlordID is null or empty, cannot fetch complaints");
@@ -71,7 +73,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       pageNumber: 1,
       pageSize: 10,
       flag: 'LANDLORD',
-      tab: 'PROBLEM',
+      tab: 'DECLINED', // Changed to DECLINED
     );
   }
 
@@ -98,7 +100,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         // Listen to user info changes
         BlocListener<UserInfoCubit, UserInfoModel>(
           listenWhen: (previous, current) {
-            // Fixed: Check landlordID instead of tenantID for landlord screen
+            // Check landlordID instead of tenantID for landlord screen
             return previous.landlordID != current.landlordID &&
                 current.landlordID != null &&
                 current.landlordID!.isNotEmpty;
@@ -117,7 +119,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Pending Complaints',
+            'Declined Complaints', // Changed title
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),
@@ -152,9 +154,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
               }
 
               if (state is GetComplainsInitialState) {
-                return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+                return const CenterLoaderWithText(text: "Loading Declined Complaints...");
               } else if (state is GetComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+                return const CenterLoaderWithText(text: "Loading Declined Complaints...");
               } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetComplainsSuccessState) {
@@ -162,7 +164,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
               }
 
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+              return const CenterLoaderWithText(text: "Loading Declined Complaints...");
             },
           ),
         ),
@@ -218,7 +220,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     if (complaints.isEmpty) {
       return Center(
         child: Text(
-          'No Pending Complaints to Show',
+          'No Declined Complaints to Show', // Changed message
           style: textTheme.bodyLarge?.copyWith(
             color: Colors.blue,
           ),
@@ -260,11 +262,10 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
                   agencyID: userInfo.agencyID,
                   landlordID: userInfo.landlordID ?? '',
                   propertyID: userInfo.propertyID ?? '',
-                  pageNumber: page, // Fixed: Use the actual page parameter
+                  pageNumber: page,
                   pageSize: 10,
-                  isActive: true,
                   flag: 'LANDLORD',
-                  tab: 'PROBLEM',
+                  tab: 'DECLINED', // Changed to DECLINED
                 );
                 context.read<GetComplainsCubit>().fetchComplains(params: updatedParams);
               },
@@ -288,11 +289,32 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   }
 
   void _handleEdit(BuildContext context, ComplainEntity complaint) {
-    // Landlord edit functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Edit functionality for landlord coming soon'),
-        backgroundColor: Colors.blue,
+    // For declined complaints, show option to reconsider or provide additional details
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Declined Complaint Action'),
+        content: const Text(
+          'This complaint has been declined. What would you like to do?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Reconsider functionality coming soon'),
+                  backgroundColor: Colors.blue,
+                ),
+              );
+            },
+            child: const Text('Reconsider'),
+          ),
+        ],
       ),
     );
   }
@@ -301,8 +323,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Last Comments',
-        bodyText: comment ?? 'No comments available',
+        title: 'Decline Reason',
+        bodyText: comment ?? 'No decline reason provided',
       ),
     );
   }
@@ -318,27 +340,48 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   }
 
   void _handleReschedule(BuildContext context, ComplainEntity complaint) {
-    // Landlord reschedule functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Reschedule functionality coming soon'),
-        backgroundColor: Colors.orange,
+    // Declined complaints might be rescheduled if reconsidered
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reschedule Declined Complaint'),
+        content: const Text(
+          'Do you want to reconsider this complaint and schedule it?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Reschedule functionality coming soon'),
+                  backgroundColor: Colors.orange,
+                ),
+              );
+            },
+            child: const Text('Reconsider & Schedule'),
+          ),
+        ],
       ),
     );
   }
 
   void _handleComplete(BuildContext context, ComplainEntity complaint) {
-    // Landlord complete functionality
+    // Cannot complete declined complaints directly
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Complete functionality coming soon'),
-        backgroundColor: Colors.green,
+        content: Text('Cannot complete declined complaints. Please reconsider first.'),
+        backgroundColor: Colors.orange,
       ),
     );
   }
 
   void _handleResubmit(BuildContext context, ComplainEntity complaint) {
-    // Landlord resubmit functionality
+    // Landlord might want to resubmit with modifications
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Resubmit functionality coming soon'),
@@ -348,11 +391,32 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   }
 
   void _handleAccept(BuildContext context, ComplainEntity complaint) {
-    // Landlord accept functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Accept functionality coming soon'),
-        backgroundColor: Colors.green,
+    // Option to reconsider and accept the declined complaint
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Accept Declined Complaint'),
+        content: const Text(
+          'Do you want to reconsider and accept this complaint?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Accept functionality coming soon'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            },
+            child: const Text('Reconsider & Accept'),
+          ),
+        ],
       ),
     );
   }

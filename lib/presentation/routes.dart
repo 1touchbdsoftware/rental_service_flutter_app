@@ -11,7 +11,9 @@ import 'package:rental_service/presentation/tenant_complain_list/complain_solved
 import 'package:rental_service/presentation/edit_complain/edit_complain_screen.dart';
 
 import '../data/model/complain/ComplainModel.dart';
+import 'landlord_complain_list/landlord_declined_screen.dart';
 import 'landlord_complain_list/landlord_issue_list.dart';
+import 'landlord_complain_list/landlord_solved_screen.dart';
 
 class AppRoutes {
   static const String signIn = '/sign-in';
@@ -23,6 +25,8 @@ class AppRoutes {
   static const String createComplainScreen = '/create_complain-screen';
 
   static const String landlordIssueListScreen = '/landlord-issues-screen';
+  static const String landlordResolvedListScreen = '/landlord-resolved-screen';
+  static const String landlordDeclinedListScreen = '/landlord-declined-screen';
 
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -43,6 +47,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const ComplainsDeclinedListScreen());
       case landlordIssueListScreen:
         return MaterialPageRoute(builder: (_) => const LandlordIssueListScreen());
+      case landlordResolvedListScreen:
+        return MaterialPageRoute(builder: (_) => const LandlordSolvedListScreen());
+      case landlordDeclinedListScreen:
+        return MaterialPageRoute(builder: (_) => const LandlordDeclinedListScreen());
 
       default:
         return MaterialPageRoute(
@@ -65,6 +73,8 @@ class AppRoutes {
       complainDeclinedListScreen: (context) => ComplainsDeclinedListScreen(),
       createComplainScreen: (context) => CreateComplainScreen(),
       landlordIssueListScreen: (context) => LandlordIssueListScreen(),
+      landlordResolvedListScreen: (context) => LandlordSolvedListScreen(),
+      landlordDeclinedListScreen: (context) => LandlordDeclinedListScreen(),
 
 
     };

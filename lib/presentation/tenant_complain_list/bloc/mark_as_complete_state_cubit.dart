@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../service_locator.dart';
-import '../../data/model/complain/complain_req_params/completed_post_req.dart';
-import '../../domain/usecases/mark_as_complete_usecase.dart';
-import '../create_complain/bloc/complain_state.dart';
+import '../../../../service_locator.dart';
+import '../../../data/model/complain/complain_req_params/completed_post_req.dart';
+import '../../../domain/usecases/mark_as_complete_usecase.dart';
+import '../../create_complain/bloc/complain_state.dart';
 
 class MarkComplainCompletedCubit extends Cubit<ComplainState> {
   final MarkComplainCompletedUseCase _markComplainCompletedUseCase;

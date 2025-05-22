@@ -46,17 +46,4 @@ class GetComplainsCubit extends Cubit<GetComplainsState> {
 
   }
 
-  // Future<void> fetchCompletedComplains({required GetComplainsParams params}) async {
-  //   emit(GetTenantComplainsLoadingState());
-  //   final Either<String, ComplainResponseModel> result =
-  //   await _completedUseCase.call(param: params);
-  //
-  //   result.fold(
-  //         (error) {
-  //       print("Completed error: $error");
-  //       emit(GetTenantComplainsFailureState(errorMessage: error));
-  //     },
-  //         (data) => emit(GetTenantComplainsSuccessState(data)),
-  //   );
-  // }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
@@ -18,8 +20,8 @@ import '../widgets/info_dialog.dart';
 import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
 
-class LandlordIssueListScreen extends StatelessWidget {
-  const LandlordIssueListScreen({super.key});
+class LandlordSolvedListScreen extends StatelessWidget {
+  const LandlordSolvedListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +30,19 @@ class LandlordIssueListScreen extends StatelessWidget {
         BlocProvider(create: (_) => GetComplainsCubit()),
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
       ],
-      child: const LandlordIssueListContent(),
+      child: const LandlordSolvedListContent(),
     );
   }
 }
 
-class LandlordIssueListContent extends StatefulWidget {
-  const LandlordIssueListContent({super.key});
+class LandlordSolvedListContent extends StatefulWidget {
+  const LandlordSolvedListContent({super.key});
 
   @override
-  State<LandlordIssueListContent> createState() => _LandlordIssueListContentState();
+  State<LandlordSolvedListContent> createState() => _LandlordSolvedListContentState();
 }
 
-class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
+class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
   String _landlordName = "Landlord";
 
   @override
@@ -56,7 +58,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     // Check if landlordID exists before fetching
     if (userInfo.landlordID != null && userInfo.landlordID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      print("Fetching complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
+      print("Fetching solved complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
       context.read<GetComplainsCubit>().fetchComplains(params: params);
     } else {
       print("LandlordID is null or empty, cannot fetch complaints");
@@ -71,7 +73,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       pageNumber: 1,
       pageSize: 10,
       flag: 'LANDLORD',
-      tab: 'PROBLEM',
+      tab: 'SOLVED', // Changed to SOLVED
     );
   }
 
@@ -98,7 +100,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         // Listen to user info changes
         BlocListener<UserInfoCubit, UserInfoModel>(
           listenWhen: (previous, current) {
-            // Fixed: Check landlordID instead of tenantID for landlord screen
+            // Check landlordID instead of tenantID for landlord screen
             return previous.landlordID != current.landlordID &&
                 current.landlordID != null &&
                 current.landlordID!.isNotEmpty;
@@ -117,7 +119,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Pending Complaints',
+            'Solved Complaints', // Changed title
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),
@@ -152,9 +154,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
               }
 
               if (state is GetComplainsInitialState) {
-                return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+                return const CenterLoaderWithText(text: "Loading Solved Complaints...");
               } else if (state is GetComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+                return const CenterLoaderWithText(text: "Loading Solved Complaints...");
               } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetComplainsSuccessState) {
@@ -162,7 +164,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
               }
 
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+              return const CenterLoaderWithText(text: "Loading Solved Complaints...");
             },
           ),
         ),
@@ -218,7 +220,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     if (complaints.isEmpty) {
       return Center(
         child: Text(
-          'No Pending Complaints to Show',
+          'No Solved Complaints to Show', // Changed message
           style: textTheme.bodyLarge?.copyWith(
             color: Colors.blue,
           ),
@@ -260,11 +262,10 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
                   agencyID: userInfo.agencyID,
                   landlordID: userInfo.landlordID ?? '',
                   propertyID: userInfo.propertyID ?? '',
-                  pageNumber: page, // Fixed: Use the actual page parameter
+                  pageNumber: page,
                   pageSize: 10,
-                  isActive: true,
                   flag: 'LANDLORD',
-                  tab: 'PROBLEM',
+                  tab: 'SOLVED', // Changed to SOLVED
                 );
                 context.read<GetComplainsCubit>().fetchComplains(params: updatedParams);
               },
@@ -288,11 +289,11 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   }
 
   void _handleEdit(BuildContext context, ComplainEntity complaint) {
-    // Landlord edit functionality
+    // For solved complaints, editing is typically not allowed
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Edit functionality for landlord coming soon'),
-        backgroundColor: Colors.blue,
+        content: Text('Cannot edit solved complaints'),
+        backgroundColor: Colors.orange,
       ),
     );
   }
@@ -301,8 +302,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Last Comments',
-        bodyText: comment ?? 'No comments available',
+        title: 'Resolution Comments',
+        bodyText: comment ?? 'No resolution comments available',
       ),
     );
   }
@@ -318,40 +319,40 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   }
 
   void _handleReschedule(BuildContext context, ComplainEntity complaint) {
-    // Landlord reschedule functionality
+    // Solved complaints typically cannot be rescheduled
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Reschedule functionality coming soon'),
+        content: Text('Cannot reschedule solved complaints'),
         backgroundColor: Colors.orange,
       ),
     );
   }
 
   void _handleComplete(BuildContext context, ComplainEntity complaint) {
-    // Landlord complete functionality
+    // Already completed
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Complete functionality coming soon'),
+        content: Text('Complaint is already completed'),
         backgroundColor: Colors.green,
       ),
     );
   }
 
   void _handleResubmit(BuildContext context, ComplainEntity complaint) {
-    // Landlord resubmit functionality
+    // Solved complaints typically cannot be resubmitted
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Resubmit functionality coming soon'),
-        backgroundColor: Colors.blue,
+        content: Text('Cannot resubmit solved complaints'),
+        backgroundColor: Colors.orange,
       ),
     );
   }
 
   void _handleAccept(BuildContext context, ComplainEntity complaint) {
-    // Landlord accept functionality
+    // Already accepted/solved
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Accept functionality coming soon'),
+        content: Text('Complaint is already accepted and solved'),
         backgroundColor: Colors.green,
       ),
     );
