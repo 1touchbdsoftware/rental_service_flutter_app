@@ -48,67 +48,72 @@ Widget buildAppDrawer(BuildContext context, String username, String dashboardTit
         // Home with User Type-based navigation
         BlocBuilder<UserTypeCubit, UserTypeState>(
           builder: (context, state) {
-            return ListTile(
-              leading: Icon(Icons.home, color: colorScheme.primary),
-              title: Text(
-                'Home',
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
+            return Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.home, color: colorScheme.primary),
+                  title: Text(
+                    'Home',
+                    style: textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context); // Close drawer
 
-                // Navigate based on user type
-                if (state is UserTypeLandLord) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/landlord-dashboard',
-                          (route) => false
-                  );
-                } else if (state is UserTypeTenant) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/technician-dashboard',
-                          (route) => false
-                  );
-                } else {
-                  // If user type not determined yet, try to get it
-                  context.read<UserTypeCubit>().getUserType();
-                  // Show feedback to user
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Opening dashboard...'))
-                  );
-                }
-              },
+                    // Navigate based on user type
+                    if (state is UserTypeLandLord) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/landlord-dashboard',
+                              (route) => false
+                      );
+                    } else if (state is UserTypeTenant) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/technician-dashboard',
+                              (route) => false
+                      );
+                    } else {
+                      // If user type not determined yet, try to get it
+                      context.read<UserTypeCubit>().getUserType();
+                      // Show feedback to user
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Opening dashboard...'))
+                      );
+                    }
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.list, color: colorScheme.primary),
+                  title: Text(
+                    'Complains List',
+                    style: textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    // Use BlocBuilder to determine which complaints list to show
+                    if (state is UserTypeLandLord) {
+                      print("LANDLORD ROUTE CLALED");
+                      Navigator.pushNamed(context, '/landlord-issues-screen');
+                    } else if (state is UserTypeTenant) {
+                      Navigator.pushNamed(context, '/complain-list-screen');
+                    }
+                  },
+                ),
+              ],
             );
-          },
-        ),
+
 
         // Complains List
-        ListTile(
-          leading: Icon(Icons.list, color: colorScheme.primary),
-          title: Text(
-            'Complains List',
-            style: textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onTap: () {
-            Navigator.pop(context);
-            // Use BlocBuilder to determine which complaints list to show
-            final userTypeState = context.read<UserTypeCubit>().state;
-            if (userTypeState is UserTypeLandLord) {
-              print("LANDLORD ROUTE CLALED");
-              Navigator.pushReplacementNamed(context, '/landlord-complaints');
-            } else if (userTypeState is UserTypeTenant) {
-              Navigator.pushReplacementNamed(context, '/tenant-complaints');
-            }
+
           },
         ),
-
         Divider(color: colorScheme.outline),
 
         // Profile

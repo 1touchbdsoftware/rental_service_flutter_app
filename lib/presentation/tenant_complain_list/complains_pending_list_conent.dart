@@ -35,43 +35,63 @@ class ComplainsListContent extends StatefulWidget {
 
 class _ComplainsListContentState extends State<ComplainsListContent> {
   String _tenantName = "Tenant";
+  bool _isInitialLoad = true;
 
   @override
   void initState() {
     super.initState();
-
+    // Load user info immediately when the widget initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<UserInfoCubit>().loadUserInfo();
+      _loadUserInfoAndFetchComplaints();
     });
-    // so we can access BLoC properly
   }
 
-  void _fetchComplaints(UserInfoModel userInfo) {
-    if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
-      final params = _prepareComplainsParams(userInfo);
-      context.read<GetComplainsCubit>().fetchComplains(params: params);
+  Future<void> _loadUserInfoAndFetchComplaints() async {
+    try {
+      // Load user info first
+      await context.read<UserInfoCubit>().loadUserInfo();
+
+      // The BlocListener will handle fetching complaints once user info is loaded
+    } catch (e) {
+      print('Error loading user info: $e');
+      // Handle error if needed
     }
   }
 
-  Future<bool> _checkInternetConnection() async {
-    bool result = await InternetConnection().hasInternetAccess;
-    return result;
+  void _fetchComplaints(UserInfoModel userInfo, {int pageNumber = 1}) {
+    if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
+      final params = _prepareComplainsParams(userInfo, pageNumber: pageNumber);
+      print('Fetching complaints for tenant: ${userInfo.tenantID}, page: $pageNumber');
+      context.read<GetComplainsCubit>().fetchComplains(params: params);
+    } else {
+      print('Cannot fetch complaints: tenantID is null or empty');
+    }
   }
 
-
-
-  GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
+  GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo, {int pageNumber = 1}) {
     return GetComplainsParams(
       agencyID: userInfo.agencyID,
       tenantID: userInfo.tenantID ?? '',
       landlordID: userInfo.landlordID ?? '',
       propertyID: userInfo.propertyID ?? '',
-      pageNumber: 1,
+      pageNumber: pageNumber,
       pageSize: 2,
       isActive: true,
       flag: 'TENANT',
       tab: 'PROBLEM',
     );
+  }
+
+  Future<void> _handleRefresh() async {
+    final userInfo = context.read<UserInfoCubit>().state;
+
+    // Check if user info is properly loaded
+    if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
+      _fetchComplaints(userInfo);
+    } else {
+      // If user info is not available, reload it first
+      await _loadUserInfoAndFetchComplaints();
+    }
   }
 
   @override
@@ -83,10 +103,10 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       child: Builder(
         builder: (context) => MultiBlocListener(
           listeners: [
+            // Authentication listener
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is UnAuthenticated) {
-                  // Navigate to login screen
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => SignInPage()),
                         (Route<dynamic> route) => false,
@@ -94,36 +114,45 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
                 }
               },
             ),
+
+            // User info listener - improved logic
             BlocListener<UserInfoCubit, UserInfoModel>(
               listenWhen: (previous, current) {
-                // Only respond when the tenantID actually changes from empty to non-empty
-                return previous.tenantID != current.tenantID &&
+                // Listen to any meaningful change in user info
+                return (previous.tenantID != current.tenantID ||
+                    previous.tenantName != current.tenantName ||
+                    previous.agencyID != current.agencyID) &&
                     current.tenantID != null &&
                     current.tenantID!.isNotEmpty;
               },
               listener: (context, userInfo) {
+                print('User info updated: TenantID: ${userInfo.tenantID}, TenantName: ${userInfo.tenantName}');
+
                 setState(() {
                   _tenantName = userInfo.tenantName ?? "Tenant";
                 });
-                _fetchComplaints(userInfo);
+
+                // Fetch complaints when user info is loaded
+                if (_isInitialLoad || userInfo.tenantID != null) {
+                  _fetchComplaints(userInfo);
+                  _isInitialLoad = false;
+                }
               },
             ),
+
+            // Mark complete listener
             BlocListener<MarkComplainCompletedCubit, ComplainState>(
               listener: (context, state) {
                 if (state is ComplainSuccess) {
-                  // Show success message
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Complaint marked as complete'),
                       backgroundColor: Colors.green,
                     ),
                   );
-
                   // Refresh the complaints list
-                  final userInfo = context.read<UserInfoCubit>().state;
-                  _fetchComplaints(userInfo);
+                  _handleRefresh();
                 } else if (state is ComplainError) {
-                  // Show error message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Error: ${state.message}'),
@@ -141,7 +170,6 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
   }
 
   Widget _buildScaffold(BuildContext context) {
-    // Get theme colors
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -157,54 +185,18 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         ),
       ),
       drawer: buildAppDrawer(
-          context,
-          _tenantName,
-          'Tenant Dashboard'
+        context,
+        _tenantName,
+        'Tenant Dashboard',
       ),
       body: RefreshIndicator(
         color: colorScheme.primary,
         backgroundColor: colorScheme.surface,
-        onRefresh: () async {
-          final userInfo = context.read<UserInfoCubit>().state;
-          if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty) {
-            final params = _prepareComplainsParams(userInfo);
-            await context.read<GetComplainsCubit>().fetchComplains(params: params);
-          } else {
-            await context.read<UserInfoCubit>().loadUserInfo();
-          }
-        },
-        child: BlocBuilder<GetComplainsCubit, GetComplainsState>(
-          builder: (context, state) {
-            // Handle no internet state first
-            if (state is GetComplainsNoInternetState) {
-              return NoInternetWidget(
-                onRetry: () async {
-                  final userInfo = context.read<UserInfoCubit>().state;
-                  final params = await _prepareComplainsParams(userInfo);
-                  context.read<GetComplainsCubit>().fetchComplains(params: params);
-                },
-              );
-            }
-
-            if (state is GetComplainsInitialState) {
-              return const CenterLoaderWithText(text: "Loading Complains...");
-            } else if (state is GetComplainsLoadingState) {
-              return const CenterLoaderWithText(text: "Loading Complains...");
-            } else if (state is GetComplainsFailureState) {
-              return _buildErrorView(context, state.errorMessage, colorScheme);
-            } else if (state is GetComplainsSuccessState) {
-              return _buildComplaintsList(context, state, colorScheme, textTheme);
-            }
-            // Fallback for any unexpected state
-            return const CenterLoaderWithText(text: "Loading Complains...");
-          },
-        ),
+        onRefresh: _handleRefresh,
+        child: _buildBody(context, colorScheme, textTheme),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final userInfo = context.read<UserInfoCubit>().state;
-          _fetchComplaints(userInfo);
-        },
+        onPressed: _handleRefresh,
         backgroundColor: colorScheme.primaryContainer,
         foregroundColor: colorScheme.onPrimaryContainer,
         child: const Icon(Icons.refresh),
@@ -212,7 +204,49 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     );
   }
 
-  Widget _buildErrorView(BuildContext context, String errorMessage, ColorScheme colorScheme) {
+  Widget _buildBody(BuildContext context, ColorScheme colorScheme, TextTheme textTheme) {
+    return BlocBuilder<UserInfoCubit, UserInfoModel>(
+      builder: (context, userInfoState) {
+        // Show loading if user info is not loaded yet
+        if (userInfoState.tenantID == null || userInfoState.tenantID!.isEmpty) {
+          return const CenterLoaderWithText(text: "Loading User Info...");
+        }
+
+        // Once user info is loaded, show complaints
+        return BlocBuilder<GetComplainsCubit, GetComplainsState>(
+          builder: (context, complainsState) {
+            // Handle no internet state
+            if (complainsState is GetComplainsNoInternetState) {
+              return NoInternetWidget(
+                onRetry: () => _fetchComplaints(userInfoState),
+              );
+            }
+
+            // Handle different complaint states
+            if (complainsState is GetComplainsInitialState) {
+              return const CenterLoaderWithText(text: "Loading Complaints...");
+            } else if (complainsState is GetComplainsLoadingState) {
+              return const CenterLoaderWithText(text: "Loading Complaints...");
+            } else if (complainsState is GetComplainsFailureState) {
+              return _buildErrorView(context, complainsState.errorMessage, colorScheme, userInfoState);
+            } else if (complainsState is GetComplainsSuccessState) {
+              return _buildComplaintsList(context, complainsState, colorScheme, textTheme, userInfoState);
+            }
+
+            // Fallback
+            return const CenterLoaderWithText(text: "Loading Complaints...");
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildErrorView(
+      BuildContext context,
+      String errorMessage,
+      ColorScheme colorScheme,
+      UserInfoModel userInfo,
+      ) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -220,13 +254,11 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
           Text(
             'Error: $errorMessage',
             style: TextStyle(color: colorScheme.error),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              final userInfo = context.read<UserInfoCubit>().state;
-              _fetchComplaints(userInfo);
-            },
+            onPressed: () => _fetchComplaints(userInfo),
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.primary,
               foregroundColor: colorScheme.onPrimary,
@@ -242,7 +274,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       BuildContext context,
       GetComplainsSuccessState state,
       ColorScheme colorScheme,
-      TextTheme textTheme
+      TextTheme textTheme,
+      UserInfoModel userInfo,
       ) {
     final complaints = state.response.data.list;
     final pagination = state.response.data.pagination;
@@ -285,21 +318,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             child: PaginationControls(
               currentPage: pagination.pageNumber,
               totalPages: pagination.totalPages,
-              onPageChanged: (page) {
-                final userInfo = context.read<UserInfoCubit>().state;
-                final updatedParams = GetComplainsParams(
-                  agencyID: userInfo.agencyID,
-                  tenantID: userInfo.tenantID ?? '',
-                  landlordID: userInfo.landlordID ?? '',
-                  propertyID: userInfo.propertyID ?? '',
-                  pageNumber: page,
-                  pageSize: 2,
-                  isActive: true,
-                  flag: 'TENANT',
-                  tab: 'PROBLEM',
-                );
-                context.read<GetComplainsCubit>().fetchComplains(params: updatedParams);
-              },
+              onPageChanged: (page) => _fetchComplaints(userInfo, pageNumber: page),
             ),
           );
         }
@@ -307,27 +326,28 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     );
   }
 
-  // Handler functions
+  // Handler functions remain the same
   void _handleHistory(BuildContext context, ComplainEntity complaint) {
     Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => ComplaintHistoryScreen(complainID: complaint.complainID)
-        )
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => ComplaintHistoryScreen(
+          complainID: complaint.complainID,
+        ),
+      ),
     );
   }
 
   void _handleComplete(BuildContext context, ComplainEntity complain) {
     final TextEditingController completeCommentController = TextEditingController();
 
-    // Create the dialog in a new context that has access to the cubit
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Ticket#'),
+            const Text('Ticket#'),
             Text(complain.ticketNo!),
             const SizedBox(height: 8),
             const Divider(),
@@ -363,9 +383,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
                 return;
               }
 
-              // Call the markAsCompleted functionality - using the original context
               _markTicketAsComplete(
-                context, // Use the original context that has the cubit
+                context,
                 complain,
                 completeCommentController.text.trim(),
               );
@@ -373,7 +392,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
               Navigator.pop(dialogContext);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green, // Green color for complete action
+              backgroundColor: Colors.green,
             ),
             child: const Text('MARK AS COMPLETE'),
           ),
@@ -383,47 +402,44 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
   }
 
   void _markTicketAsComplete(BuildContext context, ComplainEntity complain, String comments) {
-    // Get the current user information from the UserInfoCubit
     final userInfo = context.read<UserInfoCubit>().state;
 
-    // Create the request model with the comments for both feedback and lastComments
     final request = ComplainCompletedRequest(
       complainID: complain.complainID,
       isCompleted: true,
       updatedBy: userInfo.tenantID ?? 'Tenant',
       agencyID: userInfo.agencyID,
-      feedback: comments,     // Use the same comments for feedback
-      currentComments: comments, // Use the same comments for lastComments
+      feedback: comments,
+      currentComments: comments,
     );
 
-    // Use the cubit from context
     context.read<MarkComplainCompletedCubit>().markAsCompleted(request);
   }
 
   void _handleReschedule(BuildContext context, ComplainEntity complaint) {
     Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => AssignedTechnicianScreen(complaint: complaint)
-        )
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => AssignedTechnicianScreen(complaint: complaint),
+      ),
     );
   }
 
   void _handleAccept(BuildContext context, ComplainEntity complaint) {
     Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => AcceptTechnicianScreen(complaint: complaint)
-        )
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => AcceptTechnicianScreen(complaint: complaint),
+      ),
     );
   }
 
   void _handleResubmit(BuildContext context, ComplainEntity complaint) {
     Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => ResubmitFormScreen(complaint: complaint)
-        )
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => ResubmitFormScreen(complaint: complaint),
+      ),
     );
   }
 
@@ -449,10 +465,10 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
 
   void _handleEdit(BuildContext context, ComplainEntity complain) {
     Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => EditComplainScreen(existingComplain: complain)
-        )
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => EditComplainScreen(existingComplain: complain),
+      ),
     );
   }
 }
