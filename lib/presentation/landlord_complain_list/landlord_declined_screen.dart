@@ -33,6 +33,7 @@ class LandlordDeclinedListScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => GetComplainsCubit()),
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
+        BlocProvider(create: (_) => GetComplainImagesCubit()),
       ],
       child: const LandlordDeclinedListContent(),
     );

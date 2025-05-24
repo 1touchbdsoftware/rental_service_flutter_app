@@ -1,7 +1,5 @@
 
-abstract class ButtonState{
-
-}
+abstract class ButtonState{}
 
 class ButtonInitialState extends ButtonState{}
 

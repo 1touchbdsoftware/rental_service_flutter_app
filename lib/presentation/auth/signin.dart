@@ -33,32 +33,55 @@ class SignInPage extends StatelessWidget {
             // Primary listener for login success/failure
             BlocListener<ButtonStateCubit, ButtonState>(
               listener: (context, state) async {
+                print("ButtonState changed: ${state.runtimeType}");
+
                 if (state is ButtonSuccessState) {
-                  // On login success, fetch user type
+                  print("Login successful - fetching user type");
+
                   try {
-                    // Using Future.delayed to ensure proper state management
-                    await Future.delayed(Duration.zero, () async {
-                      await context.read<UserTypeCubit>().getUserType();
-                    });
-                  } catch (e) {
+                    // Show loading indicator for user type fetch
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Failed to get user type: $e')),
+                      const SnackBar(
+                        content: Text('Login successful! Loading dashboard...'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+
+                    // Fetch user type with proper error handling
+                    await context.read<UserTypeCubit>().getUserType();
+
+                  } catch (e) {
+                    print("Error fetching user type: $e");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Login successful but failed to load dashboard: $e'),
+                        backgroundColor: Colors.orange,
+                        duration: const Duration(seconds: 4),
+                      ),
                     );
                   }
                 } else if (state is ButtonFailureState) {
-                  print("BUTTON FAILED STATE CALLED");
+                  print("Login failed: ${state.errorMessage}");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Couldn't Sign you in")),
+                    SnackBar(
+                      content: Text("Login failed: ${state.errorMessage}"),
+                      backgroundColor: Colors.red,
+                      duration: const Duration(seconds: 3),
+                    ),
                   );
+                } else if (state is ButtonLoadingState) {
+                  print("Login in progress...");
                 }
               },
             ),
 
-            // Listener for user type changes
+            // Listener for user type changes with better error handling
             BlocListener<UserTypeCubit, UserTypeState>(
               listener: (context, state) {
+                print("UserTypeState changed: ${state.runtimeType}");
+
                 if (state is UserTypeLandLord) {
-                  // Using Future.microtask for proper navigation timing
+                  print("Navigating to Landlord Dashboard");
                   Future.microtask(() {
                     Navigator.pushReplacement(
                       context,
@@ -66,26 +89,36 @@ class SignInPage extends StatelessWidget {
                     );
                   });
                 } else if (state is UserTypeTenant) {
-                  print("TENANT DASH BEING CALLED");
+                  print("Navigating to Tenant Dashboard");
                   Future.microtask(() {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => TenantDashboardScreen()),
                     );
                   });
+                } else if (state is UserTypeError) {
+                  print("UserType error: ${state.toString()}");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to determine user type. Please try logging in again.'),
+                      backgroundColor: Colors.red,
+                      action: SnackBarAction(
+                        label: 'Retry',
+                        onPressed: () {
+                          context.read<UserTypeCubit>().getUserType();
+                        },
+                      ),
+                    ),
+                  );
                 }
-                // No need to handle initial/loading states here as they're handled by button state
               },
             ),
-
-            // Add more listeners for other cubits if needed
           ],
           child: _buildPageContent(context),
         ),
       ),
     );
   }
-
 
   Widget _buildPageContent(BuildContext context) {
     return Stack(
@@ -184,19 +217,17 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildUsernameField() {
     return TextFormField(
-      style: const TextStyle(
-        color: Colors.white,
-      ),
+      style: const TextStyle(color: Colors.white),
       controller: _usernameController,
       keyboardType: TextInputType.name,
       decoration: const InputDecoration(
         labelText: 'Username',
         labelStyle: TextStyle(
-          color: Colors.white, // Change label text color here
+          color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
-        prefixIcon: Icon(Icons.email  ,color: Colors.lightBlue),
+        prefixIcon: Icon(Icons.email, color: Colors.lightBlue),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -209,14 +240,12 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildPasswordField() {
     return TextFormField(
-      style: const TextStyle(
-        color: Colors.white,
-      ),
+      style: const TextStyle(color: Colors.white),
       controller: _passwordController,
       obscureText: true,
       decoration: const InputDecoration(
         labelStyle: TextStyle(
-          color: Colors.white, // Change label text color here
+          color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
@@ -281,11 +310,25 @@ class SignInPage extends StatelessWidget {
   }
 
   void _handleLogin(BuildContext context) {
+    // Add validation
+    if (_usernameController.text.trim().isEmpty ||
+        _passwordController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter both username and password'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    print("Attempting login with username: ${_usernameController.text}");
+
     context.read<ButtonStateCubit>().execute(
       usecase: sl<SigninUseCase>(),
       params: SignInReqParams(
-        userName: _usernameController.text,
-        password: _passwordController.text,
+        userName: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
       ),
     );
   }

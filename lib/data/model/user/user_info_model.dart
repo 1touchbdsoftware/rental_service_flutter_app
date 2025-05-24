@@ -51,7 +51,7 @@ class UserInfoModel extends UserInfoEntity {
       contactNumber: json['contactNumber'],
       emailAddress: json['emailAddress'],
       propertyName: json['propertyName'],
-      userType: json['userType'],
+      userType: json['registrationType'],
     );
   }
 
