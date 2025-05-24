@@ -4,12 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
-
 import '../../service_locator.dart';
-import '../dashboard/bloc/user_type_cubit.dart';
 
 Widget buildAppDrawer(BuildContext context, String username,
-    String dashboardTitle) {
+    String dashboardTitle, String userType) {
   // Get theme colors from the current theme
   final theme = Theme.of(context);
   final colorScheme = theme.colorScheme;
@@ -47,68 +45,54 @@ Widget buildAppDrawer(BuildContext context, String username,
         ),
 
         // Home with User Type-based navigation
-        BlocBuilder<UserTypeCubit, UserTypeState>(
-          builder: (context, state) {
-            return ListTile(
-              leading: Icon(Icons.home, color: colorScheme.primary),
-              title: Text(
-                'Home',
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context); // Close drawer
+        ListTile(
+          leading: Icon(Icons.home, color: colorScheme.primary),
+          title: Text(
+            'Home',
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          onTap: () {
+            Navigator.pop(context); // Close drawer
 
-                // Navigate based on user type
-                if (state is UserTypeLandLord) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/landlord-dashboard',
-                          (route) => false
-                  );
-                } else if (state is UserTypeTenant) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/technician-dashboard',
-                          (route) => false
-                  );
-                } else {
-                  // If user type not determined yet, try to get it
-                  context.read<UserTypeCubit>().getUserType();
-                  // Show feedback to user
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Opening dashboard...'))
-                  );
-                }
-              },
-            );
+            // Navigate based on user type
+            if (userType == "LANDLORD") {
+              Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/landlord-dashboard',
+                      (route) => false
+              );
+            } else if (userType == "TENANT") {
+              Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/tenant-dashboard',
+                      (route) => false
+              );
+            }
           },
         ),
 
-        BlocBuilder<UserTypeCubit, UserTypeState>(
-          builder: (context, state) {
-            return ListTile(
-              leading: Icon(Icons.list, color: colorScheme.primary),
-              title: Text(
-                'Complains List',
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                // Use BlocBuilder to determine which complaints list to show
-                if (state is UserTypeLandLord) {
-                  print("LANDLORD ROUTE CLALED");
-                  Navigator.pushNamed(context, '/landlord-issues-screen');
-                } else if (state is UserTypeTenant) {
-                  Navigator.pushNamed(context, '/complain-list-screen');
-                }
-              },
-            );
+        // Complaints List
+        ListTile(
+          leading: Icon(Icons.list, color: colorScheme.primary),
+          title: Text(
+            'Complains List',
+            style: textTheme.titleMedium?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            // Navigate based on user type
+            if (userType == "LANDLORD") {
+              print("LANDLORD ROUTE CALLED");
+              Navigator.pushNamed(context, '/landlord-issues-screen');
+            } else if (userType == "TENANT") {
+              Navigator.pushNamed(context, '/complain-list-screen');
+            }
           },
         ),
 
@@ -127,12 +111,9 @@ Widget buildAppDrawer(BuildContext context, String username,
           onTap: () {
             Navigator.pop(context);
             // Navigate to profile based on user type
-            final userTypeState = context
-                .read<UserTypeCubit>()
-                .state;
-            if (userTypeState is UserTypeLandLord) {
+            if (userType == "LANDLORD") {
               Navigator.pushNamed(context, '/landlord-profile');
-            } else if (userTypeState is UserTypeTenant) {
+            } else if (userType == "TENANT") {
               Navigator.pushNamed(context, '/tenant-profile');
             }
           },
@@ -241,7 +222,7 @@ void showLogoutConfirmation(BuildContext context) {
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.error,
               foregroundColor: colorScheme.onError,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

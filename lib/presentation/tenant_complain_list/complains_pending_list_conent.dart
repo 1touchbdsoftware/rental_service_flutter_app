@@ -39,6 +39,7 @@ class ComplainsListContent extends StatefulWidget {
 
 class _ComplainsListContentState extends State<ComplainsListContent> {
   String _tenantName = "Tenant";
+  String _userType = '';
   bool _isInitialLoad = true;
 
   @override
@@ -135,6 +136,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
 
                 setState(() {
                   _tenantName = userInfo.tenantName ?? "Tenant";
+                  _userType = userInfo.userType ?? '';
                 });
 
                 // Fetch complaints when user info is loaded
@@ -192,7 +194,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       drawer: buildAppDrawer(
         context,
         _tenantName,
-        'Tenant Dashboard',
+        'Tenant Dashboard', _userType
       ),
       body: RefreshIndicator(
         color: colorScheme.primary,

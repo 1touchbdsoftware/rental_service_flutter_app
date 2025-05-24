@@ -16,6 +16,7 @@ class UserInfoModel extends UserInfoEntity {
     required String registrationType,
     required String contactNumber,
     required String emailAddress,
+    required String userType,
   }) : super(
     id: id,
     userName: userName,
@@ -31,6 +32,7 @@ class UserInfoModel extends UserInfoEntity {
     contactNumber: contactNumber,
     emailAddress: emailAddress,
     propertyName: propertyName,
+    userType: userType,
   );
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class UserInfoModel extends UserInfoEntity {
       contactNumber: json['contactNumber'],
       emailAddress: json['emailAddress'],
       propertyName: json['propertyName'],
+      userType: json['userType'],
     );
   }
 
@@ -56,7 +59,7 @@ class UserInfoModel extends UserInfoEntity {
     id: '',
     userName: 'Loading...',
     agencyID: '',
-    isActive: false, registrationType: '', contactNumber: '', emailAddress: '',
+    isActive: false, registrationType: '', contactNumber: '', emailAddress: '', userType: '',
     // ... other empty fields
   );
 }

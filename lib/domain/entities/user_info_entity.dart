@@ -13,6 +13,7 @@ class UserInfoEntity {
   final String contactNumber;
   final String emailAddress;
   final String? propertyName;
+  final String? userType;
 
   const UserInfoEntity({
     required this.id,
@@ -29,5 +30,7 @@ class UserInfoEntity {
     required this.registrationType,
     required this.contactNumber,
     required this.emailAddress,
+    required this.userType
+
   });
 }

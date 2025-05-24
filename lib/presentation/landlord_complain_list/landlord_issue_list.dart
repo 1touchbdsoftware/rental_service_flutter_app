@@ -47,6 +47,8 @@ class LandlordIssueListContent extends StatefulWidget {
 class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   String _landlordName = "Landlord";
 
+  String _userType = '';
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +113,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
             print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
             setState(() {
               _landlordName = userInfo.landlordName ?? "Landlord";
+              _userType = userInfo.userType ?? '';
             });
             _fetchComplaints(userInfo);
           },
@@ -131,6 +134,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
           context,
           _landlordName,
           'Landlord Dashboard',
+            _userType
         ),
         body: RefreshIndicator(
           color: colorScheme.primary,

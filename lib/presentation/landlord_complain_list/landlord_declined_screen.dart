@@ -48,6 +48,7 @@ class LandlordDeclinedListContent extends StatefulWidget {
 
 class _LandlordDeclinedListContentState extends State<LandlordDeclinedListContent> {
   String _landlordName = "Landlord";
+  String _userType = '';
 
   @override
   void initState() {
@@ -113,6 +114,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
             print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
             setState(() {
               _landlordName = userInfo.landlordName ?? "Landlord";
+              _userType = userInfo.userType ?? '';
             });
             _fetchComplaints(userInfo);
           },
@@ -132,7 +134,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
         drawer: buildAppDrawer(
           context,
           _landlordName,
-          'Landlord Dashboard',
+          'Landlord Dashboard', _userType
         ),
         body: RefreshIndicator(
           color: colorScheme.primary,

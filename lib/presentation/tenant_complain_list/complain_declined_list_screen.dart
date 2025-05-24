@@ -48,6 +48,7 @@ class ComplainsDeclinedListContent extends StatefulWidget {
 
 class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListContent> {
   String _tenantName = "Tenant";
+  String _userType = "";
 
   @override
   void initState() {
@@ -110,6 +111,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
           listener: (context, userInfo) {
             setState(() {
               _tenantName = userInfo.tenantName ?? "Tenant";
+              _userType = userInfo.userType ?? '';
             });
             _fetchComplaints(userInfo);
           },
@@ -130,6 +132,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
           context,
           _tenantName,
           'Tenant Dashboard',
+            _userType
         ),
         body: RefreshIndicator(
           color: colorScheme.primary,
