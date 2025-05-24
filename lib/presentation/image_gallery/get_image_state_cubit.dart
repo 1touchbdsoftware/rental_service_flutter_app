@@ -45,4 +45,8 @@ class GetComplainImagesCubit extends Cubit<GetComplainImagesState> {
           errorMessage: 'Unexpected error: ${e.toString()}'));
     }
   }
+
+  void resetState() {
+    emit(GetComplainImagesInitialState());
+  }
 }

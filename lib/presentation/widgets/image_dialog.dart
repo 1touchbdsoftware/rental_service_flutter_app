@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../image_gallery/get_image_state_cubit.dart';
 
 void showImageDialog(BuildContext context, List<String?> base64Images) {
   int currentIndex = 0;
@@ -20,8 +23,10 @@ void showImageDialog(BuildContext context, List<String?> base64Images) {
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }
                 ),
               ),
 

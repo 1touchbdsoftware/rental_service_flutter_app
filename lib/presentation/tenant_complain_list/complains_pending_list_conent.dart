@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -77,7 +79,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       landlordID: userInfo.landlordID ?? '',
       propertyID: userInfo.propertyID ?? '',
       pageNumber: pageNumber,
-      pageSize: 2,
+      pageSize: 10,
       isActive: true,
       flag: 'TENANT',
       tab: 'PROBLEM',
@@ -332,11 +334,52 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     // Get the cubit instance
     final imagesCubit = context.read<GetComplainImagesCubit>();
 
-    // Show loading indicator
+    // Reset state BEFORE starting new fetch to ensure clean slate
+    imagesCubit.resetState();
+
+    late StreamSubscription subscription;
+
+    // Show loading indicator with text and cancel button
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            const Text(
+              'Loading images...',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Cancel the subscription and close dialog
+                subscription.cancel();
+                Navigator.of(context).pop();
+
+                // Reset state after cancellation to clean up any partial data
+                imagesCubit.resetState();
+
+                // Optionally show a cancellation message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Image loading cancelled'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Cancel'),
+            ),
+          ],
+        ),
+      ),
     );
 
     // Fetch images
@@ -345,20 +388,30 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       agencyID: complaint.agencyID!,
     );
 
-    // Listen for state changes
-    imagesCubit.stream.listen((state) {
-      Navigator.of(context).pop(); // Dismiss loading dialog
+    subscription = imagesCubit.stream.listen((state) {
+      // Always dismiss loading dialog first
+      Navigator.of(context).pop();
 
       if (state is GetComplainImagesSuccessState) {
         // Convert models to base64 strings and show dialog
         final imageList = state.images.map((img) => img.file).toList();
         showImageDialog(context, imageList);
+
+        // Cancel subscription after successful completion
+        subscription.cancel();
+
       } else if (state is GetComplainImagesFailureState) {
+        // Reset state on error to clean up
+        imagesCubit.resetState();
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(state.errorMessage)),
         );
+
+        // Cancel subscription after error
+        subscription.cancel();
       }
-    }, cancelOnError: false);
+    }, cancelOnError: true);
   }
 
   // Handler functions remain the same
