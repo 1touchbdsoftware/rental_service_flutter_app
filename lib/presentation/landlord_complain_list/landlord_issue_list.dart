@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
@@ -8,6 +10,8 @@ import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
+import '../image_gallery/get_image_state.dart';
+import '../image_gallery/get_image_state_cubit.dart';
 import '../tenant_complain_list/bloc/get_complains_state.dart';
 import '../tenant_complain_list/bloc/get_complains_state_cubit.dart';
 import '../widgets/center_loader.dart';
@@ -237,9 +241,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
             onHistoryPressed: () => _handleHistory(context, complaint),
             onCommentsPressed: () => _handleComments(context, complaint.lastComments),
             onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
-            onImagePressed: () {
-
-            },
+            onImagePressed: () => handleImage(context, complaint),
             // Landlord actions - you may want to enable some of these
             onReschedulePressed: () => _handleReschedule(context, complaint),
             onCompletePressed: () => _handleComplete(context, complaint),
@@ -272,6 +274,90 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         }
       },
     );
+  }
+
+  void handleImage(BuildContext context, ComplainEntity complaint) {
+    // Get the cubit instance
+    final imagesCubit = context.read<GetComplainImagesCubit>();
+
+    // Reset state BEFORE starting new fetch to ensure clean slate
+    imagesCubit.resetState();
+
+    late StreamSubscription subscription;
+
+    // Show loading indicator with text and cancel button
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            const Text(
+              'Loading images...',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Cancel the subscription and close dialog
+                subscription.cancel();
+                Navigator.of(context).pop();
+
+                // Reset state after cancellation to clean up any partial data
+                imagesCubit.resetState();
+
+                // Optionally show a cancellation message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Image loading cancelled'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey[600],
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Cancel'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    // Fetch images
+    imagesCubit.fetchComplainImages(
+      complainID: complaint.complainID,
+      agencyID: complaint.agencyID!,
+    );
+
+    subscription = imagesCubit.stream.listen((state) {
+      // Always dismiss loading dialog first
+      Navigator.of(context).pop();
+
+      if (state is GetComplainImagesSuccessState) {
+        // Convert models to base64 strings and show dialog
+        final imageList = state.images.map((img) => img.file).toList();
+        showImageDialog(context, imageList);
+
+        // Cancel subscription after successful completion
+        subscription.cancel();
+
+      } else if (state is GetComplainImagesFailureState) {
+        // Reset state on error to clean up
+        imagesCubit.resetState();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.errorMessage)),
+        );
+
+        // Cancel subscription after error
+        subscription.cancel();
+      }
+    }, cancelOnError: true);
   }
 
   // Handler functions

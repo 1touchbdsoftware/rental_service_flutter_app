@@ -310,9 +310,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onCompletePressed: () => _handleComplete(context, complaint),
             onResubmitPressed: () => _handleResubmit(context, complaint),
             onAcceptPressed: () => _handleAccept(context, complaint),
-            onImagePressed: () {
-              handleImage(context, complaint);
-            },
+            onImagePressed: () => handleImage(context, complaint),
+
             onReschedulePressed: () => _handleReschedule(context, complaint),
           );
         } else {
