@@ -239,9 +239,8 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
             onHistoryPressed: () => _handleHistory(context, complaint),
             onCommentsPressed: () => _handleComments(context, complaint.lastComments),
             onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
-            onImagePressed: (imgIndex) {
-              final imageList = complaint.images!.map((img) => img.file).toList();
-              showImageDialog(context, imageList, imgIndex);
+            onImagePressed: () {
+
             },
             // Landlord actions - you may want to enable some of these
             onReschedulePressed: () => _handleReschedule(context, complaint),

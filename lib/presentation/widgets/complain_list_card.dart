@@ -14,7 +14,7 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onCompletePressed;
   final VoidCallback onResubmitPressed;
   final VoidCallback onAcceptPressed;
-  final void Function(int index) onImagePressed;
+  final VoidCallback onImagePressed;
 
   const ComplainCard({
     required this.complaint,
@@ -270,27 +270,28 @@ class ComplainCard extends StatelessWidget {
             ),
             const SizedBox(height: 18),
 
-            // Images row
+            // image gallery
+
             if (complaint.imageCount! > 0)
               SizedBox(
-                height: 80,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: complaint.images!.length,
-                  itemBuilder: (context, index) {
-                    final image = complaint.images![index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Base64ImageHandler.buildBase64Image(
-                        base64String: image.file,
-                        onTap: () => onImagePressed(index),
-                        width: 80,
-                        height: 80,
-                      ),
-                    );
-                  },
+                width: double.infinity, // Make button full width
+                child: ElevatedButton.icon(
+                  onPressed: onImagePressed,
+                  icon: const Icon(Icons.photo_library, size: 20),
+                  label: Text(
+                    'Image Gallery (${complaint.imageCount})',
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
                 ),
               ),
+
             const SizedBox(height: 10),
           ],
         ),

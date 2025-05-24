@@ -85,7 +85,6 @@ Widget buildAppDrawer(BuildContext context, String username,
               },
             );
           },
-
         ),
 
         BlocBuilder<UserTypeCubit, UserTypeState>(

@@ -118,9 +118,9 @@ class ComplainModel {
       rejectedDate: json['rejectedDate'],
       isAccepted: json['isAccepted'],
       imageCount: json['imageCount'],
-      images: (json['images'] as List)
-          .map((e) => ComplainImageModel.fromJson(e))
-          .toList(),
+      // images: (json['images'] as List)
+      //     .map((e) => ComplainImageModel.fromJson(e))
+      //     .toList(),
     );
   }
 
@@ -162,7 +162,7 @@ class ComplainModel {
       rejectedDate: rejectedDate,
       isAccepted: isAccepted,
       imageCount: imageCount,
-      images: images!.map((imageModel) => imageModel.toEntity()).toList(),
+      // images: images!.map((imageModel) => imageModel.toEntity()).toList(),
     );
   }
 
@@ -204,7 +204,7 @@ class ComplainModel {
       rejectedDate: entity.rejectedDate,
       imageCount: entity.imageCount,
       isAccepted:entity.isAccepted,
-      images: entity.images?.map((img) => ComplainImageModel.fromEntity(img)).toList(),
+      // images: entity.images?.map((img) => ComplainImageModel.fromEntity(img)).toList(),
     );
   }
 

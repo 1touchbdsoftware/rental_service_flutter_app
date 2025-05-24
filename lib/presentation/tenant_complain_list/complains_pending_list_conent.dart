@@ -13,6 +13,8 @@ import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
 import '../create_complain/bloc/complain_state.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
+import '../image_gallery/get_image_state.dart';
+import '../image_gallery/get_image_state_cubit.dart';
 import '../resubmit/resubmit_form_screen.dart';
 import '../technician/technician_rechedule_screen.dart';
 import '../widgets/center_loader.dart';
@@ -99,6 +101,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => MarkComplainCompletedCubit()),
+        BlocProvider(create: (_) => GetComplainImagesCubit()),
       ],
       child: Builder(
         builder: (context) => MultiBlocListener(
@@ -305,9 +308,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onCompletePressed: () => _handleComplete(context, complaint),
             onResubmitPressed: () => _handleResubmit(context, complaint),
             onAcceptPressed: () => _handleAccept(context, complaint),
-            onImagePressed: (imgIndex) {
-              final imageList = complaint.images!.map((img) => img.file).toList();
-              showImageDialog(context, imageList, imgIndex);
+            onImagePressed: () {
+              handleImage(context, complaint);
             },
             onReschedulePressed: () => _handleReschedule(context, complaint),
           );
@@ -324,6 +326,39 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         }
       },
     );
+  }
+
+  void handleImage(BuildContext context, ComplainEntity complaint) {
+    // Get the cubit instance
+    final imagesCubit = context.read<GetComplainImagesCubit>();
+
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    // Fetch images
+    imagesCubit.fetchComplainImages(
+      complainID: complaint.complainID,
+      agencyID: complaint.agencyID!,
+    );
+
+    // Listen for state changes
+    imagesCubit.stream.listen((state) {
+      Navigator.of(context).pop(); // Dismiss loading dialog
+
+      if (state is GetComplainImagesSuccessState) {
+        // Convert models to base64 strings and show dialog
+        final imageList = state.images.map((img) => img.file).toList();
+        showImageDialog(context, imageList);
+      } else if (state is GetComplainImagesFailureState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.errorMessage)),
+        );
+      }
+    }, cancelOnError: false);
   }
 
   // Handler functions remain the same

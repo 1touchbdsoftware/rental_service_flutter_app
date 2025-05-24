@@ -18,6 +18,7 @@ import 'package:rental_service/domain/repository/user_repository.dart';
 import 'package:rental_service/domain/usecases/edit_complain_usecase.dart';
 import 'package:rental_service/domain/usecases/get_complains_usecase.dart';
 import 'package:rental_service/domain/usecases/get_history_usecase.dart';
+import 'package:rental_service/domain/usecases/get_images_usecase.dart';
 import 'package:rental_service/domain/usecases/get_segment_usecase.dart';
 import 'package:rental_service/domain/usecases/get_technician_usecase.dart';
 import 'package:rental_service/domain/usecases/get_user_type_usecase.dart';
@@ -163,6 +164,10 @@ void setupServiceLocator(){
 
   sl.registerSingleton<MarkComplainCompletedUseCase>(
       MarkComplainCompletedUseCase()
+  );
+
+  sl.registerSingleton<GetComplainImagesUseCase>(
+      GetComplainImagesUseCase()
   );
 
   //logout or other use cases

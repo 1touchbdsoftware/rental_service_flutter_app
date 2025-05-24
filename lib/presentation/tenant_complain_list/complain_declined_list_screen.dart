@@ -236,9 +236,8 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
             onHistoryPressed: () => _handleHistory(context, complaint),
             onCommentsPressed: () => _handleComments(context, complaint.lastComments),
             onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
-            onImagePressed: (imgIndex) {
-              final imageList = complaint.images!.map((img) => img.file).toList();
-              showImageDialog(context, imageList, imgIndex);
+            onImagePressed: () {
+
             },
             // These actions are disabled for declined complaints
             onReschedulePressed: () {},

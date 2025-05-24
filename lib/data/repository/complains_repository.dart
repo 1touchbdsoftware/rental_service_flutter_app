@@ -6,6 +6,7 @@ import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../domain/entities/complain_response_entity.dart';
 import '../../service_locator.dart';
 import '../model/api_failure.dart';
+import '../model/complain/complain_image_model.dart';
 import '../model/complain/complain_req_params/complain_edit_post.dart';
 import '../model/complain/complain_req_params/complain_post_req.dart';
 import '../model/complain/complain_req_params/completed_post_req.dart';
@@ -37,6 +38,25 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
       },
     );
   }
+
+
+  @override
+  Future<Either<String, List<ComplainImageModel>>> getComplainImages(
+      String complainID, String agencyID) async {
+    final result = await sl<ComplainApiService>().getComplainImages(
+      complainID,
+      agencyID,
+    );
+
+    print('REPO: getComplainImages called for complainID: $complainID, agencyID: $agencyID');
+
+    return result.fold(
+          (error) => Left(error.message), // Convert ApiFailure to String
+          (images) => Right(images),      // Just forward the parsed list
+    );
+  }
+
+
 
 
   ///New method: Save complain

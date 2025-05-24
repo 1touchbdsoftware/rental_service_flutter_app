@@ -1,5 +1,5 @@
 
-import '../../../domain/entities/complain_entity.dart';
+import '../../../domain/entities/complain_image_entity.dart';
 
 class ComplainImageModel {
   final int id;

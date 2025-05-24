@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void showImageDialog(BuildContext context, List<String?> base64Images, int initialIndex) {
-  int currentIndex = initialIndex;
+void showImageDialog(BuildContext context, List<String?> base64Images) {
+  int currentIndex = 0;
 
   showDialog(
     context: context,
