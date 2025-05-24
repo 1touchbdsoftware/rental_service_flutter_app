@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.rental_service"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "29.0.13113456"
 
 
     compileOptions {
