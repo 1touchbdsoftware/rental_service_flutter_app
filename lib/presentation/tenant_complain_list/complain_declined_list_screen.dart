@@ -249,6 +249,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
             onCompletePressed: () {},
             onResubmitPressed: () {},
             onAcceptPressed: () {},
+            userType: _userType,
           );
         } else {
           // Pagination widget at the end of the list

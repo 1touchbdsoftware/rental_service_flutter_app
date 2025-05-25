@@ -252,6 +252,7 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
             onCompletePressed: () => _handleComplete(context, complaint),
             onResubmitPressed: () => _handleResubmit(context, complaint),
             onAcceptPressed: () => _handleAccept(context, complaint),
+            userType: _userType,
           );
         } else {
           // Pagination widget at the end of the list

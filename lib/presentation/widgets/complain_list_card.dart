@@ -15,6 +15,7 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onResubmitPressed;
   final VoidCallback onAcceptPressed;
   final VoidCallback onImagePressed;
+  final String userType ;
 
   const ComplainCard({
     required this.complaint,
@@ -27,6 +28,8 @@ class ComplainCard extends StatelessWidget {
     required this.onCompletePressed,
     required this.onResubmitPressed,
     required this.onAcceptPressed,
+    required this.userType,
+
     super.key,
   });
 
@@ -160,6 +163,51 @@ class ComplainCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
+
+
+                  //landlord button
+                  if (complaint.isSentToLandlord! && userType == "LANDLORD")
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: onEditPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            // Use primary color instead of hardcoded blue
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text(
+                            'Approve',
+                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        ElevatedButton(
+                          onPressed: onEditPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            // Use primary color instead of hardcoded blue
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text(
+                            'Decline',
+                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
 
                   //edit button
                   if (!complaint.isAssignedTechnician! &&

@@ -263,6 +263,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onCompletePressed: () {},
             onResubmitPressed: () {},
             onAcceptPressed: () {},
+            userType: _userType,
           );
         } else {
           // Pagination widget at the end of the list
