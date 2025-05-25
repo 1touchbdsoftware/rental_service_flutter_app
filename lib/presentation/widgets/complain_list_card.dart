@@ -373,7 +373,7 @@ class ComplainCard extends StatelessWidget {
       dotColor = Colors.orange;
       statusText = 'Resubmitted';
     } else if (complaint.isSentToLandlord! && complaint.isApproved!) {
-      dotColor = Colors.blue;
+      dotColor = Colors.purple;
       statusText = 'Approved';
     }
     else if (complaint.isSentToLandlord!) {
