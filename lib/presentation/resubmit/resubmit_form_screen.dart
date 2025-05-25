@@ -174,7 +174,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                           backgroundColor: colorScheme.tertiary, // Use tertiary for success
                         ),
                       );
-                      Navigator.pop(context, true); // Return true to indicate success
+                      Navigator.pushReplacementNamed(context, '/complain-list-screen');
                     } else if (state is ComplainError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

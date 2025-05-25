@@ -98,7 +98,7 @@ class _AcceptTechnicianScreenContentState
               ),
             );
             // Navigate back after successful acceptance with a result value
-            Navigator.of(context).pop(true); // Return true to indicate success
+            Navigator.pushReplacementNamed(context, '/complain-list-screen');
           } else if (state is TechnicianPostError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

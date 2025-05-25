@@ -19,7 +19,9 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Either<String, bool>> signin(SignInReqParams signinReq) async {
-    Either<ApiFailure, Response> result = await sl<AuthApiService>().signin(signinReq);
+    Either<ApiFailure, Response> result = await sl<AuthApiService>().signin(
+      signinReq,
+    );
 
     return result.fold(
       (error) {
@@ -27,42 +29,69 @@ class AuthRepositoryImpl extends AuthRepository {
       },
 
       (data) async {
-
         Response response = data;
 
-        // Convert to model
-        final userModel = UserModel.fromJson(response.data);
-        final success = response.statusCode == 200 || response.statusCode == 201;
-
-        // Save token
-        final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('token', userModel.token);
-        sharedPreferences.setString('userName', userModel.userInfo.userName);
-        sharedPreferences.setString('tenantName', userModel.userInfo.tenantName?? "");
-        sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
-        sharedPreferences.setString('tenantID', userModel.userInfo.tenantID?? "");
-        sharedPreferences.setString('landlordID', userModel.userInfo.landlordID ?? "");
-        sharedPreferences.setString('propertyID', userModel.userInfo.propertyID?? "");
-        sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
-        sharedPreferences.setString('landlordName', userModel.userInfo.landlordName ?? "") ;
-        sharedPreferences.setString('propertyName', userModel.userInfo.propertyName ?? "") ;
-
-
-        final userType = userModel.userInfo.registrationType;
-
-        if(userType == "LANDLORD") {
-          sharedPreferences.setString('userType', "LANDLORD");
-        }else if (userType == "TENANT"){
-          sharedPreferences.setString('userType', "TENANT");
-        }else{
-          sharedPreferences.setString('userType', "");
-        }
-
-        //check registrationType and save name also from landlordName
+        final success =
+            response.statusCode == 200 || response.statusCode == 201;
+        final validUser =
+            response.data['data']['userInfo']['registrationType'] == "TENANT" ||
+                response.data['data']['userInfo']['registrationType'] == "LANDLORD"
+                ? true
+                : false;
 
         if (success) {
+
+          if(!validUser){
+            return Left('Invalid User Type');
+          }
+          // Convert to model
+          final userModel = UserModel.fromJson(response.data);
+
+          final userType = userModel.userInfo.registrationType;
+          // Save token
+          final SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+
+          if (userType == "LANDLORD") {
+            sharedPreferences.setString('userType', "LANDLORD");
+          } else if (userType == "TENANT") {
+            sharedPreferences.setString('userType', "TENANT");
+          } else {
+            return Left('User Type Mismatch, Visit Website');
+          }
+          sharedPreferences.setString('token', userModel.token);
+          sharedPreferences.setString('userName', userModel.userInfo.userName);
+          sharedPreferences.setString(
+            'tenantName',
+            userModel.userInfo.tenantName ?? "",
+          );
+          sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
+          sharedPreferences.setString(
+            'tenantID',
+            userModel.userInfo.tenantID ?? "",
+          );
+          sharedPreferences.setString(
+            'landlordID',
+            userModel.userInfo.landlordID ?? "",
+          );
+          sharedPreferences.setString(
+            'propertyID',
+            userModel.userInfo.propertyID ?? "",
+          );
+          sharedPreferences.setString('agencyID', userModel.userInfo.agencyID);
+          sharedPreferences.setString(
+            'landlordName',
+            userModel.userInfo.landlordName ?? "",
+          );
+          sharedPreferences.setString(
+            'propertyName',
+            userModel.userInfo.propertyName ?? "",
+          );
+
+          //check registrationType and save name also from landlordName
+
           return Right(success);
-        }else {
+        } else {
           return Left('Could not log you in');
         }
         // Return as entity
@@ -73,20 +102,13 @@ class AuthRepositoryImpl extends AuthRepository {
     );
   }
 
-
-
   @override
   Future<bool> isLoggedIn() async {
     return await sl<AuthLocalService>().isLoggedIn();
   }
 
-
-
   @override
   Future<Either> logout() async {
     return await sl<AuthLocalService>().logout();
   }
-
-
-
 }

@@ -64,7 +64,7 @@ class SignInPage extends StatelessWidget {
                   print("Login failed: ${state.errorMessage}");
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Login failed: ${state.errorMessage}"),
+                      content: Text("Could not Log you in ${state.errorMessage}"),
                       backgroundColor: Colors.red,
                       duration: const Duration(seconds: 3),
                     ),

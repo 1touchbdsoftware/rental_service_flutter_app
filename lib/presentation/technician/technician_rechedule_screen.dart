@@ -135,7 +135,7 @@ class _AssignedTechnicianScreenContentState
               ),
             );
             // Navigate back after successful rescheduling with result
-            Navigator.of(context).pop(true);
+            Navigator.pushReplacementNamed(context, '/complain-list-screen');
           } else if (state is TechnicianPostError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
