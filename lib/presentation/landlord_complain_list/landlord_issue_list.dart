@@ -404,7 +404,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       actionButtonText: 'Decline',
       actionButtonColor: Colors.deepOrangeAccent,
       onSubmitted: (comment) {
-
+        _declineComplaint(context, complaint, comment);
       },
     );
   }
@@ -460,6 +460,64 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
           content: Text(success
               ? 'Complaint approved successfully'
               : 'Approval failed'),
+          backgroundColor: success ? Colors.green : Colors.red,
+        ),
+      );
+
+      if (success) {
+        // Optional: Refresh the complaints list
+        _fetchComplaints(userInfo);
+      }
+    } catch (e) {
+      Navigator.of(context).pop(); // Dismiss loading on error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+
+  void _declineComplaint(BuildContext context, ComplainEntity complaint, String comments) async {
+    final userInfo = context.read<UserInfoCubit>().state;
+    final approvalCubit = context.read<ComplaintApprovalCubit>();
+
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final request = ComplainApprovalRequestModel(
+        flag: "Selected_Approval",
+        complainsToApprove: [
+          ComplainToApprove(
+            landlordID: userInfo.landlordID ?? '',
+            agencyID: userInfo.agencyID,
+            complainID: complaint.complainID,
+            complainInfoID: complaint.complainInfoID,
+            stateStatus: "Rejected",
+            currentComments: comments,
+            lastComments: complaint.lastComments,
+            isApproved: false,
+
+          ),
+        ],
+      );
+
+      final success = await approvalCubit.approveComplaint(request);
+
+      Navigator.of(context).pop(); // Dismiss loading
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(success
+              ? 'Complaint Declined successfully'
+              : 'Decline request failed'),
           backgroundColor: success ? Colors.green : Colors.red,
         ),
       );
