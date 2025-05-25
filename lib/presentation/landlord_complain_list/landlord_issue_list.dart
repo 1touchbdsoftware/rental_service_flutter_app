@@ -387,8 +387,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       hintText: 'comment text...',
       actionButtonText: 'Approve',
       actionButtonColor: Colors.green,
-      onSubmitted: (comment) {
-        _approveComplaint(context, complaint, comment);
+      onSubmitted: (comment) async {
+        await _approveComplaint(context, complaint, comment);
       },
     );
 
@@ -403,8 +403,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       hintText: 'comment text...',
       actionButtonText: 'Decline',
       actionButtonColor: Colors.deepOrangeAccent,
-      onSubmitted: (comment) {
-        _declineComplaint(context, complaint, comment);
+      onSubmitted: (comment) async {
+        await _declineComplaint(context, complaint, comment);
       },
     );
   }
@@ -422,7 +422,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     );
   }
 
-  void _approveComplaint(BuildContext context, ComplainEntity complaint, String comments) async {
+  Future<void> _approveComplaint(BuildContext context, ComplainEntity complaint, String comments) async {
     final userInfo = context.read<UserInfoCubit>().state;
     final approvalCubit = context.read<ComplaintApprovalCubit>();
 
@@ -480,7 +480,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
   }
 
 
-  void _declineComplaint(BuildContext context, ComplainEntity complaint, String comments) async {
+  Future<void> _declineComplaint(BuildContext context, ComplainEntity complaint, String comments) async {
     final userInfo = context.read<UserInfoCubit>().state;
     final approvalCubit = context.read<ComplaintApprovalCubit>();
 

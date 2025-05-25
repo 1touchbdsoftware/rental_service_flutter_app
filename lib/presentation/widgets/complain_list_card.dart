@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../domain/entities/complain_entity.dart';
-import 'image_handler.dart';
 
 class ComplainCard extends StatelessWidget {
   final ComplainEntity complaint;
