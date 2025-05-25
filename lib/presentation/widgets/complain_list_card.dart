@@ -17,7 +17,7 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onImagePressed;
   final VoidCallback onApprovePressed;
   final VoidCallback onDeclinePressed;
-  final String userType ;
+  final String userType;
 
   const ComplainCard({
     required this.complaint,
@@ -114,7 +114,7 @@ class ComplainCard extends StatelessWidget {
                     ),
                     child: Text(
                       'Read More',
-                      style: TextStyle(fontSize: 12, color: Colors.blue)
+                      style: TextStyle(fontSize: 12, color: Colors.blue),
                     ),
                   ),
               ],
@@ -168,9 +168,11 @@ class ComplainCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
 
-
                   //landlord button
-                  if (complaint.isSentToLandlord! && !complaint.isApproved! && userType == "LANDLORD")
+                  if (complaint.isSentToLandlord! &&
+                      !complaint.isApproved! &&
+                      !complaint.isRejected! &&
+                      userType == "LANDLORD")
                     Row(
                       children: [
                         ElevatedButton(
@@ -187,7 +189,11 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             'Approve',
-                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
 
@@ -207,7 +213,11 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             'Decline',
-                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -233,14 +243,19 @@ class ComplainCard extends StatelessWidget {
                       ),
                       child: Text(
                         'Edit',
-                        style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.blue,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
 
                   //reschedule button
                   if (complaint.isAssignedTechnician! &&
                       !complaint.isSolved! &&
-                      !complaint.isResubmitted! && !complaint.isAccepted!)
+                      !complaint.isResubmitted! &&
+                      !complaint.isAccepted!)
                     Row(
                       children: [
                         ElevatedButton(
@@ -256,7 +271,11 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             'Reschedule',
-                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -273,7 +292,11 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             'Accept',
-                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -294,8 +317,11 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             'Complete',
-                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
-
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -312,7 +338,11 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             'Resubmit',
-                            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.blue, fontSize: 12),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -323,7 +353,6 @@ class ComplainCard extends StatelessWidget {
             const SizedBox(height: 18),
 
             // image gallery
-
             if (complaint.imageCount! > 0)
               SizedBox(
                 width: double.infinity, // Make button full width
@@ -337,7 +366,8 @@ class ComplainCard extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.surfaceContainerLow,
                     foregroundColor: Theme.of(context).colorScheme.onSurface,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
@@ -375,12 +405,10 @@ class ComplainCard extends StatelessWidget {
     } else if (complaint.isSentToLandlord! && complaint.isApproved!) {
       dotColor = Colors.purple;
       statusText = 'Approved';
-    }
-    else if (complaint.isSentToLandlord!) {
+    } else if (complaint.isSentToLandlord!) {
       dotColor = Colors.blue;
       statusText = 'Sent to Landlord';
-    }
-    else if (complaint.isAssignedTechnician! && complaint.isAccepted!) {
+    } else if (complaint.isAssignedTechnician! && complaint.isAccepted!) {
       dotColor = Colors.purple;
       statusText = 'Accepted Schedule';
     } else if (complaint.isAssignedTechnician!) {
