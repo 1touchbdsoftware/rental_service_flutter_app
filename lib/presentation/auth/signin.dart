@@ -42,7 +42,7 @@ class SignInPage extends StatelessWidget {
                     // Show loading indicator for user type fetch
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Login successful! Loading dashboard...'),
+                        content: Text('Login successful!'),
                         duration: Duration(seconds: 2),
                       ),
                     );

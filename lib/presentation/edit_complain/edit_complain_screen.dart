@@ -37,17 +37,11 @@ class EditComplainScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => GetSegmentCubit()),
-        BlocProvider(
-          create: (_) =>
-          UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
-        ),
-        BlocProvider(
-          create: (_) => EditComplainCubit(),
-        ),
+        BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),),
+        BlocProvider(create: (_) => EditComplainCubit(),),
         // Add the GetComplainImagesCubit
-        BlocProvider(
-          create: (_) => GetComplainImagesCubit(),
-        ),
+        BlocProvider(create: (_) => GetComplainImagesCubit(),),
+
       ],
       child: _EditComplainScreenContent(existingComplain: existingComplain),
     );
@@ -369,7 +363,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                     backgroundColor: Colors.green,
                   ),
                 );
-                Navigator.pop(context, true);
+                Navigator.pushReplacementNamed(context, '/complain-list-screen');
               } else if (state is ComplainError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
