@@ -15,6 +15,8 @@ import '../../service_locator.dart';
 import '../create_complain/bloc/complain_state.dart';
 
 import '../dashboard/bloc/user_info_cubit.dart';
+import '../image_gallery/get_image_state.dart';
+import '../image_gallery/get_image_state_cubit.dart';
 import '../segment/get_segment_state.dart';
 import '../segment/get_segment_state_cubit.dart';
 import '../widgets/center_loader.dart';
@@ -41,12 +43,15 @@ class EditComplainScreen extends StatelessWidget {
         BlocProvider(
           create: (_) => EditComplainCubit(),
         ),
+        // Add the GetComplainImagesCubit
+        BlocProvider(
+          create: (_) => GetComplainImagesCubit(),
+        ),
       ],
       child: _EditComplainScreenContent(existingComplain: existingComplain),
     );
   }
 }
-
 
 class _EditComplainScreenContent extends StatefulWidget {
   final ComplainEntity existingComplain;
@@ -62,6 +67,8 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
   final _commentController = TextEditingController();
   final List<XFile> _selectedImages = [];
   final int _maxImages = 50;
+  bool _isLoadingImages = true;
+  bool _hasLoadedExistingImages = false;
 
   SegmentModel? _selectedSegment;
 
@@ -70,26 +77,57 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
     super.initState();
     _commentController.text = widget.existingComplain.complainName;
     _loadUserAndSegments();
-    _loadExistingImages();
+    _fetchExistingImages();
   }
 
-  Future<void> _loadExistingImages() async {
-    if (widget.existingComplain.images != null) {
-      for (var image in widget.existingComplain.images!) {
-        final bytes = base64Decode(image.file!);
+  Future<void> _fetchExistingImages() async {
+    setState(() {
+      _isLoadingImages = true;
+    });
+
+    // Fetch images from server using the cubit
+    context.read<GetComplainImagesCubit>().fetchComplainImages(
+      complainID: widget.existingComplain.complainID,
+      agencyID: widget.existingComplain.agencyID!,
+    );
+  }
+
+  Future<void> _convertBase64ImagesToXFiles(List<String> base64Images) async {
+    try {
+      final List<XFile> convertedImages = [];
+
+      for (int i = 0; i < base64Images.length; i++) {
+        final bytes = base64Decode(base64Images[i]);
         final tempDir = Directory.systemTemp;
-        final tempFile = await File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.png').create();
+        final tempFile = await File('${tempDir.path}/existing_image_${i}_${DateTime.now().millisecondsSinceEpoch}.png').create();
         await tempFile.writeAsBytes(bytes);
-        setState(() {
-          _selectedImages.add(XFile(tempFile.path));
-        });
+        convertedImages.add(XFile(tempFile.path));
+      }
+
+      setState(() {
+        _selectedImages.clear();
+        _selectedImages.addAll(convertedImages);
+        _hasLoadedExistingImages = true;
+        _isLoadingImages = false;
+      });
+    } catch (e) {
+      print('Error converting base64 images: $e');
+      setState(() {
+        _isLoadingImages = false;
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading existing images: $e'),
+            backgroundColor: Colors.orange,
+          ),
+        );
       }
     }
   }
 
-
   Future<void> _loadUserAndSegments() async {
-
     await context.read<UserInfoCubit>().loadUserInfo();
     final userInfo = context.read<UserInfoCubit>().state;
     final params = GetSegmentParams(
@@ -99,7 +137,6 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
       segmentID: '',
     );
     context.read<GetSegmentCubit>().fetchSegments(params: params);
-
   }
 
   void _handleImageAdded(XFile image) {
@@ -117,7 +154,33 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
   void _handleClearImages() {
     setState(() {
       _selectedImages.clear();
+      _hasLoadedExistingImages = false;
     });
+
+    // Show confirmation dialog for clearing existing images
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Clear All Images'),
+          content: const Text('This will remove all existing images. You can add new ones if needed.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Images are already cleared above
+              },
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Clear'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _handleSubmit(BuildContext context) {
@@ -138,12 +201,12 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
 
     try {
       _selectedSegment ??= SegmentModel(id: widget.existingComplain.segmentID ?? '', text: '');
-      // Print debug info
+
       print('Editing complainID: ${widget.existingComplain.complainID}');
       print('segmentID: ${_selectedSegment?.id}');
       print('tenantID (updatedBy): ${userInfo.tenantID}');
+      print('Total images: ${_selectedImages.length}');
 
-      // Create the edit params
       final editParams = ComplainEditPostParams(
         complainID: widget.existingComplain.complainID,
         propertyID: widget.existingComplain.propertyID!,
@@ -154,7 +217,6 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
         images: _selectedImages.map((e) => File(e.path)).toList(),
       );
 
-      // Submit using the edit cubit
       context.read<EditComplainCubit>().editComplaint(editParams);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -164,6 +226,71 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
         ),
       );
     }
+  }
+
+  Widget _buildImageSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text(
+              'Images',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            if (_isLoadingImages) ...[
+              const SizedBox(width: 12),
+              const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'Loading existing images...',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white70,
+                ),
+              ),
+            ] else if (_hasLoadedExistingImages && _selectedImages.isNotEmpty) ...[
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.green.withOpacity(0.3)),
+                ),
+                child: Text(
+                  '${_selectedImages.length} loaded',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+        const SizedBox(height: 12),
+        ImagePickerWidget(
+          selectedImages: _selectedImages,
+          maxImages: _maxImages,
+          onImageAdded: _handleImageAdded,
+          onImageRemoved: _handleImageRemoved,
+          onClearImages: _handleClearImages,
+        ),
+      ],
+    );
   }
 
   @override
@@ -180,82 +307,106 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
         backgroundColor: AppColors.primary,
         title: const Text('Edit Complaint'),
       ),
-      body: BlocBuilder<GetSegmentCubit, GetSegmentState>(
-        builder: (context, state) {
-          if (state is GetSegmentLoadingState) {
-            return const CenterLoaderWithText(text: "Hold on, bringing everything together...");
-          }
+      body: MultiBlocListener(
+        listeners: [
+          // Listen to GetComplainImagesCubit for image loading
+          BlocListener<GetComplainImagesCubit, GetComplainImagesState>(
+            listener: (context, state) {
+              if (state is GetComplainImagesSuccessState) {
+                final imageList = state.images
+                    .where((img) => img.file != null)
+                    .map((img) => img.file!)
+                    .toList();
+                _convertBase64ImagesToXFiles(imageList);
+              }else if (state is GetComplainImagesFailureState) {
+                setState(() {
+                  _isLoadingImages = false;
+                });
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  if (state is GetSegmentSuccessState)
-                    GenericDropdown<SegmentModel>(
-                      label: "Segment",
-                      selectedValue: _selectedSegment ??
-                          state.response.data.firstWhere(
-                                (segment) => segment.id == widget.existingComplain.segmentID,
-                            orElse: () => SegmentModel(id: '', text: 'Unknown'),
-                          ),
-                      items: state.response.data,
-                      getLabel: (segment) => segment.text ?? "Unnamed Segment",
-                      onChanged: (value) => setState(() => _selectedSegment = value),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Failed to load existing images: ${state.errorMessage}'),
+                    backgroundColor: Colors.orange,
+                  ),
+                );
+              }
+            },
+          ),
+          // Listen to EditComplainCubit for form submission
+          BlocListener<EditComplainCubit, ComplainState>(
+            listener: (context, state) {
+              if (state is ComplainSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Complaint updated successfully'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                Navigator.pop(context, true);
+              } else if (state is ComplainError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Update failed: ${state.message}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<GetSegmentCubit, GetSegmentState>(
+          builder: (context, state) {
+            if (state is GetSegmentLoadingState) {
+              return const CenterLoaderWithText(text: "Hold on, bringing everything together...");
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    if (state is GetSegmentSuccessState)
+                      GenericDropdown<SegmentModel>(
+                        label: "Segment",
+                        selectedValue: _selectedSegment ??
+                            state.response.data.firstWhere(
+                                  (segment) => segment.id == widget.existingComplain.segmentID,
+                              orElse: () => SegmentModel(id: '', text: 'Unknown'),
+                            ),
+                        items: state.response.data,
+                        getLabel: (segment) => segment.text ?? "Unnamed Segment",
+                        onChanged: (value) => setState(() => _selectedSegment = value),
+                        validator: (value) =>
+                        value == null ? "Please select a segment" : null,
+                        emptyListMessage: "No segments available",
+                      ),
+                    const SizedBox(height: 24),
+                    MultilineTextField(
+                      label: "Description",
+                      controller: _commentController,
                       validator: (value) =>
-                      value == null ? "Please select a segment" : null,
-                      emptyListMessage: "No segments available",
+                      value?.isEmpty ?? true ? "Description is required" : null,
+                      helperText: 'Update the issue clearly',
                     ),
-                  const SizedBox(height: 24),
-                  MultilineTextField(
-                    label: "Description",
-                    controller: _commentController,
-                    validator: (value) =>
-                    value?.isEmpty ?? true ? "Description is required" : null,
-                    helperText: 'Update the issue clearly',
-                  ),
-                  const SizedBox(height: 24),
-                  ImagePickerWidget(
-                    selectedImages: _selectedImages,
-                    maxImages: _maxImages,
-                    onImageAdded: _handleImageAdded,
-                    onImageRemoved: _handleImageRemoved,
-                    onClearImages: _handleClearImages,
-                  ),
-                  const SizedBox(height: 24),
-                  BlocConsumer<EditComplainCubit, ComplainState>(
-                    listener: (context, state) {
-                      if (state is ComplainSuccess) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Complaint updated successfully'),
-                            backgroundColor: Colors.green,
-                          ),
+                    const SizedBox(height: 24),
+                    _buildImageSection(),
+                    const SizedBox(height: 24),
+                    BlocBuilder<EditComplainCubit, ComplainState>(
+                      builder: (context, state) {
+                        return SubmitButton(
+                          onPressed: () => _handleSubmit(context),
+                          isLoading: state is ComplainLoading,
+                          buttonText: "UPDATE COMPLAINT",
                         );
-                        Navigator.pop(context, true); // Return true to indicate successful update
-                      } else if (state is ComplainError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Update failed: ${state.message}'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      return SubmitButton(
-                        onPressed: () => _handleSubmit(context),
-                        isLoading: state is ComplainLoading,
-                        buttonText: "UPDATE COMPLAINT",
-                      );
-                    },
-                  ),
-                ],
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
