@@ -35,6 +35,7 @@ class ComplainEntity {
   final bool? isNotCompleted;
   final bool? isDone;
   final bool? isAccepted;
+  final bool? isApproved;
   final String? rejectedBy;
   final String? rejectedDate;
   final int? imageCount;
@@ -78,6 +79,7 @@ class ComplainEntity {
      this.imageCount,
      this.images,
     this.isAccepted,
+    this.isApproved
   });
 }
 

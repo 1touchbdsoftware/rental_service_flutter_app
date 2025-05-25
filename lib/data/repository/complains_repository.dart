@@ -12,6 +12,7 @@ import '../model/complain/complain_req_params/complain_post_req.dart';
 import '../model/complain/complain_req_params/completed_post_req.dart';
 import '../model/complain/complain_req_params/recomplain_post_req.dart';
 import '../model/complain/complain_response_model.dart';
+import '../model/landlord_request/complain_aproval_request_post.dart';
 
 class ComplainsRepositoryImpl implements ComplainsRepository {
 
@@ -137,6 +138,41 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
           return Right(success);
         } catch (e) {
           return Left('Failed to mark complain as completed: ${e.toString()}');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<String, bool>> approveComplaints(ComplainApprovalRequestModel model) async {
+    Either<ApiFailure, Response> result =
+    await sl<ComplainApiService>().approveComplaints(model);
+
+    // Log the first complain ID for tracking (or all if needed)
+    final firstComplainId = model.complainsToApprove.isNotEmpty
+        ? model.complainsToApprove.first.complainID
+        : 'NO_COMPLAINS';
+
+    print('REPO: APPROVE COMPLAINTS REQUEST - FIRST COMPLAIN ID: $firstComplainId, FLAG: ${model.flag}');
+
+    return result.fold(
+          (error) => Left(error.message),
+          (response) {
+        try {
+          // Check if response indicates success
+          final success = response.statusCode == 200 || response.statusCode == 201;
+          if (success) {
+            // Optional: Parse response data if needed
+            final responseData = response.data;
+            print('REPO: COMPLAINTS APPROVED SUCCESSFULLY. RESPONSE: $responseData');
+
+            // You could add additional validation here if your API returns specific success indicators
+            // final apiSuccess = responseData['success'] as bool? ?? false;
+            // return Right(apiSuccess);
+          }
+          return Right(success);
+        } catch (e) {
+          return Left('Failed to process complaints approval: ${e.toString()}');
         }
       },
     );

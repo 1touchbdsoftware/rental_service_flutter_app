@@ -5,6 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
+import '../../data/model/landlord_request/complain_approve_cubit.dart';
+import '../../data/model/landlord_request/complain_aproval_request_post.dart';
+import '../../data/model/landlord_request/complain_aprove_state.dart';
+import '../../data/model/landlord_request/complains_to_approve.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../auth/signin.dart';
@@ -33,6 +37,7 @@ class LandlordIssueListScreen extends StatelessWidget {
         BlocProvider(create: (_) => GetComplainsCubit()),
         BlocProvider(create: (_) => UserInfoCubit(UserInfoModel.empty())),
         BlocProvider(create: (_) => GetComplainImagesCubit()),
+        BlocProvider(create: (_) => ComplaintApprovalCubit()),
       ],
       child: const LandlordIssueListContent(),
     );
@@ -379,11 +384,11 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       title: 'Ticket#',
       ticketNo: complaint.ticketNo!,
       labelText: 'Approve Comment',
-      hintText: 'text...',
+      hintText: 'comment text...',
       actionButtonText: 'Approve',
       actionButtonColor: Colors.green,
       onSubmitted: (comment) {
-
+        _approveComplaint(context, complaint, comment);
       },
     );
 
@@ -415,6 +420,63 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         ),
       ),
     );
+  }
+
+  void _approveComplaint(BuildContext context, ComplainEntity complaint, String comments) async {
+    final userInfo = context.read<UserInfoCubit>().state;
+    final approvalCubit = context.read<ComplaintApprovalCubit>();
+
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final request = ComplainApprovalRequestModel(
+        flag: "Selected_Approval",
+        complainsToApprove: [
+          ComplainToApprove(
+            landlordID: userInfo.landlordID ?? '',
+            agencyID: userInfo.agencyID,
+            complainID: complaint.complainID,
+            complainInfoID: complaint.complainInfoID,
+            stateStatus: "Approved",
+            currentComments: comments,
+            lastComments: complaint.lastComments,
+            isApproved: true,
+
+          ),
+        ],
+      );
+
+      final success = await approvalCubit.approveComplaint(request);
+
+      Navigator.of(context).pop(); // Dismiss loading
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(success
+              ? 'Complaint approved successfully'
+              : 'Approval failed'),
+          backgroundColor: success ? Colors.green : Colors.red,
+        ),
+      );
+
+      if (success) {
+        // Optional: Refresh the complaints list
+        _fetchComplaints(userInfo);
+      }
+    } catch (e) {
+      Navigator.of(context).pop(); // Dismiss loading on error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   void _handleEdit(BuildContext context, ComplainEntity complaint) {

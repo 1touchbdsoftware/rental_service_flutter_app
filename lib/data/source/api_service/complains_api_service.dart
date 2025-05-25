@@ -16,6 +16,7 @@ import '../../model/complain/complain_req_params/completed_post_req.dart';
 import '../../model/complain/complain_req_params/recomplain_post_req.dart';
 import '../../model/complain/complain_response_model.dart';
 import '../../model/complain/complain_req_params/get_complain_req_params.dart';
+import '../../model/landlord_request/complain_aproval_request_post.dart';
 
 abstract class ComplainApiService {
   // Change type to accept nullable String to match implementation
@@ -25,6 +26,7 @@ abstract class ComplainApiService {
   Future<Either<ApiFailure, Response>> reComplain(ReComplainParams model);
   Future<Either<ApiFailure, Response>> markAsCompleted(ComplainCompletedRequest model);
   Future<Either<ApiFailure, List<ComplainImageModel>>> getComplainImages(String complainID, String agencyID);
+  Future<Either<ApiFailure, Response>> approveComplaints(ComplainApprovalRequestModel model);
 
 }
 
@@ -272,6 +274,45 @@ class ComplainApiServiceImpl implements ComplainApiService {
 
       final response = await sl<DioClient>().post(
         ApiUrls.markComplainCompleted, // Make sure to add this endpoint to your ApiUrls class
+        data: requestData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, Response>> approveComplaints(ComplainApprovalRequestModel model) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        return Left(ApiFailure('Authentication token not found'));
+      }
+
+      // Convert model to JSON
+      final requestData = model.toJson();
+
+      print('Sending to ${ApiUrls.approveComplaints}'); // Add this URL to your ApiUrls
+      print('Headers: Authorization: Bearer $token');
+      print('Request data: $requestData');
+
+      final response = await sl<DioClient>().post(
+        ApiUrls.approveComplaints,
         data: requestData,
         options: Options(
           headers: {

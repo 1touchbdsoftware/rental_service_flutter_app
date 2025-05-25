@@ -35,6 +35,7 @@ import 'domain/repository/auth.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
 import 'domain/usecases/mark_as_complete_usecase.dart';
 import 'domain/usecases/post_accept_technician_usecase.dart';
+import 'domain/usecases/post_approve_complain_landlord_usecase.dart';
 import 'domain/usecases/post_reschedule_technician_usecase.dart';
 import 'domain/usecases/recomplain_usecase.dart';
 import 'domain/usecases/signin_usecase.dart';
@@ -168,6 +169,10 @@ void setupServiceLocator(){
 
   sl.registerSingleton<GetComplainImagesUseCase>(
       GetComplainImagesUseCase()
+  );
+
+  sl.registerSingleton<ApproveComplaintsUseCase>(
+      ApproveComplaintsUseCase()
   );
 
   //logout or other use cases
