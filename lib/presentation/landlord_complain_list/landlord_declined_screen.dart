@@ -252,7 +252,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
             onCompletePressed: () => _handleComplete(context, complaint),
             onResubmitPressed: () => _handleResubmit(context, complaint),
             onAcceptPressed: () => _handleAccept(context, complaint),
-            userType: _userType,
+            userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  },
           );
         } else {
           // Pagination widget at the end of the list

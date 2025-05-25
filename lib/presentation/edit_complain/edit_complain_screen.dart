@@ -297,7 +297,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${_selectedImages.length} existing images loaded',
+                        '${_selectedImages.length} images loaded',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.green,

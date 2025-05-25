@@ -314,7 +314,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onAcceptPressed: () => _handleAccept(context, complaint),
             onImagePressed: () => handleImage(context, complaint),
             onReschedulePressed: () => _handleReschedule(context, complaint),
-            userType: _userType,
+            userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  },
           );
         } else {
           // Pagination widget at the end of the list

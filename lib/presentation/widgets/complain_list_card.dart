@@ -15,6 +15,8 @@ class ComplainCard extends StatelessWidget {
   final VoidCallback onResubmitPressed;
   final VoidCallback onAcceptPressed;
   final VoidCallback onImagePressed;
+  final VoidCallback onApprovePressed;
+  final VoidCallback onDeclinePressed;
   final String userType ;
 
   const ComplainCard({
@@ -28,6 +30,8 @@ class ComplainCard extends StatelessWidget {
     required this.onCompletePressed,
     required this.onResubmitPressed,
     required this.onAcceptPressed,
+    required this.onApprovePressed,
+    required this.onDeclinePressed,
     required this.userType,
 
     super.key,
@@ -170,7 +174,7 @@ class ComplainCard extends StatelessWidget {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: onEditPressed,
+                          onPressed: onApprovePressed,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: colorScheme.surfaceContainerLow,
                             // Use primary color instead of hardcoded blue
@@ -190,7 +194,7 @@ class ComplainCard extends StatelessWidget {
                         const SizedBox(width: 8),
 
                         ElevatedButton(
-                          onPressed: onEditPressed,
+                          onPressed: onDeclinePressed,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: colorScheme.surfaceContainerLow,
                             // Use primary color instead of hardcoded blue

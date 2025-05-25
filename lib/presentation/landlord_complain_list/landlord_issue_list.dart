@@ -252,6 +252,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
             onCompletePressed: () => _handleComplete(context, complaint),
             onResubmitPressed: () => _handleResubmit(context, complaint),
             onAcceptPressed: () => _handleAccept(context, complaint),
+            onApprovePressed: () => _handleApprove(context, complaint),
+            onDeclinePressed: () => _handleDecline(context, complaint),
+
             userType: _userType,
           );
         } else {
@@ -281,6 +284,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       },
     );
   }
+
+
 
   void handleImage(BuildContext context, ComplainEntity complaint) {
     // Get the cubit instance
@@ -366,6 +371,14 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     }, cancelOnError: true);
   }
 
+
+  void _handleApprove(BuildContext context, ComplainEntity complaint){
+
+  }
+
+  void _handleDecline(BuildContext context, ComplainEntity complaint){
+
+  }
   // Handler functions
   void _handleHistory(BuildContext context, ComplainEntity complaint) {
     Navigator.push(
