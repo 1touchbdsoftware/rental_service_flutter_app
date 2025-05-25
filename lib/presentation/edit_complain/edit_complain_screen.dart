@@ -26,6 +26,7 @@ import '../widgets/complain_form/multiline_text_input.dart';
 import 'edit_complain_cubit.dart';
 
 
+
 class EditComplainScreen extends StatelessWidget {
   final ComplainEntity existingComplain;
 
@@ -67,7 +68,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
   final _commentController = TextEditingController();
   final List<XFile> _selectedImages = [];
   final int _maxImages = 50;
-  bool _isLoadingImages = true;
+  bool _isLoadingImages = false;
   bool _hasLoadedExistingImages = false;
 
   SegmentModel? _selectedSegment;
@@ -77,7 +78,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
     super.initState();
     _commentController.text = widget.existingComplain.complainName;
     _loadUserAndSegments();
-    _fetchExistingImages();
+    // Don't fetch images immediately - wait for page to load first
   }
 
   Future<void> _fetchExistingImages() async {
@@ -137,6 +138,9 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
       segmentID: '',
     );
     context.read<GetSegmentCubit>().fetchSegments(params: params);
+
+    // Start fetching images after user and segments are loaded
+    _fetchExistingImages();
   }
 
   void _handleImageAdded(XFile image) {
@@ -232,63 +236,86 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            const Text(
-              'Images',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
-            if (_isLoadingImages) ...[
-              const SizedBox(width: 12),
-              const SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'Loading existing images...',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white70,
-                ),
-              ),
-            ] else if (_hasLoadedExistingImages && _selectedImages.isNotEmpty) ...[
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.green.withOpacity(0.3)),
-                ),
-                child: Text(
-                  '${_selectedImages.length} loaded',
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ],
+        const Text(
+          'Images',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
         ),
         const SizedBox(height: 12),
-        ImagePickerWidget(
-          selectedImages: _selectedImages,
-          maxImages: _maxImages,
-          onImageAdded: _handleImageAdded,
-          onImageRemoved: _handleImageRemoved,
-          onClearImages: _handleClearImages,
-        ),
+
+        // Show loader when images are loading
+        if (_isLoadingImages)
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white.withOpacity(0.2)),
+            ),
+            child: const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Loading existing images...',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+        // Show image picker when images are loaded or failed to load
+          Column(
+            children: [
+              if (_hasLoadedExistingImages && _selectedImages.isNotEmpty)
+                Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.green.withOpacity(0.3)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '${_selectedImages.length} existing images loaded',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ImagePickerWidget(
+                selectedImages: _selectedImages,
+                maxImages: _maxImages,
+                onImageAdded: _handleImageAdded,
+                onImageRemoved: _handleImageRemoved,
+                onClearImages: _handleClearImages,
+              ),
+            ],
+          ),
       ],
     );
   }
@@ -318,7 +345,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                     .map((img) => img.file!)
                     .toList();
                 _convertBase64ImagesToXFiles(imageList);
-              }else if (state is GetComplainImagesFailureState) {
+              } else if (state is GetComplainImagesFailureState) {
                 setState(() {
                   _isLoadingImages = false;
                 });
@@ -355,8 +382,8 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
           ),
         ],
         child: BlocBuilder<GetSegmentCubit, GetSegmentState>(
-          builder: (context, state) {
-            if (state is GetSegmentLoadingState) {
+          builder: (context, segmentState) {
+            if (segmentState is GetSegmentLoadingState) {
               return const CenterLoaderWithText(text: "Hold on, bringing everything together...");
             }
 
@@ -366,15 +393,15 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                 key: _formKey,
                 child: ListView(
                   children: [
-                    if (state is GetSegmentSuccessState)
+                    if (segmentState is GetSegmentSuccessState)
                       GenericDropdown<SegmentModel>(
                         label: "Segment",
                         selectedValue: _selectedSegment ??
-                            state.response.data.firstWhere(
+                            segmentState.response.data.firstWhere(
                                   (segment) => segment.id == widget.existingComplain.segmentID,
                               orElse: () => SegmentModel(id: '', text: 'Unknown'),
                             ),
-                        items: state.response.data,
+                        items: segmentState.response.data,
                         getLabel: (segment) => segment.text ?? "Unnamed Segment",
                         onChanged: (value) => setState(() => _selectedSegment = value),
                         validator: (value) =>
