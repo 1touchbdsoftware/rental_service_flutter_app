@@ -15,6 +15,7 @@ import '../image_gallery/get_image_state_cubit.dart';
 import '../tenant_complain_list/bloc/get_complains_state.dart';
 import '../tenant_complain_list/bloc/get_complains_state_cubit.dart';
 import '../widgets/center_loader.dart';
+import '../widgets/comment_and_accept_dialog.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
@@ -373,12 +374,37 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
 
 
   void _handleApprove(BuildContext context, ComplainEntity complaint){
+    CommentDialog.show(
+      context: context,
+      title: 'Ticket#',
+      ticketNo: complaint.ticketNo!,
+      labelText: 'Approve Comment',
+      hintText: 'text...',
+      actionButtonText: 'Approve',
+      actionButtonColor: Colors.green,
+      onSubmitted: (comment) {
+
+      },
+    );
 
   }
 
-  void _handleDecline(BuildContext context, ComplainEntity complaint){
+  void _handleDecline(BuildContext context, ComplainEntity complaint) {
+    CommentDialog.show(
+      context: context,
+      title: 'Ticket#',
+      ticketNo: complaint.ticketNo!,
+      labelText: 'Decline Comment',
+      hintText: 'comment text...',
+      actionButtonText: 'Decline',
+      actionButtonColor: Colors.deepOrangeAccent,
+      onSubmitted: (comment) {
 
+      },
+    );
   }
+
+
   // Handler functions
   void _handleHistory(BuildContext context, ComplainEntity complaint) {
     Navigator.push(
