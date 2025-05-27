@@ -412,6 +412,13 @@ class _AssignedTechnicianScreenContentState
       _rescheduleTime.minute,
     );
 
+    if (_commentController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Comment is Required')),
+      );
+      return;
+    }
+
     final comment = _commentController.text.trim();
 
     // Get user info

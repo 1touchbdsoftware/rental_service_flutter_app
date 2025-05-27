@@ -62,9 +62,9 @@ class _AcceptTechnicianScreenContentState
   }
 
   TechnicianRequestParams _prepareTechnicianParams(
-      UserInfoModel userInfo,
-      String complainId,
-      ) {
+    UserInfoModel userInfo,
+    String complainId,
+  ) {
     return TechnicianRequestParams(
       agencyID: userInfo.agencyID,
       propertyID: userInfo.propertyID ?? '',
@@ -109,8 +109,8 @@ class _AcceptTechnicianScreenContentState
           }
         },
         child: BlocConsumer<
-            GetAssignedTechnicianCubit,
-            GetAssignedTechnicianState
+          GetAssignedTechnicianCubit,
+          GetAssignedTechnicianState
         >(
           listener: (context, state) {
             if (state is GetAssignedTechnicianFailureState) {
@@ -238,95 +238,123 @@ class _AcceptTechnicianScreenContentState
                             Row(
                               children: [
                                 BlocBuilder<
-                                    AcceptTechnicianCubit,
-                                    TechnicianPostState
+                                  AcceptTechnicianCubit,
+                                  TechnicianPostState
                                 >(
                                   builder: (context, acceptState) {
                                     final bool isSubmitting =
-                                    acceptState is TechnicianPostLoading;
+                                        acceptState is TechnicianPostLoading;
                                     return Expanded(
                                       child: ElevatedButton(
-                                        onPressed: isSubmitting
-                                            ? null
-                                            : () {
-                                          // Get the current user info
-                                          final userInfo = context
-                                              .read<UserInfoCubit>()
-                                              .state;
+                                        onPressed:
+                                            isSubmitting
+                                                ? null
+                                                : () {
+                                                  // Get the current user info
+                                                  final userInfo =
+                                                      context
+                                                          .read<UserInfoCubit>()
+                                                          .state;
 
-                                          // Get the technician info from the state
-                                          final technicianState = context
-                                              .read<
-                                              GetAssignedTechnicianCubit>()
-                                              .state;
-                                          if (technicianState
-                                          is GetAssignedTechnicianSuccessState) {
-                                            final tech = technicianState
-                                                .response.data.list;
+                                                  // Get the technician info from the state
+                                                  final technicianState =
+                                                      context
+                                                          .read<
+                                                            GetAssignedTechnicianCubit
+                                                          >()
+                                                          .state;
 
-                                            // Create the params directly
-                                            final params =
-                                            AcceptTechnicianParams(
-                                              technicianID:
-                                              tech.technicianID,
-                                              tenantID:
-                                              userInfo.tenantID ?? '',
-                                              complainID: widget
-                                                  .complaint.complainID,
-                                              agencyID: userInfo.agencyID,
-                                              currentComments:
-                                              _commentController.text,
-                                            );
+                                                  if (technicianState
+                                                      is GetAssignedTechnicianSuccessState) {
+                                                    final tech =
+                                                        technicianState
+                                                            .response
+                                                            .data
+                                                            .list;
 
-                                            // Call the accept technician method from the cubit
-                                            context
-                                                .read<
-                                                AcceptTechnicianCubit>()
-                                                .acceptTechnician(
-                                                params: params);
-                                          } else {
-                                            // Handle the case where technician data isn't available
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Technician data not available. Please try again.',
-                                                ),
-                                                backgroundColor:
-                                                colorScheme.error,
-                                              ),
-                                            );
-                                          }
-                                        },
+                                                    // Create the params directly
+                                                    final params =
+                                                        AcceptTechnicianParams(
+                                                          technicianID:
+                                                              tech.technicianID,
+                                                          tenantID:
+                                                              userInfo
+                                                                  .tenantID ??
+                                                              '',
+                                                          complainID:
+                                                              widget
+                                                                  .complaint
+                                                                  .complainID,
+                                                          agencyID:
+                                                              userInfo.agencyID,
+                                                          currentComments:
+                                                              _commentController
+                                                                  .text,
+                                                        );
+
+                                                    if (_commentController.text.trim().isEmpty) {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        const SnackBar(content: Text('Comment is Required')),
+                                                      );
+                                                      return;
+                                                    }
+                                                    // Call the accept technician method from the cubit
+                                                    context
+                                                        .read<
+                                                          AcceptTechnicianCubit
+                                                        >()
+                                                        .acceptTechnician(
+                                                          params: params,
+                                                        );
+                                                  } else {
+                                                    // Handle the case where technician data isn't available
+                                                    ScaffoldMessenger.of(
+                                                      context,
+                                                    ).showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Technician data not available. Please try again.',
+                                                        ),
+                                                        backgroundColor:
+                                                            colorScheme.error,
+                                                      ),
+                                                    );
+                                                  }
+                                                },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: colorScheme.primary,
                                           foregroundColor:
-                                          colorScheme.onPrimary,
+                                              colorScheme.onPrimary,
                                           padding: const EdgeInsets.symmetric(
                                             vertical: 16,
                                           ),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                           ),
                                         ),
-                                        child: isSubmitting
-                                            ? SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child:
-                                          CircularProgressIndicator(
-                                            color: colorScheme.onPrimary,
-                                            strokeWidth: 2,
-                                          ),
-                                        )
-                                            : Text(
-                                          'Accept Technician',
-                                          style: textTheme.labelLarge
-                                              ?.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
+                                        child:
+                                            isSubmitting
+                                                ? SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        color:
+                                                            colorScheme
+                                                                .onPrimary,
+                                                        strokeWidth: 2,
+                                                      ),
+                                                )
+                                                : Text(
+                                                  'Accept Technician',
+                                                  style: textTheme.labelLarge
+                                                      ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
                                       ),
                                     );
                                   },
