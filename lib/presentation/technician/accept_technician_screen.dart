@@ -125,7 +125,7 @@ class _AcceptTechnicianScreenContentState
           builder: (context, state) {
             if (state is GetAssignedTechnicianLoadingState) {
               return const CenterLoaderWithText(
-                text: 'Fetching assigned technician...',
+                text: 'Getting Technician info...',
               );
             } else if (state is GetAssignedTechnicianFailureState) {
               return Center(

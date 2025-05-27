@@ -23,6 +23,7 @@ import '../widgets/center_loader.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
+import '../widgets/image_with_caption.dart';
 import '../widgets/info_dialog.dart';
 import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
@@ -394,13 +395,11 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       Navigator.of(context).pop();
 
       if (state is GetComplainImagesSuccessState) {
-        // Convert models to base64 strings and show dialog
-        final imageList = state.images.map((img) => img.file).toList();
-        showImageDialog(context, imageList);
+        // Pass the ComplainImageModel list directly
+        showImageDialog(context, state.images);
 
         // Cancel subscription after successful completion
         subscription.cancel();
-
       } else if (state is GetComplainImagesFailureState) {
         // Reset state on error to clean up
         imagesCubit.resetState();

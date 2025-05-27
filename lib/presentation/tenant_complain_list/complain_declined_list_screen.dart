@@ -344,13 +344,11 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
       Navigator.of(context).pop();
 
       if (state is GetComplainImagesSuccessState) {
-        // Convert models to base64 strings and show dialog
-        final imageList = state.images.map((img) => img.file).toList();
-        showImageDialog(context, imageList);
+        // Pass the ComplainImageModel list directly
+        showImageDialog(context, state.images);
 
         // Cancel subscription after successful completion
         subscription.cancel();
-
       } else if (state is GetComplainImagesFailureState) {
         // Reset state on error to clean up
         imagesCubit.resetState();
