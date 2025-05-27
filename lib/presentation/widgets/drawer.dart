@@ -158,12 +158,12 @@ Widget buildAppDrawer(BuildContext context, String username,
                 title: username,
                 subtitle: 'View Profile',
                 onTap: () {
-                  Navigator.pop(context);
-                  if (userType == "LANDLORD") {
-                    Navigator.pushNamed(context, '/landlord-profile');
-                  } else if (userType == "TENANT") {
-                    Navigator.pushNamed(context, '/tenant-profile');
-                  }
+                  // Navigator.pop(context);
+                  // if (userType == "LANDLORD") {
+                  //   Navigator.pushNamed(context, '/landlord-profile');
+                  // } else if (userType == "TENANT") {
+                  //   Navigator.pushNamed(context, '/tenant-profile');
+                  // }
                 },
               ),
 
@@ -173,8 +173,8 @@ Widget buildAppDrawer(BuildContext context, String username,
                 icon: Icons.settings_rounded,
                 title: 'Settings',
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/settings');
+                  // Navigator.pop(context);
+                  // Navigator.pushNamed(context, '/settings');
                 },
               ),
 
