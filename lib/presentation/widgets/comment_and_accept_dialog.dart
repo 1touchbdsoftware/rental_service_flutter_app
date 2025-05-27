@@ -69,7 +69,7 @@ class _CommentDialogState extends State<CommentDialog> {
   Future<void> _handleSubmit() async {
     if (_controller.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please provide comments')),
+        const SnackBar(content: Text('Comment is Required')),
       );
       return;
     }
