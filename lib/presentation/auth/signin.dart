@@ -147,7 +147,7 @@ class SignInPage extends StatelessWidget {
         image: const AssetImage('asset/images/building.jpg'),
         fit: BoxFit.cover,
         colorFilter: ColorFilter.mode(
-          Colors.black.withAlpha(100),
+          Colors.black.withAlpha(200),
           BlendMode.darken,
         ),
       ),
@@ -219,7 +219,8 @@ class SignInPage extends StatelessWidget {
     return TextFormField(
       style: const TextStyle(color: Colors.white),
       controller: _usernameController,
-      keyboardType: TextInputType.name,
+      keyboardType: TextInputType.text, // Allows all characters
+      autocorrect: false, // Disables iOS auto-correction
       decoration: const InputDecoration(
         labelText: 'Username',
         labelStyle: TextStyle(

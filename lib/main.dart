@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 
 
@@ -12,6 +13,9 @@ import 'package:rental_service/presentation/routes.dart';
 import 'package:rental_service/service_locator.dart';
 
 void main() {
+
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   setupServiceLocator();
   runApp(const MyApp());
 }
@@ -21,6 +25,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()..appStarted()),
@@ -47,20 +53,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  // String _getInitialRoute(AuthState authState, UserTypeState userTypeState) {
-  //   if (authState is Authenticated) {
-  //     if (userTypeState is UserTypeLandLord) {
-  //       return AppRoutes.landlordDashboard;
-  //     } else if (userTypeState is UserTypeTenant) {
-  //       return AppRoutes.tenantDashboard;
-  //     } else {
-  //       // If authenticated but user type not determined yet
-  //       return AppRoutes.signIn; // Or a loading route if you prefer
-  //     }
-  //   } else {
-  //     return AppRoutes.signIn;
-  //   }
-  // }
 
 
 
@@ -71,10 +63,16 @@ class SplashWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Remove splash only once after first build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, authState) {
         return BlocBuilder<UserTypeCubit, UserTypeState>(
           builder: (context, userTypeState) {
+
             // Still waiting for data
             if (authState is AuthInitialState || userTypeState is UserTypeInitialState || userTypeState is UserTypeLoadingState) {
               return const Scaffold(

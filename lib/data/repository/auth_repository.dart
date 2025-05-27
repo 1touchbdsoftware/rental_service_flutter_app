@@ -40,7 +40,6 @@ class AuthRepositoryImpl extends AuthRepository {
                 : false;
 
         if (success) {
-
           if(!validUser){
             return Left('Invalid User Type');
           }
@@ -87,9 +86,7 @@ class AuthRepositoryImpl extends AuthRepository {
             'propertyName',
             userModel.userInfo.propertyName ?? "",
           );
-
           //check registrationType and save name also from landlordName
-
           return Right(success);
         } else {
           return Left('Could not log you in');

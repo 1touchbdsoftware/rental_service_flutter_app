@@ -88,6 +88,7 @@ class _CommentDialogState extends State<CommentDialog> {
     return AlertDialog(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(widget.title),
           Text(widget.ticketNo),
@@ -95,21 +96,23 @@ class _CommentDialogState extends State<CommentDialog> {
           const Divider(),
         ],
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text('Write your Comment Here:'),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _controller,
-            decoration: InputDecoration(
-              labelText: widget.labelText,
-              border: const OutlineInputBorder(),
-              hintText: widget.hintText,
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Write your Comment Here:'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: widget.labelText,
+                border: const OutlineInputBorder(),
+                hintText: widget.hintText,
+              ),
+              maxLines: 4,
             ),
-            maxLines: 4,
-          ),
-        ],
+          ],
+        ),
       ),
       actions: [
         TextButton(
