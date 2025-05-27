@@ -44,9 +44,9 @@ class ComplainCard extends StatelessWidget {
 
     return Card(
       // Use surface color from theme instead of hardcoded white
-      color: colorScheme.surfaceContainer,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      elevation: 2,
+      color: colorScheme.surfaceContainerHigh,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      elevation: 3,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
