@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../data/model/complain/complain_image_model.dart';
 
-
 void showImageDialog(BuildContext context, List<ComplainImageModel> images) {
   int currentIndex = 0;
 
@@ -34,8 +33,6 @@ void showImageDialog(BuildContext context, List<ComplainImageModel> images) {
                   ),
                 ),
               ),
-
-
               // Fullscreen image viewer
               Expanded(
                 child: InteractiveViewer(

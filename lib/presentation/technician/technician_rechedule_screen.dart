@@ -16,7 +16,7 @@ import 'bloc/reschedule_technician_cubit.dart';
 
 import 'bloc/technician_post_state.dart';
 import 'build_phone_row.dart';
-import 'get_assigned_technician_cubit.dart';
+import 'bloc/get_assigned_technician_cubit.dart';
 
 class AssignedTechnicianScreen extends StatelessWidget {
   final ComplainEntity complaint;

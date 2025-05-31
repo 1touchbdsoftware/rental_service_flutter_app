@@ -9,7 +9,7 @@ import '../dashboard/bloc/user_info_cubit.dart';
 import '../widgets/center_loader.dart';
 import 'bloc/technician_post_state.dart';
 import 'build_phone_row.dart';
-import 'get_assigned_technician_cubit.dart';
+import 'bloc/get_assigned_technician_cubit.dart';
 
 class AcceptTechnicianScreen extends StatelessWidget {
   final ComplainEntity complaint;

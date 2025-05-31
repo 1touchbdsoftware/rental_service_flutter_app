@@ -168,18 +168,19 @@ class PhoneUtils {
               child: InkWell(
                 onTap: () => _sendEmail(emailAddress),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      displayValue,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.blue,
+                    Expanded(
+                      child: Text(
+                        displayValue,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.blue,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(width: 30),
+                    const SizedBox(width: 8),
                     const Icon(
                       Icons.email,
                       color: Colors.blue,
@@ -203,6 +204,7 @@ class PhoneUtils {
         ],
       ),
     );
+
   }
 
 
