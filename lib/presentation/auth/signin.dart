@@ -228,7 +228,7 @@ class SignInPage extends StatelessWidget {
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
-        prefixIcon: Icon(Icons.email, color: Colors.lightBlue),
+        prefixIcon: Icon(Icons.person_rounded, color: Colors.lightBlue),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
