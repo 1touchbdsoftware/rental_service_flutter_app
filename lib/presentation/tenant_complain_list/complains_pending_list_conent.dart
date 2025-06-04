@@ -20,6 +20,7 @@ import '../image_gallery/get_image_state_cubit.dart';
 import '../resubmit/resubmit_form_screen.dart';
 import '../technician/technician_rechedule_screen.dart';
 import '../widgets/center_loader.dart';
+import '../widgets/comment_and_accept_dialog.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
@@ -429,63 +430,21 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
   void _handleComplete(BuildContext context, ComplainEntity complain) {
     final TextEditingController completeCommentController = TextEditingController();
 
-    showDialog(
+    CommentDialog.show(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Ticket#'),
-            Text(complain.ticketNo!),
-            const SizedBox(height: 8),
-            const Divider(),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Please provide comments before completing the ticket:'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: completeCommentController,
-              decoration: const InputDecoration(
-                labelText: 'Completion Comments',
-                border: OutlineInputBorder(),
-                hintText: 'Describe the work done or resolution...',
-              ),
-              maxLines: 4,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('CANCEL'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (completeCommentController.text.trim().isEmpty) {
-                ScaffoldMessenger.of(dialogContext).showSnackBar(
-                  const SnackBar(content: Text('Please provide comments')),
-                );
-                return;
-              }
-
-              _markTicketAsComplete(
-                context,
-                complain,
-                completeCommentController.text.trim(),
-              );
-
-              Navigator.pop(dialogContext);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-            ),
-            child: const Text('MARK AS COMPLETE'),
-          ),
-        ],
-      ),
+      title: 'Ticket#',
+      ticketNo: complain.ticketNo!,
+      labelText: 'Please write a Comment',
+      hintText: 'comment text...',
+      actionButtonText: 'Mark as Complete',
+      actionButtonColor: Colors.greenAccent,
+      onSubmitted: (comment) async {
+        _markTicketAsComplete(
+          context,
+          complain,
+          completeCommentController.text.trim(),
+        );
+      },
     );
   }
 
