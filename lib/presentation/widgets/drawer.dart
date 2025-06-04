@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
+import '../../data/model/user/user_info_model.dart';
 import '../../service_locator.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
+import '../profile/profile_screen.dart';
 
 Widget buildAppDrawer(BuildContext context, String username,
     String dashboardTitle, String userType) {
@@ -158,12 +161,16 @@ Widget buildAppDrawer(BuildContext context, String username,
                 title: username,
                 subtitle: 'View Profile',
                 onTap: () {
-                  // Navigator.pop(context);
-                  // if (userType == "LANDLORD") {
-                  //   Navigator.pushNamed(context, '/landlord-profile');
-                  // } else if (userType == "TENANT") {
-                  //   Navigator.pushNamed(context, '/tenant-profile');
-                  // }
+                  // When navigating to the profile page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => UserInfoCubit(UserInfoModel.empty()),
+                        child: const ProfilePage(),
+                      ),
+                    ),
+                  );
                 },
               ),
 

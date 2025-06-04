@@ -408,7 +408,6 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(state.errorMessage)),
         );
-
         // Cancel subscription after error
         subscription.cancel();
       }

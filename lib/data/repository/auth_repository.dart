@@ -86,6 +86,14 @@ class AuthRepositoryImpl extends AuthRepository {
             'propertyName',
             userModel.userInfo.propertyName ?? "",
           );
+          sharedPreferences.setString(
+            'emailAddress',
+            userModel.userInfo.emailAddress ?? "",
+          );
+          sharedPreferences.setString(
+            'contactNumber',
+            userModel.userInfo.contactNumber ?? "",
+          );
           //check registrationType and save name also from landlordName
           return Right(success);
         } else {

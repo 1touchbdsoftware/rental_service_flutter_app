@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/create_complain/create_complain_screen.dart';
+import 'package:rental_service/presentation/profile/profile_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/complain_declined_list_screen.dart';
 import 'package:rental_service/presentation/tenant_complain_list/complain_pending_list_screen.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
@@ -28,6 +29,8 @@ class AppRoutes {
   static const String landlordResolvedListScreen = '/landlord-resolved-screen';
   static const String landlordDeclinedListScreen = '/landlord-declined-screen';
 
+  static const String profileScreen = '/profile-screen';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -51,6 +54,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const LandlordSolvedListScreen());
       case landlordDeclinedListScreen:
         return MaterialPageRoute(builder: (_) => const LandlordDeclinedListScreen());
+      case profileScreen:
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
 
       default:
         return MaterialPageRoute(
@@ -75,6 +80,7 @@ class AppRoutes {
       landlordIssueListScreen: (context) => LandlordIssueListScreen(),
       landlordResolvedListScreen: (context) => LandlordSolvedListScreen(),
       landlordDeclinedListScreen: (context) => LandlordDeclinedListScreen(),
+      profileScreen: (context) => ProfilePage(),
 
 
     };
