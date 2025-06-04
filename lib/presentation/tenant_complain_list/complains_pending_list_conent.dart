@@ -428,7 +428,6 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
   }
 
   void _handleComplete(BuildContext context, ComplainEntity complain) {
-    final TextEditingController completeCommentController = TextEditingController();
 
     CommentDialog.show(
       context: context,
@@ -442,7 +441,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         _markTicketAsComplete(
           context,
           complain,
-          completeCommentController.text.trim(),
+          comment
         );
       },
     );
