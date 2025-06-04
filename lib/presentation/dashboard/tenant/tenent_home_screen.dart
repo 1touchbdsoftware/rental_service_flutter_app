@@ -198,10 +198,9 @@ class TenantHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      userInfo.propertyName ?? 'Property not assigned',
+                      'Tenant',
                       style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
+                        color: Colors.black54,
                       ),
                     ),
                   ],
