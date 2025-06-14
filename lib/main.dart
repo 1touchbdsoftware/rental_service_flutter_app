@@ -12,6 +12,9 @@ import 'package:rental_service/presentation/dashboard/tenant/tenent_home_screen.
 import 'package:rental_service/presentation/routes.dart';
 import 'package:rental_service/service_locator.dart';
 
+import 'core/localization/language_cubit.dart';
+import 'l10n/generated/app_localizations.dart';
+
 void main() {
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -31,32 +34,63 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()..appStarted()),
         BlocProvider(create: (context) => UserTypeCubit()..getUserType()),
+        BlocProvider(create: (context) => LanguageCubit()),
       ],
-      child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, authState) {
+      child: MyAppContent(),
 
-          return BlocBuilder<UserTypeCubit, UserTypeState>(
-            builder: (context, userTypeState) {
-              return MaterialApp(
-                title: 'Rental Service App',
-                theme: AppTheme.lightTheme,
-                // darkTheme: AppTheme.darkTheme,
-                // themeMode: ThemeMode.system,
-                home: const SplashWrapper(),
-                onGenerateRoute: AppRoutes.generateRoute,
-                routes: AppRoutes.getRoutes(),
-              );
-            },
-          );
-        },
-      ),
+      // BlocBuilder<AuthCubit, AuthState>(
+      //   builder: (context, authState) {
+      //
+      //     return BlocBuilder<UserTypeCubit, UserTypeState>(
+      //       builder: (context, userTypeState) {
+      //         return MaterialApp(
+      //           title: 'Rental Service App',
+      //           theme: AppTheme.lightTheme,
+      //           // darkTheme: AppTheme.darkTheme,
+      //           // themeMode: ThemeMode.system,
+      //           home: const SplashWrapper(),
+      //           onGenerateRoute: AppRoutes.generateRoute,
+      //           routes: AppRoutes.getRoutes(),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
     );
   }
 
-
-
-
 }
+
+class MyAppContent extends StatelessWidget {
+  const MyAppContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LanguageCubit, Locale>(
+      builder: (context, locale) {
+        return BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, authState) {
+            return BlocBuilder<UserTypeCubit, UserTypeState>(
+              builder: (context, userTypeState) {
+                return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    locale: locale,
+                    supportedLocales: S.supportedLocales,
+                    localizationsDelegates: S.localizationsDelegates,
+                    // fallbackLocale: const Locale('en'),
+                    theme: AppTheme.lightTheme,
+                    home: const SplashWrapper(),
+                    onGenerateRoute: AppRoutes.generateRoute,
+                    routes: AppRoutes.getRoutes());
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
 
 class SplashWrapper extends StatelessWidget {
   const SplashWrapper({super.key});

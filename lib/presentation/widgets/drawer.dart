@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
 
+import '../../core/localization/language_cubit.dart';
 import '../../data/model/user/user_info_model.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../service_locator.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../profile/profile_screen.dart';
@@ -126,7 +128,7 @@ Widget buildAppDrawer(BuildContext context, String username,
               _buildDrawerItem(
                 context: context,
                 icon: Icons.assignment_rounded,
-                title: 'Complaints List',
+                title: S.of(context).complaintsList,
                 onTap: () {
                   Navigator.pop(context);
                   if (userType == "LANDLORD") {
@@ -324,14 +326,13 @@ void _showLanguageSelectionDialog(BuildContext context) {
 
   final languages = [
     {'code': 'en', 'name': 'English', 'flag': '🇺🇸'},
-    {'code': 'es', 'name': 'Español', 'flag': '🇪🇸'},
-    {'code': 'fr', 'name': 'Français', 'flag': '🇫🇷'},
-    {'code': 'de', 'name': 'Deutsch', 'flag': '🇩🇪'},
-    {'code': 'it', 'name': 'Italiano', 'flag': '🇮🇹'},
-    {'code': 'pt', 'name': 'Português', 'flag': '🇵🇹'},
+    {'code': 'bn', 'name': 'Bengali', 'flag': '🇧🇩'},
     {'code': 'ar', 'name': 'العربية', 'flag': '🇸🇦'},
     {'code': 'hi', 'name': 'हिन्दी', 'flag': '🇮🇳'},
+    {'code': 'tr', 'name': 'Turkish', 'flag': '🇹🇷'},
+    {'code': 'ru', 'name': 'Russian', 'flag': '🇷🇺'},
   ];
+
 
   // Current selected language (you can replace this with actual state management)
   String currentLanguage = 'en';
@@ -406,6 +407,8 @@ void _showLanguageSelectionDialog(BuildContext context) {
                     // Handle language change here
                     // You can call your language change logic here
                     // For example: context.read<LanguageCubit>().changeLanguage(language['code']!);
+
+                    context.read<LanguageCubit>().changeLanguage(language['code']!);
 
                     Navigator.of(dialogContext).pop();
                     ScaffoldMessenger.of(context).showSnackBar(

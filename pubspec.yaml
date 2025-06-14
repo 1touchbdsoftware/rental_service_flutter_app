@@ -46,12 +46,15 @@ dependencies:
   http_parser: ^4.1.2
   mime: ^2.0.0
   permission_handler: ^12.0.0+1
-  intl: ^0.20.2
+  intl: ^0.19.0
   url_launcher: ^6.3.1
   timelines_plus: ^1.0.6
   internet_connection_checker_plus: ^2.7.2
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.6
+  string_extractor_intl:
+    path: ../string_extractor_helper
+  flutter_localization: ^0.3.2
 
 
 dev_dependencies:
@@ -88,6 +91,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
