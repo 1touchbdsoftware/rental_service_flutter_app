@@ -178,14 +178,7 @@
   "@commentText": {
     "description": "Localized string"
   },
-  "complainCompletedListScreen": "/complain-completed-list-screen",
-  "@complainCompletedListScreen": {
-    "description": "Localized string"
-  },
-  "complainDeclinedListScreen": "/complain-declined-list-screen",
-  "@complainDeclinedListScreen": {
-    "description": "Localized string"
-  },
+
   "complainImagesErrorError": "Complain images error: {error}",
   "@complainImagesErrorError": {
     "description": "Localized string with parameters: error",
@@ -195,10 +188,6 @@
         "example": "error"
       }
     }
-  },
-  "complainListScreen": "/complain-list-screen",
-  "@complainListScreen": {
-    "description": "Localized string"
   },
 
   "complaintApprovedSuccessfully": "Complaint approved successfully",
@@ -289,10 +278,6 @@
   },
 
 
-  "createComplainScreen": "/create_complain-screen",
-  "@createComplainScreen": {
-    "description": "Localized string"
-  },
   "createComplaint": "Create Complaint",
   "@createComplaint": {
     "description": "Localized string"
@@ -312,18 +297,6 @@
   },
 
 
-  "ddMmmYyyy": "dd MMM, yyyy",
-  "@ddMmmYyyy": {
-    "description": "Localized string"
-  },
-  "de": "de",
-  "@de": {
-    "description": "Localized string"
-  },
-  "dec": "Dec",
-  "@dec": {
-    "description": "Localized string"
-  },
   "decline": "Decline",
   "@decline": {
     "description": "Localized string"
@@ -513,9 +486,6 @@
     "description": "Localized string"
   },
 
-
-
-
   "flag": "flag",
   "@flag": {
     "description": "Localized string"
@@ -545,14 +515,7 @@
   "@gettingTechnicianInfo_1": {
     "description": "Localized string"
   },
-  "hhMm": "HH:mm",
-  "@hhMm": {
-    "description": "Localized string"
-  },
-  "hhMmA": "hh:mm a",
-  "@hhMmA": {
-    "description": "Localized string"
-  },
+
   "hi": "hi",
   "@hi": {
     "description": "Localized string"
@@ -648,18 +611,12 @@
   "@landlord": {
     "description": "Localized string"
   },
-  "landlordDashboard": "/landlord-dashboard",
-  "@landlordDashboard": {
-    "description": "Localized string"
-  },
+
   "landlordDashboard_1": "Landlord Dashboard",
   "@landlordDashboard_1": {
     "description": "Localized string"
   },
-  "landlordDeclinedScreen": "/landlord-declined-screen",
-  "@landlordDeclinedScreen": {
-    "description": "Localized string"
-  },
+
   "landlordId": "Landlord ID",
   "@landlordId": {
     "description": "Localized string"
@@ -669,18 +626,12 @@
   "@landlordInformation": {
     "description": "Localized string"
   },
-  "landlordIssuesScreen": "/landlord-issues-screen",
-  "@landlordIssuesScreen": {
-    "description": "Localized string"
-  },
+
   "landlordName": "Landlord Name",
   "@landlordName": {
     "description": "Localized string"
   },
-  "landlordResolvedScreen": "/landlord-resolved-screen",
-  "@landlordResolvedScreen": {
-    "description": "Localized string"
-  },
+
   "landlord_1": "LANDLORD",
   "@landlord_1": {
     "description": "Localized string"
@@ -781,16 +732,6 @@
   "markAsComplete": "Mark as Complete",
   "@markAsComplete": {
     "description": "Localized string"
-  },
-  "markcomplaincompletedCubitErrorFailure": "MarkComplainCompleted Cubit error: {failure}",
-  "@markcomplaincompletedCubitErrorFailure": {
-    "description": "Localized string with parameters: failure",
-    "placeholders": {
-      "failure": {
-        "type": "String",
-        "example": "failure"
-      }
-    }
   },
 
   "may": "May",
@@ -1221,14 +1162,7 @@
   "@settings": {
     "description": "Localized string"
   },
-  "settings_1": "/settings",
-  "@settings_1": {
-    "description": "Localized string"
-  },
-  "signIn": "/sign-in",
-  "@signIn": {
-    "description": "Localized string"
-  },
+
   "signInToContinue": "Sign in to continue",
   "@signInToContinue": {
     "description": "Localized string"
@@ -1289,26 +1223,6 @@
   },
   "stringKey16": "🇮🇳",
   "@stringKey16": {
-    "description": "Localized string"
-  },
-  "stringKey17": "]}",
-  "@stringKey17": {
-    "description": "Localized string"
-  },
-  "stringKey2": "19 July 12:30pm",
-  "@stringKey2": {
-    "description": "Localized string"
-  },
-  "stringKey3": "...",
-  "@stringKey3": {
-    "description": "Localized string"
-  },
-  "stringKey4": "18-May-2025",
-  "@stringKey4": {
-    "description": "Localized string"
-  },
-  "stringKey5": "2025-05-18",
-  "@stringKey5": {
     "description": "Localized string"
   },
 
@@ -1421,10 +1335,7 @@
   "@tenant": {
     "description": "Localized string"
   },
-  "tenantDashboard": "/tenant-dashboard",
-  "@tenantDashboard": {
-    "description": "Localized string"
-  },
+
   "tenantDashboard_1": "Tenant Dashboard",
   "@tenantDashboard_1": {
     "description": "Localized string"
@@ -1451,7 +1362,6 @@
     "description": "Localized string"
   },
 
-
   "thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo": "This complaint has been declined. What would you like to do?",
   "@thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo": {
     "description": "Localized string"
@@ -1462,15 +1372,6 @@
   },
   "ticket": "Ticket#",
   "@ticket": {
-    "description": "Localized string"
-  },
-
-  "today1045Am": "Today, 10:45 AM",
-  "@today1045Am": {
-    "description": "Localized string"
-  },
-  "today930Am": "Today, 9:30 AM",
-  "@today930Am": {
     "description": "Localized string"
   },
 
@@ -1485,22 +1386,8 @@
       }
     }
   },
-  "unit105PaintRequest": "Unit 105: Paint request",
-  "@unit105PaintRequest": {
-    "description": "Localized string"
-  },
-  "unit201WindowRepair": "Unit 201: Window repair",
-  "@unit201WindowRepair": {
-    "description": "Localized string"
-  },
-  "unit304PlumbingIssue": "Unit 304: Plumbing issue",
-  "@unit304PlumbingIssue": {
-    "description": "Localized string"
-  },
-  "unknown": "Unknown",
-  "@unknown": {
-    "description": "Localized string"
-  },
+
+
   "unknownUserTypeUsertype": "Unknown user type: {userType}",
   "@unknownUserTypeUsertype": {
     "description": "Localized string with parameters: userType",
@@ -1574,14 +1461,7 @@
       }
     }
   },
-  "yesterday230Pm": "Yesterday, 2:30 PM",
-  "@yesterday230Pm": {
-    "description": "Localized string"
-  },
-  "yesterday415Pm": "Yesterday, 4:15 PM",
-  "@yesterday415Pm": {
-    "description": "Localized string"
-  },
+
   "yourFeedback": "Your Feedback",
   "@yourFeedback": {
     "description": "Localized string"

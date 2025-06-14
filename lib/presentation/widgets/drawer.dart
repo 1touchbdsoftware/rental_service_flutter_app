@@ -111,7 +111,7 @@ Widget buildAppDrawer(BuildContext context, String username,
               _buildDrawerItem(
                 context: context,
                 icon: Icons.home_rounded,
-                title: 'Home',
+                title: S.of(context).home,
                 onTap: () {
                   Navigator.pop(context);
                   if (userType == "LANDLORD") {
@@ -180,7 +180,7 @@ Widget buildAppDrawer(BuildContext context, String username,
               _buildDrawerItem(
                 context: context,
                 icon: Icons.settings_rounded,
-                title: 'Settings',
+                title: S.of(context).settings,
                 onTap: () {
                   // Navigator.pop(context);
                   // Navigator.pushNamed(context, '/settings');
@@ -191,7 +191,7 @@ Widget buildAppDrawer(BuildContext context, String username,
               _buildDrawerItem(
                 context: context,
                 icon: Icons.language_rounded,
-                title: 'Language',
+                title: S.of(context).language,
                 trailing: Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 16,
@@ -361,7 +361,7 @@ void _showLanguageSelectionDialog(BuildContext context) {
             ),
             const SizedBox(width: 12),
             Text(
-              "Select Language",
+              S.of(context).selectLanguage,
               style: textTheme.titleLarge?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,

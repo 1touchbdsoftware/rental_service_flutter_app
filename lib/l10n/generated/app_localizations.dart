@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_bn.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,8 @@ abstract class S {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('bn'),
-    Locale('en')
+    Locale('en'),
+    Locale('tr')
   ];
 
   /// Localized string
@@ -341,29 +343,11 @@ abstract class S {
   /// **'comment text...'**
   String get commentText;
 
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'/complain-completed-list-screen'**
-  String get complainCompletedListScreen;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'/complain-declined-list-screen'**
-  String get complainDeclinedListScreen;
-
   /// Localized string with parameters: error
   ///
   /// In en, this message translates to:
   /// **'Complain images error: {error}'**
   String complainImagesErrorError(String error);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'/complain-list-screen'**
-  String get complainListScreen;
 
   /// Localized string
   ///
@@ -488,12 +472,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'/create_complain-screen'**
-  String get createComplainScreen;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Create Complaint'**
   String get createComplaint;
 
@@ -514,24 +492,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Cubit:Catch block called}'**
   String get cubitCatchBlockCalled_1;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'dd MMM, yyyy'**
-  String get ddMmmYyyy;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'de'**
-  String get de;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Dec'**
-  String get dec;
 
   /// Localized string
   ///
@@ -788,18 +748,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'HH:mm'**
-  String get hhMm;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'hh:mm a'**
-  String get hhMmA;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'hi'**
   String get hi;
 
@@ -920,20 +868,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'/landlord-dashboard'**
-  String get landlordDashboard;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Landlord Dashboard'**
   String get landlordDashboard_1;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'/landlord-declined-screen'**
-  String get landlordDeclinedScreen;
 
   /// Localized string
   ///
@@ -950,20 +886,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'/landlord-issues-screen'**
-  String get landlordIssuesScreen;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Landlord Name'**
   String get landlordName;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'/landlord-resolved-screen'**
-  String get landlordResolvedScreen;
 
   /// Localized string
   ///
@@ -1102,12 +1026,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Mark as Complete'**
   String get markAsComplete;
-
-  /// Localized string with parameters: failure
-  ///
-  /// In en, this message translates to:
-  /// **'MarkComplainCompleted Cubit error: {failure}'**
-  String markcomplaincompletedCubitErrorFailure(String failure);
 
   /// Localized string
   ///
@@ -1670,18 +1588,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'/settings'**
-  String get settings_1;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'/sign-in'**
-  String get signIn;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Sign in to continue'**
   String get signInToContinue;
 
@@ -1762,36 +1668,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'🇮🇳'**
   String get stringKey16;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **']}'**
-  String get stringKey17;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'19 July 12:30pm'**
-  String get stringKey2;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'...'**
-  String get stringKey3;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'18-May-2025'**
-  String get stringKey4;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'2025-05-18'**
-  String get stringKey5;
 
   /// Localized string
   ///
@@ -1922,12 +1798,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'/tenant-dashboard'**
-  String get tenantDashboard;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Tenant Dashboard'**
   String get tenantDashboard_1;
 
@@ -1979,47 +1849,11 @@ abstract class S {
   /// **'Ticket#'**
   String get ticket;
 
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Today, 10:45 AM'**
-  String get today1045Am;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Today, 9:30 AM'**
-  String get today930Am;
-
   /// Localized string with parameters: e
   ///
   /// In en, this message translates to:
   /// **'Unexpected error in GetComplainImagesCubit: {e}'**
   String unexpectedErrorInGetcomplainimagescubitE(String e);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Unit 105: Paint request'**
-  String get unit105PaintRequest;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Unit 201: Window repair'**
-  String get unit201WindowRepair;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Unit 304: Plumbing issue'**
-  String get unit304PlumbingIssue;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown'**
-  String get unknown;
 
   /// Localized string with parameters: userType
   ///
@@ -2096,18 +1930,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Yesterday, 2:30 PM'**
-  String get yesterday230Pm;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Yesterday, 4:15 PM'**
-  String get yesterday415Pm;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Your Feedback'**
   String get yourFeedback;
 
@@ -2127,7 +1949,7 @@ class _SDelegate extends LocalizationsDelegate<S> {
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['bn', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['bn', 'en', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SDelegate old) => false;
@@ -2140,6 +1962,7 @@ S lookupS(Locale locale) {
   switch (locale.languageCode) {
     case 'bn': return SBn();
     case 'en': return SEn();
+    case 'tr': return STr();
   }
 
   throw FlutterError(
