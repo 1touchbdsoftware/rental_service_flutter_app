@@ -24,11 +24,6 @@ class SEn extends S {
   String get acceptTechnician => 'Accept Technician';
 
   @override
-  String acceptTechnicianCubitErrorError(String error) {
-    return 'Accept Technician Cubit error: $error';
-  }
-
-  @override
   String get acceptedSchedule => 'accepted schedule';
 
   @override
@@ -68,12 +63,6 @@ class SEn extends S {
   String get approved => 'Approved';
 
   @override
-  String get apr => 'Apr';
-
-  @override
-  String get ar => 'ar';
-
-  @override
   String get areYouSureYouWantToLogOutOfYourAccount => 'Are you sure you want to log out of your account?';
 
   @override
@@ -81,9 +70,6 @@ class SEn extends S {
 
   @override
   String get attachImages => 'Attach Images';
-
-  @override
-  String get aug => 'Aug';
 
   @override
   String get beSpecificAboutTheIssueForFasterResolution => 'Be specific about the issue for faster resolution';
@@ -132,11 +118,6 @@ class SEn extends S {
 
   @override
   String get commentText => 'comment text...';
-
-  @override
-  String complainImagesErrorError(String error) {
-    return 'Complain images error: $error';
-  }
 
   @override
   String get complaintApprovedSuccessfully => 'Complaint approved successfully';
@@ -204,15 +185,6 @@ class SEn extends S {
   String get createComplaint => 'Create Complaint';
 
   @override
-  String get cubitCalled => 'CUBIT CALLED';
-
-  @override
-  String get cubitCatchBlockCalled => 'Cubit:Catch block called';
-
-  @override
-  String get cubitCatchBlockCalled_1 => 'Cubit:Catch block called';
-
-  @override
   String get decline => 'Decline';
 
   @override
@@ -246,14 +218,6 @@ class SEn extends S {
   String get descriptionIsRequired => 'Description is required';
 
   @override
-  String detailedErrorError(String error) {
-    return 'Detailed error: $error';
-  }
-
-  @override
-  String get deutsch => 'Deutsch';
-
-  @override
   String get doYouWantToReconsiderAndAcceptThisComplaint => 'Do you want to reconsider and accept this complaint?';
 
   @override
@@ -261,11 +225,6 @@ class SEn extends S {
 
   @override
   String get edit => 'Edit';
-
-  @override
-  String editComplainCubitErrorFailure(String failure) {
-    return 'Edit Complain Cubit error: $failure';
-  }
 
   @override
   String get editDeclinedComplaint => 'Edit Declined Complaint';
@@ -280,53 +239,13 @@ class SEn extends S {
   String get email_1 => 'Email:';
 
   @override
-  String get en => 'en';
-
-  @override
-  String get english => 'English';
-
-  @override
   String get enterTextHere => 'Enter text here...';
-
-  @override
-  String errorFetchingUserTypeE(String e) {
-    return 'Error fetching user type: $e';
-  }
-
-  @override
-  String errorFormattingOriginalDateE(String e) {
-    return 'Error formatting original date: $e';
-  }
-
-  @override
-  String errorLoadingUserInfoE(String e) {
-    return 'Error loading user info: $e';
-  }
-
-  @override
-  String get es => 'es';
-
-  @override
-  String get espaOl => 'Español';
 
   @override
   String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'Failed to determine user type. Please try logging in again.';
 
   @override
-  String failedToGetUserTypeE(String e) {
-    return 'Failed to get user type: $e';
-  }
-
-  @override
   String get failedToLoadTechnicianInformation => 'Failed to load technician information';
-
-  @override
-  String failedToPrepareSubmissionE(String e) {
-    return 'Failed to prepare submission: $e';
-  }
-
-  @override
-  String get feb => 'Feb';
 
   @override
   String get feedbackIsRequired => 'Feedback is required';
@@ -338,12 +257,6 @@ class SEn extends S {
   String get forgotPassword => 'Forgot Password?';
 
   @override
-  String get fr => 'fr';
-
-  @override
-  String get franAis => 'Français';
-
-  @override
   String get gallery => 'Gallery';
 
   @override
@@ -353,15 +266,7 @@ class SEn extends S {
   String get gettingTechnicianInfo_1 => 'Getting Technician Info...';
 
   @override
-  String get hi => 'hi';
-
-  @override
   String get history => 'History';
-
-  @override
-  String historyCubitErrorError(String error) {
-    return 'History Cubit error: $error';
-  }
 
   @override
   String get holdOnBringingEverythingTogether => 'Hold on, bringing everything together...';
@@ -394,21 +299,6 @@ class SEn extends S {
 
   @override
   String get issueList => 'Issue List';
-
-  @override
-  String get it => 'it';
-
-  @override
-  String get italiano => 'Italiano';
-
-  @override
-  String get jan => 'Jan';
-
-  @override
-  String get jul => 'Jul';
-
-  @override
-  String get jun => 'Jun';
 
   @override
   String get kitchenCabinetRepair => 'Kitchen cabinet repair';
@@ -494,13 +384,7 @@ class SEn extends S {
   String get maintenanceScheduled => 'Maintenance Scheduled';
 
   @override
-  String get mar => 'Mar';
-
-  @override
   String get markAsComplete => 'Mark as Complete';
-
-  @override
-  String get may => 'May';
 
   @override
   String get nA => 'N/A';
@@ -564,9 +448,6 @@ class SEn extends S {
 
   @override
   String get notProvided => 'Not provided';
-
-  @override
-  String get nov => 'Nov';
 
   @override
   String numberNd(String number) {
@@ -647,9 +528,6 @@ class SEn extends S {
   String get pleaseWriteAComment => 'Please write a Comment';
 
   @override
-  String get portuguS => 'Português';
-
-  @override
   String get preparing => 'Preparing...';
 
   @override
@@ -662,9 +540,6 @@ class SEn extends S {
   String get profile => 'Profile';
 
   @override
-  String get profileScreen => '/profile-screen';
-
-  @override
   String get propertyId => 'Property ID';
 
   @override
@@ -672,9 +547,6 @@ class SEn extends S {
 
   @override
   String get propertyOwner => 'Property Owner';
-
-  @override
-  String get pt => 'pt';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -687,11 +559,6 @@ class SEn extends S {
 
   @override
   String get recentActivity => 'Recent Activity';
-
-  @override
-  String recomplainCubitErrorFailure(String failure) {
-    return 'ReComplain Cubit error: $failure';
-  }
 
   @override
   String get reconsider => 'Reconsider';
@@ -787,9 +654,6 @@ class SEn extends S {
   String get sentToLandlord_1 => 'Sent to Landlord';
 
   @override
-  String get sep => 'Sep';
-
-  @override
   String get settings => 'Settings';
 
   @override
@@ -808,42 +672,6 @@ class SEn extends S {
   String sourcePermissionDenied(String source) {
     return '$source permission denied';
   }
-
-  @override
-  String get stringKey0 => '2 days ago';
-
-  @override
-  String get stringKey1 => '3 days ago';
-
-  @override
-  String get stringKey10 => '🇩🇪';
-
-  @override
-  String get stringKey11 => '🇮🇹';
-
-  @override
-  String get stringKey12 => '🇵🇹';
-
-  @override
-  String get stringKey13 => 'العربية';
-
-  @override
-  String get stringKey14 => '🇸🇦';
-
-  @override
-  String get stringKey15 => 'हिन्दी';
-
-  @override
-  String get stringKey16 => '🇮🇳';
-
-  @override
-  String get stringKey7 => '🇺🇸';
-
-  @override
-  String get stringKey8 => '🇪🇸';
-
-  @override
-  String get stringKey9 => '🇫🇷';
 
   @override
   String get submit => 'SUBMIT';
@@ -876,11 +704,6 @@ class SEn extends S {
 
   @override
   String get technicianAssigned_1 => 'Technician Assigned';
-
-  @override
-  String technicianCubitErrorError(String error) {
-    return 'Technician Cubit error: $error';
-  }
 
   @override
   String get technicianDataNotAvailablePleaseTryAgain => 'Technician data not available. Please try again.';
@@ -933,16 +756,6 @@ class SEn extends S {
   String get ticket => 'Ticket#';
 
   @override
-  String unexpectedErrorInGetcomplainimagescubitE(String e) {
-    return 'Unexpected error in GetComplainImagesCubit: $e';
-  }
-
-  @override
-  String unknownUserTypeUsertype(String userType) {
-    return 'Unknown user type: $userType';
-  }
-
-  @override
   String get unnamedSegment => 'Unnamed Segment';
 
   @override
@@ -953,9 +766,6 @@ class SEn extends S {
 
   @override
   String get username => 'Username';
-
-  @override
-  String get version100 => 'Version 1.0.0';
 
   @override
   String get viewProfile => 'View Profile';

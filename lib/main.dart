@@ -92,23 +92,36 @@ class MyAppContent extends StatelessWidget {
 }
 
 
-class SplashWrapper extends StatelessWidget {
+class SplashWrapper extends StatefulWidget {
   const SplashWrapper({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  SplashWrapperState createState() => SplashWrapperState();
+}
 
-    // Remove splash only once after first build
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+class SplashWrapperState extends State<SplashWrapper> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Remove the splash after the first frame
+    WidgetsBinding.instance.addPostFrameCallback(( _) {
       FlutterNativeSplash.remove();
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, authState) {
         return BlocBuilder<UserTypeCubit, UserTypeState>(
           builder: (context, userTypeState) {
 
             // Still waiting for data
-            if (authState is AuthInitialState || userTypeState is UserTypeInitialState || userTypeState is UserTypeLoadingState) {
+            if (authState is AuthInitialState ||
+                userTypeState is UserTypeInitialState ||
+                userTypeState is UserTypeLoadingState) {
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()),
               );
@@ -117,16 +130,16 @@ class SplashWrapper extends StatelessWidget {
             // Authenticated and user type known
             if (authState is Authenticated) {
               if (userTypeState is UserTypeLandLord) {
-                return LandlordDashboard();// Replace with actual widget
+                return LandlordDashboard();
               } else if (userTypeState is UserTypeTenant) {
-                return TenantHomeScreen(); // Replace with actual widget
+                return TenantHomeScreen();
               } else {
                 return SignInPage();
               }
             }
 
             // Unauthenticated
-            return SignInPage(); // Replace with your login screen
+            return SignInPage();
           },
         );
       },

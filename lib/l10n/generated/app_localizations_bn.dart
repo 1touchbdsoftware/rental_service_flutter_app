@@ -9,30 +9,25 @@ class SBn extends S {
   SBn([String locale = 'bn']) : super(locale);
 
   @override
-  String get acNotWorkingProperly => 'এসি সঠিকভাবে কাজ করছে না';
+  String get acNotWorkingProperly => 'এসি ঠিকমত কাজ করছে না';
 
   @override
   String get accept => 'গ্রহণ করুন';
 
   @override
-  String get acceptDeclinedComplaint => 'প্রত্যাখ্যান করা অভিযোগ গ্রহণ করুন';
+  String get acceptDeclinedComplaint => 'প্রত্যাখ্যাত অভিযোগ গ্রহণ করুন';
 
   @override
-  String get acceptFunctionalityComingSoon => 'গ্রহণ করার কার্যকারিতা শীঘ্রই আসছে';
+  String get acceptFunctionalityComingSoon => 'গ্রহণ করার সুবিধা শিগগিরই আসছে';
 
   @override
   String get acceptTechnician => 'টেকনিশিয়ান গ্রহণ করুন';
 
   @override
-  String acceptTechnicianCubitErrorError(String error) {
-    return 'টেকনিশিয়ান গ্রহণে ত্রুটি: $error';
-  }
+  String get acceptedSchedule => 'গ্রহণিত সময়সূচিতে রয়েছে';
 
   @override
-  String get acceptedSchedule => 'গ্রহণ করা সময়সূচী';
-
-  @override
-  String get acceptedSchedule_1 => 'গ্রহণ করা সময়সূচী';
+  String get acceptedSchedule_1 => 'গ্রহণিত সময়সূচিতে রয়েছে';
 
   @override
   String get account => 'অ্যাকাউন্ট';
@@ -41,7 +36,7 @@ class SBn extends S {
   String get active => 'সক্রিয়';
 
   @override
-  String get addPhotos => 'ছবি যোগ করুন';
+  String get addPhotos => 'ছবি যুক্ত করুন';
 
   @override
   String get additionalInformation => 'অতিরিক্ত তথ্য';
@@ -50,10 +45,10 @@ class SBn extends S {
   String get admin => 'অ্যাডমিন';
 
   @override
-  String get agencyId => 'এজেন্সি আইডি';
+  String get agencyId => 'সংস্থার আইডি';
 
   @override
-  String get agent => 'এজেন্ট';
+  String get agent => 'প্রতিনিধি';
 
   @override
   String get approvalFailed => 'অনুমোদন ব্যর্থ হয়েছে';
@@ -68,25 +63,16 @@ class SBn extends S {
   String get approved => 'অনুমোদিত';
 
   @override
-  String get apr => 'এপ্রিল';
+  String get areYouSureYouWantToLogOutOfYourAccount => 'আপনি কি নিশ্চিত যে আপনার অ্যাকাউন্ট থেকে লগআউট করতে চাইেন?';
 
   @override
-  String get ar => 'আরবি';
+  String get assignedTechnician => 'নির্দিষ্ট টেকনিশিয়ান';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'আপনি কি নিশ্চিত যে আপনি আপনার অ্যাকাউন্ট থেকে লগ আউট করতে চান?';
+  String get attachImages => 'ছবি যুক্ত করুন';
 
   @override
-  String get assignedTechnician => 'নির্ধারিত টেকনিশিয়ান';
-
-  @override
-  String get attachImages => 'ছবি সংযুক্ত করুন';
-
-  @override
-  String get aug => 'আগস্ট';
-
-  @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'দ্রুত সমাধানের জন্য সমস্যা সম্পর্কে সুনির্দিষ্ট হোন';
+  String get beSpecificAboutTheIssueForFasterResolution => 'সমস্যাটি সম্পর্কে স্পষ্ট হোন, তাহলে সমাধান দ্রুত হতে পারে';
 
   @override
   String get camera => 'ক্যামেরা';
@@ -98,25 +84,25 @@ class SBn extends S {
   String get cancel_1 => 'বাতিল';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'প্রত্যাখ্যান করা অভিযোগ সম্পূর্ণ করা যাবে না। অনুগ্রহ করে প্রথমে পুনর্বিবেচনা করুন।';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'প্রত্যাখ্যাত অভিযোগ সম্পূর্ণ করা যায় না। অনুগ্রহ করে আবার বিবেচনা করুন।';
 
   @override
-  String get cannotEditSolvedComplaints => 'সমাধান করা অভিযোগ সম্পাদনা করা যাবে না';
+  String get cannotEditSolvedComplaints => 'সমাধান হওয়া অভিযোগ সম্পাদনা করা যায় না';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'অভিযোগগুলি আনতে ব্যর্থ: টেন্যান্ট আইডি শূন্য বা খালি';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'অভিযোগ আনা যায়নি: গ্রাহকের আইডিতে সমস্যা রয়েছে';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'সমাধান করা অভিযোগ পুনরায় সময়সূচী করা যাবে না';
+  String get cannotRescheduleSolvedComplaints => 'সমাধান হওয়া অভিযোগগুলির সময়সূচিতে পরিবর্তন আনা যায় না';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'সমাধান করা অভিযোগ পুনরায় জমা দেওয়া যাবে না';
+  String get cannotResubmitSolvedComplaints => 'সমাধান হওয়া অভিযোগ আবার জমা দেওয়া যায় না';
 
   @override
   String get chooseFromGallery => 'গ্যালারি থেকে নির্বাচন করুন';
 
   @override
-  String get clearAll => 'সব পরিষ্কার করুন';
+  String get clearAll => 'সব মুছুন';
 
   @override
   String get close => 'বন্ধ করুন';
@@ -128,27 +114,22 @@ class SBn extends S {
   String get comment => 'মন্তব্য';
 
   @override
-  String get commentIsRequired => 'মন্তব্য প্রয়োজন';
+  String get commentIsRequired => 'মন্তব্য দেওয়া আবশ্যক';
 
   @override
   String get commentText => 'মন্তব্য লিখুন...';
 
   @override
-  String complainImagesErrorError(String error) {
-    return 'অভিযোগের ছবিতে ত্রুটি: $error';
-  }
-
-  @override
-  String get complaintApprovedSuccessfully => 'অভিযোগ সফলভাবে অনুমোদিত হয়েছে';
+  String get complaintApprovedSuccessfully => 'অভিযোগটি সফলভাবে অনুমোদিত হয়েছে';
 
   @override
   String get complaintCreated => 'অভিযোগ তৈরি হয়েছে';
 
   @override
-  String get complaintDeclined => 'অভিযোগ প্রত্যাখ্যান করা হয়েছে';
+  String get complaintDeclined => 'অভিযোগ প্রত্যাখ্যাত হয়েছে';
 
   @override
-  String get complaintDeclinedSuccessfully => 'অভিযোগ সফলভাবে প্রত্যাখ্যান করা হয়েছে';
+  String get complaintDeclinedSuccessfully => 'অভিযোগ সফলভাবে প্রত্যাখ্যাত হয়েছে';
 
   @override
   String get complaintDetails => 'অভিযোগের বিবরণ';
@@ -157,19 +138,19 @@ class SBn extends S {
   String get complaintHistory => 'অভিযোগের ইতিহাস';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'অভিযোগ ইতিমধ্যে গ্রহণ করা হয়েছে এবং সমাধান করা হয়েছে';
+  String get complaintIsAlreadyAcceptedAndSolved => 'অভিযোগ ইতিমধ্যে গ্রহণ ও সমাধান হয়েছে';
 
   @override
-  String get complaintIsAlreadyCompleted => 'অভিযোগ ইতিমধ্যে সম্পন্ন হয়েছে';
+  String get complaintIsAlreadyCompleted => 'অভিযোগ সম্পূর্ণ হয়েছে';
 
   @override
-  String get complaintMarkedAsComplete => 'অভিযোগ সম্পূর্ণ হিসাবে চিহ্নিত করা হয়েছে';
+  String get complaintMarkedAsComplete => 'অভিযোগ সম্পূর্ণ হিসেবে চিহ্নিত হয়েছে';
 
   @override
-  String get complaintResolved => 'অভিযোগ সমাধান করা হয়েছে';
+  String get complaintResolved => 'অভিযোগ সমাধান হয়েছে';
 
   @override
-  String get complaintResubmitted => 'অভিযোগ পুনরায় জমা দেওয়া হয়েছে';
+  String get complaintResubmitted => 'অভিযোগ আবার জমা দেওয়া হয়েছে';
 
   @override
   String get complaintSubmittedSuccessfully => 'অভিযোগ সফলভাবে জমা দেওয়া হয়েছে';
@@ -181,13 +162,13 @@ class SBn extends S {
   String get complete => 'সম্পূর্ণ করুন';
 
   @override
-  String get completeFunctionalityComingSoon => 'সম্পূর্ণ করার কার্যকারিতা শীঘ্রই আসছে';
+  String get completeFunctionalityComingSoon => 'সম্পূর্ণ করার সুবিধা শিগগিরই আসছে';
 
   @override
-  String get completed => 'সম্পন্ন';
+  String get completed => 'সম্পূর্ণ হয়েছে';
 
   @override
-  String get completed_1 => 'সম্পন্ন';
+  String get completed_1 => 'সম্পূর্ণ হয়েছে';
 
   @override
   String get confirmLogout => 'লগআউট নিশ্চিত করুন';
@@ -197,20 +178,11 @@ class SBn extends S {
 
   @override
   String couldNotInitiateCallE(String e) {
-    return 'কল শুরু করতে ব্যর্থ: $e';
+    return 'কল শুরু করতে ব্যর্থ হয়েছে: $e';
   }
 
   @override
-  String get createComplaint => 'অভিযোগ তৈরি করুন';
-
-  @override
-  String get cubitCalled => 'কিউবিট কল করা হয়েছে';
-
-  @override
-  String get cubitCatchBlockCalled => 'কিউবিট: ক্যাচ ব্লক কল করা হয়েছে';
-
-  @override
-  String get cubitCatchBlockCalled_1 => 'কিউবিট: ক্যাচ ব্লক কল করা হয়েছে';
+  String get createComplaint => 'অভিযোগ দিন';
 
   @override
   String get decline => 'প্রত্যাখ্যান করুন';
@@ -225,53 +197,40 @@ class SBn extends S {
   String get declineRequestFailed => 'প্রত্যাখ্যানের অনুরোধ ব্যর্থ হয়েছে';
 
   @override
-  String get declined => 'প্রত্যাখ্যান করা হয়েছে';
+  String get declined => 'প্রত্যাখ্যাত হয়েছে';
 
   @override
-  String get declinedComplaintAction => 'প্রত্যাখ্যান করা অভিযোগের কর্ম';
+  String get declinedComplaintAction => 'প্রত্যাখ্যাত অভিযোগের ক্রিয়া';
 
   @override
-  String get declinedComplaints => 'প্রত্যাখ্যান করা অভিযোগ';
+  String get declinedComplaints => 'প্রত্যাখ্যাত অভিযোগগুলো';
 
   @override
-  String get declinedList => 'প্রত্যাখ্যান করা তালিকা';
+  String get declinedList => 'প্রত্যাখ্যাতগুলির তালিকা';
 
   @override
-  String get declined_1 => 'প্রত্যাখ্যান করা হয়েছে';
+  String get declined_1 => 'প্রত্যাখ্যাত হয়েছে';
 
   @override
   String get description => 'বিবরণ';
 
   @override
-  String get descriptionIsRequired => 'বিবরণ প্রয়োজন';
+  String get descriptionIsRequired => 'বিবরণ দিতে होगा';
 
   @override
-  String detailedErrorError(String error) {
-    return 'বিস্তারিত ত্রুটি: $error';
-  }
+  String get doYouWantToReconsiderAndAcceptThisComplaint => 'আপনি কি আবার বিবেচনা করে এই অভিযোগটি গ্রহণ করতে চাইেন?';
 
   @override
-  String get deutsch => 'জার্মান';
-
-  @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'আপনি কি এই অভিযোগটি পুনর্বিবেচনা এবং গ্রহণ করতে চান?';
-
-  @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'আপনি কি এই অভিযোগটি পুনর্বিবেচনা এবং সময়সূচী করতে চান?';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'আপনি কি আবার বিবেচনা করে এই অভিযোগটির সময়সূচিতে পরিবর্তন আনতে চাইেন?';
 
   @override
   String get edit => 'সম্পাদনা করুন';
 
   @override
-  String editComplainCubitErrorFailure(String failure) {
-    return 'অভিযোগ সম্পাদনে ত্রুটি: $failure';
-  }
+  String get editDeclinedComplaint => 'প্রত্যাখ্যাত অভিযোগ সম্পাদনা করুন';
 
   @override
-  String get editDeclinedComplaint => 'প্রত্যাখ্যান করা অভিযোগ সম্পাদনা করুন';
-
-  @override
-  String get editFunctionalityForLandlordComingSoon => 'মালিকের জন্য সম্পাদনা কার্যকারিতা শীঘ্রই আসছে';
+  String get editFunctionalityForLandlordComingSoon => 'মালিকের জন্য সম্পাদনার সুবিধা শিগগিরই আসছে';
 
   @override
   String get email => 'ইমেইল';
@@ -280,94 +239,40 @@ class SBn extends S {
   String get email_1 => 'ইমেইল:';
 
   @override
-  String get en => 'ইংরেজি';
-
-  @override
-  String get english => 'ইংরেজি';
-
-  @override
-  String get enterTextHere => 'এখানে টেক্সট লিখুন...';
-
-  @override
-  String errorFetchingUserTypeE(String e) {
-    return 'ব্যবহারকারীর ধরন আনতে ত্রুটি: $e';
-  }
-
-  @override
-  String errorFormattingOriginalDateE(String e) {
-    return 'মূল তারিখ ফরম্যাট করতে ত্রুটি: $e';
-  }
-
-  @override
-  String errorLoadingUserInfoE(String e) {
-    return 'ব্যবহারকারীর তথ্য লোড করতে ত্রুটি: $e';
-  }
-
-  @override
-  String get es => 'স্প্যানিশ';
-
-  @override
-  String get espaOl => 'স্প্যানিশ';
+  String get enterTextHere => 'এখানে টেক্সট দিন...';
 
   @override
   String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'ব্যবহারকারীর ধরন নির্ধারণ করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার লগইন করুন।';
 
   @override
-  String failedToGetUserTypeE(String e) {
-    return 'ব্যবহারকারীর ধরন পেতে ব্যর্থ: $e';
-  }
+  String get failedToLoadTechnicianInformation => 'টেকনিশিয়ানে তথ্য লোড করতে ব্যর্থ হয়েছে';
 
   @override
-  String get failedToLoadTechnicianInformation => 'টেকনিশিয়ানের তথ্য লোড করতে ব্যর্থ হয়েছে';
-
-  @override
-  String failedToPrepareSubmissionE(String e) {
-    return 'জমা দেওয়ার প্রস্তুতি নিতে ব্যর্থ: $e';
-  }
-
-  @override
-  String get feb => 'ফেব্রুয়ারি';
-
-  @override
-  String get feedbackIsRequired => 'ফিডব্যাক প্রয়োজন';
+  String get feedbackIsRequired => 'মতামত দেওয়া আবশ্যক';
 
   @override
   String get flag => 'পতাকা';
 
   @override
-  String get forgotPassword => 'পাসওয়ার্ড ভুলে গেছেন?';
-
-  @override
-  String get fr => 'ফরাসি';
-
-  @override
-  String get franAis => 'ফরাসি';
+  String get forgotPassword => 'পাসওয়ার্ড ভুলে গিয়েছিলেন?';
 
   @override
   String get gallery => 'গ্যালারি';
 
   @override
-  String get gettingTechnicianInfo => 'টেকনিশিয়ানের তথ্য পাওয়া হচ্ছে...';
+  String get gettingTechnicianInfo => 'টেকনিশিয়ানে তথ্য আনা হচ্ছে...';
 
   @override
-  String get gettingTechnicianInfo_1 => 'টেকনিশিয়ানের তথ্য পাওয়া হচ্ছে...';
-
-  @override
-  String get hi => 'হিন্দি';
+  String get gettingTechnicianInfo_1 => 'টেকনিশিয়ানে তথ্য আনা হচ্ছে...';
 
   @override
   String get history => 'ইতিহাস';
 
   @override
-  String historyCubitErrorError(String error) {
-    return 'ইতিহাস কিউবিট ত্রুটি: $error';
-  }
+  String get holdOnBringingEverythingTogether => 'অপেক্ষা করুন, তথ্য একত্রিত করা হচ্ছে...';
 
   @override
-  String get holdOnBringingEverythingTogether => 'অপেক্ষা করুন, সবকিছু একত্রিত করা হচ্ছে...';
-
-  @override
-  String get holdOnGettingHistory => 'অপেক্ষা করুন, ইতিহাস পাওয়া হচ্ছে...';
+  String get holdOnGettingHistory => 'অপেক্ষা করুন, ইতিহাস আনা হচ্ছে...';
 
   @override
   String get home => 'হোম';
@@ -378,7 +283,7 @@ class SBn extends S {
   }
 
   @override
-  String get imageLoadingCancelled => 'ছবি লোডিং বাতিল করা হয়েছে';
+  String get imageLoadingCancelled => 'ছবি লোডিং বাতিল হয়েছে';
 
   @override
   String get inProgress => 'চলমান';
@@ -390,37 +295,22 @@ class SBn extends S {
   String get initialImages => 'প্রাথমিক ছবি';
 
   @override
-  String get invalidTime => 'অবৈধ সময়';
+  String get invalidTime => 'অগ্রহণযোগ্য সময়';
 
   @override
   String get issueList => 'সমস্যার তালিকা';
 
   @override
-  String get it => 'ইতালিয়ান';
-
-  @override
-  String get italiano => 'ইতালিয়ান';
-
-  @override
-  String get jan => 'জানুয়ারি';
-
-  @override
-  String get jul => 'জুলাই';
-
-  @override
-  String get jun => 'জুন';
-
-  @override
-  String get kitchenCabinetRepair => 'রান্নাঘরের ক্যাবিনেট মেরামত';
+  String get kitchenCabinetRepair => 'রান্নাঘরের আলমারি মেরামত';
 
   @override
   String get landlord => 'মালিক';
 
   @override
-  String get landlordDashboard_1 => 'মালিকের ড্যাশবোর্ড';
+  String get landlordDashboard_1 => 'মালিকের ড্যাশবোার্ড';
 
   @override
-  String get landlordId => 'মালিকের আইডি';
+  String get landlordId => 'মালিকের আইডিতে';
 
   @override
   String get landlordInformation => 'মালিকের তথ্য';
@@ -432,75 +322,69 @@ class SBn extends S {
   String get landlord_1 => 'মালিক';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'মালিকের আইডি শূন্য বা খালি, অভিযোগ আনতে ব্যর্থ';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'মালিকের আইডিতে সমস্যা রয়েছে, অভিযোগ আনা যায়নি';
 
   @override
-  String get language => 'ভাষা';
+  String get language => ' ভাষা';
 
   @override
   String get lastComment => 'সর্বশেষ মন্তব্য';
 
   @override
-  String get lastCommentDetails => 'সর্বশেষ মন্তব্যের বিবরণ';
+  String get lastCommentDetails => 'সর্বশেষ মন্তব্যের তথ্য';
 
   @override
-  String get lastComments => 'সর্বশেষ মন্তব্যগুলি';
+  String get lastComments => 'সর্বশেষ মন্তব্যসমূহ';
 
   @override
   String get loading => 'লোড হচ্ছে...';
 
   @override
-  String get loadingComplaints => 'অভিযোগ লোড হচ্ছে...';
+  String get loadingComplaints => 'অभিযোগ লোড হচ্ছে...';
 
   @override
-  String get loadingDeclinedComplaints => 'প্রত্যাখ্যান করা অভিযোগ লোড হচ্ছে...';
+  String get loadingDeclinedComplaints => 'প্রত্যাখ্যাত অভিযোগ লোড হচ্ছে...';
 
   @override
   String get loadingImages => 'ছবি লোড হচ্ছে...';
 
   @override
-  String get loadingPendingComplaints => 'মুলতুবি অভিযোগ লোড হচ্ছে...';
+  String get loadingPendingComplaints => 'মুলতুবিতে থাকা অভিযোগ লোড হচ্ছে...';
 
   @override
-  String get loadingSolvedComplaints => 'সমাধান করা অভিযোগ লোড হচ্ছে...';
+  String get loadingSolvedComplaints => 'সমাধান হওয়া অভিযোগ লোড হচ্ছে...';
 
   @override
-  String get loadingUserInfo => 'ব্যবহারকারীর তথ্য লোড হচ্ছে...';
+  String get loadingUserInfo => 'আপনার তথ্য লোড হচ্ছে...';
 
   @override
   String get login => 'লগইন';
 
   @override
-  String get loginInProgress => 'লগইন চলছে...';
+  String get loginInProgress => 'লগইন হচ্ছে...';
 
   @override
-  String get loginSuccessful => 'লগইন সফল!';
+  String get loginSuccessful => 'লগইন হয়েছে!';
 
   @override
   String loginSuccessfulButFailedToLoadDashboardE(String e) {
-    return 'লগইন সফল কিন্তু ড্যাশবোর্ড লোড করতে ব্যর্থ: $e';
+    return 'লগইন হয়েছে কিন্তু প্যানেল লোড করতে ব্যর্থ হয়েছে: $e';
   }
 
   @override
-  String get loginSuccessfulFetchingUserType => 'লগইন সফল - ব্যবহারকারীর ধরন পাওয়া হচ্ছে';
+  String get loginSuccessfulFetchingUserType => 'লগইন হয়েছে - ব্যবহারকারীর ধরন আনা হচ্ছে';
 
   @override
   String get logout => 'লগআউট';
 
   @override
-  String get mailto => 'মেইল টু:';
+  String get mailto => 'মেইলে পাঠান';
 
   @override
-  String get maintenanceScheduled => 'রক্ষণাবেক্ষণের সময়সূচী';
+  String get maintenanceScheduled => 'রক্ষণাবেক্ষণের সময় নির্ধারণ হয়েছে';
 
   @override
-  String get mar => 'মার্চ';
-
-  @override
-  String get markAsComplete => 'সম্পূর্ণ হিসাবে চিহ্নিত করুন';
-
-  @override
-  String get may => 'মে';
+  String get markAsComplete => 'সম্পূর্ণ হিসেবে চিহ্নিত করুন';
 
   @override
   String get nA => 'প্রযোজ্য নয়';
@@ -509,91 +393,88 @@ class SBn extends S {
   String get name => 'নাম';
 
   @override
-  String get navigatingToLandlordDashboard => 'মালিকের ড্যাশবোর্ডে নেভিগেট করা হচ্ছে';
+  String get navigatingToLandlordDashboard => 'মালিকের প্যানেলে যাচ্ছে';
 
   @override
-  String get navigatingToTenantDashboard => 'ভাড়াটিয়ার ড্যাশবোর্ডে নেভিগেট করা হচ্ছে';
+  String get navigatingToTenantDashboard => 'গ্রাহকের প্যানেলে যাচ্ছে';
 
   @override
   String get newComplaint => 'নতুন অভিযোগ';
 
   @override
-  String get noCategoriesAvailable => 'কোন বিভাগ পাওয়া যায়নি';
+  String get noCategoriesAvailable => 'কোনো বিভাগ নেই';
 
   @override
-  String get noComments => 'কোন মন্তব্য নেই';
+  String get noComments => 'কোনো মন্তব্য নেই';
 
   @override
-  String get noCommentsAvailable => 'কোন মন্তব্য পাওয়া যায়নি';
+  String get noCommentsAvailable => 'কোনো মন্তব্য নেই';
 
   @override
-  String get noCommentsYet => 'এখনও কোন মন্তব্য নেই';
+  String get noCommentsYet => 'এখনো কোনো মন্তব্য নেই';
 
   @override
-  String get noComplaintsToShow => 'দেখানোর জন্য কোন অভিযোগ নেই';
+  String get noComplaintsToShow => 'দেখানোর মতো কোনো অভিযোগ নেই';
 
   @override
-  String get noDeclineReasonProvided => 'প্রত্যাখ্যানের কোন কারণ দেওয়া হয়নি';
+  String get noDeclineReasonProvided => 'প্রত্যাখ্যানের কারণ দেওয়া হয়নি';
 
   @override
-  String get noDeclinedComplaintsToShow => 'দেখানোর জন্য কোন প্রত্যাখ্যান করা অভিযোগ নেই';
+  String get noDeclinedComplaintsToShow => 'প্রত্যাখ্যাত কোনো অভিযোগ নেই';
 
   @override
-  String get noDetailsProvided => 'কোন বিবরণ দেওয়া হয়নি।';
+  String get noDetailsProvided => 'কোনো তথ্য দেওয়া হয়নি';
 
   @override
-  String get noHistoryRecordsFound => 'কোন ইতিহাস রেকর্ড পাওয়া যায়নি';
+  String get noHistoryRecordsFound => 'কোনো ইতিহাস পাওয়া যায়নি';
 
   @override
-  String get noOptionsAvailable => 'কোন বিকল্প পাওয়া যায়নি';
+  String get noOptionsAvailable => 'কোনো অপশন নেই';
 
   @override
-  String get noPendingComplaintsToShow => 'দেখানোর জন্য কোন মুলতুবি অভিযোগ নেই';
+  String get noPendingComplaintsToShow => 'কোনো মুলতুবিতে থাকা অভিযোগ নেই';
 
   @override
-  String get noResolutionCommentsAvailable => 'সমাধানের কোন মন্তব্য পাওয়া যায়নি';
+  String get noResolutionCommentsAvailable => 'সমাধানে কোনো মন্তব্য নেই';
 
   @override
-  String get noSegment => 'কোন বিভাগ নেই';
+  String get noSegment => 'কোনো অংশ নেই';
 
   @override
-  String get noSegmentsAvailable => 'কোন বিভাগ পাওয়া যায়নি';
+  String get noSegmentsAvailable => 'কোনো অংশ নেই';
 
   @override
-  String get noSolvedComplaintsToShow => 'দেখানোর জন্য কোন সমাধান করা অভিযোগ নেই';
+  String get noSolvedComplaintsToShow => 'কোনো সমাধান হওয়া অভিযোগ নেই';
 
   @override
   String get notProvided => 'প্রদান করা হয়নি';
 
   @override
-  String get nov => 'নভেম্বর';
-
-  @override
   String numberNd(String number) {
-    return '$numberয়';
+    return '$number-তম';
   }
 
   @override
   String numberRd(String number) {
-    return '$numberয়';
+    return '$number-তম';
   }
 
   @override
   String numberSt(String number) {
-    return '$numberম';
+    return '$number-ম';
   }
 
   @override
   String numberTh(String number) {
-    return '$numberতম';
+    return '$number-তম';
   }
 
   @override
-  String get oct => 'অক্টোবর';
+  String get oct => 'Oct';
 
   @override
   String onlyAddedImagestoaddLengthImagesMaximumLimitReached(String length) {
-    return 'শুধুমাত্র $lengthটি ছবি যোগ করা হয়েছে। সর্বাধিক সীমা reached.';
+    return 'আপনি সর্বোচ্চ $lengthটি ছবি যুক্ত করতে পারবেন';
   }
 
   @override
@@ -605,55 +486,52 @@ class SBn extends S {
   String get password => 'পাসওয়ার্ড';
 
   @override
-  String get pending => 'মুলতুবি';
+  String get pending => 'মুলতুবিতে রয়েছে';
 
   @override
-  String get pendingComplaints => 'মুলতুবি অভিযোগ';
+  String get pendingComplaints => 'মुलতুবিতে থাকা অভিযোগসমূহ';
 
   @override
-  String get pending_1 => 'মুলতুবি';
+  String get pending_1 => 'মुलতুবিতে রয়েছে';
 
   @override
   String get phone => 'ফোন';
 
   @override
-  String get phone_1 => 'ফোন:';
+  String get phone_1 => 'ফোন';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।';
+  String get pleaseCheckYourConnectionAndTryAgain => 'সংযোগ আবার পরীক্ষা করুন ও আবার চেষ্টা করুন';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'অনুগ্রহ করে ব্যবহারকারীর নাম এবং পাসওয়ার্ড উভয়ই লিখুন';
+  String get pleaseEnterBothUsernameAndPassword => 'অনুগ্রহ করে ব্যবহারকারীর নাম ও পাসওয়ার্ড দিন';
 
   @override
-  String get pleaseEnterYourPassword => 'আপনার পাসওয়ার্ড লিখুন';
+  String get pleaseEnterYourPassword => 'অনুগ্রহ করে পাসওয়ার্ড দিন';
 
   @override
-  String get pleaseEnterYourUsername => 'আপনার ব্যবহারকারীর নাম লিখুন';
+  String get pleaseEnterYourUsername => 'অনুগ্রহ করে ব্যবহারকারীর নাম দিন';
 
   @override
-  String get pleaseFillAllRequiredFields => 'অনুগ্রহ করে সমস্ত প্রয়োজনীয় ক্ষেত্র পূরণ করুন';
+  String get pleaseFillAllRequiredFields => 'অনুগ্রহ করে সকল ঘর পূরণ করুন';
 
   @override
-  String get pleaseProvideYourFeedback => 'অনুগ্রহ করে আপনার মতামত প্রদান করুন';
+  String get pleaseProvideYourFeedback => 'অনুগ্রহ করে আপনার মতামত দিন';
 
   @override
-  String get pleaseSelectASegment => 'অনুগ্রহ করে একটি বিভাগ নির্বাচন করুন';
+  String get pleaseSelectASegment => 'অনুগ্রহ করে একটা অংশ নির্বাচন করুন';
 
   @override
-  String get pleaseSelectASegment_1 => 'অনুগ্রহ করে একটি বিভাগ নির্বাচন করুন';
+  String get pleaseSelectASegment_1 => 'অনুগ্রহ করে একটা অংশ নির্বাচন করুন';
 
   @override
-  String get pleaseWriteAComment => 'অনুগ্রহ করে একটি মন্তব্য লিখুন';
+  String get pleaseWriteAComment => 'অনুগ্রহ করে একটা মন্তব্য লিখুন';
 
   @override
-  String get portuguS => 'পর্তুগিজ';
+  String get preparing => 'প্রস্তুত হচ্ছে...';
 
   @override
-  String get preparing => 'প্রস্তুত করা হচ্ছে...';
-
-  @override
-  String get proMatrixNeedsInternetConnection => 'প্রো ম্যাট্রিক্সের জন্য ইন্টারনেট সংযোগ প্রয়োজন';
+  String get proMatrixNeedsInternetConnection => 'প্রো ম্যাট্রিক্সের জন্য ইন্টারনেট চাই';
 
   @override
   String get problem => 'সমস্যা';
@@ -662,10 +540,7 @@ class SBn extends S {
   String get profile => 'প্রোফাইল';
 
   @override
-  String get profileScreen => '/প্রোফাইল-স্ক্রিন';
-
-  @override
-  String get propertyId => 'সম্পত্তির আইডি';
+  String get propertyId => 'সম্পত্তির আইডিতে';
 
   @override
   String get propertyName => 'সম্পত্তির নাম';
@@ -674,87 +549,79 @@ class SBn extends S {
   String get propertyOwner => 'সম্পত্তির মালিক';
 
   @override
-  String get pt => 'পর্তুগিজ';
+  String get quickActions => 'দ্রুত পদক্ষেপ';
 
   @override
-  String get quickActions => 'দ্রুত কর্ম';
+  String get readLess => 'কম দেখুন';
 
   @override
-  String get readLess => 'কম পড়ুন';
-
-  @override
-  String get readMore => 'আরও পড়ুন';
+  String get readMore => 'আরও দেখুন';
 
   @override
   String get recentActivity => 'সাম্প্রতিক কার্যকলাপ';
 
   @override
-  String recomplainCubitErrorFailure(String failure) {
-    return 'পুনরায় অভিযোগ কিউবিট ত্রুটি: $failure';
-  }
+  String get reconsider => 'পুনরায় বিবেচনা করুন';
 
   @override
-  String get reconsider => 'পুনর্বিবেচনা করুন';
+  String get reconsiderAccept => 'পুনরায় বিবেচনা ও গ্রহণ করুন';
 
   @override
-  String get reconsiderAccept => 'পুনর্বিবেচনা করুন এবং গ্রহণ করুন';
+  String get reconsiderFunctionalityComingSoon => 'পুনরায় বিবেচনার সুযোগ শিগগিরই আসছে';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'পুনর্বিবেচনা কার্যকারিতা শীঘ্রই আসছে';
+  String get reconsiderSchedule => 'পুনরায় বিবেচনা ও সময়সূচিতে পরিবর্তন করুন';
 
   @override
-  String get reconsiderSchedule => 'পুনর্বিবেচনা করুন এবং সময়সূচী করুন';
+  String get registrationType => 'নিবন্ধন ধরন';
 
   @override
-  String get registrationType => 'নিবন্ধনের ধরন';
+  String get rejected => 'প্রত্যাখ্যাত হয়েছে';
 
   @override
-  String get rejected => 'প্রত্যাখ্যান করা হয়েছে';
-
-  @override
-  String get rejected_1 => 'প্রত্যাখ্যান করা হয়েছে';
+  String get rejected_1 => 'প্রত্যাখ্যাত হয়েছে';
 
   @override
   String get rememberMe => 'আমাকে মনে রাখুন';
 
   @override
-  String get reschedule => 'পুনরায় সময়সূচী করুন';
+  String get reschedule => 'সময়সূচিতে পরিবর্তন করুন';
 
   @override
-  String get rescheduleDate => 'পুনরায় সময়সূচীর তারিখ';
+  String get rescheduleDate => 'সময়সূচির নতুন দিন';
 
   @override
-  String get rescheduleDeclinedComplaint => 'প্রত্যাখ্যান করা অভিযোগ পুনরায় সময়সূচী করুন';
+  String get rescheduleDeclinedComplaint => 'প্রত্যাখ্যাত অভিযোগটি আবার সময়সূচিতে দিন';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'পুনরায় সময়সূচী করার কার্যকারিতা শীঘ্রই আসছে';
+  String get rescheduleFunctionalityComingSoon => 'সময়সূচিতে পরিবর্তন করার সুবিধা শিগগিরই আসছে';
 
   @override
-  String get rescheduleRequest => 'পুনরায় সময়সূচীর অনুরোধ';
+  String get rescheduleRequest => 'সময়সূচিতে পরিবর্তন করার অনুরোধ';
 
   @override
-  String get rescheduleTime => 'পুনরায় সময়সূচীর সময়';
+  String get rescheduleTime => 'সময়সূচির নতুন সময়';
 
   @override
-  String get rescheduled => 'পুনরায় সময়সূচী করা হয়েছে';
+  String get rescheduled => 'সময়সূচিতে পরিবর্তন হয়েছে';
 
   @override
-  String get resolutionComments => 'সমাধানের মন্তব্যগুলি';
+  String get resolutionComments => 'সমাধানে দেওয়া মন্তব্য';
 
   @override
-  String get resolved => 'সমাধান করা হয়েছে';
+  String get resolved => 'সমাধান হয়েছে';
 
   @override
-  String get resolvedList => 'সমাধান করা তালিকা';
+  String get resolvedList => 'সমাধানকৃতগুলির তালিকা';
 
   @override
-  String get resolved_1 => 'সমাধান করা হয়েছে';
+  String get resolved_1 => 'সমাধান হয়েছে';
 
   @override
   String get resubmit => 'পুনরায় জমা দিন';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'পুনরায় জমা দেওয়ার কার্যকারিতা শীঘ্রই আসছে';
+  String get resubmitFunctionalityComingSoon => 'পুনরায় জমা দেওয়ার সুবিধা শিগগিরই আসছে';
 
   @override
   String get resubmitted => 'পুনরায় জমা দেওয়া হয়েছে';
@@ -763,22 +630,22 @@ class SBn extends S {
   String get retry => 'পুনরায় চেষ্টা করুন';
 
   @override
-  String get scheduleDate => 'সময়সূচীর তারিখ:';
+  String get scheduleDate => 'সময়সূচির দিন';
 
   @override
-  String get scheduleTime => 'সময়সূচীর সময়:';
+  String get scheduleTime => 'সময়সূচির সময়';
 
   @override
-  String get segment => 'বিভাগ';
+  String get segment => 'অংশ';
 
   @override
-  String get selectAnOption => 'একটি বিকল্প নির্বাচন করুন';
+  String get selectAnOption => 'একটি অপশন নির্বাচন করুন';
 
   @override
-  String get selectLanguage => 'ভাষা নির্বাচন করুন';
+  String get selectLanguage => ' ভাষা নির্বাচন করুন';
 
   @override
-  String get selectedApproval => 'নির্বাচিত_অনুমোদন';
+  String get selectedApproval => 'নির্বাচিত অনুমোদন';
 
   @override
   String get sentToLandlord => 'মালিকের কাছে পাঠানো হয়েছে';
@@ -787,79 +654,40 @@ class SBn extends S {
   String get sentToLandlord_1 => 'মালিকের কাছে পাঠানো হয়েছে';
 
   @override
-  String get sep => 'সেপ্টেম্বর';
-
-  @override
   String get settings => 'সেটিংস';
 
   @override
-  String get signInToContinue => 'চালিয়ে যেতে সাইন ইন করুন';
+  String get signInToContinue => 'চালিয়ে যেতে লগইন করুন';
 
   @override
-  String get solved => 'সমাধান করা হয়েছে';
+  String get solved => 'সমাধান হয়েছে';
 
   @override
-  String get solvedComplaints => 'সমাধান করা অভিযোগ';
+  String get solvedComplaints => 'সমাধানকৃত অভিযোগসমূহ';
 
   @override
-  String get solved_1 => 'সমাধান করা হয়েছে';
+  String get solved_1 => 'সমাধান হয়েছে';
 
   @override
   String sourcePermissionDenied(String source) {
-    return '$source অনুমতি প্রত্যাখ্যান করা হয়েছে';
+    return '$source অনুমতি দেওয়া হয়নি';
   }
-
-  @override
-  String get stringKey0 => '২ দিন আগে';
-
-  @override
-  String get stringKey1 => '৩ দিন আগে';
-
-  @override
-  String get stringKey10 => '🇩🇪';
-
-  @override
-  String get stringKey11 => '🇮🇹';
-
-  @override
-  String get stringKey12 => '🇵🇹';
-
-  @override
-  String get stringKey13 => 'আরবি';
-
-  @override
-  String get stringKey14 => '🇸🇦';
-
-  @override
-  String get stringKey15 => 'হিন্দি';
-
-  @override
-  String get stringKey16 => '🇮🇳';
-
-  @override
-  String get stringKey7 => '🇺🇸';
-
-  @override
-  String get stringKey8 => '🇪🇸';
-
-  @override
-  String get stringKey9 => '🇫🇷';
 
   @override
   String get submit => 'জমা দিন';
 
   @override
-  String get submitComplaint => 'অভিযোগ জমা দিন';
+  String get submitComplaint => 'অभিযোগ জমা দিন';
 
   @override
   String get submitFeedback => 'মতামত জমা দিন';
 
   @override
-  String get submitRescheduleRequest => 'পুনরায় সময়সূচীর অনুরোধ জমা দিন';
+  String get submitRescheduleRequest => 'সময়সূচিতে পরিবর্তন করার অনুরোধ জমা দিন';
 
   @override
   String successfullyFetchedImagesLengthImages(String images) {
-    return 'সফলভাবে $imagesটি ছবি পাওয়া গেছে';
+    return 'সফলভাবে $imagesটি ছবি আনা হয়েছে';
   }
 
   @override
@@ -869,33 +697,28 @@ class SBn extends S {
   String get technician => 'টেকনিশিয়ান';
 
   @override
-  String get technicianAcceptedSuccessfully => 'টেকনিশিয়ান সফলভাবে গ্রহণ করা হয়েছে';
+  String get technicianAcceptedSuccessfully => 'টেকনিশিয়ান সফলভাবে গ্রহণ করেছে';
 
   @override
-  String get technicianAssigned => 'টেকনিশিয়ান নির্ধারিত হয়েছে';
+  String get technicianAssigned => 'টেকনিশিয়ান নিয়োগ হয়েছে';
 
   @override
-  String get technicianAssigned_1 => 'টেকনিশিয়ান নির্ধারিত হয়েছে';
+  String get technicianAssigned_1 => 'টেকনিশিয়ান নিয়োগ হয়েছে';
 
   @override
-  String technicianCubitErrorError(String error) {
-    return 'টেকনিশিয়ান কিউবিট ত্রুটি: $error';
-  }
+  String get technicianDataNotAvailablePleaseTryAgain => 'টেকনিশিয়ানে তথ্য পাওয়া যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'টেকনিশিয়ানের তথ্য পাওয়া যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+  String get technicianDetails => 'টেকনিশিয়ানে তথ্য';
 
   @override
-  String get technicianDetails => 'টেকনিশিয়ানের বিবরণ';
+  String get technicianName => 'টেকনিশিয়ানে নাম';
 
   @override
-  String get technicianName => 'টেকনিশিয়ানের নাম:';
+  String get technicianRescheduledSuccessfully => 'টেকনিশিয়ান আবারও সময়সূচিতে এসেছে';
 
   @override
-  String get technicianRescheduledSuccessfully => 'টেকনিশিয়ান সফলভাবে পুনরায় সময়সূচী করা হয়েছে';
-
-  @override
-  String get tel => 'টেলিফোন:';
+  String get tel => 'টেলিফোন';
 
   @override
   String telCleannumber(String cleanNumber) {
@@ -903,74 +726,61 @@ class SBn extends S {
   }
 
   @override
-  String get tenant => 'ভাড়াটিয়া';
+  String get tenant => 'গ্রাহক';
 
   @override
-  String get tenantDashboard_1 => 'ভাড়াটিয়ার ড্যাশবোর্ড';
+  String get tenantDashboard_1 => 'গ্রাহকের প্যানেল';
 
   @override
-  String get tenantInfoId => 'ভাড়াটিয়ার তথ্য আইডি';
+  String get tenantInfoId => 'গ্রাহকের তথ্য আইডিতে';
 
   @override
-  String get tenantInformation => 'ভাড়াটিয়ার তথ্য';
+  String get tenantInformation => 'গ্রাহকের তথ্য';
 
   @override
-  String get tenantName => 'ভাড়াটিয়ার নাম';
+  String get tenantName => 'গ্রাহকের নাম';
 
   @override
-  String get tenant_1 => 'ভাড়াটিয়া';
+  String get tenant_1 => 'গ্রাহক';
 
   @override
-  String get tenant_2 => 'ভাড়াটিয়া';
+  String get tenant_2 => 'গ্রাহক';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'এই অভিযোগটি প্রত্যাখ্যান করা হয়েছে। আপনি কি করতে চান?';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'অभিযোগটি প্রত্যাখ্যাত হয়েছে। আপনি কি করতে চাইেন?';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'এই অভিযোগটি প্রত্যাখ্যান করা হয়েছে। আপনি কি এটি পরিবর্তন সহ পুনরায় জমা দিতে চান?';
+  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'অभিযোগটি প্রত্যাখ্যাত হয়েছে। আপনি কি পরিবর্তন সহ আবার জমা দিতে চাইেন?';
 
   @override
-  String get ticket => 'টিকিট#';
+  String get ticket => 'টিকেট #';
 
   @override
-  String unexpectedErrorInGetcomplainimagescubitE(String e) {
-    return 'GetComplainImagesCubit-এ অপ্রত্যাশিত ত্রুটি: $e';
-  }
+  String get unnamedSegment => 'নামহীন অংশ';
 
   @override
-  String unknownUserTypeUsertype(String userType) {
-    return 'অজানা ব্যবহারকারীর ধরন: $userType';
-  }
+  String get updateComplaint => 'অभিযোগ হালনাগাদ করুন';
 
   @override
-  String get unnamedSegment => 'নামহীন বিভাগ';
+  String get userInfoNotLoadedTryAgain => 'আপনার তথ্য লোড হয়নি, আবার চেষ্টা করুন';
 
   @override
-  String get updateComplaint => 'অভিযোগ আপডেট করুন';
-
-  @override
-  String get userInfoNotLoadedTryAgain => 'ব্যবহারকারীর তথ্য লোড হয়নি। আবার চেষ্টা করুন।';
-
-  @override
-  String get username => 'ব্যবহারকারীর নাম';
-
-  @override
-  String get version100 => 'সংস্করণ ১.০.০';
+  String get username => 'ইউজারনেম';
 
   @override
   String get viewProfile => 'প্রোফাইল দেখুন';
 
   @override
-  String get waterLeakageInBathroom => 'বাথরুমে জল ফুটো';
+  String get waterLeakageInBathroom => 'গোসলখানায় পানি লিক হচ্ছে';
 
   @override
-  String get welcome => 'স্বাগতম';
+  String get welcome => 'স্বাগত';
 
   @override
-  String get writeCommentOrInstructions => 'মন্তব্য বা নির্দেশনা লিখুন';
+  String get writeCommentOrInstructions => 'মন্তব্য বা নির্দেশনা দিন';
 
   @override
-  String get writeYourCommentHere => 'আপনার মন্তব্য এখানে লিখুন:';
+  String get writeYourCommentHere => 'আপনার মন্তব্য এখানে লিখুন';
 
   @override
   String yearMonthDay(String year, String month, String day) {

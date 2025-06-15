@@ -21,16 +21,7 @@
   "@acceptTechnician": {
     "description": "Localized string"
   },
-  "acceptTechnicianCubitErrorError": "Accept Technician Cubit error: {error}",
-  "@acceptTechnicianCubitErrorError": {
-    "description": "Localized string with parameters: error",
-    "placeholders": {
-      "error": {
-        "type": "String",
-        "example": "error"
-      }
-    }
-  },
+
 
   "acceptedSchedule": "accepted schedule",
   "@acceptedSchedule": {
@@ -85,14 +76,7 @@
   "@approved": {
     "description": "Localized string"
   },
-  "apr": "Apr",
-  "@apr": {
-    "description": "Localized string"
-  },
-  "ar": "ar",
-  "@ar": {
-    "description": "Localized string"
-  },
+
   "areYouSureYouWantToLogOutOfYourAccount": "Are you sure you want to log out of your account?",
   "@areYouSureYouWantToLogOutOfYourAccount": {
     "description": "Localized string"
@@ -106,16 +90,10 @@
     "description": "Localized string"
   },
 
-  "aug": "Aug",
-  "@aug": {
-    "description": "Localized string"
-  },
-
   "beSpecificAboutTheIssueForFasterResolution": "Be specific about the issue for faster resolution",
   "@beSpecificAboutTheIssueForFasterResolution": {
     "description": "Localized string"
   },
-
 
   "camera": "Camera",
   "@camera": {
@@ -179,16 +157,6 @@
     "description": "Localized string"
   },
 
-  "complainImagesErrorError": "Complain images error: {error}",
-  "@complainImagesErrorError": {
-    "description": "Localized string with parameters: error",
-    "placeholders": {
-      "error": {
-        "type": "String",
-        "example": "error"
-      }
-    }
-  },
 
   "complaintApprovedSuccessfully": "Complaint approved successfully",
   "@complaintApprovedSuccessfully": {
@@ -277,25 +245,10 @@
     }
   },
 
-
   "createComplaint": "Create Complaint",
   "@createComplaint": {
     "description": "Localized string"
   },
-
-  "cubitCalled": "CUBIT CALLED",
-  "@cubitCalled": {
-    "description": "Localized string"
-  },
-  "cubitCatchBlockCalled": "Cubit:Catch block called",
-  "@cubitCatchBlockCalled": {
-    "description": "Localized string"
-  },
-  "cubitCatchBlockCalled_1": "Cubit:Catch block called}",
-  "@cubitCatchBlockCalled_1": {
-    "description": "Localized string"
-  },
-
 
   "decline": "Decline",
   "@decline": {
@@ -341,20 +294,7 @@
   "@descriptionIsRequired": {
     "description": "Localized string"
   },
-  "detailedErrorError": "Detailed error: {error}",
-  "@detailedErrorError": {
-    "description": "Localized string with parameters: error",
-    "placeholders": {
-      "error": {
-        "type": "String",
-        "example": "error"
-      }
-    }
-  },
-  "deutsch": "Deutsch",
-  "@deutsch": {
-    "description": "Localized string"
-  },
+
   "doYouWantToReconsiderAndAcceptThisComplaint": "Do you want to reconsider and accept this complaint?",
   "@doYouWantToReconsiderAndAcceptThisComplaint": {
     "description": "Localized string"
@@ -367,16 +307,7 @@
   "@edit": {
     "description": "Localized string"
   },
-  "editComplainCubitErrorFailure": "Edit Complain Cubit error: {failure}",
-  "@editComplainCubitErrorFailure": {
-    "description": "Localized string with parameters: failure",
-    "placeholders": {
-      "failure": {
-        "type": "String",
-        "example": "failure"
-      }
-    }
-  },
+
   "editDeclinedComplaint": "Edit Declined Complaint",
   "@editDeclinedComplaint": {
     "description": "Localized string"
@@ -395,92 +326,21 @@
     "description": "Localized string"
   },
 
-  "en": "en",
-  "@en": {
-    "description": "Localized string"
-  },
-  "english": "English",
-  "@english": {
-    "description": "Localized string"
-  },
   "enterTextHere": "Enter text here...",
   "@enterTextHere": {
     "description": "Localized string"
   },
 
-
-  "errorFetchingUserTypeE": "Error fetching user type: {e}",
-  "@errorFetchingUserTypeE": {
-    "description": "Localized string with parameters: e",
-    "placeholders": {
-      "e": {
-        "type": "String",
-        "example": "e"
-      }
-    }
-  },
-  "errorFormattingOriginalDateE": "Error formatting original date: {e}",
-  "@errorFormattingOriginalDateE": {
-    "description": "Localized string with parameters: e",
-    "placeholders": {
-      "e": {
-        "type": "String",
-        "example": "e"
-      }
-    }
-  },
-  "errorLoadingUserInfoE": "Error loading user info: {e}",
-  "@errorLoadingUserInfoE": {
-    "description": "Localized string with parameters: e",
-    "placeholders": {
-      "e": {
-        "type": "String",
-        "example": "e"
-      }
-    }
-  },
-
-
-  "es": "es",
-  "@es": {
-    "description": "Localized string"
-  },
-  "espaOl": "Español",
-  "@espaOl": {
-    "description": "Localized string"
-  },
   "failedToDetermineUserTypePleaseTryLoggingInAgain": "Failed to determine user type. Please try logging in again.",
   "@failedToDetermineUserTypePleaseTryLoggingInAgain": {
     "description": "Localized string"
   },
-  "failedToGetUserTypeE": "Failed to get user type: {e}",
-  "@failedToGetUserTypeE": {
-    "description": "Localized string with parameters: e",
-    "placeholders": {
-      "e": {
-        "type": "String",
-        "example": "e"
-      }
-    }
-  },
+
   "failedToLoadTechnicianInformation": "Failed to load technician information",
   "@failedToLoadTechnicianInformation": {
     "description": "Localized string"
   },
-  "failedToPrepareSubmissionE": "Failed to prepare submission: {e}",
-  "@failedToPrepareSubmissionE": {
-    "description": "Localized string with parameters: e",
-    "placeholders": {
-      "e": {
-        "type": "String",
-        "example": "e"
-      }
-    }
-  },
-  "feb": "Feb",
-  "@feb": {
-    "description": "Localized string"
-  },
+
   "feedbackIsRequired": "Feedback is required",
   "@feedbackIsRequired": {
     "description": "Localized string"
@@ -495,14 +355,7 @@
     "description": "Localized string"
   },
 
-  "fr": "fr",
-  "@fr": {
-    "description": "Localized string"
-  },
-  "franAis": "Français",
-  "@franAis": {
-    "description": "Localized string"
-  },
+
   "gallery": "Gallery",
   "@gallery": {
     "description": "Localized string"
@@ -516,23 +369,10 @@
     "description": "Localized string"
   },
 
-  "hi": "hi",
-  "@hi": {
-    "description": "Localized string"
-  },
+
   "history": "History",
   "@history": {
     "description": "Localized string"
-  },
-  "historyCubitErrorError": "History Cubit error: {error}",
-  "@historyCubitErrorError": {
-    "description": "Localized string with parameters: error",
-    "placeholders": {
-      "error": {
-        "type": "String",
-        "example": "error"
-      }
-    }
   },
 
   "holdOnBringingEverythingTogether": "Hold on, bringing everything together...",
@@ -583,26 +423,7 @@
   "@issueList": {
     "description": "Localized string"
   },
-  "it": "it",
-  "@it": {
-    "description": "Localized string"
-  },
-  "italiano": "Italiano",
-  "@italiano": {
-    "description": "Localized string"
-  },
-  "jan": "Jan",
-  "@jan": {
-    "description": "Localized string"
-  },
-  "jul": "Jul",
-  "@jul": {
-    "description": "Localized string"
-  },
-  "jun": "Jun",
-  "@jun": {
-    "description": "Localized string"
-  },
+
   "kitchenCabinetRepair": "Kitchen cabinet repair",
   "@kitchenCabinetRepair": {
     "description": "Localized string"
@@ -725,19 +546,12 @@
   "@maintenanceScheduled": {
     "description": "Localized string"
   },
-  "mar": "Mar",
-  "@mar": {
-    "description": "Localized string"
-  },
+
   "markAsComplete": "Mark as Complete",
   "@markAsComplete": {
     "description": "Localized string"
   },
 
-  "may": "May",
-  "@may": {
-    "description": "Localized string"
-  },
   "nA": "N/A",
   "@nA": {
     "description": "Localized string"
@@ -823,10 +637,7 @@
   "@notProvided": {
     "description": "Localized string"
   },
-  "nov": "Nov",
-  "@nov": {
-    "description": "Localized string"
-  },
+
   "numberNd": "{number}nd",
   "@numberNd": {
     "description": "Localized string with parameters: number",
@@ -952,10 +763,7 @@
   "@pleaseWriteAComment": {
     "description": "Localized string"
   },
-  "portuguS": "Português",
-  "@portuguS": {
-    "description": "Localized string"
-  },
+
   "preparing": "Preparing...",
   "@preparing": {
     "description": "Localized string"
@@ -973,10 +781,7 @@
   "@profile": {
     "description": "Localized string"
   },
-  "profileScreen": "/profile-screen",
-  "@profileScreen": {
-    "description": "Localized string"
-  },
+
   "propertyId": "Property ID",
   "@propertyId": {
     "description": "Localized string"
@@ -990,10 +795,6 @@
     "description": "Localized string"
   },
 
-  "pt": "pt",
-  "@pt": {
-    "description": "Localized string"
-  },
   "quickActions": "Quick Actions",
   "@quickActions": {
     "description": "Localized string"
@@ -1011,16 +812,7 @@
   "@recentActivity": {
     "description": "Localized string"
   },
-  "recomplainCubitErrorFailure": "ReComplain Cubit error: {failure}",
-  "@recomplainCubitErrorFailure": {
-    "description": "Localized string with parameters: failure",
-    "placeholders": {
-      "failure": {
-        "type": "String",
-        "example": "failure"
-      }
-    }
-  },
+
   "reconsider": "Reconsider",
   "@reconsider": {
     "description": "Localized string"
@@ -1153,10 +945,6 @@
   "@sentToLandlord_1": {
     "description": "Localized string"
   },
-  "sep": "Sep",
-  "@sep": {
-    "description": "Localized string"
-  },
 
   "settings": "Settings",
   "@settings": {
@@ -1189,58 +977,8 @@
       }
     }
   },
-  "stringKey0": "2 days ago",
-  "@stringKey0": {
-    "description": "Localized string"
-  },
-  "stringKey1": "3 days ago",
-  "@stringKey1": {
-    "description": "Localized string"
-  },
-  "stringKey10": "🇩🇪",
-  "@stringKey10": {
-    "description": "Localized string"
-  },
-  "stringKey11": "🇮🇹",
-  "@stringKey11": {
-    "description": "Localized string"
-  },
-  "stringKey12": "🇵🇹",
-  "@stringKey12": {
-    "description": "Localized string"
-  },
-  "stringKey13": "العربية",
-  "@stringKey13": {
-    "description": "Localized string"
-  },
-  "stringKey14": "🇸🇦",
-  "@stringKey14": {
-    "description": "Localized string"
-  },
-  "stringKey15": "हिन्दी",
-  "@stringKey15": {
-    "description": "Localized string"
-  },
-  "stringKey16": "🇮🇳",
-  "@stringKey16": {
-    "description": "Localized string"
-  },
 
-  "@stringKey6": {
-    "description": "Localized string"
-  },
-  "stringKey7": "🇺🇸",
-  "@stringKey7": {
-    "description": "Localized string"
-  },
-  "stringKey8": "🇪🇸",
-  "@stringKey8": {
-    "description": "Localized string"
-  },
-  "stringKey9": "🇫🇷",
-  "@stringKey9": {
-    "description": "Localized string"
-  },
+
 
   "submit": "SUBMIT",
   "@submit": {
@@ -1289,16 +1027,7 @@
   "@technicianAssigned_1": {
     "description": "Localized string"
   },
-  "technicianCubitErrorError": "Technician Cubit error: {error}",
-  "@technicianCubitErrorError": {
-    "description": "Localized string with parameters: error",
-    "placeholders": {
-      "error": {
-        "type": "String",
-        "example": "error"
-      }
-    }
-  },
+
   "technicianDataNotAvailablePleaseTryAgain": "Technician data not available. Please try again.",
   "@technicianDataNotAvailablePleaseTryAgain": {
     "description": "Localized string"
@@ -1376,28 +1105,9 @@
   },
 
 
-  "unexpectedErrorInGetcomplainimagescubitE": "Unexpected error in GetComplainImagesCubit: {e}",
-  "@unexpectedErrorInGetcomplainimagescubitE": {
-    "description": "Localized string with parameters: e",
-    "placeholders": {
-      "e": {
-        "type": "String",
-        "example": "e"
-      }
-    }
-  },
 
 
-  "unknownUserTypeUsertype": "Unknown user type: {userType}",
-  "@unknownUserTypeUsertype": {
-    "description": "Localized string with parameters: userType",
-    "placeholders": {
-      "userType": {
-        "type": "String",
-        "example": "userType"
-      }
-    }
-  },
+
   "unnamedSegment": "Unnamed Segment",
   "@unnamedSegment": {
     "description": "Localized string"
@@ -1418,10 +1128,6 @@
   },
 
 
-  "version100": "Version 1.0.0",
-  "@version100": {
-    "description": "Localized string"
-  },
   "viewProfile": "View Profile",
   "@viewProfile": {
     "description": "Localized string"

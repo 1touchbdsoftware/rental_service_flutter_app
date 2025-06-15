@@ -200,6 +200,7 @@ Widget buildAppDrawer(BuildContext context, String username,
                 onTap: () {
                   Navigator.pop(context);
                   _showLanguageSelectionDialog(context);
+
                 },
               ),
 
@@ -324,18 +325,18 @@ void _showLanguageSelectionDialog(BuildContext context) {
   final colorScheme = theme.colorScheme;
   final textTheme = theme.textTheme;
 
+  // Get the localized strings before building the dialog
+  final localizations = S.of(context);
+  final currentLanguage = context.read<LanguageCubit>().state.languageCode;
+
   final languages = [
     {'code': 'en', 'name': 'English', 'flag': '🇺🇸'},
+    {'code': 'tr', 'name': 'Turkish', 'flag': '🇹🇷'},
     {'code': 'bn', 'name': 'Bengali', 'flag': '🇧🇩'},
     {'code': 'ar', 'name': 'العربية', 'flag': '🇸🇦'},
     {'code': 'hi', 'name': 'हिन्दी', 'flag': '🇮🇳'},
-    {'code': 'tr', 'name': 'Turkish', 'flag': '🇹🇷'},
     {'code': 'ru', 'name': 'Russian', 'flag': '🇷🇺'},
   ];
-
-
-  // Current selected language (you can replace this with actual state management)
-  String currentLanguage = 'en';
 
   showDialog(
     context: context,
@@ -361,7 +362,7 @@ void _showLanguageSelectionDialog(BuildContext context) {
             ),
             const SizedBox(width: 12),
             Text(
-              S.of(context).selectLanguage,
+              localizations.selectLanguage, // Use the stored localization
               style: textTheme.titleLarge?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
@@ -404,14 +405,9 @@ void _showLanguageSelectionDialog(BuildContext context) {
                   selected: isSelected,
                   selectedTileColor: colorScheme.primaryContainer.withOpacity(0.2),
                   onTap: () {
-                    // Handle language change here
-                    // You can call your language change logic here
-                    // For example: context.read<LanguageCubit>().changeLanguage(language['code']!);
-
                     context.read<LanguageCubit>().changeLanguage(language['code']!);
-
                     Navigator.of(dialogContext).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    ScaffoldMessenger.of(dialogContext).showSnackBar(
                       SnackBar(
                         content: Text('Language changed to ${language['name']}'),
                         backgroundColor: colorScheme.primary,
@@ -437,7 +433,7 @@ void _showLanguageSelectionDialog(BuildContext context) {
               ),
             ),
             child: Text(
-              "Cancel",
+              localizations.cancel, // Use the stored localization
               style: textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w500,
               ),

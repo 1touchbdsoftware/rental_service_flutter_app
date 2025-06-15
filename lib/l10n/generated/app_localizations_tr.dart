@@ -9,583 +9,464 @@ class STr extends S {
   STr([String locale = 'tr']) : super(locale);
 
   @override
-  String get acNotWorkingProperly => 'AC not working properly';
+  String get acNotWorkingProperly => 'Klima düzgün çalışmıyor';
 
   @override
-  String get accept => 'Accept';
+  String get accept => 'Kabul Et';
 
   @override
-  String get acceptDeclinedComplaint => 'Accept Declined Complaint';
+  String get acceptDeclinedComplaint => 'Reddedilen Şikayeti Kabul Et';
 
   @override
-  String get acceptFunctionalityComingSoon => 'Accept functionality coming soon';
+  String get acceptFunctionalityComingSoon => 'Kabul etme işlevi yakında gelecek';
 
   @override
-  String get acceptTechnician => 'Accept Technician';
+  String get acceptTechnician => 'Teknisyeni Kabul Et';
 
   @override
-  String acceptTechnicianCubitErrorError(String error) {
-    return 'Accept Technician Cubit error: $error';
-  }
+  String get acceptedSchedule => 'kabul edilen program';
 
   @override
-  String get acceptedSchedule => 'accepted schedule';
+  String get acceptedSchedule_1 => 'Kabul Edilen Program';
 
   @override
-  String get acceptedSchedule_1 => 'Accepted Schedule';
+  String get account => 'Hesap';
 
   @override
-  String get account => 'Account';
+  String get active => 'Aktif';
 
   @override
-  String get active => 'Active';
+  String get addPhotos => 'Fotoğraf Ekle';
 
   @override
-  String get addPhotos => 'Add Photos';
+  String get additionalInformation => 'Ek Bilgi';
 
   @override
-  String get additionalInformation => 'Additional Information';
+  String get admin => 'yönetici';
 
   @override
-  String get admin => 'admin';
+  String get agencyId => 'Ajans Kimliği';
 
   @override
-  String get agencyId => 'Agency ID';
+  String get agent => 'ajan';
 
   @override
-  String get agent => 'agent';
+  String get approvalFailed => 'Onay başarısız oldu';
 
   @override
-  String get approvalFailed => 'Approval failed';
+  String get approve => 'Onayla';
 
   @override
-  String get approve => 'Approve';
+  String get approveComment => 'Yorumu Onayla';
 
   @override
-  String get approveComment => 'Approve Comment';
+  String get approved => 'Onaylandı';
 
   @override
-  String get approved => 'Approved';
+  String get areYouSureYouWantToLogOutOfYourAccount => 'Hesabınızdan çıkış yapmak istediğinizden emin misiniz?';
 
   @override
-  String get apr => 'Apr';
+  String get assignedTechnician => 'Atanmış Teknisyen';
 
   @override
-  String get ar => 'ar';
+  String get attachImages => 'Görüntüleri Ekle';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'Are you sure you want to log out of your account?';
+  String get beSpecificAboutTheIssueForFasterResolution => 'Daha hızlı çözüm için sorun hakkında spesifik olun';
 
   @override
-  String get assignedTechnician => 'Assigned Technician';
+  String get camera => 'Kamera';
 
   @override
-  String get attachImages => 'Attach Images';
+  String get cancel => 'İptal';
 
   @override
-  String get aug => 'Aug';
+  String get cancel_1 => 'İPTAL';
 
   @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'Be specific about the issue for faster resolution';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'Reddedilen şikayetler tamamlanamaz. Lütfen önce yeniden değerlendirin.';
 
   @override
-  String get camera => 'Camera';
+  String get cannotEditSolvedComplaints => 'Çözülmüş şikayetler düzenlenemez';
 
   @override
-  String get cancel => 'Cancel';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'Şikayetler alınamıyor: tenantID boş veya null';
 
   @override
-  String get cancel_1 => 'CANCEL';
+  String get cannotRescheduleSolvedComplaints => 'Çözülmüş şikayetler yeniden planlanamaz';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'Cannot complete declined complaints. Please reconsider first.';
+  String get cannotResubmitSolvedComplaints => 'Çözülmüş şikayetler yeniden gönderilemez';
 
   @override
-  String get cannotEditSolvedComplaints => 'Cannot edit solved complaints';
+  String get chooseFromGallery => 'Galeriden Seç';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'Cannot fetch complaints: tenantID is null or empty';
+  String get clearAll => 'Tümünü temizle';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'Cannot reschedule solved complaints';
+  String get close => 'Kapat';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'Cannot resubmit solved complaints';
+  String get code => 'kod';
 
   @override
-  String get chooseFromGallery => 'Choose from Gallery';
+  String get comment => 'Yorum';
 
   @override
-  String get clearAll => 'Clear all';
+  String get commentIsRequired => 'Yorum Gerekli';
 
   @override
-  String get close => 'Close';
+  String get commentText => 'yorum metni...';
 
   @override
-  String get code => 'code';
+  String get complaintApprovedSuccessfully => 'Şikayet başarıyla onaylandı';
 
   @override
-  String get comment => 'Comment';
+  String get complaintCreated => 'Şikayet Oluşturuldu';
 
   @override
-  String get commentIsRequired => 'Comment is Required';
+  String get complaintDeclined => 'Şikayet Reddedildi';
 
   @override
-  String get commentText => 'comment text...';
+  String get complaintDeclinedSuccessfully => 'Şikayet başarıyla reddedildi';
 
   @override
-  String complainImagesErrorError(String error) {
-    return 'Complain images error: $error';
-  }
+  String get complaintDetails => 'Şikayet Detayları';
 
   @override
-  String get complaintApprovedSuccessfully => 'Complaint approved successfully';
+  String get complaintHistory => 'Şikayet Geçmişi';
 
   @override
-  String get complaintCreated => 'Complaint Created';
+  String get complaintIsAlreadyAcceptedAndSolved => 'Şikayet zaten kabul edildi ve çözüldü';
 
   @override
-  String get complaintDeclined => 'Complaint Declined';
+  String get complaintIsAlreadyCompleted => 'Şikayet zaten tamamlandı';
 
   @override
-  String get complaintDeclinedSuccessfully => 'Complaint Declined successfully';
+  String get complaintMarkedAsComplete => 'Şikayet tamamlandı olarak işaretlendi';
 
   @override
-  String get complaintDetails => 'Complaint Details';
+  String get complaintResolved => 'Şikayet Çözüldü';
 
   @override
-  String get complaintHistory => 'Complaint History';
+  String get complaintResubmitted => 'şikayet yeniden gönderildi';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'Complaint is already accepted and solved';
+  String get complaintSubmittedSuccessfully => 'Şikayet başarıyla gönderildi';
 
   @override
-  String get complaintIsAlreadyCompleted => 'Complaint is already completed';
+  String get complaintsList => 'Şikayet Listesi';
 
   @override
-  String get complaintMarkedAsComplete => 'Complaint marked as complete';
+  String get complete => 'Tamamla';
 
   @override
-  String get complaintResolved => 'Complaint Resolved';
+  String get completeFunctionalityComingSoon => 'Tamamlama işlevi yakında gelecek';
 
   @override
-  String get complaintResubmitted => 'complaint resubmitted';
+  String get completed => 'tamamlandı';
 
   @override
-  String get complaintSubmittedSuccessfully => 'Complaint submitted successfully';
+  String get completed_1 => 'Tamamlandı';
 
   @override
-  String get complaintsList => 'Complaints List';
+  String get confirmLogout => 'Çıkışı Onayla';
 
   @override
-  String get complete => 'Complete';
-
-  @override
-  String get completeFunctionalityComingSoon => 'Complete functionality coming soon';
-
-  @override
-  String get completed => 'completed';
-
-  @override
-  String get completed_1 => 'Completed';
-
-  @override
-  String get confirmLogout => 'Confirm Logout';
-
-  @override
-  String get contactInformation => 'Contact Information';
+  String get contactInformation => 'İletişim Bilgileri';
 
   @override
   String couldNotInitiateCallE(String e) {
-    return 'Could not initiate call: $e';
+    return 'Arama başlatılamadı: $e';
   }
 
   @override
-  String get createComplaint => 'Create Complaint';
+  String get createComplaint => 'Şikayet Oluştur';
 
   @override
-  String get cubitCalled => 'CUBIT CALLED';
+  String get decline => 'Reddet';
 
   @override
-  String get cubitCatchBlockCalled => 'Cubit:Catch block called';
+  String get declineComment => 'Reddetme Yorumu';
 
   @override
-  String get cubitCatchBlockCalled_1 => 'Cubit:Catch block called';
+  String get declineReason => 'Reddetme Nedeni';
 
   @override
-  String get decline => 'Decline';
+  String get declineRequestFailed => 'Reddetme isteği başarısız oldu';
 
   @override
-  String get declineComment => 'Decline Comment';
+  String get declined => 'REDDEDİLDİ';
 
   @override
-  String get declineReason => 'Decline Reason';
+  String get declinedComplaintAction => 'Reddedilen Şikayet Eylemi';
 
   @override
-  String get declineRequestFailed => 'Decline request failed';
+  String get declinedComplaints => 'Reddedilen Şikayetler';
 
   @override
-  String get declined => 'DECLINED';
+  String get declinedList => 'Reddedilen Liste';
 
   @override
-  String get declinedComplaintAction => 'Declined Complaint Action';
+  String get declined_1 => 'Reddedildi';
 
   @override
-  String get declinedComplaints => 'Declined Complaints';
+  String get description => 'Açıklama';
 
   @override
-  String get declinedList => 'Declined List';
+  String get descriptionIsRequired => 'Açıklama gerekli';
 
   @override
-  String get declined_1 => 'Declined';
+  String get doYouWantToReconsiderAndAcceptThisComplaint => 'Bu şikayeti yeniden değerlendirip kabul etmek istiyor musunuz?';
 
   @override
-  String get description => 'Description';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'Bu şikayeti yeniden değerlendirip planlamak istiyor musunuz?';
 
   @override
-  String get descriptionIsRequired => 'Description is required';
+  String get edit => 'Düzenle';
 
   @override
-  String detailedErrorError(String error) {
-    return 'Detailed error: $error';
-  }
+  String get editDeclinedComplaint => 'Reddedilen Şikayeti Düzenle';
 
   @override
-  String get deutsch => 'Deutsch';
+  String get editFunctionalityForLandlordComingSoon => 'Ev sahibi için düzenleme işlevi yakında gelecek';
 
   @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'Do you want to reconsider and accept this complaint?';
+  String get email => 'E-posta';
 
   @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'Do you want to reconsider this complaint and schedule it?';
+  String get email_1 => 'E-posta:';
 
   @override
-  String get edit => 'Edit';
+  String get enterTextHere => 'Metni buraya girin...';
 
   @override
-  String editComplainCubitErrorFailure(String failure) {
-    return 'Edit Complain Cubit error: $failure';
-  }
+  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'Kullanıcı türü belirlenemedi. Lütfen tekrar giriş yapmayı deneyin.';
 
   @override
-  String get editDeclinedComplaint => 'Edit Declined Complaint';
+  String get failedToLoadTechnicianInformation => 'Teknisyen bilgisi yüklenemedi';
 
   @override
-  String get editFunctionalityForLandlordComingSoon => 'Edit functionality for landlord coming soon';
+  String get feedbackIsRequired => 'Geri bildirim gerekli';
 
   @override
-  String get email => 'Email';
+  String get flag => 'bayrak';
 
   @override
-  String get email_1 => 'Email:';
+  String get forgotPassword => 'Şifrenizi mi unuttunuz?';
 
   @override
-  String get en => 'en';
+  String get gallery => 'Galeri';
 
   @override
-  String get english => 'English';
+  String get gettingTechnicianInfo => 'Teknisyen bilgisi alınıyor...';
 
   @override
-  String get enterTextHere => 'Enter text here...';
+  String get gettingTechnicianInfo_1 => 'Teknisyen Bilgisi Alınıyor...';
 
   @override
-  String errorFetchingUserTypeE(String e) {
-    return 'Error fetching user type: $e';
-  }
+  String get history => 'Geçmiş';
 
   @override
-  String errorFormattingOriginalDateE(String e) {
-    return 'Error formatting original date: $e';
-  }
+  String get holdOnBringingEverythingTogether => 'Bekleyin, her şey bir araya getiriliyor...';
 
   @override
-  String errorLoadingUserInfoE(String e) {
-    return 'Error loading user info: $e';
-  }
+  String get holdOnGettingHistory => 'Bekleyin, geçmiş alınıyor...';
 
   @override
-  String get es => 'es';
-
-  @override
-  String get espaOl => 'Español';
-
-  @override
-  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'Failed to determine user type. Please try logging in again.';
-
-  @override
-  String failedToGetUserTypeE(String e) {
-    return 'Failed to get user type: $e';
-  }
-
-  @override
-  String get failedToLoadTechnicianInformation => 'Failed to load technician information';
-
-  @override
-  String failedToPrepareSubmissionE(String e) {
-    return 'Failed to prepare submission: $e';
-  }
-
-  @override
-  String get feb => 'Feb';
-
-  @override
-  String get feedbackIsRequired => 'Feedback is required';
-
-  @override
-  String get flag => 'flag';
-
-  @override
-  String get forgotPassword => 'Forgot Password?';
-
-  @override
-  String get fr => 'fr';
-
-  @override
-  String get franAis => 'Français';
-
-  @override
-  String get gallery => 'Gallery';
-
-  @override
-  String get gettingTechnicianInfo => 'Getting Technician info...';
-
-  @override
-  String get gettingTechnicianInfo_1 => 'Getting Technician Info...';
-
-  @override
-  String get hi => 'hi';
-
-  @override
-  String get history => 'History';
-
-  @override
-  String historyCubitErrorError(String error) {
-    return 'History Cubit error: $error';
-  }
-
-  @override
-  String get holdOnBringingEverythingTogether => 'Hold on, bringing everything together...';
-
-  @override
-  String get holdOnGettingHistory => 'Hold on, Getting history...';
-
-  @override
-  String get home => 'Home';
+  String get home => 'Ana Sayfa';
 
   @override
   String imageGalleryComplaintImagecount(String imageCount) {
-    return 'Image Gallery ($imageCount)';
+    return 'Resim Galerisi ($imageCount)';
   }
 
   @override
-  String get imageLoadingCancelled => 'Image loading cancelled';
+  String get imageLoadingCancelled => 'Resim yükleme iptal edildi';
 
   @override
-  String get inProgress => 'in progress';
+  String get inProgress => 'devam ediyor';
 
   @override
-  String get inactive => 'Inactive';
+  String get inactive => 'Pasif';
 
   @override
-  String get initialImages => 'Initial images';
+  String get initialImages => 'Başlangıç görüntüleri';
 
   @override
-  String get invalidTime => 'Invalid Time';
+  String get invalidTime => 'Geçersiz Zaman';
 
   @override
-  String get issueList => 'Issue List';
+  String get issueList => 'Sorun Listesi';
 
   @override
-  String get it => 'it';
+  String get kitchenCabinetRepair => 'Mutfak dolabı tamiri';
 
   @override
-  String get italiano => 'Italiano';
+  String get landlord => 'Ev Sahibi';
 
   @override
-  String get jan => 'Jan';
+  String get landlordDashboard_1 => 'Ev Sahibi Panosu';
 
   @override
-  String get jul => 'Jul';
+  String get landlordId => 'Ev Sahibi Kimliği';
 
   @override
-  String get jun => 'Jun';
+  String get landlordInformation => 'Ev Sahibi Bilgisi';
 
   @override
-  String get kitchenCabinetRepair => 'Kitchen cabinet repair';
+  String get landlordName => 'Ev Sahibi Adı';
 
   @override
-  String get landlord => 'Landlord';
+  String get landlord_1 => 'EV SAHİBİ';
 
   @override
-  String get landlordDashboard_1 => 'Landlord Dashboard';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'EvSahibiID boş veya null, şikayetler alınamıyor';
 
   @override
-  String get landlordId => 'Landlord ID';
+  String get language => 'Dil';
 
   @override
-  String get landlordInformation => 'Landlord Information';
+  String get lastComment => 'Son Yorum';
 
   @override
-  String get landlordName => 'Landlord Name';
+  String get lastCommentDetails => 'Son Yorum Detayları';
 
   @override
-  String get landlord_1 => 'LANDLORD';
+  String get lastComments => 'Son Yorumlar';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'LandlordID is null or empty, cannot fetch complaints';
+  String get loading => 'Yükleniyor...';
 
   @override
-  String get language => 'Language';
+  String get loadingComplaints => 'Şikayetler Yükleniyor...';
 
   @override
-  String get lastComment => 'Last Comment';
+  String get loadingDeclinedComplaints => 'Reddedilen Şikayetler Yükleniyor...';
 
   @override
-  String get lastCommentDetails => 'Last Comment Details';
+  String get loadingImages => 'Görüntüler yükleniyor...';
 
   @override
-  String get lastComments => 'Last Comments';
+  String get loadingPendingComplaints => 'Bekleyen Şikayetler Yükleniyor...';
 
   @override
-  String get loading => 'Loading...';
+  String get loadingSolvedComplaints => 'Çözülmüş Şikayetler Yükleniyor...';
 
   @override
-  String get loadingComplaints => 'Loading Complaints...';
+  String get loadingUserInfo => 'Kullanıcı Bilgisi Yükleniyor...';
 
   @override
-  String get loadingDeclinedComplaints => 'Loading Declined Complaints...';
+  String get login => 'GİRİŞ YAP';
 
   @override
-  String get loadingImages => 'Loading images...';
+  String get loginInProgress => 'Giriş yapılıyor...';
 
   @override
-  String get loadingPendingComplaints => 'Loading Pending Complaints...';
-
-  @override
-  String get loadingSolvedComplaints => 'Loading Solved Complaints...';
-
-  @override
-  String get loadingUserInfo => 'Loading User Info...';
-
-  @override
-  String get login => 'LOGIN';
-
-  @override
-  String get loginInProgress => 'Login in progress...';
-
-  @override
-  String get loginSuccessful => 'Login successful!';
+  String get loginSuccessful => 'Giriş başarılı!';
 
   @override
   String loginSuccessfulButFailedToLoadDashboardE(String e) {
-    return 'Login successful but failed to load dashboard: $e';
+    return 'Giriş başarılı ancak pano yüklenemedi: $e';
   }
 
   @override
-  String get loginSuccessfulFetchingUserType => 'Login successful - fetching user type';
+  String get loginSuccessfulFetchingUserType => 'Giriş başarılı - kullanıcı türü alınıyor';
 
   @override
-  String get logout => 'Logout';
+  String get logout => 'Çıkış Yap';
 
   @override
   String get mailto => 'mailto:';
 
   @override
-  String get maintenanceScheduled => 'Maintenance Scheduled';
+  String get maintenanceScheduled => 'Bakım Planlandı';
 
   @override
-  String get mar => 'Mar';
+  String get markAsComplete => 'Tamamlandı Olarak İşaretle';
 
   @override
-  String get markAsComplete => 'Mark as Complete';
+  String get nA => 'Uygulanamaz';
 
   @override
-  String get may => 'May';
+  String get name => 'isim';
 
   @override
-  String get nA => 'N/A';
+  String get navigatingToLandlordDashboard => 'Ev Sahibi Panosuna Yönlendiriliyor';
 
   @override
-  String get name => 'name';
+  String get navigatingToTenantDashboard => 'Kiracı Panosuna Yönlendiriliyor';
 
   @override
-  String get navigatingToLandlordDashboard => 'Navigating to Landlord Dashboard';
+  String get newComplaint => 'Yeni Şikayet';
 
   @override
-  String get navigatingToTenantDashboard => 'Navigating to Tenant Dashboard';
+  String get noCategoriesAvailable => 'Kategori bulunamadı';
 
   @override
-  String get newComplaint => 'New Complaint';
+  String get noComments => 'Yorum yok';
 
   @override
-  String get noCategoriesAvailable => 'No categories available';
+  String get noCommentsAvailable => 'Mevcut yorum yok';
 
   @override
-  String get noComments => 'No comments';
+  String get noCommentsYet => 'Henüz yorum yok';
 
   @override
-  String get noCommentsAvailable => 'No comments available';
+  String get noComplaintsToShow => 'Gösterilecek şikayet yok';
 
   @override
-  String get noCommentsYet => 'No Comments Yet';
+  String get noDeclineReasonProvided => 'Reddetme nedeni belirtilmedi';
 
   @override
-  String get noComplaintsToShow => 'No complaints to Show';
+  String get noDeclinedComplaintsToShow => 'Gösterilecek reddedilmiş şikayet yok';
 
   @override
-  String get noDeclineReasonProvided => 'No decline reason provided';
+  String get noDetailsProvided => 'Detay verilmedi.';
 
   @override
-  String get noDeclinedComplaintsToShow => 'No Declined Complaints to Show';
+  String get noHistoryRecordsFound => 'Geçmiş kaydı bulunamadı';
 
   @override
-  String get noDetailsProvided => 'No details provided.';
+  String get noOptionsAvailable => 'Seçenek yok';
 
   @override
-  String get noHistoryRecordsFound => 'No history records found';
+  String get noPendingComplaintsToShow => 'Gösterilecek bekleyen şikayet yok';
 
   @override
-  String get noOptionsAvailable => 'No options available';
+  String get noResolutionCommentsAvailable => 'Çözüm yorumu yok';
 
   @override
-  String get noPendingComplaintsToShow => 'No Pending Complaints to Show';
+  String get noSegment => 'Segment yok';
 
   @override
-  String get noResolutionCommentsAvailable => 'No resolution comments available';
+  String get noSegmentsAvailable => 'Mevcut segment yok';
 
   @override
-  String get noSegment => 'No Segment';
+  String get noSolvedComplaintsToShow => 'Gösterilecek çözülmüş şikayet yok';
 
   @override
-  String get noSegmentsAvailable => 'No segments available';
-
-  @override
-  String get noSolvedComplaintsToShow => 'No Solved Complaints to Show';
-
-  @override
-  String get notProvided => 'Not provided';
-
-  @override
-  String get nov => 'Nov';
+  String get notProvided => 'Sağlanmadı';
 
   @override
   String numberNd(String number) {
-    return '${number}nd';
+    return '$number.';
   }
 
   @override
   String numberRd(String number) {
-    return '${number}rd';
+    return '$number.';
   }
 
   @override
   String numberSt(String number) {
-    return '${number}st';
+    return '$number.';
   }
 
   @override
   String numberTh(String number) {
-    return '${number}th';
+    return '$number.';
   }
 
   @override
@@ -593,7 +474,7 @@ class STr extends S {
 
   @override
   String onlyAddedImagestoaddLengthImagesMaximumLimitReached(String length) {
-    return 'Only added $length images. Maximum limit reached.';
+    return 'Sadece $length resim eklendi. Maksimum sınıra ulaşıldı.';
   }
 
   @override
@@ -602,297 +483,239 @@ class STr extends S {
   }
 
   @override
-  String get password => 'Password';
+  String get password => 'Şifre';
 
   @override
-  String get pending => 'pending';
+  String get pending => 'beklemede';
 
   @override
-  String get pendingComplaints => 'Pending Complaints';
+  String get pendingComplaints => 'Bekleyen Şikayetler';
 
   @override
-  String get pending_1 => 'Pending';
+  String get pending_1 => 'Beklemede';
 
   @override
-  String get phone => 'Phone';
+  String get phone => 'Telefon';
 
   @override
-  String get phone_1 => 'Phone:';
+  String get phone_1 => 'Telefon:';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'Please check your connection and try again.';
+  String get pleaseCheckYourConnectionAndTryAgain => 'Bağlantınızı kontrol edip tekrar deneyin.';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'Please enter both username and password';
+  String get pleaseEnterBothUsernameAndPassword => 'Lütfen kullanıcı adı ve şifre girin';
 
   @override
-  String get pleaseEnterYourPassword => 'Please enter your password';
+  String get pleaseEnterYourPassword => 'Lütfen şifrenizi girin';
 
   @override
-  String get pleaseEnterYourUsername => 'Please enter your username';
+  String get pleaseEnterYourUsername => 'Lütfen kullanıcı adınızı girin';
 
   @override
-  String get pleaseFillAllRequiredFields => 'Please fill all required fields';
+  String get pleaseFillAllRequiredFields => 'Lütfen tüm gerekli alanları doldurun';
 
   @override
-  String get pleaseProvideYourFeedback => 'Please provide your feedback';
+  String get pleaseProvideYourFeedback => 'Lütfen geri bildiriminizi sağlayın';
 
   @override
-  String get pleaseSelectASegment => 'Please select a segment';
+  String get pleaseSelectASegment => 'Lütfen bir segment seçin';
 
   @override
-  String get pleaseSelectASegment_1 => 'Please select a Segment';
+  String get pleaseSelectASegment_1 => 'Lütfen bir Segment seçin';
 
   @override
-  String get pleaseWriteAComment => 'Please write a Comment';
+  String get pleaseWriteAComment => 'Lütfen bir Yorum yazın';
 
   @override
-  String get portuguS => 'Português';
+  String get preparing => 'Hazırlanıyor...';
 
   @override
-  String get preparing => 'Preparing...';
-
-  @override
-  String get proMatrixNeedsInternetConnection => 'Pro Matrix Needs Internet Connection';
+  String get proMatrixNeedsInternetConnection => 'Pro Matrix\'in İnternet Bağlantısına İhtiyacı Var';
 
   @override
   String get problem => 'PROBLEM';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'Profil';
 
   @override
-  String get profileScreen => '/profile-screen';
+  String get propertyId => 'Mülk Kimliği';
 
   @override
-  String get propertyId => 'Property ID';
+  String get propertyName => 'Mülk Adı';
 
   @override
-  String get propertyName => 'Property Name';
+  String get propertyOwner => 'Mülk Sahibi';
 
   @override
-  String get propertyOwner => 'Property Owner';
+  String get quickActions => 'Hızlı Eylemler';
 
   @override
-  String get pt => 'pt';
+  String get readLess => 'Daha Az Oku';
 
   @override
-  String get quickActions => 'Quick Actions';
+  String get readMore => 'Daha Fazla Oku';
 
   @override
-  String get readLess => 'Read Less';
+  String get recentActivity => 'Son Etkinlikler';
 
   @override
-  String get readMore => 'Read More';
+  String get reconsider => 'Yeniden Değerlendir';
 
   @override
-  String get recentActivity => 'Recent Activity';
+  String get reconsiderAccept => 'Yeniden Değerlendir ve Kabul Et';
 
   @override
-  String recomplainCubitErrorFailure(String failure) {
-    return 'ReComplain Cubit error: $failure';
-  }
+  String get reconsiderFunctionalityComingSoon => 'Yeniden değerlendirme işlevi yakında gelecek';
 
   @override
-  String get reconsider => 'Reconsider';
+  String get reconsiderSchedule => 'Yeniden Değerlendir ve Planla';
 
   @override
-  String get reconsiderAccept => 'Reconsider & Accept';
+  String get registrationType => 'Kayıt Türü';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'Reconsider functionality coming soon';
+  String get rejected => 'reddedildi';
 
   @override
-  String get reconsiderSchedule => 'Reconsider & Schedule';
+  String get rejected_1 => 'Reddedildi';
 
   @override
-  String get registrationType => 'Registration Type';
+  String get rememberMe => 'Beni Hatırla';
 
   @override
-  String get rejected => 'rejected';
+  String get reschedule => 'Yeniden Planla';
 
   @override
-  String get rejected_1 => 'Rejected';
+  String get rescheduleDate => 'Yeniden Planlama Tarihi';
 
   @override
-  String get rememberMe => 'Remember me';
+  String get rescheduleDeclinedComplaint => 'Reddedilen Şikayeti Yeniden Planla';
 
   @override
-  String get reschedule => 'Reschedule';
+  String get rescheduleFunctionalityComingSoon => 'Yeniden planlama işlevi yakında gelecek';
 
   @override
-  String get rescheduleDate => 'Reschedule Date';
+  String get rescheduleRequest => 'Yeniden Planlama İsteği';
 
   @override
-  String get rescheduleDeclinedComplaint => 'Reschedule Declined Complaint';
+  String get rescheduleTime => 'Yeniden Planlama Zamanı';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'Reschedule functionality coming soon';
+  String get rescheduled => 'yeniden planlandı';
 
   @override
-  String get rescheduleRequest => 'Reschedule Request';
+  String get resolutionComments => 'Çözüm Yorumları';
 
   @override
-  String get rescheduleTime => 'Reschedule Time';
+  String get resolved => 'Çözüldü';
 
   @override
-  String get rescheduled => 'rescheduled';
+  String get resolvedList => 'Çözülen Liste';
 
   @override
-  String get resolutionComments => 'Resolution Comments';
+  String get resolved_1 => 'çözüldü';
 
   @override
-  String get resolved => 'Resolved';
+  String get resubmit => 'Yeniden Gönder';
 
   @override
-  String get resolvedList => 'Resolved List';
+  String get resubmitFunctionalityComingSoon => 'Yeniden gönderme işlevi yakında gelecek';
 
   @override
-  String get resolved_1 => 'resolved';
+  String get resubmitted => 'yeniden gönderildi';
 
   @override
-  String get resubmit => 'Resubmit';
+  String get retry => 'Yeniden Dene';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'Resubmit functionality coming soon';
+  String get scheduleDate => 'Planlama Tarihi:';
 
   @override
-  String get resubmitted => 'resubmitted';
-
-  @override
-  String get retry => 'Retry';
-
-  @override
-  String get scheduleDate => 'Schedule Date:';
-
-  @override
-  String get scheduleTime => 'Schedule Time:';
+  String get scheduleTime => 'Planlama Zamanı:';
 
   @override
   String get segment => 'Segment';
 
   @override
-  String get selectAnOption => 'Select an option';
+  String get selectAnOption => 'Bir seçenek seçin';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get selectLanguage => 'Dil Seçin';
 
   @override
-  String get selectedApproval => 'Selected_Approval';
+  String get selectedApproval => 'Seçilen_Onay';
 
   @override
-  String get sentToLandlord => 'sent to landlord';
+  String get sentToLandlord => 'ev sahibine gönderildi';
 
   @override
-  String get sentToLandlord_1 => 'Sent to Landlord';
+  String get sentToLandlord_1 => 'Ev Sahibine Gönderildi';
 
   @override
-  String get sep => 'Sep';
+  String get settings => 'Ayarlar';
 
   @override
-  String get settings => 'Settings';
+  String get signInToContinue => 'Devam etmek için giriş yapın';
 
   @override
-  String get signInToContinue => 'Sign in to continue';
+  String get solved => 'ÇÖZÜLDÜ';
 
   @override
-  String get solved => 'SOLVED';
+  String get solvedComplaints => 'Çözülen Şikayetler';
 
   @override
-  String get solvedComplaints => 'Solved Complaints';
-
-  @override
-  String get solved_1 => 'solved';
+  String get solved_1 => 'çözüldü';
 
   @override
   String sourcePermissionDenied(String source) {
-    return '$source permission denied';
+    return '$source izni reddedildi';
   }
 
   @override
-  String get stringKey0 => '2 days ago';
+  String get submit => 'GÖNDER';
 
   @override
-  String get stringKey1 => '3 days ago';
+  String get submitComplaint => 'ŞİKAYET GÖNDER';
 
   @override
-  String get stringKey10 => '🇩🇪';
+  String get submitFeedback => 'GERİ BİLDİRİM GÖNDER';
 
   @override
-  String get stringKey11 => '🇮🇹';
-
-  @override
-  String get stringKey12 => '🇵🇹';
-
-  @override
-  String get stringKey13 => 'العربية';
-
-  @override
-  String get stringKey14 => '🇸🇦';
-
-  @override
-  String get stringKey15 => 'हिन्दी';
-
-  @override
-  String get stringKey16 => '🇮🇳';
-
-  @override
-  String get stringKey7 => '🇺🇸';
-
-  @override
-  String get stringKey8 => '🇪🇸';
-
-  @override
-  String get stringKey9 => '🇫🇷';
-
-  @override
-  String get submit => 'SUBMIT';
-
-  @override
-  String get submitComplaint => 'SUBMIT COMPLAINT';
-
-  @override
-  String get submitFeedback => 'SUBMIT FEEDBACK';
-
-  @override
-  String get submitRescheduleRequest => 'Submit Reschedule Request';
+  String get submitRescheduleRequest => 'Yeniden Planlama İsteği Gönder';
 
   @override
   String successfullyFetchedImagesLengthImages(String images) {
-    return 'Successfully fetched $images images';
+    return 'Başarıyla $images resim alındı';
   }
 
   @override
-  String get takePhoto => 'Take Photo';
+  String get takePhoto => 'Fotoğraf Çek';
 
   @override
-  String get technician => 'technician';
+  String get technician => 'teknisyen';
 
   @override
-  String get technicianAcceptedSuccessfully => 'Technician accepted successfully';
+  String get technicianAcceptedSuccessfully => 'Teknisyen başarıyla kabul edildi';
 
   @override
-  String get technicianAssigned => 'technician assigned';
+  String get technicianAssigned => 'teknisyen atandı';
 
   @override
-  String get technicianAssigned_1 => 'Technician Assigned';
+  String get technicianAssigned_1 => 'Teknisyen Atandı';
 
   @override
-  String technicianCubitErrorError(String error) {
-    return 'Technician Cubit error: $error';
-  }
+  String get technicianDataNotAvailablePleaseTryAgain => 'Teknisyen verisi mevcut değil. Lütfen tekrar deneyin.';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'Technician data not available. Please try again.';
+  String get technicianDetails => 'Teknisyen Detayları';
 
   @override
-  String get technicianDetails => 'Technician Details';
+  String get technicianName => 'Teknisyen Adı:';
 
   @override
-  String get technicianName => 'Technician Name:';
-
-  @override
-  String get technicianRescheduledSuccessfully => 'Technician rescheduled successfully';
+  String get technicianRescheduledSuccessfully => 'Teknisyen başarıyla yeniden planlandı';
 
   @override
   String get tel => 'tel:';
@@ -903,74 +726,61 @@ class STr extends S {
   }
 
   @override
-  String get tenant => 'Tenant';
+  String get tenant => 'Kiracı';
 
   @override
-  String get tenantDashboard_1 => 'Tenant Dashboard';
+  String get tenantDashboard_1 => 'Kiracı Panosu';
 
   @override
-  String get tenantInfoId => 'Tenant Info ID';
+  String get tenantInfoId => 'Kiracı Bilgi Kimliği';
 
   @override
-  String get tenantInformation => 'Tenant Information';
+  String get tenantInformation => 'Kiracı Bilgisi';
 
   @override
-  String get tenantName => 'Tenant Name';
+  String get tenantName => 'Kiracı Adı';
 
   @override
-  String get tenant_1 => 'TENANT';
+  String get tenant_1 => 'KİRACI';
 
   @override
-  String get tenant_2 => 'tenant';
+  String get tenant_2 => 'kiracı';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'This complaint has been declined. What would you like to do?';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'Bu şikayet reddedildi. Ne yapmak istersiniz?';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'This complaint has been declined. Would you like to resubmit it with modifications?';
+  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'Bu şikayet reddedildi. Değişikliklerle yeniden göndermek ister misiniz?';
 
   @override
-  String get ticket => 'Ticket#';
+  String get ticket => 'Bilet#';
 
   @override
-  String unexpectedErrorInGetcomplainimagescubitE(String e) {
-    return 'Unexpected error in GetComplainImagesCubit: $e';
-  }
+  String get unnamedSegment => 'İsimsiz Segment';
 
   @override
-  String unknownUserTypeUsertype(String userType) {
-    return 'Unknown user type: $userType';
-  }
+  String get updateComplaint => 'ŞİKAYETİ GÜNCELLE';
 
   @override
-  String get unnamedSegment => 'Unnamed Segment';
+  String get userInfoNotLoadedTryAgain => 'Kullanıcı bilgisi yüklenmedi. Tekrar deneyin.';
 
   @override
-  String get updateComplaint => 'UPDATE COMPLAINT';
+  String get username => 'Kullanıcı Adı';
 
   @override
-  String get userInfoNotLoadedTryAgain => 'User info not loaded. Try again.';
+  String get viewProfile => 'Profili Görüntüle';
 
   @override
-  String get username => 'Username';
+  String get waterLeakageInBathroom => 'Banyoda su sızıntısı';
 
   @override
-  String get version100 => 'Version 1.0.0';
+  String get welcome => 'Hoş Geldiniz';
 
   @override
-  String get viewProfile => 'View Profile';
+  String get writeCommentOrInstructions => 'Yorum veya Talimat Yazın';
 
   @override
-  String get waterLeakageInBathroom => 'Water leakage in bathroom';
-
-  @override
-  String get welcome => 'Welcome';
-
-  @override
-  String get writeCommentOrInstructions => 'Write Comment or Instructions';
-
-  @override
-  String get writeYourCommentHere => 'Write your Comment Here:';
+  String get writeYourCommentHere => 'Yorumunuzu Buraya Yazın:';
 
   @override
   String yearMonthDay(String year, String month, String day) {
@@ -978,7 +788,7 @@ class STr extends S {
   }
 
   @override
-  String get yourFeedback => 'Your Feedback';
+  String get yourFeedback => 'Geri Bildiriminiz';
 
   @override
   String get yyyyMmDd => 'yyyy-MM-dd';

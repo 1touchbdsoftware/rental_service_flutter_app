@@ -127,12 +127,6 @@ abstract class S {
   /// **'Accept Technician'**
   String get acceptTechnician;
 
-  /// Localized string with parameters: error
-  ///
-  /// In en, this message translates to:
-  /// **'Accept Technician Cubit error: {error}'**
-  String acceptTechnicianCubitErrorError(String error);
-
   /// Localized string
   ///
   /// In en, this message translates to:
@@ -214,18 +208,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Apr'**
-  String get apr;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'ar'**
-  String get ar;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Are you sure you want to log out of your account?'**
   String get areYouSureYouWantToLogOutOfYourAccount;
 
@@ -240,12 +222,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Attach Images'**
   String get attachImages;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Aug'**
-  String get aug;
 
   /// Localized string
   ///
@@ -342,12 +318,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'comment text...'**
   String get commentText;
-
-  /// Localized string with parameters: error
-  ///
-  /// In en, this message translates to:
-  /// **'Complain images error: {error}'**
-  String complainImagesErrorError(String error);
 
   /// Localized string
   ///
@@ -478,24 +448,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'CUBIT CALLED'**
-  String get cubitCalled;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Cubit:Catch block called'**
-  String get cubitCatchBlockCalled;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Cubit:Catch block called}'**
-  String get cubitCatchBlockCalled_1;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Decline'**
   String get decline;
 
@@ -559,18 +511,6 @@ abstract class S {
   /// **'Description is required'**
   String get descriptionIsRequired;
 
-  /// Localized string with parameters: error
-  ///
-  /// In en, this message translates to:
-  /// **'Detailed error: {error}'**
-  String detailedErrorError(String error);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Deutsch'**
-  String get deutsch;
-
   /// Localized string
   ///
   /// In en, this message translates to:
@@ -588,12 +528,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Edit'**
   String get edit;
-
-  /// Localized string with parameters: failure
-  ///
-  /// In en, this message translates to:
-  /// **'Edit Complain Cubit error: {failure}'**
-  String editComplainCubitErrorFailure(String failure);
 
   /// Localized string
   ///
@@ -622,50 +556,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'en'**
-  String get en;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get english;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Enter text here...'**
   String get enterTextHere;
-
-  /// Localized string with parameters: e
-  ///
-  /// In en, this message translates to:
-  /// **'Error fetching user type: {e}'**
-  String errorFetchingUserTypeE(String e);
-
-  /// Localized string with parameters: e
-  ///
-  /// In en, this message translates to:
-  /// **'Error formatting original date: {e}'**
-  String errorFormattingOriginalDateE(String e);
-
-  /// Localized string with parameters: e
-  ///
-  /// In en, this message translates to:
-  /// **'Error loading user info: {e}'**
-  String errorLoadingUserInfoE(String e);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'es'**
-  String get es;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Español'**
-  String get espaOl;
 
   /// Localized string
   ///
@@ -673,29 +565,11 @@ abstract class S {
   /// **'Failed to determine user type. Please try logging in again.'**
   String get failedToDetermineUserTypePleaseTryLoggingInAgain;
 
-  /// Localized string with parameters: e
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to get user type: {e}'**
-  String failedToGetUserTypeE(String e);
-
   /// Localized string
   ///
   /// In en, this message translates to:
   /// **'Failed to load technician information'**
   String get failedToLoadTechnicianInformation;
-
-  /// Localized string with parameters: e
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to prepare submission: {e}'**
-  String failedToPrepareSubmissionE(String e);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Feb'**
-  String get feb;
 
   /// Localized string
   ///
@@ -718,18 +592,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'fr'**
-  String get fr;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Français'**
-  String get franAis;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Gallery'**
   String get gallery;
 
@@ -748,20 +610,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'hi'**
-  String get hi;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'History'**
   String get history;
-
-  /// Localized string with parameters: error
-  ///
-  /// In en, this message translates to:
-  /// **'History Cubit error: {error}'**
-  String historyCubitErrorError(String error);
 
   /// Localized string
   ///
@@ -822,36 +672,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Issue List'**
   String get issueList;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'it'**
-  String get it;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Italiano'**
-  String get italiano;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Jan'**
-  String get jan;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Jul'**
-  String get jul;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Jun'**
-  String get jun;
 
   /// Localized string
   ///
@@ -1018,20 +838,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Mar'**
-  String get mar;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Mark as Complete'**
   String get markAsComplete;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'May'**
-  String get may;
 
   /// Localized string
   ///
@@ -1158,12 +966,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Not provided'**
   String get notProvided;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Nov'**
-  String get nov;
 
   /// Localized string with parameters: number
   ///
@@ -1300,12 +1102,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Português'**
-  String get portuguS;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Preparing...'**
   String get preparing;
 
@@ -1330,12 +1126,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'/profile-screen'**
-  String get profileScreen;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Property ID'**
   String get propertyId;
 
@@ -1350,12 +1140,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Property Owner'**
   String get propertyOwner;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'pt'**
-  String get pt;
 
   /// Localized string
   ///
@@ -1380,12 +1164,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Recent Activity'**
   String get recentActivity;
-
-  /// Localized string with parameters: failure
-  ///
-  /// In en, this message translates to:
-  /// **'ReComplain Cubit error: {failure}'**
-  String recomplainCubitErrorFailure(String failure);
 
   /// Localized string
   ///
@@ -1576,12 +1354,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Sep'**
-  String get sep;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
 
@@ -1614,78 +1386,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'{source} permission denied'**
   String sourcePermissionDenied(String source);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'2 days ago'**
-  String get stringKey0;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'3 days ago'**
-  String get stringKey1;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇩🇪'**
-  String get stringKey10;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇮🇹'**
-  String get stringKey11;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇵🇹'**
-  String get stringKey12;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'العربية'**
-  String get stringKey13;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇸🇦'**
-  String get stringKey14;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'हिन्दी'**
-  String get stringKey15;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇮🇳'**
-  String get stringKey16;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇺🇸'**
-  String get stringKey7;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇪🇸'**
-  String get stringKey8;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'🇫🇷'**
-  String get stringKey9;
 
   /// Localized string
   ///
@@ -1746,12 +1446,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Technician Assigned'**
   String get technicianAssigned_1;
-
-  /// Localized string with parameters: error
-  ///
-  /// In en, this message translates to:
-  /// **'Technician Cubit error: {error}'**
-  String technicianCubitErrorError(String error);
 
   /// Localized string
   ///
@@ -1849,18 +1543,6 @@ abstract class S {
   /// **'Ticket#'**
   String get ticket;
 
-  /// Localized string with parameters: e
-  ///
-  /// In en, this message translates to:
-  /// **'Unexpected error in GetComplainImagesCubit: {e}'**
-  String unexpectedErrorInGetcomplainimagescubitE(String e);
-
-  /// Localized string with parameters: userType
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown user type: {userType}'**
-  String unknownUserTypeUsertype(String userType);
-
   /// Localized string
   ///
   /// In en, this message translates to:
@@ -1884,12 +1566,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Username'**
   String get username;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Version 1.0.0'**
-  String get version100;
 
   /// Localized string
   ///
