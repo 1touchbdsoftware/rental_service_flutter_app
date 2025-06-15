@@ -319,7 +319,7 @@ class STr extends S {
   String get landlordName => 'Ev Sahibi Adı';
 
   @override
-  String get landlord_1 => 'EV SAHİBİ';
+  String get landlord_1 => 'Ev Sahibi';
 
   @override
   String get landlordidIsNullOrEmptyCannotFetchComplaints => 'Ev Sahibi ID boş veya null, şikayetler alınamıyor';
@@ -721,6 +721,9 @@ class STr extends S {
 
   @override
   String get tenant => 'Kiracı';
+
+  @override
+  String get submissionFailed => 'Gönderim başarısız oldu: Bir şeyler yanlış gitti';
 
   @override
   String get tenantDashboard_1 => 'Kiracı Panosu';

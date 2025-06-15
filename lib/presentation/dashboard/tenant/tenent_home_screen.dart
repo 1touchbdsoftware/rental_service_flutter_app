@@ -4,6 +4,7 @@ import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import '../../../data/model/user/user_info_model.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/drawer.dart';
 import '../bloc/user_info_cubit.dart';
 
@@ -34,8 +35,8 @@ class TenantHomeScreen extends StatelessWidget {
                   elevation: 0,
                   backgroundColor: Colors.white,
                   foregroundColor: colorScheme.primary,
-                  title: const Text(
-                    'Tenant Dashboard',
+                  title: Text(
+                    S.of(context).tenantDashboard_1,
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   actions: [
@@ -92,7 +93,7 @@ class TenantHomeScreen extends StatelessWidget {
                                 _buildActionCard(
                                   context,
                                   icon: Icons.add_circle_outline,
-                                  title: 'Create Complaint',
+                                  title: S.of(context).createComplaint,
                                   color: Colors.blue,
                                   onTap: () {
                                     Navigator.pushNamed(context, '/create_complain-screen');
@@ -101,7 +102,7 @@ class TenantHomeScreen extends StatelessWidget {
                                 _buildActionCard(
                                   context,
                                   icon: Icons.pending_actions,
-                                  title: 'Issue List',
+                                  title: S.of(context).issueList,
                                   color: Colors.orange,
                                   onTap: () {
                                     Navigator.pushNamed(context, '/complain-list-screen');
@@ -110,7 +111,7 @@ class TenantHomeScreen extends StatelessWidget {
                                 _buildActionCard(
                                   context,
                                   icon: Icons.check_circle_outline,
-                                  title: 'Resolved List',
+                                  title: S.of(context).resolvedList,
                                   color: Colors.green,
                                   onTap: () {
                                     Navigator.pushNamed(context, '/complain-completed-list-screen');
@@ -119,7 +120,7 @@ class TenantHomeScreen extends StatelessWidget {
                                 _buildActionCard(
                                   context,
                                   icon: Icons.cancel_outlined,
-                                  title: 'Declined List',
+                                  title: S.of(context).declinedList,
                                   color: Colors.red,
                                   onTap: () {
                                     Navigator.pushNamed(context, '/complain-declined-list-screen');
@@ -198,7 +199,7 @@ class TenantHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Tenant',
+                      S.of(context).tenant,
                       style: TextStyle(
                         color: Colors.black54,
                       ),

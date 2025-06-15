@@ -723,6 +723,9 @@ class SEn extends S {
   String get tenant => 'Tenant';
 
   @override
+  String get submissionFailed => 'Submission failed: Something Went Wrong';
+
+  @override
   String get tenantDashboard_1 => 'Tenant Dashboard';
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
+import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/drawer.dart';
 import '../bloc/user_info_cubit.dart';
 
@@ -37,7 +38,7 @@ class LandlordDashboard extends StatelessWidget {
                   title: BlocBuilder<UserInfoCubit, UserInfoModel>(
                     builder: (context, userInfo) {
                       return Text(
-                        "Landlord Dashboard",
+                        S.of(context).landlordDashboard_1,
                         style: textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -93,7 +94,7 @@ class LandlordDashboard extends StatelessWidget {
                                   _buildActionButton(
                                     context,
                                     icon: Icons.pending_actions,
-                                    text: 'Issue List',
+                                    text: S.of(context).issueList,
                                     color: colorScheme.secondary,
                                     onPressed: () {
                                       Navigator.pushNamed(context, '/landlord-issues-screen');
@@ -103,7 +104,7 @@ class LandlordDashboard extends StatelessWidget {
                                   _buildActionButton(
                                     context,
                                     icon: Icons.check_circle_outline,
-                                    text: 'Resolved',
+                                    text: S.of(context).resolvedList,
                                     color: colorScheme.tertiary,
                                     onPressed: () {
                                       Navigator.pushNamed(context, '/landlord-resolved-screen');
@@ -113,7 +114,7 @@ class LandlordDashboard extends StatelessWidget {
                                   _buildActionButton(
                                     context,
                                     icon: Icons.cancel_outlined,
-                                    text: 'Declined',
+                                    text: S.of(context).declinedList,
                                     color: colorScheme.error,
                                     onPressed: () {
                                       Navigator.pushNamed(context, '/landlord-declined-screen');

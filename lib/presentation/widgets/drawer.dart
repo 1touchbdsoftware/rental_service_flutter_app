@@ -225,7 +225,7 @@ Widget buildAppDrawer(BuildContext context, String username,
                 child: _buildDrawerItem(
                   context: context,
                   icon: Icons.logout_rounded,
-                  title: 'Logout',
+                  title: S.of(context).logout,
                   isDestructive: true,
                   onTap: () => showLogoutConfirmation(context),
                 ),
@@ -475,7 +475,7 @@ void showLogoutConfirmation(BuildContext context) {
             ),
             const SizedBox(width: 12),
             Text(
-              "Confirm Logout",
+              S.of(context).confirmLogout,
               style: textTheme.titleLarge?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
@@ -484,7 +484,7 @@ void showLogoutConfirmation(BuildContext context) {
           ],
         ),
         content: Text(
-          "Are you sure you want to log out of your account?",
+          S.of(context).areYouSureYouWantToLogOutOfYourAccount,
           style: textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurfaceVariant,
           ),
@@ -516,7 +516,7 @@ void showLogoutConfirmation(BuildContext context) {
               ),
             ),
             child: Text(
-              "Logout",
+      S.of(context).logout,
               style: textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w500,
               ),

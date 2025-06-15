@@ -8,6 +8,7 @@ import '../../data/model/complain/complain_req_params/complain_post_req.dart';
 import '../../data/model/segment/get_segment_params.dart';
 import '../../data/model/segment/segment_model.dart';
 import '../../data/model/user/user_info_model.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../service_locator.dart';
 import '../widgets/center_loader.dart';
 import '../widgets/complain_form/dropdown_selector.dart';
@@ -110,7 +111,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
       backgroundColor: AppColors.primary,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text('Create Complaint'),
+        title:  Text(S.of(context).createComplaint),
       ),
       body: BlocConsumer<GetSegmentCubit, GetSegmentState>(
         listener: (context, state) {
@@ -122,7 +123,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
         builder: (context, state) {
           if (state is GetSegmentLoadingState) {
             return CenterLoaderWithText(
-                text: "Hold on, bringing everything together...");
+                text: S.of(context).holdOnBringingEverythingTogether);
           }
 
           return Padding(
@@ -133,24 +134,24 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                 children: [
                   if (state is GetSegmentSuccessState)
                     GenericDropdown<SegmentModel>(
-                      label: "Segment",
+                      label: S.of(context).segment,
                       selectedValue: _selectedSegment,
                       items: state.response.data,
-                      getLabel: (segment) => segment.text ?? "Unnamed Segment",
+                      getLabel: (segment) => segment.text,
                       onChanged: (value) =>
                           setState(() => _selectedSegment = value),
                       validator: (value) =>
-                      value == null ? "Please select a Segment" : null,
-                      emptyListMessage: "No categories available",
+                      value == null ? S.of(context).pleaseSelectASegment : null,
+                      emptyListMessage: "No Segment available",
                     ),
                   const SizedBox(height: 24),
                   MultilineTextField(
-                    label: "Description",
+                    label: S.of(context).description,
                     controller: _commentController,
                     validator: (value) =>
-                    value?.isEmpty ?? true ? "Description is required" : null,
+                    value?.isEmpty ?? true ? S.of(context).descriptionIsRequired : null,
                     helperText:
-                    'Be specific about the issue for faster resolution',
+                    S.of(context).beSpecificAboutTheIssueForFasterResolution
                   ),
                   const SizedBox(height: 24),
                   ImagePickerWidget(
@@ -165,8 +166,8 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                     listener: (context, state) {
                       if (state is ComplainSuccess) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Complaint submitted successfully'),
+                           SnackBar(
+                            content: Text(S.of(context).complaintSubmittedSuccessfully),
                             backgroundColor: Colors.green,
                           ),
                         );
@@ -175,7 +176,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content:
-                            Text('Submission failed: ${state.message}'),
+                            Text(S.of(context).submissionFailed),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -185,7 +186,7 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                       return SubmitButton(
                         onPressed: () => _handleSubmit(context),
                         isLoading: state is ComplainLoading,
-                        buttonText: "SUBMIT COMPLAINT",
+                        buttonText: S.of(context).submitComplaint,
                       );
                     },
                   ),
@@ -201,8 +202,8 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
   void _handleSubmit(BuildContext context) {
     if (!_formKey.currentState!.validate() || _selectedSegment == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill all required fields'),
+         SnackBar(
+          content: Text(S.of(context).pleaseFillAllRequiredFields),
           backgroundColor: Colors.red,
         ),
       );

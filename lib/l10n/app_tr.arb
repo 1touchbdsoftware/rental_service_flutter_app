@@ -102,7 +102,7 @@
   "landlordId": "Ev Sahibi Kimliği",
   "landlordInformation": "Ev Sahibi Bilgisi",
   "landlordName": "Ev Sahibi Adı",
-  "landlord_1": "EV SAHİBİ",
+  "landlord_1": "Ev Sahibi",
   "landlordidIsNullOrEmptyCannotFetchComplaints": "Ev Sahibi ID boş veya null, şikayetler alınamıyor",
   "language": "Dil",
   "lastComment": "Son Yorum",
@@ -250,5 +250,6 @@
   "writeYourCommentHere": "Yorumunuzu Buraya Yazın:",
   "yearMonthDay": "{year}-{month}-{day}",
   "yourFeedback": "Geri Bildiriminiz",
+  "submissionFailed": "Gönderim başarısız oldu: Bir şeyler yanlış gitti",
   "yyyyMmDd": "yyyy-MM-dd"
 }

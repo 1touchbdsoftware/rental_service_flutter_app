@@ -1059,6 +1059,12 @@
     "description": "Localized string"
   },
 
+  "submissionFailed": "Submission failed: Something Went Wrong",
+  "@submissionFailed": {
+    "description": "Localized string"
+  },
+
+
   "tenantDashboard_1": "Tenant Dashboard",
   "@tenantDashboard_1": {
     "description": "Localized string"

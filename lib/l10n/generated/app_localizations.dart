@@ -1480,6 +1480,12 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
+  /// **'Submission failed: Something Went Wrong'**
+  String get submissionFailed;
+
+  /// Localized string
+  ///
+  /// In en, this message translates to:
   /// **'Tenant Dashboard'**
   String get tenantDashboard_1;
 
