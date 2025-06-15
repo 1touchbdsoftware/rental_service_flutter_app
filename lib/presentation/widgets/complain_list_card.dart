@@ -391,31 +391,31 @@ class ComplainCard extends StatelessWidget {
 
     if (complaint.isRejected!) {
       dotColor = Colors.red;
-      statusText = 'Rejected';
+      statusText =  S.of(context).rejected;
     } else if (complaint.isSolved! && complaint.isCompleted!) {
       dotColor = Colors.green;
-      statusText = 'Completed';
+      statusText =  S.of(context).completed;
     } else if (complaint.isSolved!) {
       dotColor = Colors.green;
-      statusText = 'Resolved';
+      statusText =  S.of(context).resolved;
     } else if (complaint.isResubmitted!) {
       dotColor = Colors.orange;
-      statusText = 'Resubmitted';
+      statusText =  S.of(context).resubmitted;
     } else if (complaint.isSentToLandlord! && complaint.isApproved!) {
       dotColor = Colors.purple;
-      statusText = 'Approved';
+      statusText =  S.of(context).approved;
     } else if (complaint.isSentToLandlord!) {
       dotColor = Colors.blue;
-      statusText = 'Sent to Landlord';
+      statusText =  S.of(context).sentToLandlord;
     } else if (complaint.isAssignedTechnician! && complaint.isAccepted!) {
       dotColor = Colors.purple;
-      statusText = 'Accepted Schedule';
+      statusText =  S.of(context).acceptedSchedule;
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
-      statusText = 'Technician Assigned';
+      statusText =  S.of(context).technicianAssigned;
     } else {
       dotColor = Colors.grey;
-      statusText = 'Pending';
+      statusText =  S.of(context).pending;
     }
 
     return Row(
