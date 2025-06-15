@@ -119,7 +119,7 @@ class _AssignedTechnicianScreenContentState
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
         title: Text(
-          'Assigned Technician',
+          'Reschedule Technician',
           style: textTheme.titleLarge?.copyWith(
             color: colorScheme.onPrimary,
           ),
@@ -280,6 +280,7 @@ class _AssignedTechnicianScreenContentState
                                     'Submit Reschedule Request',
                                     style: textTheme.labelLarge?.copyWith(
                                       fontWeight: FontWeight.w500,
+                                      color: colorScheme.onPrimary,
                                     ),
                                   ),
                                 );

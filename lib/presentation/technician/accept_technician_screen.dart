@@ -349,10 +349,9 @@ class _AcceptTechnicianScreenContentState
                                                 )
                                                 : Text(
                                                   'Accept Technician',
-                                                  style: textTheme.labelLarge
-                                                      ?.copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                  style: textTheme.labelLarge?.copyWith(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: colorScheme.onPrimary,
                                                       ),
                                                 ),
                                       ),

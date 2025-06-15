@@ -10,6 +10,7 @@ import '../../data/model/segment/segment_model.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../service_locator.dart';
+import '../resubmit/resubmit_form_screen.dart';
 import '../widgets/center_loader.dart';
 import '../widgets/complain_form/dropdown_selector.dart';
 import '../widgets/complain_form/image_selector.dart';

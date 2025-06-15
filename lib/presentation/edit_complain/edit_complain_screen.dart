@@ -17,6 +17,7 @@ import '../create_complain/bloc/complain_state.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../image_gallery/get_image_state.dart';
 import '../image_gallery/get_image_state_cubit.dart';
+import '../resubmit/resubmit_form_screen.dart';
 import '../segment/get_segment_state.dart';
 import '../segment/get_segment_state_cubit.dart';
 import '../widgets/center_loader.dart';
