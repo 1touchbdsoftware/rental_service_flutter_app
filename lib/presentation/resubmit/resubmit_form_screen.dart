@@ -143,12 +143,16 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  widget.complaint.complainName ?? 'N/A',
-                  style: textTheme.bodyMedium?.copyWith(
+                ReadMoreText(
+                  text: widget.complaint.complainName ?? 'N/A',
+                  textStyle: textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurface,
                   ),
+                  trimLength: 100, // Specify the length at which the text will be trimmed
+                  readMoreText: 'Read More',  // Custom "Read More" text
+                  readLessText: 'Read Less',  // Custom "Read Less" text
                 ),
+
                 const SizedBox(height: 24),
                 MultilineTextField(
                   label: "Your Feedback",
@@ -247,6 +251,86 @@ class SubmitButton extends StatelessWidget {
           color: colorScheme.onPrimary,
         ),
       ),
+    );
+  }
+}
+
+class ReadMoreText extends StatefulWidget {
+  final String text;
+  final TextStyle? textStyle;
+  final TextStyle? buttonStyle;
+  final int trimLength;
+  final String readMoreText;
+  final String readLessText;
+
+  const ReadMoreText({
+    Key? key,
+    required this.text,
+    this.textStyle,
+    this.buttonStyle,
+    this.trimLength = 60, // Default trim length
+    this.readMoreText = 'Read More',
+    this.readLessText = 'Read Less',
+  }) : super(key: key);
+
+  @override
+  _ReadMoreTextState createState() => _ReadMoreTextState();
+}
+
+class _ReadMoreTextState extends State<ReadMoreText> {
+  bool _expanded = false;
+  bool _showReadMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final needsTrim = widget.text.length > widget.trimLength;
+      if (needsTrim != _showReadMore) {
+        setState(() {
+          _showReadMore = needsTrim;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          _expanded
+              ? widget.text
+              : (_showReadMore
+              ? widget.text.substring(0, widget.trimLength) + "..."
+              : widget.text),
+          style: widget.textStyle ?? const TextStyle(
+            fontSize: 14,
+            height: 1.4,
+          ),
+        ),
+        if (_showReadMore)
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _expanded = !_expanded;
+              });
+            },
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+              minimumSize: const Size(0, 30),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: Text(
+              _expanded ? widget.readLessText : widget.readMoreText,
+              style: widget.buttonStyle ?? const TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
