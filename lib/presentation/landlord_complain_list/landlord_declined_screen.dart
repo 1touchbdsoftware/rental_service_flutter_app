@@ -9,6 +9,7 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
@@ -64,11 +65,12 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
     // Check if landlordID exists before fetching
     if (userInfo.landlordID != null && userInfo.landlordID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      print("Fetching declined complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
+      // print("Fetching declined complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
       context.read<GetComplainsCubit>().fetchComplains(params: params);
-    } else {
-      print("LandlordID is null or empty, cannot fetch complaints");
     }
+    // else {
+    //   // print("LandlordID is null or empty, cannot fetch complaints");
+    // }
   }
 
   GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
@@ -112,7 +114,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
                 current.landlordID!.isNotEmpty;
           },
           listener: (context, userInfo) {
-            print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
+            // print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
             setState(() {
               _landlordName = userInfo.landlordName ?? "Landlord";
               _userType = userInfo.userType ?? '';
@@ -126,7 +128,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Declined Complaints', // Changed title
+            S.of(context).declinedComplaints,
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),

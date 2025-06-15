@@ -12,6 +12,7 @@ import 'package:rental_service/presentation/edit_complain/edit_complain_screen.d
 import '../../common/bloc/auth/auth_cubit.dart';
 import '../../data/model/complain/complain_req_params/completed_post_req.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
 import '../create_complain/bloc/complain_state.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
@@ -187,7 +188,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       appBar: AppBar(
         foregroundColor: colorScheme.onPrimary,
         title: Text(
-          'Pending Complaints',
+          S.of(context).pendingComplaints,
           style: textTheme.titleLarge?.copyWith(
             color: colorScheme.onSurface,
           ),
@@ -432,9 +433,9 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       context: context,
       title: 'Ticket#',
       ticketNo: complain.ticketNo!,
-      labelText: 'Please write a Comment',
-      hintText: 'comment text...',
-      actionButtonText: 'Mark as Complete',
+      labelText:  S.of(context).pleaseWriteAComment,
+      hintText:  S.of(context).commentText,
+      actionButtonText:  S.of(context).markAsComplete,
       actionButtonColor: Colors.greenAccent,
       onSubmitted: (comment) async {
         _markTicketAsComplete(
@@ -492,8 +493,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Last Comment Details',
-        bodyText: comment ?? 'No Comments Yet',
+        title:  S.of(context).lastCommentDetails,
+        bodyText: comment ??  S.of(context).noCommentsYet,
       ),
     );
   }
@@ -502,7 +503,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Complaint Details',
+        title:  S.of(context).complaintDetails,
         bodyText: complainName ?? 'No details provided.',
       ),
     );

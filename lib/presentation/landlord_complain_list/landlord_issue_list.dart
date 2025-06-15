@@ -11,6 +11,7 @@ import '../../data/model/landlord_request/complain_aprove_state.dart';
 import '../../data/model/landlord_request/complains_to_approve.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
@@ -117,7 +118,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
                 current.landlordID!.isNotEmpty;
           },
           listener: (context, userInfo) {
-            print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
+            // print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
             setState(() {
               _landlordName = userInfo.landlordName ?? "Landlord";
               _userType = userInfo.userType ?? '';
@@ -131,7 +132,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Pending Complaints',
+            S.of(context).pendingComplaints,
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),
@@ -167,9 +168,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
               }
 
               if (state is GetComplainsInitialState) {
-                return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+                return  CenterLoaderWithText(text: S.of(context).loadingPendingComplaints);
               } else if (state is GetComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+                return  CenterLoaderWithText(text: S.of(context).loadingPendingComplaints);
               } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetComplainsSuccessState) {
@@ -177,7 +178,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
               }
 
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Pending Complaints...");
+              return  CenterLoaderWithText(text:  S.of(context).loadingPendingComplaints);
             },
           ),
         ),
@@ -233,7 +234,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     if (complaints.isEmpty) {
       return Center(
         child: Text(
-          'No Pending Complaints to Show',
+          S.of(context).noPendingComplaintsToShow,
           style: textTheme.bodyLarge?.copyWith(
             color: Colors.blue,
           ),
@@ -312,8 +313,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            const Text(
-              'Loading images...',
+             Text(
+              S.of(context).loadingImages,
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
@@ -381,9 +382,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       context: context,
       title: 'Ticket#',
       ticketNo: complaint.ticketNo!,
-      labelText: 'Approve Comment',
-      hintText: 'comment text...',
-      actionButtonText: 'Approve',
+      labelText: S.of(context).approveComment,
+      hintText: S.of(context).commentText,
+      actionButtonText: S.of(context).approve,
       actionButtonColor: Colors.green,
       onSubmitted: (comment) async {
         await _approveComplaint(context, complaint, comment);
@@ -397,9 +398,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       context: context,
       title: 'Ticket#',
       ticketNo: complaint.ticketNo!,
-      labelText: 'Decline Comment',
-      hintText: 'comment text...',
-      actionButtonText: 'Decline',
+      labelText: S.of(context).declineComment,
+      hintText: S.of(context).commentText,
+      actionButtonText: S.of(context).decline,
       actionButtonColor: Colors.deepOrangeAccent,
       onSubmitted: (comment) async {
         await _declineComplaint(context, complaint, comment);
@@ -456,8 +457,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(success
-              ? 'Complaint approved successfully'
-              : 'Approval failed'),
+              ? S.of(context).complaintApprovedSuccessfully
+              : S.of(context).approvalFailed),
           backgroundColor: success ? Colors.green : Colors.red,
         ),
       );
@@ -514,8 +515,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(success
-              ? 'Complaint Declined successfully'
-              : 'Decline request failed'),
+              ? S.of(context).complaintDeclinedSuccessfully
+              : S.of(context).declineRequestFailed),
           backgroundColor: success ? Colors.green : Colors.red,
         ),
       );
@@ -559,7 +560,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Complaint Details',
+        title: S.of(context).complaintDetails,
         bodyText: complainName ?? 'No details provided.',
       ),
     );

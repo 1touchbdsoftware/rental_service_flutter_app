@@ -5,6 +5,7 @@ import 'package:timelines_plus/timelines_plus.dart';
 import '../../core/constants/app_colors.dart';
 import '../../data/model/history/history_query_params.dart';
 import '../../data/model/user/user_info_model.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../widgets/center_loader.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import 'get_history_cubit.dart';
@@ -30,7 +31,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
         backgroundColor: AppColors.primary,
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          title: const Text('Complaint History'),
+          title:  Text( S.of(context).complaintHistory),
         ),
         body: BlocListener<UserInfoCubit, UserInfoModel>(
           listener: (context, userInfo) {
