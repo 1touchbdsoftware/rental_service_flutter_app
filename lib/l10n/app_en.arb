@@ -678,10 +678,7 @@
       }
     }
   },
-  "oct": "Oct",
-  "@oct": {
-    "description": "Localized string"
-  },
+
   "onlyAddedImagestoaddLengthImagesMaximumLimitReached": "Only added {length} images. Maximum limit reached.",
   "@onlyAddedImagestoaddLengthImagesMaximumLimitReached": {
     "description": "Localized string with parameters: length",
@@ -933,10 +930,7 @@
   "@selectLanguage": {
     "description": "Localized string"
   },
-  "selectedApproval": "Selected_Approval",
-  "@selectedApproval": {
-    "description": "Localized string"
-  },
+
   "sentToLandlord": "sent to landlord",
   "@sentToLandlord": {
     "description": "Localized string"

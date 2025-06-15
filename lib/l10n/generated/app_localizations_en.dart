@@ -470,9 +470,6 @@ class SEn extends S {
   }
 
   @override
-  String get oct => 'Oct';
-
-  @override
   String onlyAddedImagestoaddLengthImagesMaximumLimitReached(String length) {
     return 'Only added $length images. Maximum limit reached.';
   }
@@ -643,9 +640,6 @@ class SEn extends S {
 
   @override
   String get selectLanguage => 'Select Language';
-
-  @override
-  String get selectedApproval => 'Selected_Approval';
 
   @override
   String get sentToLandlord => 'sent to landlord';

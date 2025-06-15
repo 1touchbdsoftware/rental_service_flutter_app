@@ -991,12 +991,6 @@ abstract class S {
   /// **'{number}th'**
   String numberTh(String number);
 
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Oct'**
-  String get oct;
-
   /// Localized string with parameters: length
   ///
   /// In en, this message translates to:
@@ -1332,12 +1326,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Select Language'**
   String get selectLanguage;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Selected_Approval'**
-  String get selectedApproval;
 
   /// Localized string
   ///

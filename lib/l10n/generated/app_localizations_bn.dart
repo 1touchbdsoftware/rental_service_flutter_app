@@ -470,9 +470,6 @@ class SBn extends S {
   }
 
   @override
-  String get oct => 'Oct';
-
-  @override
   String onlyAddedImagestoaddLengthImagesMaximumLimitReached(String length) {
     return 'আপনি সর্বোচ্চ $lengthটি ছবি যুক্ত করতে পারবেন';
   }
@@ -489,10 +486,10 @@ class SBn extends S {
   String get pending => 'মুলতুবিতে রয়েছে';
 
   @override
-  String get pendingComplaints => 'মुलতুবিতে থাকা অভিযোগসমূহ';
+  String get pendingComplaints => 'মलতুবিতে থাকা অভিযোগসমূহ';
 
   @override
-  String get pending_1 => 'মुलতুবিতে রয়েছে';
+  String get pending_1 => 'মलতুবিতে রয়েছে';
 
   @override
   String get phone => 'ফোন';
@@ -645,9 +642,6 @@ class SBn extends S {
   String get selectLanguage => ' ভাষা নির্বাচন করুন';
 
   @override
-  String get selectedApproval => 'নির্বাচিত অনুমোদন';
-
-  @override
   String get sentToLandlord => 'মালিকের কাছে পাঠানো হয়েছে';
 
   @override
@@ -677,7 +671,7 @@ class SBn extends S {
   String get submit => 'জমা দিন';
 
   @override
-  String get submitComplaint => 'অभিযোগ জমা দিন';
+  String get submitComplaint => 'অভিযোগ জমা দিন';
 
   @override
   String get submitFeedback => 'মতামত জমা দিন';
