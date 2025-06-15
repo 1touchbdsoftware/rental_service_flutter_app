@@ -1,1 +1,9 @@
-{}
+{
+  "bn": [
+    "maximumImagesAllowed"
+  ],
+
+  "tr": [
+    "maximumImagesAllowed"
+  ]
+}

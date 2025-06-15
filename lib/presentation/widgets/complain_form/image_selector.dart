@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../l10n/generated/app_localizations.dart';
+
 /// A reusable widget for image picking functionality
 class ImagePickerWidget extends StatefulWidget {
   final List<XFile> selectedImages;
@@ -37,7 +39,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Attach Images",
+          S.of(context).attachImages,
           style: textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: colorScheme.onSurface,
@@ -166,7 +168,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
-                  'Clear all',
+                  S.of(context).clearAll,
                   style: textTheme.labelMedium,
                 ),
               ),
@@ -210,7 +212,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Take Photo",
+                        S.of(context).takePhoto,
                         style: textTheme.labelMedium?.copyWith(
                           color: colorScheme.onSurface,
                         ),
@@ -235,7 +237,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Choose from Gallery",
+                        S.of(context).chooseFromGallery,
                         style: textTheme.labelMedium?.copyWith(
                           color: colorScheme.onSurface,
                         ),
@@ -321,7 +323,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Only added ${imagesToAdd.length} images. Maximum limit reached.',
+              S.of(context).onlyAddedImagestoaddLengthImagesMaximumLimitReached(imagesToAdd.length.toString()),
             ),
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
@@ -333,7 +335,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   void _showMaxImagesMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Maximum ${widget.maxImages} images allowed'),
+        content: Text(S.of(context).maximumImagesAllowed(widget.maxImages.toString()),),
         backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );

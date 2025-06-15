@@ -997,6 +997,12 @@ abstract class S {
   /// **'Only added {length} images. Maximum limit reached.'**
   String onlyAddedImagestoaddLengthImagesMaximumLimitReached(String length);
 
+  /// Message showing the maximum number of images allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum {maxImages} images allowed.'**
+  String maximumImagesAllowed(String maxImages);
+
   /// Localized string with parameters: page
   ///
   /// In en, this message translates to:

@@ -689,6 +689,16 @@
       }
     }
   },
+  "maximumImagesAllowed": "Maximum {maxImages} images allowed.",
+  "@maximumImagesAllowed": {
+    "description": "Message showing the maximum number of images allowed.",
+    "placeholders": {
+      "maxImages": {
+        "type": "String",
+        "example": "5"
+      }
+    }
+  },
   "page": "{page}",
   "@page": {
     "description": "Localized string with parameters: page",
@@ -1104,10 +1114,6 @@
     "description": "Localized string"
   },
 
-
-
-
-
   "unnamedSegment": "Unnamed Segment",
   "@unnamedSegment": {
     "description": "Localized string"
@@ -1126,7 +1132,6 @@
   "@username": {
     "description": "Localized string"
   },
-
 
   "viewProfile": "View Profile",
   "@viewProfile": {

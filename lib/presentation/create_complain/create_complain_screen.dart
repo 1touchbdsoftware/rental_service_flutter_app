@@ -137,17 +137,19 @@ class _CreateComplainScreenState extends State<_CreateComplainScreenContent> {
                       label: S.of(context).segment,
                       selectedValue: _selectedSegment,
                       items: state.response.data,
+                      hintText: S.of(context).selectAnOption,
                       getLabel: (segment) => segment.text,
                       onChanged: (value) =>
                           setState(() => _selectedSegment = value),
                       validator: (value) =>
                       value == null ? S.of(context).pleaseSelectASegment : null,
-                      emptyListMessage: "No Segment available",
+                      emptyListMessage: S.of(context).noSegmentsAvailable,
                     ),
                   const SizedBox(height: 24),
                   MultilineTextField(
                     label: S.of(context).description,
                     controller: _commentController,
+                    hintText: S.of(context).enterTextHere,
                     validator: (value) =>
                     value?.isEmpty ?? true ? S.of(context).descriptionIsRequired : null,
                     helperText:

@@ -475,6 +475,11 @@ class STr extends S {
   }
 
   @override
+  String maximumImagesAllowed(String maxImages) {
+    return 'Maximum $maxImages images allowed.';
+  }
+
+  @override
   String page(String page) {
     return '$page';
   }
