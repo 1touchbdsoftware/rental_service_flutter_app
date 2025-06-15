@@ -1540,8 +1540,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Ticket#'**
-  String get ticket;
+  /// **'Ticket# {num}'**
+  String ticket(String num);
 
   /// Localized string
   ///

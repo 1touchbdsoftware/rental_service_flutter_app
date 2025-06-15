@@ -1109,9 +1109,15 @@
   "@thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications": {
     "description": "Localized string"
   },
-  "ticket": "Ticket#",
+  "ticket": "Ticket# {num}",
   "@ticket": {
-    "description": "Localized string"
+    "description": "Localized string",
+    "placeholders": {
+      "num": {
+        "type": "String",
+        "example": "5"
+      }
+    }
   },
 
   "unnamedSegment": "Unnamed Segment",

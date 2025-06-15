@@ -755,7 +755,9 @@ class STr extends S {
   String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'Bu şikayet reddedildi. Değişikliklerle yeniden göndermek ister misiniz?';
 
   @override
-  String get ticket => 'Bilet#';
+  String ticket(String num) {
+    return 'Bilet# $num';
+  }
 
   @override
   String get unnamedSegment => 'İsimsiz Segment';

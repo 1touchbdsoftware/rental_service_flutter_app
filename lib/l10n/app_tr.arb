@@ -238,7 +238,7 @@
   "tenant_2": "Kiracı",
   "thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo": "Bu şikayet reddedildi. Ne yapmak istersiniz?",
   "thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications": "Bu şikayet reddedildi. Değişikliklerle yeniden göndermek ister misiniz?",
-  "ticket": "Bilet#",
+  "ticket": "Bilet# {num}",
   "unnamedSegment": "İsimsiz Segment",
   "updateComplaint": "Şikayeti Güncelle",
   "userInfoNotLoadedTryAgain": "Kullanıcı bilgisi yüklenmedi. Lütfen tekrar deneyin.",

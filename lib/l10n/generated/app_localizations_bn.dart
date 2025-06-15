@@ -755,7 +755,9 @@ class SBn extends S {
   String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'এই অভিযোগটি অস্বীকার করা হয়েছে। আপনি কি এটি পরিবর্তন সহ পুনঃজমা করতে চান?';
 
   @override
-  String get ticket => 'টিকিট#';
+  String ticket(String num) {
+    return 'টিকিট# $num';
+  }
 
   @override
   String get unnamedSegment => 'নামহীন সেগমেন্ট';

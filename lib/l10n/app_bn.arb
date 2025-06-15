@@ -238,7 +238,7 @@
   "tenant_2": "ভাড়াটিয়া",
   "thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo": "এই অভিযোগটি অস্বীকার করা হয়েছে। আপনি কী করতে চান?",
   "thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications": "এই অভিযোগটি অস্বীকার করা হয়েছে। আপনি কি এটি পরিবর্তন সহ পুনঃজমা করতে চান?",
-  "ticket": "টিকিট#",
+  "ticket": "টিকিট# {num}",
   "unnamedSegment": "নামহীন সেগমেন্ট",
   "updateComplaint": "অভিযোগ আপডেট করুন",
   "userInfoNotLoadedTryAgain": "ব্যবহারকারীর তথ্য লোড করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।",

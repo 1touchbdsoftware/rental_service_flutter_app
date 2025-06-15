@@ -755,7 +755,9 @@ class SEn extends S {
   String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'This complaint has been declined. Would you like to resubmit it with modifications?';
 
   @override
-  String get ticket => 'Ticket#';
+  String ticket(String num) {
+    return 'Ticket# $num';
+  }
 
   @override
   String get unnamedSegment => 'Unnamed Segment';

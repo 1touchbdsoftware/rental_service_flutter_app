@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class ComplainCard extends StatelessWidget {
   final ComplainEntity complaint;
@@ -56,7 +57,7 @@ class ComplainCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "Ticket# ${complaint.ticketNo}",
+                  S.of(context).ticket(complaint.ticketNo!),
                   style: textTheme.labelMedium?.copyWith(
                     // Use secondary color instead of hardcoded orange
                     color: Colors.deepOrangeAccent,
@@ -71,7 +72,7 @@ class ComplainCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    complaint.segmentName ?? 'No Segment',
+                    complaint.segmentName ?? S.of(context).noSegment,
                     style: textTheme.titleMedium?.copyWith(
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
@@ -128,7 +129,7 @@ class ComplainCard extends StatelessWidget {
                     onPressed: onHistoryPressed,
                     icon: Icon(Icons.history, size: 16),
                     label: Text(
-                      'History',
+                      S.of(context).history,
                       style: textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -149,7 +150,7 @@ class ComplainCard extends StatelessWidget {
                     onPressed: onCommentsPressed,
                     icon: Icon(Icons.comment, size: 16),
                     label: Text(
-                      'Last Comment',
+                      S.of(context).lastComment,
                       style: textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -186,7 +187,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            'Approve',
+                            S.of(context).approve,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -210,7 +211,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            'Decline',
+                            S.of(context).decline,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -240,7 +241,7 @@ class ComplainCard extends StatelessWidget {
                         minimumSize: const Size(0, 30),
                       ),
                       child: Text(
-                        'Edit',
+                        S.of(context).edit,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.blue,
@@ -268,7 +269,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            'Reschedule',
+                            S.of(context).reschedule,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -289,7 +290,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            'Accept',
+                            S.of(context).accept,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -314,7 +315,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            'Complete',
+                            S.of(context).complete,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -335,7 +336,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            'Resubmit',
+                            S.of(context).resubmit,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -358,7 +359,7 @@ class ComplainCard extends StatelessWidget {
                   onPressed: onImagePressed,
                   icon: const Icon(Icons.photo_library, size: 20),
                   label: Text(
-                    'Image Gallery (${complaint.imageCount})',
+                    S.of(context).imageGalleryComplaintImagecount(complaint.imageCount.toString()),
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
