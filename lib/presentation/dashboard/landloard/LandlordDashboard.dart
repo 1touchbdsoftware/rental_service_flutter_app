@@ -197,7 +197,7 @@ class LandlordDashboard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Property Owner',
+                      S.of(context).propertyOwner,
                       style: textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
