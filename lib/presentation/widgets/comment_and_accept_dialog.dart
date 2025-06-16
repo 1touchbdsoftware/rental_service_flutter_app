@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/generated/app_localizations.dart';
+
 class CommentDialog extends StatefulWidget {
   final String title;
   final String ticketNo;
@@ -69,7 +71,7 @@ class _CommentDialogState extends State<CommentDialog> {
   Future<void> _handleSubmit() async {
     if (_controller.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Comment is Required')),
+         SnackBar(content: Text(S.of(context).commentIsRequired)),
       );
       return;
     }
@@ -100,7 +102,7 @@ class _CommentDialogState extends State<CommentDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Write your Comment Here:'),
+             Text(S.of(context).writeYourCommentHere),
             const SizedBox(height: 16),
             TextField(
               controller: _controller,

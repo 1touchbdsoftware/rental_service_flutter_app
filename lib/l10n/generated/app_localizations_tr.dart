@@ -257,6 +257,18 @@ class STr extends S {
   String get forgotPassword => 'Şifrenizi mi unuttunuz?';
 
   @override
+  String get resubmitComplaint => 'Şikayeti Yeniden Gönder';
+
+  @override
+  String get mentionMissingOrUnclear => 'Son şikayetinizde eksik veya belirsiz olanı belirtin';
+
+  @override
+  String get originalComment => 'Orijinal Yorum:';
+
+  @override
+  String get resubmissionFailed => 'Yeniden gönderim başarısız oldu';
+
+  @override
   String get gallery => 'Galeri';
 
   @override

@@ -5,6 +5,7 @@ import 'package:rental_service/presentation/technician/bloc/technician_accept_po
 import '../../data/model/technician/post_accept_technician_params.dart';
 import '../../data/model/technician/technician_get_params.dart';
 import '../../data/model/user/user_info_model.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../widgets/center_loader.dart';
 import 'bloc/technician_post_state.dart';
@@ -83,7 +84,7 @@ class _AcceptTechnicianScreenContentState
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Accept Technician',
+          S.of(context).acceptTechnician,
           style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
         ),
         backgroundColor: colorScheme.primary,
@@ -93,7 +94,7 @@ class _AcceptTechnicianScreenContentState
           if (state is TechnicianPostSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Technician accepted successfully'),
+                content: Text(S.of(context).technicianAcceptedSuccessfully),
                 backgroundColor: colorScheme.primary,
               ),
             );
@@ -102,7 +103,7 @@ class _AcceptTechnicianScreenContentState
           } else if (state is TechnicianPostError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Error Accepting Technician: ${state.message}'),
+                content: Text('Error Accepting Technician'),
                 backgroundColor: colorScheme.error,
               ),
             );
@@ -124,13 +125,13 @@ class _AcceptTechnicianScreenContentState
           },
           builder: (context, state) {
             if (state is GetAssignedTechnicianLoadingState) {
-              return const CenterLoaderWithText(
-                text: 'Getting Technician info...',
+              return  CenterLoaderWithText(
+                text: S.of(context).gettingTechnicianInfo,
               );
             } else if (state is GetAssignedTechnicianFailureState) {
               return Center(
                 child: Text(
-                  'Failed to load technician information',
+                  S.of(context).failedToLoadTechnicianInformation,
                   style: textTheme.bodyLarge?.copyWith(
                     color: colorScheme.error,
                   ),
@@ -152,7 +153,7 @@ class _AcceptTechnicianScreenContentState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Technician Details',
+                              S.of(context).technicianDetails,
                               style: textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: colorScheme.onSurface,
@@ -160,24 +161,24 @@ class _AcceptTechnicianScreenContentState
                             ),
                             const SizedBox(height: 16),
                             _buildDetailRow(
-                              'Technician Name:',
+                              S.of(context).technicianName,
                               tech.technicianName ?? 'N/A',
                             ),
                             _buildDetailRow(
-                              'Schedule Date:',
+                              S.of(context).scheduleDate,
                               tech.scheduleDate ?? "",
                             ),
                             _buildDetailRow(
-                              'Schedule Time:',
+                              S.of(context).scheduleTime,
                               _formatTimeString(tech.scheduleTime),
                             ),
                             PhoneUtils.buildEmailRow(
-                              'Email:',
+                              S.of(context).email_1,
                               tech.emailAddress ?? 'N/A',
                               context,
                             ),
                             PhoneUtils.buildPhoneRow(
-                              'Phone:',
+                              S.of(context).phone_1,
                               tech.contactNumber ?? 'N/A',
                               context,
                             ),
@@ -187,7 +188,7 @@ class _AcceptTechnicianScreenContentState
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Comment',
+                      S.of(context).comment,
                       style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onBackground,
@@ -204,7 +205,7 @@ class _AcceptTechnicianScreenContentState
                             TextField(
                               controller: _commentController,
                               decoration: InputDecoration(
-                                labelText: 'Write Comment or Instructions',
+                                labelText: S.of(context).writeCommentOrInstructions,
                                 labelStyle: TextStyle(
                                   color: colorScheme.onSurfaceVariant,
                                 ),
@@ -294,7 +295,7 @@ class _AcceptTechnicianScreenContentState
 
                                                     if (_commentController.text.trim().isEmpty) {
                                                       ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(content: Text('Comment is Required')),
+                                                         SnackBar(content: Text(S.of(context).commentIsRequired)),
                                                       );
                                                       return;
                                                     }
@@ -348,7 +349,7 @@ class _AcceptTechnicianScreenContentState
                                                       ),
                                                 )
                                                 : Text(
-                                                  'Accept Technician',
+                                              S.of(context).acceptTechnician,
                                                   style: textTheme.labelLarge?.copyWith(
                                                     fontWeight: FontWeight.w500,
                                                     color: colorScheme.onPrimary,

@@ -257,6 +257,18 @@ class SEn extends S {
   String get forgotPassword => 'Forgot Password?';
 
   @override
+  String get resubmitComplaint => 'Resubmit Complaint';
+
+  @override
+  String get mentionMissingOrUnclear => 'Mention what was missing or unclear in your last complaint';
+
+  @override
+  String get originalComment => 'Original Comment:';
+
+  @override
+  String get resubmissionFailed => 'Resubmission failed';
+
+  @override
   String get gallery => 'Gallery';
 
   @override

@@ -8,6 +8,7 @@ import '../../data/model/complain/complain_req_params/recomplain_post_req.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../create_complain/bloc/complain_state.dart';
 
 
@@ -54,7 +55,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Please provide your feedback'),
+          content: Text(S.of(context).pleaseProvideYourFeedback),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -108,7 +109,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
           title: Text(
-            'Resubmit Complaint',
+            S.of(context).resubmitComplaint,
             style: textTheme.titleLarge?.copyWith(
               color: colorScheme.onPrimary,
             ),
@@ -121,7 +122,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
             child: ListView(
               children: [
                 Text(
-                  'Segment:',
+                  S.of(context).segment,
                   style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: colorScheme.onSurface,
@@ -136,7 +137,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Original Comment:',
+                  S.of(context).originalComment,
                   style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: colorScheme.onSurface,
@@ -155,10 +156,11 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
 
                 const SizedBox(height: 24),
                 MultilineTextField(
-                  label: "Your Feedback",
+                  label: S.of(context).yourFeedback,
                   controller: _feedbackController,
-                  validator: (value) => value?.isEmpty ?? true ? "Feedback is required" : null,
-                  helperText: 'Mention what was missing or unclear in your last complaint',
+                  validator: (value) => value?.isEmpty ?? true ? S.of(context).feedbackIsRequired : null,
+                  helperText:  S.of(context).mentionMissingOrUnclear,
+                  hintText: S.of(context).enterTextHere,
                 ),
                 const SizedBox(height: 24),
                 ImagePickerWidget(
@@ -174,7 +176,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                     if (state is ComplainSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Resubmitted successfully'),
+                          content: Text(S.of(context).complaintResubmitted),
                           backgroundColor: colorScheme.tertiary, // Use tertiary for success
                         ),
                       );
@@ -182,7 +184,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                     } else if (state is ComplainError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Resubmission failed: ${state.message}'),
+                          content: Text( S.of(context).resubmissionFailed),
                           backgroundColor: colorScheme.error,
                         ),
                       );
@@ -192,7 +194,7 @@ class _ResubmitFormScreenState extends State<ResubmitFormScreen> {
                     return SubmitButton(
                       onPressed: () => _handleSubmit(context),
                       isLoading: state is ComplainLoading,
-                      buttonText: "SUBMIT FEEDBACK",
+                      buttonText: S.of(context).submitFeedback,
                     );
                   },
                 ),

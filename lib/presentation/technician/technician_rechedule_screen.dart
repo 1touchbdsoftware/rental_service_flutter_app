@@ -10,6 +10,7 @@ import '../../data/model/technician/technician_get_params.dart';
 
 import '../../data/model/user/user_info_model.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../widgets/center_loader.dart';
 import 'bloc/reschedule_technician_cubit.dart';
@@ -119,7 +120,7 @@ class _AssignedTechnicianScreenContentState
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
         title: Text(
-          'Reschedule Technician',
+          S.of(context).rescheduleRequest,
           style: textTheme.titleLarge?.copyWith(
             color: colorScheme.onPrimary,
           ),
@@ -130,7 +131,7 @@ class _AssignedTechnicianScreenContentState
           if (state is TechnicianPostSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Technician rescheduled successfully'),
+                content: Text(S.of(context).technicianRescheduledSuccessfully),
                 backgroundColor: colorScheme.primary,
               ),
             );
@@ -139,7 +140,7 @@ class _AssignedTechnicianScreenContentState
           } else if (state is TechnicianPostError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Error Rescheduling Technician: ${state.message}'),
+                content: Text('Error Rescheduling Technician'),
                 backgroundColor: colorScheme.error,
               ),
             );
@@ -158,13 +159,13 @@ class _AssignedTechnicianScreenContentState
           },
           builder: (context, state) {
             if (state is GetAssignedTechnicianLoadingState) {
-              return const CenterLoaderWithText(
-                text: 'Getting Technician Info...',
+              return  CenterLoaderWithText(
+                text: S.of(context).gettingTechnicianInfo,
               );
             } else if (state is GetAssignedTechnicianFailureState) {
               return Center(
                 child: Text(
-                  'Failed to load technician information',
+                  S.of(context).failedToLoadTechnicianInformation,
                   style: textTheme.bodyLarge?.copyWith(
                     color: colorScheme.error,
                   ),
@@ -185,30 +186,29 @@ class _AssignedTechnicianScreenContentState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Technician Details',
+                              S.of(context).technicianDetails,
                               style: textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: colorScheme.onSurface,
                               ),
                             ),
                             const SizedBox(height: 16),
-                            _buildDetailRow('Technician Name:', tech.technicianName ?? 'N/A'),
-                            _buildDetailRow('Type:', tech.technicianCategoryName ?? 'N/A'),
+                            _buildDetailRow(  S.of(context).technicianName, tech.technicianName ?? 'N/A'),
                             _buildDetailRow(
-                                'Schedule Date:',tech.scheduleDate ?? ""),
+                                S.of(context).scheduleDate,tech.scheduleDate ?? ""),
                             _buildDetailRow(
-                                'Schedule Time:',
+                                S.of(context).scheduleTime,
                                 _formatTimeString(tech.scheduleTime)
                             ),
-                            PhoneUtils.buildEmailRow('Email:', tech.emailAddress?? 'N/A', context),
-                            PhoneUtils.buildPhoneRow('Phone:', tech.contactNumber ?? '', context),
+                            PhoneUtils.buildEmailRow(S.of(context).email_1, tech.emailAddress?? 'N/A', context),
+                            PhoneUtils.buildPhoneRow(S.of(context).phone_1, tech.contactNumber ?? '', context),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Reschedule Request',
+                      S.of(context).rescheduleRequest,
                       style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onBackground,
@@ -228,7 +228,7 @@ class _AssignedTechnicianScreenContentState
                             TextField(
                               controller: _commentController,
                               decoration: InputDecoration(
-                                labelText: 'Comment',
+                                labelText:S.of(context).comment,
                                 labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -277,7 +277,7 @@ class _AssignedTechnicianScreenContentState
                                     ),
                                   )
                                       : Text(
-                                    'Submit Reschedule Request',
+                                    S.of(context).submitRescheduleRequest,
                                     style: textTheme.labelLarge?.copyWith(
                                       fontWeight: FontWeight.w500,
                                       color: colorScheme.onPrimary,
@@ -342,7 +342,7 @@ class _AssignedTechnicianScreenContentState
       onTap: () => _selectDate(context),
       child: InputDecorator(
         decoration: InputDecoration(
-          labelText: 'Reschedule Date',
+          labelText: S.of(context).rescheduleDate,
           labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -376,7 +376,7 @@ class _AssignedTechnicianScreenContentState
       onTap: () => _selectTime(context),
       child: InputDecorator(
         decoration: InputDecoration(
-          labelText: 'Reschedule Time',
+          labelText: S.of(context).rescheduleTime,
           labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -415,7 +415,7 @@ class _AssignedTechnicianScreenContentState
 
     if (_commentController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Comment is Required')),
+         SnackBar(content: Text(S.of(context).commentIsRequired)),
       );
       return;
     }
@@ -487,22 +487,6 @@ class _AssignedTechnicianScreenContentState
       formattedScheduleTime: originalFormattedTime,
     );
 
-    // Debug prints for parameter validation
-    print('========== RESCHEDULE PARAMS DEBUG ==========');
-    print('technicianID: ${params.technicianID}');
-    print('technicianCategoryID: ${params.technicianCategoryID}');
-    print('technicianAssignID: ${params.technicianAssignID}');
-    print('tenantID: ${params.tenantID}');
-    print('complainID: ${params.complainID}');
-    print('agencyID: ${params.agencyID}');
-    print('currentComments: ${params.currentComments}');
-    print('rescheduleDate: ${params.rescheduleDate}');
-    print('rescheduleTime: ${params.rescheduleTime}');
-    print('formattedRescheduleTime: ${params.formattedRescheduleTime}');
-    print('scheduleDate: ${params.scheduleDate}');
-    print('scheduleTime: ${params.scheduleTime}');
-    print('formattedScheduleTime: ${params.formattedScheduleTime}');
-    print('============================================');
 
     // Call the cubit to reschedule
     context.read<RescheduleTechnicianCubit>().rescheduleTechnician(params: params);

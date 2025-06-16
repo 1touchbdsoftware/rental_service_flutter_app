@@ -589,6 +589,30 @@ abstract class S {
   /// **'Forgot Password?'**
   String get forgotPassword;
 
+  /// Localized string for resubmitting a complaint
+  ///
+  /// In en, this message translates to:
+  /// **'Resubmit Complaint'**
+  String get resubmitComplaint;
+
+  /// Localized string for mentioning missing or unclear details in a previous complaint
+  ///
+  /// In en, this message translates to:
+  /// **'Mention what was missing or unclear in your last complaint'**
+  String get mentionMissingOrUnclear;
+
+  /// Localized string for original comment label
+  ///
+  /// In en, this message translates to:
+  /// **'Original Comment:'**
+  String get originalComment;
+
+  /// Localized string for resubmission failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Resubmission failed'**
+  String get resubmissionFailed;
+
   /// Localized string
   ///
   /// In en, this message translates to:

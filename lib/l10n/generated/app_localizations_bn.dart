@@ -257,6 +257,18 @@ class SBn extends S {
   String get forgotPassword => 'পাসওয়ার্ড ভুলে গেছেন?';
 
   @override
+  String get resubmitComplaint => 'অভিযোগ পুনরায় জমা দিন';
+
+  @override
+  String get mentionMissingOrUnclear => 'আপনার অভিযোগ যা অনুপস্থিত বা অস্বচ্ছ ছিল তা উল্লেখ করুন';
+
+  @override
+  String get originalComment => 'মূল মন্তব্য:';
+
+  @override
+  String get resubmissionFailed => 'পুনরায় জমা দেওয়া ব্যর্থ হয়েছে';
+
+  @override
   String get gallery => 'গ্যালারি';
 
   @override

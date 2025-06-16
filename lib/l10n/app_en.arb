@@ -355,6 +355,23 @@
     "description": "Localized string"
   },
 
+  "resubmitComplaint": "Resubmit Complaint",
+  "@resubmitComplaint": {
+    "description": "Localized string for resubmitting a complaint"
+  },
+
+  "mentionMissingOrUnclear": "Mention what was missing or unclear in your last complaint",
+  "@mentionMissingOrUnclear": {
+    "description": "Localized string for mentioning missing or unclear details in a previous complaint"
+  },
+  "originalComment": "Original Comment:",
+  "@originalComment": {
+    "description": "Localized string for original comment label"
+  },
+  "resubmissionFailed": "Resubmission failed",
+  "@resubmissionFailed": {
+    "description": "Localized string for resubmission failure message"
+  },
 
   "gallery": "Gallery",
   "@gallery": {
