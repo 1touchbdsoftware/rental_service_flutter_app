@@ -249,6 +249,32 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
     }
   }
 
+  String _getStatusText(String status) {
+    switch (status.toLowerCase()) {
+      case 'rejected':
+        return 'Rejected';
+      case 'resolved':
+        return 'Resolved';
+      case 'completed':
+      case 'solved':
+        return 'Completed';
+      case 'resubmitted':
+        return 'Resubmitted';
+      case 'sent to landlord':
+        return 'Sent to Landlord';
+      case 'accepted schedule':
+        return 'Accepted Schedule';
+      case 'technician assigned':
+        return 'Technician Assigned';
+      case 'rescheduled':
+        return 'Rescheduled';
+      case 'pending':
+      default:
+        return 'Pending';
+    }
+  }
+
+
   Widget _buildStatusIndicator(BuildContext context) {
     // Get theme colors
     final textTheme = Theme.of(context).textTheme;
@@ -267,7 +293,7 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
         ),
         const SizedBox(width: 4),
         Text(
-          widget.stateStatus,
+          _getStatusText(widget.stateStatus),
           style: textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: dotColor, // Make the text color match the dot color
