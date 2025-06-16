@@ -147,7 +147,7 @@ Widget buildAppDrawer(BuildContext context, String username,
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  'Account',
+                  S.of(context).account,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w600,
@@ -161,7 +161,7 @@ Widget buildAppDrawer(BuildContext context, String username,
                 context: context,
                 icon: Icons.person_rounded,
                 title: username,
-                subtitle: 'View Profile',
+                subtitle: S.of(context).viewProfile,
                 onTap: () {
                   // When navigating to the profile page
                   Navigator.push(

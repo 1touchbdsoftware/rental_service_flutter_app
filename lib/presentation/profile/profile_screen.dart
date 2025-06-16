@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
 
+import '../../l10n/generated/app_localizations.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(S.of(context).profile),
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
       ),
@@ -175,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(width: 8),
           Text(
-            userInfo.userType!.toUpperCase(),
+            isLandlord ? S.of(context).landlord : S.of(context).tenant,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: isLandlord
                   ? Theme.of(context).colorScheme.onSecondaryContainer
@@ -191,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildContactSection(BuildContext context, UserInfoModel userInfo) {
     return _buildSection(
       context,
-      title: 'Contact Information',
+      title: S.of(context).contactInformation,
       icon: Icons.contact_phone,
       children: [
         _buildInfoTile(
@@ -216,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (isLandlord) {
       return _buildSection(
         context,
-        title: 'Landlord Information',
+        title: S.of(context).landlordInformation,
         icon: Icons.business,
         children: [
           if (userInfo.landlordID != null && userInfo.landlordID!.isNotEmpty)
@@ -238,7 +239,7 @@ class _ProfilePageState extends State<ProfilePage> {
     } else {
       return _buildSection(
         context,
-        title: 'Tenant Information',
+        title: S.of(context).tenantInformation,
         icon: Icons.home,
         children: [
           if (userInfo.tenantID != null && userInfo.tenantID!.isNotEmpty)
@@ -277,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildAdditionalInfoSection(BuildContext context, UserInfoModel userInfo) {
     return _buildSection(
       context,
-      title: 'Additional Information',
+      title: S.of(context).additionalInformation,
       icon: Icons.info,
       children: [
         _buildInfoTile(

@@ -234,9 +234,9 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
 
             // Handle different complaint states
             if (complainsState is GetComplainsInitialState) {
-              return const CenterLoaderWithText(text: "Loading Complaints...");
+              return CenterLoaderWithText(text: S.of(context).loadingComplaints);
             } else if (complainsState is GetComplainsLoadingState) {
-              return const CenterLoaderWithText(text: "Loading Complaints...");
+              return CenterLoaderWithText(text: S.of(context).loadingComplaints);
             } else if (complainsState is GetComplainsFailureState) {
               return _buildErrorView(context, complainsState.errorMessage, colorScheme, userInfoState);
             } else if (complainsState is GetComplainsSuccessState) {
@@ -244,7 +244,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             }
 
             // Fallback
-            return const CenterLoaderWithText(text: "Loading Complaints...");
+            return CenterLoaderWithText(text: S.of(context).loadingComplaints);
           },
         );
       },
