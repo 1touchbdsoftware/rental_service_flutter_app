@@ -174,6 +174,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
         return Colors.green;
       case 'resubmitted':
         return Colors.orange;
+      case 'approved':
       case 'sent to landlord':
         return Colors.blue;
       case 'accepted schedule':
@@ -239,6 +240,7 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
         return Colors.green;
       case 'resubmitted':
         return Colors.orange;
+      case 'approved':
       case 'sent to landlord':
         return Colors.blue;
       case 'accepted schedule':
@@ -265,6 +267,8 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
         return S.of(context).resubmitted;
       case 'sent to landlord':
         return S.of(context).sentToLandlord;
+      case 'approved':
+        return S.of(context).approved;
       case 'accepted schedule':
         return S.of(context).acceptedSchedule;
       case 'technician assigned':
