@@ -546,18 +546,12 @@
       }
     }
   },
-  "loginSuccessfulFetchingUserType": "Login successful - fetching user type",
-  "@loginSuccessfulFetchingUserType": {
-    "description": "Localized string"
-  },
+
   "logout": "Logout",
   "@logout": {
     "description": "Localized string"
   },
-  "mailto": "mailto:",
-  "@mailto": {
-    "description": "Localized string"
-  },
+
 
   "maintenanceScheduled": "Maintenance Scheduled",
   "@maintenanceScheduled": {
@@ -779,10 +773,7 @@
   "@pleaseSelectASegment": {
     "description": "Localized string"
   },
-  "pleaseSelectASegment_1": "Please select a Segment",
-  "@pleaseSelectASegment_1": {
-    "description": "Localized string"
-  },
+
   "pleaseWriteAComment": "Please write a Comment",
   "@pleaseWriteAComment": {
     "description": "Localized string"
@@ -1067,20 +1058,6 @@
   },
 
 
-  "tel": "tel:",
-  "@tel": {
-    "description": "Localized string"
-  },
-  "telCleannumber": "tel:{cleanNumber}",
-  "@telCleannumber": {
-    "description": "Localized string with parameters: cleanNumber",
-    "placeholders": {
-      "cleanNumber": {
-        "type": "String",
-        "example": "cleanNumber"
-      }
-    }
-  },
   "tenant": "Tenant",
   "@tenant": {
     "description": "Localized string"
@@ -1198,10 +1175,6 @@
 
   "yourFeedback": "Your Feedback",
   "@yourFeedback": {
-    "description": "Localized string"
-  },
-  "yyyyMmDd": "yyyy-MM-dd",
-  "@yyyyMmDd": {
     "description": "Localized string"
   }
 }

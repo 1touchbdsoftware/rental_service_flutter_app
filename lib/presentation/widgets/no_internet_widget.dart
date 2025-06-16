@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/generated/app_localizations.dart';
+
 class NoInternetWidget extends StatelessWidget {
   final VoidCallback onRetry;
 
@@ -26,7 +28,7 @@ class NoInternetWidget extends StatelessWidget {
 
                 // Message
                 Text(
-                  'Pro Matrix Needs Internet Connection',
+                  S.of(context).proMatrixNeedsInternetConnection,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22,
@@ -37,7 +39,7 @@ class NoInternetWidget extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 Text(
-                  'Please check your connection and try again.',
+                  S.of(context).pleaseCheckYourConnectionAndTryAgain,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -50,7 +52,7 @@ class NoInternetWidget extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onRetry,
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Retry'),
+                  label:  Text(S.of(context).retry),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),

@@ -384,13 +384,7 @@ class SEn extends S {
   }
 
   @override
-  String get loginSuccessfulFetchingUserType => 'Login successful - fetching user type';
-
-  @override
   String get logout => 'Logout';
-
-  @override
-  String get mailto => 'mailto:';
 
   @override
   String get maintenanceScheduled => 'Maintenance Scheduled';
@@ -534,9 +528,6 @@ class SEn extends S {
 
   @override
   String get pleaseSelectASegment => 'Please select a segment';
-
-  @override
-  String get pleaseSelectASegment_1 => 'Please select a Segment';
 
   @override
   String get pleaseWriteAComment => 'Please write a Comment';
@@ -729,14 +720,6 @@ class SEn extends S {
   String get technicianRescheduledSuccessfully => 'Technician rescheduled successfully';
 
   @override
-  String get tel => 'tel:';
-
-  @override
-  String telCleannumber(String cleanNumber) {
-    return 'tel:$cleanNumber';
-  }
-
-  @override
   String get tenant => 'Tenant';
 
   @override
@@ -805,7 +788,4 @@ class SEn extends S {
 
   @override
   String get yourFeedback => 'Your Feedback';
-
-  @override
-  String get yyyyMmDd => 'yyyy-MM-dd';
 }

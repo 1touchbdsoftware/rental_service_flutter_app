@@ -5,8 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_bn.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_hi.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_tr.dart';
 
 // ignore_for_file: type=lint
@@ -92,8 +95,11 @@ abstract class S {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
     Locale('bn'),
     Locale('en'),
+    Locale('hi'),
+    Locale('ru'),
     Locale('tr')
   ];
 
@@ -838,20 +844,8 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'Login successful - fetching user type'**
-  String get loginSuccessfulFetchingUserType;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Logout'**
   String get logout;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'mailto:'**
-  String get mailto;
 
   /// Localized string
   ///
@@ -1110,12 +1104,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Please select a segment'**
   String get pleaseSelectASegment;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'Please select a Segment'**
-  String get pleaseSelectASegment_1;
 
   /// Localized string
   ///
@@ -1492,18 +1480,6 @@ abstract class S {
   /// Localized string
   ///
   /// In en, this message translates to:
-  /// **'tel:'**
-  String get tel;
-
-  /// Localized string with parameters: cleanNumber
-  ///
-  /// In en, this message translates to:
-  /// **'tel:{cleanNumber}'**
-  String telCleannumber(String cleanNumber);
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
   /// **'Tenant'**
   String get tenant;
 
@@ -1632,12 +1608,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Your Feedback'**
   String get yourFeedback;
-
-  /// Localized string
-  ///
-  /// In en, this message translates to:
-  /// **'yyyy-MM-dd'**
-  String get yyyyMmDd;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
@@ -1649,7 +1619,7 @@ class _SDelegate extends LocalizationsDelegate<S> {
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['bn', 'en', 'tr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'bn', 'en', 'hi', 'ru', 'tr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SDelegate old) => false;
@@ -1660,8 +1630,11 @@ S lookupS(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar': return SAr();
     case 'bn': return SBn();
     case 'en': return SEn();
+    case 'hi': return SHi();
+    case 'ru': return SRu();
     case 'tr': return STr();
   }
 
