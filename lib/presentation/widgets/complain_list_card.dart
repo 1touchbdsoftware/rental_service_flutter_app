@@ -112,7 +112,7 @@ class ComplainCard extends StatelessWidget {
                       foregroundColor: colorScheme.primary,
                     ),
                     child: Text(
-                      'Read More',
+                      S.of(context).readMore,
                       style: TextStyle(fontSize: 12, color: Colors.blue),
                     ),
                   ),

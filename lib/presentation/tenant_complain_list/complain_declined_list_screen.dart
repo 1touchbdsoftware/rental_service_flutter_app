@@ -9,6 +9,7 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
@@ -377,43 +378,15 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
 
   void _handleEdit(BuildContext context, ComplainEntity complaint) {
     // For declined complaints, editing might require special handling
-    // You can show a message or navigate to a resubmit form
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Edit Declined Complaint'),
-        content: const Text(
-          'This complaint has been declined. Would you like to resubmit it with modifications?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // Navigate to resubmit form or edit form
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Resubmit functionality coming soon'),
-                  backgroundColor: Colors.blue,
-                ),
-              );
-            },
-            child: const Text('Resubmit'),
-          ),
-        ],
-      ),
-    );
+
   }
 
   void _handleComments(BuildContext context, String? comment) {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Decline Reason',
-        bodyText: comment ?? 'No decline reason provided',
+        title: S.of(context).lastComment,
+        bodyText: comment ?? S.of(context).noComments,
       ),
     );
   }
@@ -422,8 +395,8 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Complaint Details',
-        bodyText: complainName ?? 'No details provided.',
+        title: S.of(context).complaintDetails,
+        bodyText: complainName ?? S.of(context).noDetailsProvided,
       ),
     );
   }

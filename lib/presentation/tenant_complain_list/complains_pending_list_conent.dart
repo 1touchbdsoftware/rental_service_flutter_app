@@ -493,8 +493,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title:  S.of(context).lastCommentDetails,
-        bodyText: comment ??  S.of(context).noCommentsYet,
+        title: S.of(context).lastComment,
+        bodyText: comment ?? S.of(context).noComments,
       ),
     );
   }
@@ -503,8 +503,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title:  S.of(context).complaintDetails,
-        bodyText: complainName ?? 'No details provided.',
+        title: S.of(context).complaintDetails,
+        bodyText: complainName ?? S.of(context).noDetailsProvided,
       ),
     );
   }

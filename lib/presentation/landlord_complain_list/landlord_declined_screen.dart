@@ -302,7 +302,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            const Text(
+             Text(
               S.of(context).loadingImages,
               style: TextStyle(fontSize: 16),
             ),
@@ -379,41 +379,15 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
 
   void _handleEdit(BuildContext context, ComplainEntity complaint) {
     // For declined complaints, show option to reconsider or provide additional details
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Declined Complaint Action'),
-        content: const Text(
-          'This complaint has been declined. What would you like to do?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Reconsider functionality coming soon'),
-                  backgroundColor: Colors.blue,
-                ),
-              );
-            },
-            child: const Text('Reconsider'),
-          ),
-        ],
-      ),
-    );
+
   }
 
   void _handleComments(BuildContext context, String? comment) {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Decline Reason',
-        bodyText: comment ?? 'No decline reason provided',
+        title: S.of(context).lastComment,
+        bodyText: comment ?? S.of(context).noComments,
       ),
     );
   }
@@ -422,41 +396,15 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Complaint Details',
-        bodyText: complainName ?? 'No details provided.',
+        title: S.of(context).complaintDetails,
+        bodyText: complainName ?? S.of(context).noDetailsProvided,
       ),
     );
   }
 
   void _handleReschedule(BuildContext context, ComplainEntity complaint) {
     // Declined complaints might be rescheduled if reconsidered
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Reschedule Declined Complaint'),
-        content: const Text(
-          'Do you want to reconsider this complaint and schedule it?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Reschedule functionality coming soon'),
-                  backgroundColor: Colors.orange,
-                ),
-              );
-            },
-            child: const Text('Reconsider & Schedule'),
-          ),
-        ],
-      ),
-    );
+
   }
 
   void _handleComplete(BuildContext context, ComplainEntity complaint) {
@@ -480,33 +428,6 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
   }
 
   void _handleAccept(BuildContext context, ComplainEntity complaint) {
-    // Option to reconsider and accept the declined complaint
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Accept Declined Complaint'),
-        content: const Text(
-          'Do you want to reconsider and accept this complaint?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Accept functionality coming soon'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            },
-            child: const Text('Reconsider & Accept'),
-          ),
-        ],
-      ),
-    );
+
   }
 }

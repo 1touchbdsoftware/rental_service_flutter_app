@@ -11,6 +11,7 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
@@ -139,7 +140,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Solved Complaints',
+            S.of(context).solvedComplaints,
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),
@@ -174,9 +175,9 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
               }
 
               if (state is GetComplainsInitialState) {
-                return const CenterLoaderWithText(text: "Loading Solved Complaints...");
+                return CenterLoaderWithText(text: S.of(context).loadingSolvedComplaints);
               } else if (state is GetComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Solved Complaints...");
+                return CenterLoaderWithText(text: S.of(context).loadingSolvedComplaints);
               } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetComplainsSuccessState) {
@@ -184,7 +185,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
               }
 
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Solved Complaints...");
+              return CenterLoaderWithText(text: S.of(context).loadingSolvedComplaints);
             },
           ),
         ),
@@ -238,7 +239,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     if (complaints.isEmpty) {
       return Center(
         child: Text(
-          'No Solved Complaints to Show',
+          S.of(context).noSolvedComplaintsToShow,
           style: textTheme.bodyLarge?.copyWith(
             color: Colors.blue,
           ),
@@ -319,8 +320,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            const Text(
-              'Loading images...',
+            Text(
+              S.of(context).loadingImages,
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
@@ -409,8 +410,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Last Comment Details',
-        bodyText: comment ?? 'No Comments Yet',
+        title: S.of(context).lastComment,
+        bodyText: comment ?? S.of(context).noComments,
       ),
     );
   }
@@ -419,8 +420,8 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Complaint Details',
-        bodyText: complainName ?? 'No details provided.',
+        title: S.of(context).complaintDetails,
+        bodyText: complainName ?? S.of(context).noDetailsProvided,
       ),
     );
   }

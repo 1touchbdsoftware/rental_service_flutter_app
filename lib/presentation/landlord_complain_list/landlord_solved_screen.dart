@@ -128,7 +128,7 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Solved Complaints', // Changed title
+            S.of(context).solvedComplaints,
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),
@@ -391,8 +391,8 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Resolution Comments',
-        bodyText: comment ?? 'No resolution comments available',
+        title: S.of(context).lastComment,
+        bodyText: comment ?? S.of(context).noComments,
       ),
     );
   }
@@ -401,8 +401,8 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Complaint Details',
-        bodyText: complainName ?? 'No details provided.',
+        title: S.of(context).complaintDetails,
+        bodyText: complainName ?? S.of(context).noDetailsProvided,
       ),
     );
   }

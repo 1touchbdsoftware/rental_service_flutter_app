@@ -70,11 +70,12 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     // Check if landlordID exists before fetching
     if (userInfo.landlordID != null && userInfo.landlordID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      print("Fetching complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
+      // print("Fetching complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
       context.read<GetComplainsCubit>().fetchComplains(params: params);
-    } else {
-      print("LandlordID is null or empty, cannot fetch complaints");
     }
+    // else {
+    //   print("LandlordID is null or empty, cannot fetch complaints");
+    // }
   }
 
   GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
@@ -550,8 +551,8 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
     showDialog(
       context: context,
       builder: (context) => SimpleInfoDialog(
-        title: 'Last Comments',
-        bodyText: comment ?? 'No comments available',
+        title: S.of(context).lastComment,
+        bodyText: comment ?? S.of(context).noComments,
       ),
     );
   }
@@ -561,7 +562,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
       context: context,
       builder: (context) => SimpleInfoDialog(
         title: S.of(context).complaintDetails,
-        bodyText: complainName ?? 'No details provided.',
+        bodyText: complainName ?? S.of(context).noDetailsProvided,
       ),
     );
   }
