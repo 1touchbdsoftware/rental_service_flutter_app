@@ -254,26 +254,26 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
   String _getStatusText(String status) {
     switch (status.toLowerCase()) {
       case 'rejected':
-        return 'Rejected';
+        return S.of(context).rejected;
       case 'done':
-        return 'Completed';
+        return S.of(context).completed;
       case 'completed':
       case 'solved':
       case 'resolved':
-        return 'Resolved';
+        return S.of(context).resolved;
       case 'resubmitted':
-        return 'Resubmitted';
+        return S.of(context).resubmitted;
       case 'sent to landlord':
-        return 'Sent to Landlord';
+        return S.of(context).sentToLandlord;
       case 'accepted schedule':
-        return 'Accepted Schedule';
+        return S.of(context).acceptedSchedule;
       case 'technician assigned':
-        return 'Technician Assigned';
+        return S.of(context).technicianAssigned;
       case 'rescheduled':
-        return 'Rescheduled';
+        return S.of(context).rescheduled;
       case 'pending':
       default:
-        return 'Pending';
+        return S.of(context).pending;
     }
   }
 
