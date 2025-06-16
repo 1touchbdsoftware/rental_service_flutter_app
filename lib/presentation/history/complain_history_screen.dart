@@ -170,6 +170,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
       case 'completed':
       case 'solved':
       case 'resolved':
+      case 'done':
         return Colors.green;
       case 'resubmitted':
         return Colors.orange;
@@ -234,6 +235,7 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
       case 'completed':
       case 'solved':
       case 'resolved':
+      case 'done':
         return Colors.green;
       case 'resubmitted':
         return Colors.orange;
@@ -253,11 +255,12 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
     switch (status.toLowerCase()) {
       case 'rejected':
         return 'Rejected';
-      case 'resolved':
-        return 'Resolved';
+      case 'done':
+        return 'Completed';
       case 'completed':
       case 'solved':
-        return 'Completed';
+      case 'resolved':
+        return 'Resolved';
       case 'resubmitted':
         return 'Resubmitted';
       case 'sent to landlord':
