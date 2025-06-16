@@ -9,6 +9,7 @@ import '../../core/constants/app_colors.dart';
 import '../../data/model/complain/complain_req_params/get_complain_req_params.dart';
 import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
@@ -64,11 +65,12 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
     // Check if landlordID exists before fetching
     if (userInfo.landlordID != null && userInfo.landlordID!.isNotEmpty) {
       final params = _prepareComplainsParams(userInfo);
-      print("Fetching solved complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
+      // print("Fetching solved complaints with params: AgencyID: ${params.agencyID}, LandlordID: ${params.landlordID}, Flag: ${params.flag}");
       context.read<GetComplainsCubit>().fetchComplains(params: params);
-    } else {
-      print("LandlordID is null or empty, cannot fetch complaints");
     }
+    // else {
+    //   print("LandlordID is null or empty, cannot fetch complaints");
+    // }
   }
 
   GetComplainsParams _prepareComplainsParams(UserInfoModel userInfo) {
@@ -112,7 +114,7 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
                 current.landlordID!.isNotEmpty;
           },
           listener: (context, userInfo) {
-            print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
+            // print("User info loaded: LandlordID: ${userInfo.landlordID}, LandlordName: ${userInfo.landlordName}");
             setState(() {
               _landlordName = userInfo.landlordName ?? "Landlord";
               _userType = userInfo.userType ?? "";
@@ -161,9 +163,9 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
               }
 
               if (state is GetComplainsInitialState) {
-                return const CenterLoaderWithText(text: "Loading Solved Complaints...");
+                return CenterLoaderWithText(text: S.of(context).loadingSolvedComplaints);
               } else if (state is GetComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Solved Complaints...");
+                return CenterLoaderWithText(text: S.of(context).loadingSolvedComplaints);
               } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetComplainsSuccessState) {
@@ -171,7 +173,7 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
               }
 
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Solved Complaints...");
+              return CenterLoaderWithText(text: S.of(context).loadingSolvedComplaints);
             },
           ),
         ),
@@ -300,8 +302,8 @@ class _LandlordSolvedListContentState extends State<LandlordSolvedListContent> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            const Text(
-              'Loading images...',
+             Text(
+              S.of(context).loadingImages,
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),

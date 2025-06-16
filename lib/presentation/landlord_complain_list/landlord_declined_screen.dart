@@ -163,9 +163,9 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
               }
 
               if (state is GetComplainsInitialState) {
-                return const CenterLoaderWithText(text: "Loading Declined Complaints...");
+                return  CenterLoaderWithText(text:  S.of(context).loadingDeclinedComplaints);
               } else if (state is GetComplainsLoadingState) {
-                return const CenterLoaderWithText(text: "Loading Declined Complaints...");
+                return  CenterLoaderWithText(text: S.of(context).loadingDeclinedComplaints);
               } else if (state is GetComplainsFailureState) {
                 return _buildErrorView(context, state.errorMessage, colorScheme);
               } else if (state is GetComplainsSuccessState) {
@@ -173,7 +173,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
               }
 
               // Fallback for any unexpected state
-              return const CenterLoaderWithText(text: "Loading Declined Complaints...");
+              return  CenterLoaderWithText(text: S.of(context).loadingDeclinedComplaints);
             },
           ),
         ),
@@ -303,7 +303,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
             const Text(
-              'Loading images...',
+              S.of(context).loadingImages,
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
