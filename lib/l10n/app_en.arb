@@ -56,7 +56,7 @@
     "description": "Localized string"
   },
 
-  "agent": "agent",
+  "agency": "Agency",
   "@agent": {
     "description": "Localized string"
   },

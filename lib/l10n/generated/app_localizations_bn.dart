@@ -48,7 +48,7 @@ class SBn extends S {
   String get agencyId => 'এজেন্সি আইডি';
 
   @override
-  String get agent => 'এজেন্ট';
+  String get agency => 'এজেন্ট';
 
   @override
   String get approvalFailed => 'অনুমোদন ব্যর্থ হয়েছে';

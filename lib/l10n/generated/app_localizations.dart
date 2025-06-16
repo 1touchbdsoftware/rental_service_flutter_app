@@ -175,11 +175,11 @@ abstract class S {
   /// **'Agency ID'**
   String get agencyId;
 
-  /// Localized string
+  /// No description provided for @agency.
   ///
   /// In en, this message translates to:
-  /// **'agent'**
-  String get agent;
+  /// **'Agency'**
+  String get agency;
 
   /// Localized string
   ///

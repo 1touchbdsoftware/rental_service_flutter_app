@@ -48,7 +48,7 @@ class SEn extends S {
   String get agencyId => 'Agency ID';
 
   @override
-  String get agent => 'agent';
+  String get agency => 'Agency';
 
   @override
   String get approvalFailed => 'Approval failed';

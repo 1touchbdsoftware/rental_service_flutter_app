@@ -48,7 +48,7 @@ class STr extends S {
   String get agencyId => 'Ajans Kimliği';
 
   @override
-  String get agent => 'Ajan';
+  String get agency => 'Ajan';
 
   @override
   String get approvalFailed => 'Onay başarısız oldu';

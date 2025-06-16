@@ -320,6 +320,22 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
     }
   }
 
+  String _getUpdaterName(String updater) {
+    switch (updater.toLowerCase()) {
+      case 'tenant':
+        return S.of(context).tenant;
+      case 'agency':
+        return S.of(context).agency;
+      case 'landlord':
+        return S.of(context).landlord;
+      case 'technician':
+        return 'Technician';
+      default:
+        return 'Unknown';
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -369,7 +385,7 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            "by ${widget.updatedBy}",
+                            "by ${_getUpdaterName(widget.updatedBy)}",
                             style: TextStyle(
                               color: Colors.grey.shade700,
                               fontStyle: FontStyle.italic,
