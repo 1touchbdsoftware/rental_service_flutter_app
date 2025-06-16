@@ -254,7 +254,8 @@ class ComplainCard extends StatelessWidget {
                   if (complaint.isAssignedTechnician! &&
                       !complaint.isSolved! &&
                       !complaint.isResubmitted! &&
-                      !complaint.isAccepted!)
+                      !complaint.isAccepted! &&
+                      userType == "TENANT")
                     Row(
                       children: [
                         ElevatedButton(
