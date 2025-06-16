@@ -47,9 +47,9 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
           child: BlocBuilder<GetHistoryCubit, GetHistoryState>(
             builder: (context, state) {
               if (state is GetHistoryInitialState) {
-                return const CenterLoaderWithText(text: "Preparing...");
+                return CenterLoaderWithText(text:S.of(context).holdOnGettingHistory);
               } else if (state is GetHistoryLoadingState) {
-                return const CenterLoaderWithText(text: "Hold on, Getting history...");
+                return CenterLoaderWithText(text: S.of(context).holdOnGettingHistory);
               } else if (state is GetHistoryFailureState) {
                 return Center(
                   child: Column(
@@ -106,10 +106,10 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
                       contentsBuilder: (context, index) {
                         final item = historyItems[index];
                         return HistoryTimelineCard(
-                          comments: item.comments ?? 'No comments',
-                          stateStatus: item.stateStatus ?? 'Unknown',
-                          updatedBy: item.updatedBy ?? 'Unknown',
-                          updatedDate: item.updatedDate ?? '',
+                          comments: item.comments,
+                          stateStatus: item.stateStatus,
+                          updatedBy: item.updatedBy,
+                          updatedDate: item.updatedDate
                         );
                       },
                       indicatorBuilder: (context, index) {
@@ -135,7 +135,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
               }
 
               // Fallback
-              return const CenterLoaderWithText(text: "Loading...");
+              return CenterLoaderWithText(text: S.of(context).loading);
             },
           ),
         ),
@@ -165,18 +165,23 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
 
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
-      case 'pending':
-      case 'complaint resubmitted':
-        return Colors.orange;
-      case 'completed':
-      case 'solved':
-        return Colors.green;
       case 'rejected':
         return Colors.red;
-      case 'in progress':
+      case 'completed':
+      case 'solved':
+      case 'resolved':
+        return Colors.green;
+      case 'resubmitted':
+        return Colors.orange;
+      case 'sent to landlord':
         return Colors.blue;
+      case 'accepted schedule':
+      case 'technician assigned':
+      case 'rescheduled':
+        return Colors.purple;
+      case 'pending':
       default:
-        return Colors.grey;
+        return Colors.orange;
     }
   }
 
