@@ -76,9 +76,8 @@ This **README** serves as a guide to help future developers understand the app's
 - Ensure that code is well-documented with comments where necessary.
 - Write unit tests for critical parts of the application, especially for business logic.
 - Avoid adding hardcoded values; use constants or configuration files where applicable.
-
-- For Better Commit messages, read this [Git Usage]([URL](https://mumin-ahmod.medium.com/git-conventions-the-developers-guide-to-writing-better-commits-and-workflows-840b5e3b830d))
-- Follow the web version when implementing new feature, [Promatrix web]([URL](http://application.promatrix.com.tr/))
+- For Better Commit messages, read this [Git Usage](https://mumin-ahmod.medium.com/git-conventions-the-developers-guide-to-writing-better-commits-and-workflows-840b5e3b830d)
+- Follow the web version when implementing new feature, [Promatrix web](http://application.promatrix.com.tr/)
 
 ### **Branching Strategy**
 - **Main branch:** The main branch is always production-ready and should reflect the latest stable version of the app.
