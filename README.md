@@ -129,18 +129,6 @@ This **README** serves as a guide to help future developers understand the app's
 
 ---
 
-## **License**
-
-This project is licensed under the **[Insert License Name]**.
-
----
-
-## **Contact Information**
-
-For any issues or inquiries, please reach out to the project lead or use the following contact information:  
-**[Insert Contact Information]**
-
----
 
 ## **Acknowledgments**
 
