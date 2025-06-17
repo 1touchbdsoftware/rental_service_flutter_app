@@ -236,8 +236,10 @@
   "resubmit": "পুনরায় জমা দিন",
   "resubmitFunctionalityComingSoon": "পুনরায় জমা দেওয়ার ফিচার শীঘ্রই আসছে",
   "resubmitted": "পুনঃজমা দেওয়া হয়েছে",
-
+  "image": "ছবি",
   "retry": "পুনরায় চেষ্টা করুন",
+  "resolvedAttempt": "{attempt} চেষ্টা এ সমাধান করা হয়েছে",
+  "resubmittedAttempt": "{attempt} চেষ্টা এ পুনরায় জমা দেওয়া হয়েছে",
 
   "scheduleDate": "নির্ধারণের তারিখ:",
   "scheduleTime": "নির্ধারণের সময়:",

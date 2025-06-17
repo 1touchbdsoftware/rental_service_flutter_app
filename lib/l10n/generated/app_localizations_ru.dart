@@ -456,6 +456,9 @@ class SRu extends S {
   String get notProvided => 'Не предоставлено';
 
   @override
+  String get image => 'image';
+
+  @override
   String numberNd(String number) {
     return '$numberй';
   }
@@ -615,6 +618,16 @@ class SRu extends S {
 
   @override
   String get resolved => 'Решено';
+
+  @override
+  String resolvedAttempt(String attempt) {
+    return 'Решено на $attempt-м попытке';
+  }
+
+  @override
+  String resubmittedAttempt(String attempt) {
+    return 'Повторно отправлено на $attempt-й попытке';
+  }
 
   @override
   String get resolvedList => 'Список решенных';

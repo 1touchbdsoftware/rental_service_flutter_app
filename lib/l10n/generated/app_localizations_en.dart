@@ -456,6 +456,9 @@ class SEn extends S {
   String get notProvided => 'Not provided';
 
   @override
+  String get image => 'image';
+
+  @override
   String numberNd(String number) {
     return '${number}nd';
   }
@@ -615,6 +618,16 @@ class SEn extends S {
 
   @override
   String get resolved => 'Resolved';
+
+  @override
+  String resolvedAttempt(String attempt) {
+    return 'Resolved at $attempt attempt.';
+  }
+
+  @override
+  String resubmittedAttempt(String attempt) {
+    return 'Resubmitted at $attempt attempt.';
+  }
 
   @override
   String get resolvedList => 'Resolved List';

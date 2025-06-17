@@ -456,6 +456,9 @@ class SBn extends S {
   String get notProvided => 'প্রদান করা হয়নি';
 
   @override
+  String get image => 'ছবি';
+
+  @override
   String numberNd(String number) {
     return '$numberয়';
   }
@@ -615,6 +618,16 @@ class SBn extends S {
 
   @override
   String get resolved => 'সমাধান হয়েছে';
+
+  @override
+  String resolvedAttempt(String attempt) {
+    return '$attempt চেষ্টা এ সমাধান করা হয়েছে';
+  }
+
+  @override
+  String resubmittedAttempt(String attempt) {
+    return '$attempt চেষ্টা এ পুনরায় জমা দেওয়া হয়েছে';
+  }
 
   @override
   String get resolvedList => 'সমাধান হওয়া তালিকা';

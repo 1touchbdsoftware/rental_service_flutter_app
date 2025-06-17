@@ -226,7 +226,7 @@
   "rescheduleRequest": "طلب إعادة الجدولة",
   "rescheduleTime": "وقت إعادة الجدولة",
   "rescheduled": "تم إعادة الجدولة",
-
+  "image": "image",
   "resolutionComments": "تعليقات الحل",
   "resolved": "تم الحل",
   "resolvedList": "قائمة الحلول",
@@ -234,6 +234,8 @@
   "resubmit": "إعادة تقديم",
   "resubmitFunctionalityComingSoon": "وظيفة إعادة التقديم قادمة قريبًا",
   "resubmitted": "تم إعادة التقديم",
+  "resolvedAttempt": "تم الحل في المحاولة {attempt}",
+  "resubmittedAttempt": "تم إعادة التقديم في المحاولة {attempt}",
 
   "retry": "إعادة المحاولة",
 

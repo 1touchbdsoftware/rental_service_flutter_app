@@ -117,6 +117,7 @@
   "initialImages": "प्रारंभिक चित्र",
   "invalidTime": "अवैध समय",
   "issueList": "समस्या सूची",
+  "image": "चित्र",
 
   "kitchenCabinetRepair": "रसोई कैबिनेट मरम्मत",
   "landlord": "भूमिकाधारी",
@@ -234,6 +235,8 @@
   "resubmit": "पुनः प्रस्तुत करें",
   "resubmitFunctionalityComingSoon": "पुनः प्रस्तुत करने की कार्यक्षमता जल्द ही आएगी",
   "resubmitted": "पुनः प्रस्तुत किया गया",
+  "resolvedAttempt": "{attempt} प्रयास पर हल किया गया",
+  "resubmittedAttempt": "{attempt} प्रयास पर पुनः सबमिट किया गया",
 
   "retry": "पुनः प्रयास करें",
 

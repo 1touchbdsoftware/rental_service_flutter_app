@@ -118,6 +118,8 @@
   "invalidTime": "Неверное время",
   "issueList": "Список проблем",
 
+  "image": "image",
+
   "kitchenCabinetRepair": "Ремонт кухонного шкафа",
   "landlord": "Арендодатель",
 
@@ -234,6 +236,8 @@
   "resubmit": "Повторно отправить",
   "resubmitFunctionalityComingSoon": "Функция повторного отправления скоро будет доступна",
   "resubmitted": "Повторно отправлено",
+  "resolvedAttempt": "Решено на {attempt}-м попытке",
+  "resubmittedAttempt": "Повторно отправлено на {attempt}-й попытке",
 
   "retry": "Повторить",
 

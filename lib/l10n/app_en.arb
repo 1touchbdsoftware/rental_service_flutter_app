@@ -649,6 +649,8 @@
     "description": "Localized string"
   },
 
+  "image": "image",
+
   "numberNd": "{number}nd",
   "@numberNd": {
     "description": "Localized string with parameters: number",
@@ -898,6 +900,27 @@
   "resolved": "Resolved",
   "@resolved": {
     "description": "Localized string"
+  },
+
+  "resolvedAttempt": "Resolved at {attempt} attempt.",
+  "@resolvedAttempt": {
+    "description": "Message showing the resolved attempt number.",
+    "placeholders": {
+      "attempt": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "resubmittedAttempt": "Resubmitted at {attempt} attempt.",
+  "@resubmittedAttempt": {
+    "description": "Message showing the resubmitted attempt number.",
+    "placeholders": {
+      "attempt": {
+        "type": "String",
+        "example": "2"
+      }
+    }
   },
 
   "resolvedList": "Resolved List",

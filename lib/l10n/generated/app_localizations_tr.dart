@@ -456,6 +456,9 @@ class STr extends S {
   String get notProvided => 'Sağlanmadı';
 
   @override
+  String get image => 'image';
+
+  @override
   String numberNd(String number) {
     return '${number}nc';
   }
@@ -615,6 +618,16 @@ class STr extends S {
 
   @override
   String get resolved => 'Çözüldü';
+
+  @override
+  String resolvedAttempt(String attempt) {
+    return '$attempt. denemede çözüldü';
+  }
+
+  @override
+  String resubmittedAttempt(String attempt) {
+    return '$attempt. denemede yeniden gönderildi';
+  }
 
   @override
   String get resolvedList => 'Çözülen Şikayetler Listesi';

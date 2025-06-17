@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../data/model/complain/complain_image_model.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 void showImageDialog(BuildContext context, List<ComplainImageModel> images) {
   int currentIndex = 0;
@@ -49,7 +50,7 @@ void showImageDialog(BuildContext context, List<ComplainImageModel> images) {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  _generateCaption(images[currentIndex].imageGroupKey!),
+                  _generateCaption(images[currentIndex].imageGroupKey!, context),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -68,7 +69,7 @@ void showImageDialog(BuildContext context, List<ComplainImageModel> images) {
                   scrollDirection: Axis.horizontal,
                   children: _buildGroupedThumbnails(images, currentIndex, (newIndex) {
                     setState(() => currentIndex = newIndex);
-                  }),
+                  }, context),
                 ),
               ),
               const SizedBox(height: 20),
@@ -80,43 +81,43 @@ void showImageDialog(BuildContext context, List<ComplainImageModel> images) {
   );
 }
 
-String _generateCaption(int imageGroupKey) {
+String _generateCaption(int imageGroupKey, BuildContext context) {
   if (imageGroupKey == 100) {
-    return 'Initial images';
+    return S.of(context).initialImages;
   } else if (imageGroupKey % 200 == 0 && imageGroupKey >= 200) {
     int attempt = imageGroupKey ~/ 200;
-    return 'Resolved at ${_getOrdinal(attempt)} attempt';
+    return S.of(context).resolvedAttempt(_getOrdinal(attempt, context));
   } else if ((imageGroupKey - 100) % 200 == 0 && imageGroupKey >= 300) {
     int attempt = (imageGroupKey - 100) ~/ 200;
-    return 'Resubmitted at ${_getOrdinal(attempt)} attempt';
+    return S.of(context).resubmittedAttempt(_getOrdinal(attempt, context));
   } else {
-    return 'Unknown';
+    return S.of(context).image;
   }
 }
 
-String _getOrdinal(int number) {
+String _getOrdinal(int number, BuildContext context) {
   if (number >= 11 && number <= 13) {
     return '${number}th';
   }
 
   switch (number % 10) {
     case 1:
-      return '${number}st';
+      return S.of(context).numberSt(number.toString());
     case 2:
-      return '${number}nd';
+      return S.of(context).numberNd(number.toString());
     case 3:
-      return '${number}rd';
+      return S.of(context).numberRd(number.toString());
     default:
-      return '${number}th';
+      return S.of(context).numberTh(number.toString());
   }
 }
 
-List<Widget> _buildGroupedThumbnails(List<ComplainImageModel> images, int currentIndex, Function(int) onTap) {
+List<Widget> _buildGroupedThumbnails(List<ComplainImageModel> images, int currentIndex, Function(int) onTap, BuildContext context) {
   // Group images by caption
   Map<String, List<int>> groupedIndexes = {};
 
   for (int i = 0; i < images.length; i++) {
-    String caption = _generateCaption(images[i].imageGroupKey!);
+    String caption = _generateCaption(images[i].imageGroupKey!, context);
     if (!groupedIndexes.containsKey(caption)) {
       groupedIndexes[caption] = [];
     }

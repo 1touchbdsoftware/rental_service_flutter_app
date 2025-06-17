@@ -985,6 +985,12 @@ abstract class S {
   /// **'Not provided'**
   String get notProvided;
 
+  /// No description provided for @image.
+  ///
+  /// In en, this message translates to:
+  /// **'image'**
+  String get image;
+
   /// Localized string with parameters: number
   ///
   /// In en, this message translates to:
@@ -1278,6 +1284,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Resolved'**
   String get resolved;
+
+  /// Message showing the resolved attempt number.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved at {attempt} attempt.'**
+  String resolvedAttempt(String attempt);
+
+  /// Message showing the resubmitted attempt number.
+  ///
+  /// In en, this message translates to:
+  /// **'Resubmitted at {attempt} attempt.'**
+  String resubmittedAttempt(String attempt);
 
   /// Localized string
   ///

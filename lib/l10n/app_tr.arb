@@ -121,6 +121,8 @@
   "kitchenCabinetRepair": "Mutfak dolabı tamiri",
   "landlord": "Ev sahibi",
 
+  "image": "image",
+
   "landlordDashboard_1": "Ev Sahibi Paneli",
   "landlordId": "Ev Sahibi ID",
   "landlordInformation": "Ev Sahibi Bilgisi",
@@ -235,6 +237,8 @@
   "resubmit": "Tekrar Gönder",
   "resubmitFunctionalityComingSoon": "Tekrar gönderme işlevi yakında geliyor",
   "resubmitted": "tekrar gönderildi",
+  "resolvedAttempt": "{attempt}. denemede çözüldü",
+  "resubmittedAttempt": "{attempt}. denemede yeniden gönderildi",
 
   "retry": "Tekrar Dene",
 

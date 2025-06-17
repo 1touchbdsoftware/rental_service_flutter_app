@@ -456,6 +456,9 @@ class SHi extends S {
   String get notProvided => 'प्रदान नहीं किया गया';
 
   @override
+  String get image => 'चित्र';
+
+  @override
   String numberNd(String number) {
     return '$numberवां';
   }
@@ -615,6 +618,16 @@ class SHi extends S {
 
   @override
   String get resolved => 'हल किया गया';
+
+  @override
+  String resolvedAttempt(String attempt) {
+    return '$attempt प्रयास पर हल किया गया';
+  }
+
+  @override
+  String resubmittedAttempt(String attempt) {
+    return '$attempt प्रयास पर पुनः सबमिट किया गया';
+  }
 
   @override
   String get resolvedList => 'हल की गई शिकायतें';

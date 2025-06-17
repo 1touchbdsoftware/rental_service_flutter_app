@@ -456,6 +456,9 @@ class SAr extends S {
   String get notProvided => 'لم يتم توفيره';
 
   @override
+  String get image => 'image';
+
+  @override
   String numberNd(String number) {
     return '$numberث';
   }
@@ -615,6 +618,16 @@ class SAr extends S {
 
   @override
   String get resolved => 'تم الحل';
+
+  @override
+  String resolvedAttempt(String attempt) {
+    return 'تم الحل في المحاولة $attempt';
+  }
+
+  @override
+  String resubmittedAttempt(String attempt) {
+    return 'تم إعادة التقديم في المحاولة $attempt';
+  }
 
   @override
   String get resolvedList => 'قائمة الحلول';
