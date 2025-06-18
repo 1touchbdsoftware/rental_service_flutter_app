@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -350,10 +352,12 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(),
+            Platform.isIOS ? CupertinoActivityIndicator(radius:15.0) : CircularProgressIndicator(
+            strokeWidth: 4.0,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.black,)),
             const SizedBox(height: 16),
-            const Text(
-              'Loading images...',
+            Text(
+              S.of(context).loadingImages,
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),

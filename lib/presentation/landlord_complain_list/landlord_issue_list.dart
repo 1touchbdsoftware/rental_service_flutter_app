@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../common/bloc/auth/auth_cubit.dart';
@@ -312,7 +314,9 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(),
+            Platform.isIOS ? CupertinoActivityIndicator(radius:15.0) : CircularProgressIndicator(
+                strokeWidth: 4.0,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.black,)),
             const SizedBox(height: 16),
              Text(
               S.of(context).loadingImages,
