@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -255,9 +256,9 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                  ),
+                  Platform.isIOS ? CupertinoActivityIndicator(radius:15.0) : CircularProgressIndicator(
+                      strokeWidth: 4.0,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black,)),
                   SizedBox(height: 16),
                   Text(
                     S.of(context).loadingImages,
