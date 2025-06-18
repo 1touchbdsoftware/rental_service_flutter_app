@@ -744,7 +744,7 @@ packages:
       path: "../string_extractor_helper"
       relative: true
     source: path
-    version: "1.0.3"
+    version: "1.0.4"
   string_scanner:
     dependency: transitive
     description:
