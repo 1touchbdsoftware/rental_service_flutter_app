@@ -25,7 +25,6 @@ import '../widgets/comment_and_accept_dialog.dart';
 import '../widgets/complain_list_card.dart';
 import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
-import '../widgets/image_with_caption.dart';
 import '../widgets/info_dialog.dart';
 import '../widgets/no_internet_widget.dart';
 import '../widgets/paging_controls.dart';
