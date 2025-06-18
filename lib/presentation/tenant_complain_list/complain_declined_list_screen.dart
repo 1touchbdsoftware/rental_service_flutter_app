@@ -123,7 +123,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Declined Complaints',
+            S.of(context).declinedComplaints,
             style: textTheme.titleLarge?.copyWith(
               color: Colors.black,
             ),
