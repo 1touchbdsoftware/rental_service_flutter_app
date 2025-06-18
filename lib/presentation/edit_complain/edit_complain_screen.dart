@@ -11,6 +11,7 @@ import '../../data/model/complain/complain_req_params/complain_edit_post.dart';
 import '../../data/model/segment/get_segment_params.dart';
 import '../../data/model/segment/segment_model.dart';
 import '../../data/model/user/user_info_model.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../service_locator.dart';
 import '../create_complain/bloc/complain_state.dart';
 
@@ -201,10 +202,10 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
     try {
       _selectedSegment ??= SegmentModel(id: widget.existingComplain.segmentID ?? '', text: '');
 
-      print('Editing complainID: ${widget.existingComplain.complainID}');
-      print('segmentID: ${_selectedSegment?.id}');
-      print('tenantID (updatedBy): ${userInfo.tenantID}');
-      print('Total images: ${_selectedImages.length}');
+      // print('Editing complainID: ${widget.existingComplain.complainID}');
+      // print('segmentID: ${_selectedSegment?.id}');
+      // print('tenantID (updatedBy): ${userInfo.tenantID}');
+      // print('Total images: ${_selectedImages.length}');
 
       final editParams = ComplainEditPostParams(
         complainID: widget.existingComplain.complainID,
@@ -250,7 +251,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white.withOpacity(0.2)),
             ),
-            child: const Center(
+            child:  Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -259,7 +260,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Loading existing images...',
+                    S.of(context).loadingImages,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -327,7 +328,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
       backgroundColor: AppColors.primary,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text('Edit Complaint'),
+        title: Text(S.of(context).updateComplaint),
       ),
       body: MultiBlocListener(
         listeners: [
@@ -359,8 +360,8 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
             listener: (context, state) {
               if (state is ComplainSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Complaint updated successfully'),
+                  SnackBar(
+                    content: Text(S.of(context).complaintSubmittedSuccessfully),
                     backgroundColor: Colors.green,
                   ),
                 );
@@ -368,7 +369,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
               } else if (state is ComplainError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Update failed: ${state.message}'),
+                    content: Text('Update failed}'),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -379,7 +380,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
         child: BlocBuilder<GetSegmentCubit, GetSegmentState>(
           builder: (context, segmentState) {
             if (segmentState is GetSegmentLoadingState) {
-              return const CenterLoaderWithText(text: "Hold on, bringing everything together...");
+              return CenterLoaderWithText(text: S.of(context).holdOnBringingEverythingTogether);
             }
 
             return Padding(
@@ -390,7 +391,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                   children: [
                     if (segmentState is GetSegmentSuccessState)
                       GenericDropdown<SegmentModel>(
-                        label: "Segment",
+                        label: S.of(context).segment,
                         selectedValue: _selectedSegment ??
                             segmentState.response.data.firstWhere(
                                   (segment) => segment.id == widget.existingComplain.segmentID,
@@ -400,16 +401,16 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                         getLabel: (segment) => segment.text ?? "Unnamed Segment",
                         onChanged: (value) => setState(() => _selectedSegment = value),
                         validator: (value) =>
-                        value == null ? "Please select a segment" : null,
-                        emptyListMessage: "No segments available",
+                        value == null ? S.of(context).pleaseSelectASegment : null,
+                        emptyListMessage: S.of(context).noSegmentsAvailable,
                       ),
                     const SizedBox(height: 24),
                     MultilineTextField(
-                      label: "Description",
+                      label: S.of(context).description,
                       controller: _commentController,
                       validator: (value) =>
-                      value?.isEmpty ?? true ? "Description is required" : null,
-                      helperText: 'Update the issue clearly',
+                      value?.isEmpty ?? true ? S.of(context).descriptionIsRequired: null,
+                      helperText: S.of(context).writeCommentOrInstructions,
                     ),
                     const SizedBox(height: 24),
                     _buildImageSection(),
@@ -419,7 +420,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                         return SubmitButton(
                           onPressed: () => _handleSubmit(context),
                           isLoading: state is ComplainLoading,
-                          buttonText: "UPDATE COMPLAINT",
+                          buttonText: S.of(context).updateComplaint,
                         );
                       },
                     ),

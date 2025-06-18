@@ -262,10 +262,7 @@ class _AssignedTechnicianScreenContentState
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: colorScheme.primary,
                                     foregroundColor: colorScheme.onPrimary,
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
+
                                   ),
                                   child: isSubmitting
                                       ? SizedBox(
