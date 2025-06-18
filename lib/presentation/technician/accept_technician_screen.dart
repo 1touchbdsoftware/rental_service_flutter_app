@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
@@ -341,13 +344,10 @@ class _AcceptTechnicianScreenContentState
                                                   height: 20,
                                                   width: 20,
                                                   child:
-                                                      CircularProgressIndicator(
-                                                        color:
-                                                            colorScheme
-                                                                .onPrimary,
-                                                        strokeWidth: 2,
-                                                      ),
-                                                )
+                                                  Platform.isIOS ? CupertinoActivityIndicator(radius:15.0) : CircularProgressIndicator(
+                                                      strokeWidth: 4.0,
+                                                      valueColor: AlwaysStoppedAnimation<Color>( colorScheme.onPrimary)),
+                                            )
                                                 : Text(
                                               S.of(context).acceptTechnician,
                                                   style: textTheme.labelLarge?.copyWith(

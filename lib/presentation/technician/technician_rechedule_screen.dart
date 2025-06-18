@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -268,10 +270,9 @@ class _AssignedTechnicianScreenContentState
                                       ? SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: CircularProgressIndicator(
-                                      color: colorScheme.onPrimary,
-                                      strokeWidth: 2,
-                                    ),
+                                    child:  Platform.isIOS ? CupertinoActivityIndicator(radius:15.0) : CircularProgressIndicator(
+                                        strokeWidth: 4.0,
+                                        valueColor: AlwaysStoppedAnimation<Color>( colorScheme.onPrimary)),
                                   )
                                       : Text(
                                     S.of(context).submitRescheduleRequest,
