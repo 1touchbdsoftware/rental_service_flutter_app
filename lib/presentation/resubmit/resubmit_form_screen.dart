@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rental_service/presentation/resubmit/recomplain_state_cubit.dart';
@@ -241,10 +242,9 @@ class SubmitButton extends StatelessWidget {
           ? SizedBox(
         height: 24,
         width: 24,
-        child: CircularProgressIndicator(
-          color: colorScheme.onPrimary,
-          strokeWidth: 2.0,
-        ),
+        child:  Platform.isIOS ? CupertinoActivityIndicator(radius:15.0) : CircularProgressIndicator(
+            strokeWidth: 4.0,
+            valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary,)),
       )
           : Text(
         buttonText,
