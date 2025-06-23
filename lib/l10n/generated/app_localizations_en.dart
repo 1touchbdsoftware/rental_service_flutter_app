@@ -18,7 +18,8 @@ class SEn extends S {
   String get acceptDeclinedComplaint => 'Accept Declined Complaint';
 
   @override
-  String get acceptFunctionalityComingSoon => 'Accept functionality coming soon';
+  String get acceptFunctionalityComingSoon =>
+      'Accept functionality coming soon';
 
   @override
   String get acceptTechnician => 'Accept Technician';
@@ -63,7 +64,8 @@ class SEn extends S {
   String get approved => 'Approved';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'Are you sure you want to log out of your account?';
+  String get areYouSureYouWantToLogOutOfYourAccount =>
+      'Are you sure you want to log out of your account?';
 
   @override
   String get assignedTechnician => 'Assigned Technician';
@@ -72,7 +74,8 @@ class SEn extends S {
   String get attachImages => 'Attach Images';
 
   @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'Be specific about the issue for faster resolution';
+  String get beSpecificAboutTheIssueForFasterResolution =>
+      'Be specific about the issue for faster resolution';
 
   @override
   String get camera => 'Camera';
@@ -84,19 +87,23 @@ class SEn extends S {
   String get cancel_1 => 'CANCEL';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'Cannot complete declined complaints. Please reconsider first.';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst =>
+      'Cannot complete declined complaints. Please reconsider first.';
 
   @override
   String get cannotEditSolvedComplaints => 'Cannot edit solved complaints';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'Cannot fetch complaints: tenantID is null or empty';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty =>
+      'Cannot fetch complaints: tenantID is null or empty';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'Cannot reschedule solved complaints';
+  String get cannotRescheduleSolvedComplaints =>
+      'Cannot reschedule solved complaints';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'Cannot resubmit solved complaints';
+  String get cannotResubmitSolvedComplaints =>
+      'Cannot resubmit solved complaints';
 
   @override
   String get chooseFromGallery => 'Choose from Gallery';
@@ -138,7 +145,8 @@ class SEn extends S {
   String get complaintHistory => 'Complaint History';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'Complaint is already accepted and solved';
+  String get complaintIsAlreadyAcceptedAndSolved =>
+      'Complaint is already accepted and solved';
 
   @override
   String get complaintIsAlreadyCompleted => 'Complaint is already completed';
@@ -153,7 +161,8 @@ class SEn extends S {
   String get complaintResubmitted => 'complaint resubmitted';
 
   @override
-  String get complaintSubmittedSuccessfully => 'Complaint submitted successfully';
+  String get complaintSubmittedSuccessfully =>
+      'Complaint submitted successfully';
 
   @override
   String get complaintsList => 'Complaints List';
@@ -162,7 +171,8 @@ class SEn extends S {
   String get complete => 'Complete';
 
   @override
-  String get completeFunctionalityComingSoon => 'Complete functionality coming soon';
+  String get completeFunctionalityComingSoon =>
+      'Complete functionality coming soon';
 
   @override
   String get completed => 'completed';
@@ -218,10 +228,12 @@ class SEn extends S {
   String get descriptionIsRequired => 'Description is required';
 
   @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'Do you want to reconsider and accept this complaint?';
+  String get doYouWantToReconsiderAndAcceptThisComplaint =>
+      'Do you want to reconsider and accept this complaint?';
 
   @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'Do you want to reconsider this complaint and schedule it?';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt =>
+      'Do you want to reconsider this complaint and schedule it?';
 
   @override
   String get edit => 'Edit';
@@ -230,7 +242,8 @@ class SEn extends S {
   String get editDeclinedComplaint => 'Edit Declined Complaint';
 
   @override
-  String get editFunctionalityForLandlordComingSoon => 'Edit functionality for landlord coming soon';
+  String get editFunctionalityForLandlordComingSoon =>
+      'Edit functionality for landlord coming soon';
 
   @override
   String get email => 'Email';
@@ -242,10 +255,12 @@ class SEn extends S {
   String get enterTextHere => 'Enter text here...';
 
   @override
-  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'Failed to determine user type. Please try logging in again.';
+  String get failedToDetermineUserTypePleaseTryLoggingInAgain =>
+      'Failed to determine user type. Please try logging in again.';
 
   @override
-  String get failedToLoadTechnicianInformation => 'Failed to load technician information';
+  String get failedToLoadTechnicianInformation =>
+      'Failed to load technician information';
 
   @override
   String get feedbackIsRequired => 'Feedback is required';
@@ -260,7 +275,8 @@ class SEn extends S {
   String get resubmitComplaint => 'Resubmit Complaint';
 
   @override
-  String get mentionMissingOrUnclear => 'Mention what was missing or unclear in your last complaint';
+  String get mentionMissingOrUnclear =>
+      'Mention what was missing or unclear in your last complaint';
 
   @override
   String get originalComment => 'Original Comment:';
@@ -281,7 +297,8 @@ class SEn extends S {
   String get history => 'History';
 
   @override
-  String get holdOnBringingEverythingTogether => 'Hold on, bringing everything together...';
+  String get holdOnBringingEverythingTogether =>
+      'Hold on, bringing everything together...';
 
   @override
   String get holdOnGettingHistory => 'Hold on, Getting history...';
@@ -334,7 +351,8 @@ class SEn extends S {
   String get landlord_1 => 'LANDLORD';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'LandlordID is null or empty, cannot fetch complaints';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints =>
+      'LandlordID is null or empty, cannot fetch complaints';
 
   @override
   String get language => 'Language';
@@ -399,7 +417,8 @@ class SEn extends S {
   String get name => 'name';
 
   @override
-  String get navigatingToLandlordDashboard => 'Navigating to Landlord Dashboard';
+  String get navigatingToLandlordDashboard =>
+      'Navigating to Landlord Dashboard';
 
   @override
   String get navigatingToTenantDashboard => 'Navigating to Tenant Dashboard';
@@ -441,7 +460,8 @@ class SEn extends S {
   String get noPendingComplaintsToShow => 'No Pending Complaints to Show';
 
   @override
-  String get noResolutionCommentsAvailable => 'No resolution comments available';
+  String get noResolutionCommentsAvailable =>
+      'No resolution comments available';
 
   @override
   String get noSegment => 'No Segment';
@@ -512,10 +532,12 @@ class SEn extends S {
   String get phone_1 => 'Phone:';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'Please check your connection and try again.';
+  String get pleaseCheckYourConnectionAndTryAgain =>
+      'Please check your connection and try again.';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'Please enter both username and password';
+  String get pleaseEnterBothUsernameAndPassword =>
+      'Please enter both username and password';
 
   @override
   String get pleaseEnterYourPassword => 'Please enter your password';
@@ -539,7 +561,8 @@ class SEn extends S {
   String get preparing => 'Preparing...';
 
   @override
-  String get proMatrixNeedsInternetConnection => 'Pro Matrix Needs Internet Connection';
+  String get proMatrixNeedsInternetConnection =>
+      'Pro Matrix Needs Internet Connection';
 
   @override
   String get problem => 'PROBLEM';
@@ -575,7 +598,8 @@ class SEn extends S {
   String get reconsiderAccept => 'Reconsider & Accept';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'Reconsider functionality coming soon';
+  String get reconsiderFunctionalityComingSoon =>
+      'Reconsider functionality coming soon';
 
   @override
   String get reconsiderSchedule => 'Reconsider & Schedule';
@@ -602,7 +626,8 @@ class SEn extends S {
   String get rescheduleDeclinedComplaint => 'Reschedule Declined Complaint';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'Reschedule functionality coming soon';
+  String get rescheduleFunctionalityComingSoon =>
+      'Reschedule functionality coming soon';
 
   @override
   String get rescheduleRequest => 'Reschedule Request';
@@ -639,7 +664,8 @@ class SEn extends S {
   String get resubmit => 'Resubmit';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'Resubmit functionality coming soon';
+  String get resubmitFunctionalityComingSoon =>
+      'Resubmit functionality coming soon';
 
   @override
   String get resubmitted => 'resubmitted';
@@ -712,7 +738,8 @@ class SEn extends S {
   String get technician => 'technician';
 
   @override
-  String get technicianAcceptedSuccessfully => 'Technician accepted successfully';
+  String get technicianAcceptedSuccessfully =>
+      'Technician accepted successfully';
 
   @override
   String get technicianAssigned => 'technician assigned';
@@ -721,7 +748,8 @@ class SEn extends S {
   String get technicianAssigned_1 => 'Technician Assigned';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'Technician data not available. Please try again.';
+  String get technicianDataNotAvailablePleaseTryAgain =>
+      'Technician data not available. Please try again.';
 
   @override
   String get technicianDetails => 'Technician Details';
@@ -730,7 +758,8 @@ class SEn extends S {
   String get technicianName => 'Technician Name:';
 
   @override
-  String get technicianRescheduledSuccessfully => 'Technician rescheduled successfully';
+  String get technicianRescheduledSuccessfully =>
+      'Technician rescheduled successfully';
 
   @override
   String get tenant => 'Tenant';
@@ -757,10 +786,13 @@ class SEn extends S {
   String get tenant_2 => 'tenant';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'This complaint has been declined. What would you like to do?';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo =>
+      'This complaint has been declined. What would you like to do?';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'This complaint has been declined. Would you like to resubmit it with modifications?';
+  String
+  get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications =>
+      'This complaint has been declined. Would you like to resubmit it with modifications?';
 
   @override
   String ticket(String num) {

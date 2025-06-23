@@ -18,7 +18,8 @@ class STr extends S {
   String get acceptDeclinedComplaint => 'Reddedilen Şikayeti Kabul Et';
 
   @override
-  String get acceptFunctionalityComingSoon => 'Kabul fonksiyonu yakında geliyor';
+  String get acceptFunctionalityComingSoon =>
+      'Kabul fonksiyonu yakında geliyor';
 
   @override
   String get acceptTechnician => 'Teknisyeni Kabul Et';
@@ -63,7 +64,8 @@ class STr extends S {
   String get approved => 'Onaylandı';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'Hesabınızdan çıkmak istediğinizden emin misiniz?';
+  String get areYouSureYouWantToLogOutOfYourAccount =>
+      'Hesabınızdan çıkmak istediğinizden emin misiniz?';
 
   @override
   String get assignedTechnician => 'Atanmış Teknisyen';
@@ -72,7 +74,8 @@ class STr extends S {
   String get attachImages => 'Görselleri Ekleyin';
 
   @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'Sorununuzu daha hızlı çözmek için net olun';
+  String get beSpecificAboutTheIssueForFasterResolution =>
+      'Sorununuzu daha hızlı çözmek için net olun';
 
   @override
   String get camera => 'Kamera';
@@ -84,19 +87,24 @@ class STr extends S {
   String get cancel_1 => 'İPTAL';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'Reddedilen şikayetler tamamlanamaz. Lütfen önce tekrar değerlendirin.';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst =>
+      'Reddedilen şikayetler tamamlanamaz. Lütfen önce tekrar değerlendirin.';
 
   @override
-  String get cannotEditSolvedComplaints => 'Çözülmüş şikayetleri düzenleyemezsiniz';
+  String get cannotEditSolvedComplaints =>
+      'Çözülmüş şikayetleri düzenleyemezsiniz';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'Şikayetler getirilemedi: tenantID boş veya geçersiz';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty =>
+      'Şikayetler getirilemedi: tenantID boş veya geçersiz';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'Çözülmüş şikayetler yeniden planlanamaz';
+  String get cannotRescheduleSolvedComplaints =>
+      'Çözülmüş şikayetler yeniden planlanamaz';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'Çözülmüş şikayetler tekrar gönderilemez';
+  String get cannotResubmitSolvedComplaints =>
+      'Çözülmüş şikayetler tekrar gönderilemez';
 
   @override
   String get chooseFromGallery => 'Galeriye Gözat';
@@ -138,13 +146,15 @@ class STr extends S {
   String get complaintHistory => 'Şikayet Geçmişi';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'Şikayet zaten kabul edilip çözüldü';
+  String get complaintIsAlreadyAcceptedAndSolved =>
+      'Şikayet zaten kabul edilip çözüldü';
 
   @override
   String get complaintIsAlreadyCompleted => 'Şikayet zaten tamamlandı';
 
   @override
-  String get complaintMarkedAsComplete => 'Şikayet tamamlanmış olarak işaretlendi';
+  String get complaintMarkedAsComplete =>
+      'Şikayet tamamlanmış olarak işaretlendi';
 
   @override
   String get complaintResolved => 'Şikayet Çözüldü';
@@ -162,7 +172,8 @@ class STr extends S {
   String get complete => 'Tamamla';
 
   @override
-  String get completeFunctionalityComingSoon => 'Tamamlanma işlevi yakında geliyor';
+  String get completeFunctionalityComingSoon =>
+      'Tamamlanma işlevi yakında geliyor';
 
   @override
   String get completed => 'tamamlandı';
@@ -218,10 +229,12 @@ class STr extends S {
   String get descriptionIsRequired => 'Açıklama zorunludur';
 
   @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'Bu şikayeti tekrar gözden geçirip kabul etmek ister misiniz?';
+  String get doYouWantToReconsiderAndAcceptThisComplaint =>
+      'Bu şikayeti tekrar gözden geçirip kabul etmek ister misiniz?';
 
   @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'Bu şikayeti tekrar gözden geçirip planlamak ister misiniz?';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt =>
+      'Bu şikayeti tekrar gözden geçirip planlamak ister misiniz?';
 
   @override
   String get edit => 'Düzenle';
@@ -230,7 +243,8 @@ class STr extends S {
   String get editDeclinedComplaint => 'Reddedilen Şikayeti Düzenle';
 
   @override
-  String get editFunctionalityForLandlordComingSoon => 'Ev sahibi için düzenleme işlevi yakında geliyor';
+  String get editFunctionalityForLandlordComingSoon =>
+      'Ev sahibi için düzenleme işlevi yakında geliyor';
 
   @override
   String get email => 'E-posta';
@@ -242,10 +256,12 @@ class STr extends S {
   String get enterTextHere => 'Buraya metin girin...';
 
   @override
-  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'Kullanıcı tipi belirlenemedi. Lütfen tekrar giriş yapmayı deneyin.';
+  String get failedToDetermineUserTypePleaseTryLoggingInAgain =>
+      'Kullanıcı tipi belirlenemedi. Lütfen tekrar giriş yapmayı deneyin.';
 
   @override
-  String get failedToLoadTechnicianInformation => 'Teknisyen bilgisi yüklenemedi';
+  String get failedToLoadTechnicianInformation =>
+      'Teknisyen bilgisi yüklenemedi';
 
   @override
   String get feedbackIsRequired => 'Geri bildirim gereklidir';
@@ -260,7 +276,8 @@ class STr extends S {
   String get resubmitComplaint => 'Şikayet Tekrar Gönder';
 
   @override
-  String get mentionMissingOrUnclear => 'Son şikayetinizde eksik veya belirsiz olanı belirtin';
+  String get mentionMissingOrUnclear =>
+      'Son şikayetinizde eksik veya belirsiz olanı belirtin';
 
   @override
   String get originalComment => 'Orijinal Yorum:';
@@ -281,7 +298,8 @@ class STr extends S {
   String get history => 'Geçmiş';
 
   @override
-  String get holdOnBringingEverythingTogether => 'Biraz bekleyin, her şeyi bir araya getiriyoruz...';
+  String get holdOnBringingEverythingTogether =>
+      'Biraz bekleyin, her şeyi bir araya getiriyoruz...';
 
   @override
   String get holdOnGettingHistory => 'Biraz bekleyin, geçmiş alınıyor...';
@@ -334,7 +352,8 @@ class STr extends S {
   String get landlord_1 => 'EV SAHİBİ';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'Ev Sahibi ID boş ya da geçersiz, şikayet getirilemiyor';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints =>
+      'Ev Sahibi ID boş ya da geçersiz, şikayet getirilemiyor';
 
   @override
   String get language => 'Dil';
@@ -399,10 +418,12 @@ class STr extends S {
   String get name => 'Ad';
 
   @override
-  String get navigatingToLandlordDashboard => 'Ev Sahibi Paneline yönlendiriliyorsunuz';
+  String get navigatingToLandlordDashboard =>
+      'Ev Sahibi Paneline yönlendiriliyorsunuz';
 
   @override
-  String get navigatingToTenantDashboard => 'Kiracı Paneline yönlendiriliyorsunuz';
+  String get navigatingToTenantDashboard =>
+      'Kiracı Paneline yönlendiriliyorsunuz';
 
   @override
   String get newComplaint => 'Yeni Şikayet';
@@ -426,7 +447,8 @@ class STr extends S {
   String get noDeclineReasonProvided => 'Reddetme nedeni sağlanmadı';
 
   @override
-  String get noDeclinedComplaintsToShow => 'Gösterilecek Reddedilen Şikayet Yok';
+  String get noDeclinedComplaintsToShow =>
+      'Gösterilecek Reddedilen Şikayet Yok';
 
   @override
   String get noDetailsProvided => 'Detay Sağlanmadı';
@@ -512,10 +534,12 @@ class STr extends S {
   String get phone_1 => 'Telefon:';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'Bağlantınızı kontrol edin ve tekrar deneyin';
+  String get pleaseCheckYourConnectionAndTryAgain =>
+      'Bağlantınızı kontrol edin ve tekrar deneyin';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'Lütfen hem kullanıcı adınızı hem de şifrenizi girin';
+  String get pleaseEnterBothUsernameAndPassword =>
+      'Lütfen hem kullanıcı adınızı hem de şifrenizi girin';
 
   @override
   String get pleaseEnterYourPassword => 'Lütfen şifrenizi girin';
@@ -524,7 +548,8 @@ class STr extends S {
   String get pleaseEnterYourUsername => 'Lütfen kullanıcı adınızı girin';
 
   @override
-  String get pleaseFillAllRequiredFields => 'Lütfen tüm gerekli alanları doldurun';
+  String get pleaseFillAllRequiredFields =>
+      'Lütfen tüm gerekli alanları doldurun';
 
   @override
   String get pleaseProvideYourFeedback => 'Lütfen geri bildiriminizi sağlayın';
@@ -539,7 +564,8 @@ class STr extends S {
   String get preparing => 'Hazırlanıyor...';
 
   @override
-  String get proMatrixNeedsInternetConnection => 'Pro Matrix İnternet Bağlantısı Gerektiriyor';
+  String get proMatrixNeedsInternetConnection =>
+      'Pro Matrix İnternet Bağlantısı Gerektiriyor';
 
   @override
   String get problem => 'PROBLEM';
@@ -575,7 +601,8 @@ class STr extends S {
   String get reconsiderAccept => 'Tekrar Değerlendir & Kabul Et';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'Tekrar değerlendirme işlevi yakında geliyor';
+  String get reconsiderFunctionalityComingSoon =>
+      'Tekrar değerlendirme işlevi yakında geliyor';
 
   @override
   String get reconsiderSchedule => 'Tekrar Değerlendir & Planla';
@@ -599,10 +626,12 @@ class STr extends S {
   String get rescheduleDate => 'Yeniden Planlama Tarihi';
 
   @override
-  String get rescheduleDeclinedComplaint => 'Reddedilen Şikayeti Yeniden Planla';
+  String get rescheduleDeclinedComplaint =>
+      'Reddedilen Şikayeti Yeniden Planla';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'Yeniden planlama işlevi yakında geliyor';
+  String get rescheduleFunctionalityComingSoon =>
+      'Yeniden planlama işlevi yakında geliyor';
 
   @override
   String get rescheduleRequest => 'Yeniden Planlama Talebi';
@@ -639,7 +668,8 @@ class STr extends S {
   String get resubmit => 'Tekrar Gönder';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'Tekrar gönderme işlevi yakında geliyor';
+  String get resubmitFunctionalityComingSoon =>
+      'Tekrar gönderme işlevi yakında geliyor';
 
   @override
   String get resubmitted => 'tekrar gönderildi';
@@ -712,7 +742,8 @@ class STr extends S {
   String get technician => 'Teknisyen';
 
   @override
-  String get technicianAcceptedSuccessfully => 'Teknisyen başarıyla kabul edildi';
+  String get technicianAcceptedSuccessfully =>
+      'Teknisyen başarıyla kabul edildi';
 
   @override
   String get technicianAssigned => 'Teknisyen atandı';
@@ -721,7 +752,8 @@ class STr extends S {
   String get technicianAssigned_1 => 'Teknisyen Atandı';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'Teknisyen verisi alınamadı. Lütfen tekrar deneyin.';
+  String get technicianDataNotAvailablePleaseTryAgain =>
+      'Teknisyen verisi alınamadı. Lütfen tekrar deneyin.';
 
   @override
   String get technicianDetails => 'Teknisyen Detayları';
@@ -730,7 +762,8 @@ class STr extends S {
   String get technicianName => 'Teknisyen Adı:';
 
   @override
-  String get technicianRescheduledSuccessfully => 'Teknisyen başarıyla yeniden planlandı';
+  String get technicianRescheduledSuccessfully =>
+      'Teknisyen başarıyla yeniden planlandı';
 
   @override
   String get tenant => 'Kiracı';
@@ -757,10 +790,13 @@ class STr extends S {
   String get tenant_2 => 'kiracı';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'Bu şikayet reddedildi. Ne yapmak istersiniz?';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo =>
+      'Bu şikayet reddedildi. Ne yapmak istersiniz?';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'Bu şikayet reddedildi. Onunla değişiklik yapıp tekrar göndermek ister misiniz?';
+  String
+  get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications =>
+      'Bu şikayet reddedildi. Onunla değişiklik yapıp tekrar göndermek ister misiniz?';
 
   @override
   String ticket(String num) {
@@ -774,7 +810,8 @@ class STr extends S {
   String get updateComplaint => 'ŞİKAYETİ GÜNCELLE';
 
   @override
-  String get userInfoNotLoadedTryAgain => 'Kullanıcı bilgisi yüklenemedi. Lütfen tekrar deneyin.';
+  String get userInfoNotLoadedTryAgain =>
+      'Kullanıcı bilgisi yüklenemedi. Lütfen tekrar deneyin.';
 
   @override
   String get username => 'Kullanıcı Adı';

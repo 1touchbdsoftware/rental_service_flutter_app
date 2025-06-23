@@ -18,7 +18,8 @@ class SHi extends S {
   String get acceptDeclinedComplaint => 'अस्वीकृत शिकायत स्वीकार करें';
 
   @override
-  String get acceptFunctionalityComingSoon => 'स्वीकारने की सुविधा जल्द ही आएगी';
+  String get acceptFunctionalityComingSoon =>
+      'स्वीकारने की सुविधा जल्द ही आएगी';
 
   @override
   String get acceptTechnician => 'प्रौद्योगिकी स्वीकार करें';
@@ -63,7 +64,8 @@ class SHi extends S {
   String get approved => 'स्वीकृत';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'क्या आप वाकई अपने खाते से बाहर निकलना चाहते हैं?';
+  String get areYouSureYouWantToLogOutOfYourAccount =>
+      'क्या आप वाकई अपने खाते से बाहर निकलना चाहते हैं?';
 
   @override
   String get assignedTechnician => 'निर्धारित तकनीशियन';
@@ -72,7 +74,8 @@ class SHi extends S {
   String get attachImages => 'चित्र जोड़ें';
 
   @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'त्वरित समाधान के लिए समस्या के बारे में विशिष्ट रहें';
+  String get beSpecificAboutTheIssueForFasterResolution =>
+      'त्वरित समाधान के लिए समस्या के बारे में विशिष्ट रहें';
 
   @override
   String get camera => 'कैमरा';
@@ -84,19 +87,24 @@ class SHi extends S {
   String get cancel_1 => 'रद्द करें';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'अस्वीकृत शिकायतों को पूरा नहीं किया जा सकता है। कृपया पहले पुनः विचार करें।';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst =>
+      'अस्वीकृत शिकायतों को पूरा नहीं किया जा सकता है। कृपया पहले पुनः विचार करें।';
 
   @override
-  String get cannotEditSolvedComplaints => 'हल की गई शिकायतों को संपादित नहीं किया जा सकता';
+  String get cannotEditSolvedComplaints =>
+      'हल की गई शिकायतों को संपादित नहीं किया जा सकता';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'शिकायतों को प्राप्त नहीं किया जा सकता: tenantID खाली या अवैध है';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty =>
+      'शिकायतों को प्राप्त नहीं किया जा सकता: tenantID खाली या अवैध है';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'हल की गई शिकायतों को पुनः निर्धारित नहीं किया जा सकता';
+  String get cannotRescheduleSolvedComplaints =>
+      'हल की गई शिकायतों को पुनः निर्धारित नहीं किया जा सकता';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'हल की गई शिकायतों को पुनः प्रस्तुत नहीं किया जा सकता';
+  String get cannotResubmitSolvedComplaints =>
+      'हल की गई शिकायतों को पुनः प्रस्तुत नहीं किया जा सकता';
 
   @override
   String get chooseFromGallery => 'गैलरी से चुनें';
@@ -120,7 +128,8 @@ class SHi extends S {
   String get commentText => 'टिप्पणी लिखें...';
 
   @override
-  String get complaintApprovedSuccessfully => 'शिकायत सफलतापूर्वक स्वीकृत की गई';
+  String get complaintApprovedSuccessfully =>
+      'शिकायत सफलतापूर्वक स्वीकृत की गई';
 
   @override
   String get complaintCreated => 'शिकायत बनाई गई';
@@ -129,7 +138,8 @@ class SHi extends S {
   String get complaintDeclined => 'शिकायत अस्वीकृत की गई';
 
   @override
-  String get complaintDeclinedSuccessfully => 'शिकायत अस्वीकृत सफलतापूर्वक की गई';
+  String get complaintDeclinedSuccessfully =>
+      'शिकायत अस्वीकृत सफलतापूर्वक की गई';
 
   @override
   String get complaintDetails => 'शिकायत विवरण';
@@ -138,13 +148,15 @@ class SHi extends S {
   String get complaintHistory => 'शिकायत इतिहास';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'शिकायत पहले ही स्वीकार और हल की जा चुकी है';
+  String get complaintIsAlreadyAcceptedAndSolved =>
+      'शिकायत पहले ही स्वीकार और हल की जा चुकी है';
 
   @override
   String get complaintIsAlreadyCompleted => 'शिकायत पहले ही पूरी हो चुकी है';
 
   @override
-  String get complaintMarkedAsComplete => 'शिकायत को पूर्ण के रूप में चिह्नित किया गया';
+  String get complaintMarkedAsComplete =>
+      'शिकायत को पूर्ण के रूप में चिह्नित किया गया';
 
   @override
   String get complaintResolved => 'शिकायत हल की गई';
@@ -153,7 +165,8 @@ class SHi extends S {
   String get complaintResubmitted => 'शिकायत पुनः प्रस्तुत की गई';
 
   @override
-  String get complaintSubmittedSuccessfully => 'शिकायत सफलतापूर्वक प्रस्तुत की गई';
+  String get complaintSubmittedSuccessfully =>
+      'शिकायत सफलतापूर्वक प्रस्तुत की गई';
 
   @override
   String get complaintsList => 'शिकायतों की सूची';
@@ -162,7 +175,8 @@ class SHi extends S {
   String get complete => 'पूर्ण';
 
   @override
-  String get completeFunctionalityComingSoon => 'पूर्ण कार्यक्षमता जल्द ही आएगी';
+  String get completeFunctionalityComingSoon =>
+      'पूर्ण कार्यक्षमता जल्द ही आएगी';
 
   @override
   String get completed => 'पूरा किया गया';
@@ -218,10 +232,12 @@ class SHi extends S {
   String get descriptionIsRequired => 'विवरण आवश्यक है';
 
   @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'क्या आप इस शिकायत को फिर से विचार करने और स्वीकार करने चाहते हैं?';
+  String get doYouWantToReconsiderAndAcceptThisComplaint =>
+      'क्या आप इस शिकायत को फिर से विचार करने और स्वीकार करने चाहते हैं?';
 
   @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'क्या आप इस शिकायत को फिर से विचार करने और इसे शेड्यूल करने चाहते हैं?';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt =>
+      'क्या आप इस शिकायत को फिर से विचार करने और इसे शेड्यूल करने चाहते हैं?';
 
   @override
   String get edit => 'संपादित करें';
@@ -230,7 +246,8 @@ class SHi extends S {
   String get editDeclinedComplaint => 'अस्वीकृत शिकायत संपादित करें';
 
   @override
-  String get editFunctionalityForLandlordComingSoon => 'भूमिकाधारी के लिए संपादन की कार्यक्षमता जल्द ही आएगी';
+  String get editFunctionalityForLandlordComingSoon =>
+      'भूमिकाधारी के लिए संपादन की कार्यक्षमता जल्द ही आएगी';
 
   @override
   String get email => 'ईमेल';
@@ -242,10 +259,12 @@ class SHi extends S {
   String get enterTextHere => 'यहां टेक्स्ट दर्ज करें...';
 
   @override
-  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'उपयोगकर्ता प्रकार का निर्धारण करने में विफल, कृपया पुनः लॉगिन करने का प्रयास करें';
+  String get failedToDetermineUserTypePleaseTryLoggingInAgain =>
+      'उपयोगकर्ता प्रकार का निर्धारण करने में विफल, कृपया पुनः लॉगिन करने का प्रयास करें';
 
   @override
-  String get failedToLoadTechnicianInformation => 'प्रोद्योगिक जानकारी लोड करने में विफल';
+  String get failedToLoadTechnicianInformation =>
+      'प्रोद्योगिक जानकारी लोड करने में विफल';
 
   @override
   String get feedbackIsRequired => 'प्रतिक्रिया आवश्यक है';
@@ -260,7 +279,8 @@ class SHi extends S {
   String get resubmitComplaint => 'शिकायत पुनः प्रस्तुत करें';
 
   @override
-  String get mentionMissingOrUnclear => 'आपकी पिछली शिकायत में जो कुछ भी गायब या अस्पष्ट था, उसका उल्लेख करें';
+  String get mentionMissingOrUnclear =>
+      'आपकी पिछली शिकायत में जो कुछ भी गायब या अस्पष्ट था, उसका उल्लेख करें';
 
   @override
   String get originalComment => 'मूल टिप्पणी:';
@@ -272,19 +292,23 @@ class SHi extends S {
   String get gallery => 'गैलरी';
 
   @override
-  String get gettingTechnicianInfo => 'प्रोद्योगिक जानकारी प्राप्त कर रहे हैं...';
+  String get gettingTechnicianInfo =>
+      'प्रोद्योगिक जानकारी प्राप्त कर रहे हैं...';
 
   @override
-  String get gettingTechnicianInfo_1 => 'प्रोद्योगिक जानकारी प्राप्त कर रहे हैं...';
+  String get gettingTechnicianInfo_1 =>
+      'प्रोद्योगिक जानकारी प्राप्त कर रहे हैं...';
 
   @override
   String get history => 'इतिहास';
 
   @override
-  String get holdOnBringingEverythingTogether => 'कृपया इंतजार करें, सभी जानकारी एकत्र कर रहे हैं...';
+  String get holdOnBringingEverythingTogether =>
+      'कृपया इंतजार करें, सभी जानकारी एकत्र कर रहे हैं...';
 
   @override
-  String get holdOnGettingHistory => 'कृपया इंतजार करें, इतिहास प्राप्त कर रहे हैं...';
+  String get holdOnGettingHistory =>
+      'कृपया इंतजार करें, इतिहास प्राप्त कर रहे हैं...';
 
   @override
   String get home => 'मुख्य पृष्ठ';
@@ -334,7 +358,8 @@ class SHi extends S {
   String get landlord_1 => 'भूमिकाधारी';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'भूमिकाधारी ID शून्य या खाली है, शिकायतें प्राप्त नहीं की जा सकतीं';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints =>
+      'भूमिकाधारी ID शून्य या खाली है, शिकायतें प्राप्त नहीं की जा सकतीं';
 
   @override
   String get language => 'भाषा';
@@ -399,10 +424,12 @@ class SHi extends S {
   String get name => 'नाम';
 
   @override
-  String get navigatingToLandlordDashboard => 'भूमिकाधारी डैशबोर्ड पर जा रहे हैं';
+  String get navigatingToLandlordDashboard =>
+      'भूमिकाधारी डैशबोर्ड पर जा रहे हैं';
 
   @override
-  String get navigatingToTenantDashboard => 'अधिकारियों के डैशबोर्ड पर जा रहे हैं';
+  String get navigatingToTenantDashboard =>
+      'अधिकारियों के डैशबोर्ड पर जा रहे हैं';
 
   @override
   String get newComplaint => 'नई शिकायत';
@@ -423,10 +450,12 @@ class SHi extends S {
   String get noComplaintsToShow => 'दिखाने के लिए कोई शिकायतें नहीं';
 
   @override
-  String get noDeclineReasonProvided => 'कोई अस्वीकृति कारण प्रदान नहीं किया गया';
+  String get noDeclineReasonProvided =>
+      'कोई अस्वीकृति कारण प्रदान नहीं किया गया';
 
   @override
-  String get noDeclinedComplaintsToShow => 'दिखाने के लिए कोई अस्वीकृत शिकायतें नहीं हैं';
+  String get noDeclinedComplaintsToShow =>
+      'दिखाने के लिए कोई अस्वीकृत शिकायतें नहीं हैं';
 
   @override
   String get noDetailsProvided => 'कोई विवरण प्रदान नहीं किया गया';
@@ -438,10 +467,12 @@ class SHi extends S {
   String get noOptionsAvailable => 'कोई विकल्प उपलब्ध नहीं';
 
   @override
-  String get noPendingComplaintsToShow => 'दिखाने के लिए कोई लंबित शिकायतें नहीं हैं';
+  String get noPendingComplaintsToShow =>
+      'दिखाने के लिए कोई लंबित शिकायतें नहीं हैं';
 
   @override
-  String get noResolutionCommentsAvailable => 'कोई समाधान टिप्पणियाँ उपलब्ध नहीं हैं';
+  String get noResolutionCommentsAvailable =>
+      'कोई समाधान टिप्पणियाँ उपलब्ध नहीं हैं';
 
   @override
   String get noSegment => 'कोई खंड नहीं';
@@ -450,7 +481,8 @@ class SHi extends S {
   String get noSegmentsAvailable => 'कोई खंड उपलब्ध नहीं है';
 
   @override
-  String get noSolvedComplaintsToShow => 'दिखाने के लिए कोई हल की गई शिकायतें नहीं हैं';
+  String get noSolvedComplaintsToShow =>
+      'दिखाने के लिए कोई हल की गई शिकायतें नहीं हैं';
 
   @override
   String get notProvided => 'प्रदान नहीं किया गया';
@@ -512,10 +544,12 @@ class SHi extends S {
   String get phone_1 => 'फोन:';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'कृपया अपने कनेक्शन की जांच करें और पुनः प्रयास करें';
+  String get pleaseCheckYourConnectionAndTryAgain =>
+      'कृपया अपने कनेक्शन की जांच करें और पुनः प्रयास करें';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'कृपया दोनों उपयोगकर्ता नाम और पासवर्ड दर्ज करें';
+  String get pleaseEnterBothUsernameAndPassword =>
+      'कृपया दोनों उपयोगकर्ता नाम और पासवर्ड दर्ज करें';
 
   @override
   String get pleaseEnterYourPassword => 'कृपया अपना पासवर्ड दर्ज करें';
@@ -539,7 +573,8 @@ class SHi extends S {
   String get preparing => 'तैयार हो रहा है...';
 
   @override
-  String get proMatrixNeedsInternetConnection => 'Pro Matrix को इंटरनेट कनेक्शन की आवश्यकता है';
+  String get proMatrixNeedsInternetConnection =>
+      'Pro Matrix को इंटरनेट कनेक्शन की आवश्यकता है';
 
   @override
   String get problem => 'समस्या';
@@ -575,7 +610,8 @@ class SHi extends S {
   String get reconsiderAccept => 'पुनः विचार करें और स्वीकार करें';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'पुनः विचारने की कार्यक्षमता जल्द ही आएगी';
+  String get reconsiderFunctionalityComingSoon =>
+      'पुनः विचारने की कार्यक्षमता जल्द ही आएगी';
 
   @override
   String get reconsiderSchedule => 'पुनः विचार करें और शेड्यूल करें';
@@ -599,10 +635,12 @@ class SHi extends S {
   String get rescheduleDate => 'पुनर्निर्धारण तिथि';
 
   @override
-  String get rescheduleDeclinedComplaint => 'अस्वीकृत शिकायत को पुनर्निर्धारित करें';
+  String get rescheduleDeclinedComplaint =>
+      'अस्वीकृत शिकायत को पुनर्निर्धारित करें';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'पुनर्निर्धारण की कार्यक्षमता जल्द ही आएगी';
+  String get rescheduleFunctionalityComingSoon =>
+      'पुनर्निर्धारण की कार्यक्षमता जल्द ही आएगी';
 
   @override
   String get rescheduleRequest => 'पुनर्निर्धारण अनुरोध';
@@ -639,7 +677,8 @@ class SHi extends S {
   String get resubmit => 'पुनः प्रस्तुत करें';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'पुनः प्रस्तुत करने की कार्यक्षमता जल्द ही आएगी';
+  String get resubmitFunctionalityComingSoon =>
+      'पुनः प्रस्तुत करने की कार्यक्षमता जल्द ही आएगी';
 
   @override
   String get resubmitted => 'पुनः प्रस्तुत किया गया';
@@ -712,7 +751,8 @@ class SHi extends S {
   String get technician => 'प्रौद्योगिक';
 
   @override
-  String get technicianAcceptedSuccessfully => 'प्रौद्योगिक को सफलतापूर्वक स्वीकार किया गया';
+  String get technicianAcceptedSuccessfully =>
+      'प्रौद्योगिक को सफलतापूर्वक स्वीकार किया गया';
 
   @override
   String get technicianAssigned => 'प्रौद्योगिक को असाइन किया गया';
@@ -721,7 +761,8 @@ class SHi extends S {
   String get technicianAssigned_1 => 'प्रौद्योगिक असाइन किया गया';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'प्रौद्योगिक डेटा उपलब्ध नहीं है। कृपया फिर से प्रयास करें';
+  String get technicianDataNotAvailablePleaseTryAgain =>
+      'प्रौद्योगिक डेटा उपलब्ध नहीं है। कृपया फिर से प्रयास करें';
 
   @override
   String get technicianDetails => 'प्रौद्योगिक विवरण';
@@ -730,7 +771,8 @@ class SHi extends S {
   String get technicianName => 'प्रौद्योगिक नाम:';
 
   @override
-  String get technicianRescheduledSuccessfully => 'प्रौद्योगिक पुनर्निर्धारित किया गया';
+  String get technicianRescheduledSuccessfully =>
+      'प्रौद्योगिक पुनर्निर्धारित किया गया';
 
   @override
   String get tenant => 'किरायेदार';
@@ -757,10 +799,13 @@ class SHi extends S {
   String get tenant_2 => 'किरायेदार';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'यह शिकायत अस्वीकृत हो गई है। आप क्या करना चाहेंगे?';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo =>
+      'यह शिकायत अस्वीकृत हो गई है। आप क्या करना चाहेंगे?';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'यह शिकायत अस्वीकृत हो गई है। क्या आप इसे संशोधनों के साथ पुनः प्रस्तुत करना चाहेंगे?';
+  String
+  get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications =>
+      'यह शिकायत अस्वीकृत हो गई है। क्या आप इसे संशोधनों के साथ पुनः प्रस्तुत करना चाहेंगे?';
 
   @override
   String ticket(String num) {
@@ -774,7 +819,8 @@ class SHi extends S {
   String get updateComplaint => 'अपडेट शिकायत';
 
   @override
-  String get userInfoNotLoadedTryAgain => 'उपयोगकर्ता जानकारी लोड नहीं हुई। कृपया फिर से प्रयास करें';
+  String get userInfoNotLoadedTryAgain =>
+      'उपयोगकर्ता जानकारी लोड नहीं हुई। कृपया फिर से प्रयास करें';
 
   @override
   String get username => 'उपयोगकर्ता नाम';

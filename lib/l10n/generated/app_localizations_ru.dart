@@ -18,7 +18,8 @@ class SRu extends S {
   String get acceptDeclinedComplaint => 'Принять отклоненную жалобу';
 
   @override
-  String get acceptFunctionalityComingSoon => 'Функция принятия скоро будет доступна';
+  String get acceptFunctionalityComingSoon =>
+      'Функция принятия скоро будет доступна';
 
   @override
   String get acceptTechnician => 'Принять техника';
@@ -63,7 +64,8 @@ class SRu extends S {
   String get approved => 'Одобрено';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'Вы уверены, что хотите выйти из своей учетной записи?';
+  String get areYouSureYouWantToLogOutOfYourAccount =>
+      'Вы уверены, что хотите выйти из своей учетной записи?';
 
   @override
   String get assignedTechnician => 'Назначенный техник';
@@ -72,7 +74,8 @@ class SRu extends S {
   String get attachImages => 'Прикрепить фотографии';
 
   @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'Будьте конкретными по поводу проблемы для более быстрого решения';
+  String get beSpecificAboutTheIssueForFasterResolution =>
+      'Будьте конкретными по поводу проблемы для более быстрого решения';
 
   @override
   String get camera => 'Камера';
@@ -84,19 +87,24 @@ class SRu extends S {
   String get cancel_1 => 'ОТМЕНИТЬ';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'Не удается завершить отклоненные жалобы. Пожалуйста, пересмотрите их сначала.';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst =>
+      'Не удается завершить отклоненные жалобы. Пожалуйста, пересмотрите их сначала.';
 
   @override
-  String get cannotEditSolvedComplaints => 'Невозможно редактировать решенные жалобы';
+  String get cannotEditSolvedComplaints =>
+      'Невозможно редактировать решенные жалобы';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'Невозможно получить жалобы: tenantID пустой или неверный';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty =>
+      'Невозможно получить жалобы: tenantID пустой или неверный';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'Невозможно переназначить решенные жалобы';
+  String get cannotRescheduleSolvedComplaints =>
+      'Невозможно переназначить решенные жалобы';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'Невозможно повторно отправить решенные жалобы';
+  String get cannotResubmitSolvedComplaints =>
+      'Невозможно повторно отправить решенные жалобы';
 
   @override
   String get chooseFromGallery => 'Выбрать из галереи';
@@ -138,7 +146,8 @@ class SRu extends S {
   String get complaintHistory => 'История жалобы';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'Жалоба уже принята и решена';
+  String get complaintIsAlreadyAcceptedAndSolved =>
+      'Жалоба уже принята и решена';
 
   @override
   String get complaintIsAlreadyCompleted => 'Жалоба уже завершена';
@@ -162,7 +171,8 @@ class SRu extends S {
   String get complete => 'Завершить';
 
   @override
-  String get completeFunctionalityComingSoon => 'Функция завершения скоро будет доступна';
+  String get completeFunctionalityComingSoon =>
+      'Функция завершения скоро будет доступна';
 
   @override
   String get completed => 'Завершено';
@@ -218,10 +228,12 @@ class SRu extends S {
   String get descriptionIsRequired => 'Описание обязательно';
 
   @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'Вы хотите пересмотреть и принять эту жалобу?';
+  String get doYouWantToReconsiderAndAcceptThisComplaint =>
+      'Вы хотите пересмотреть и принять эту жалобу?';
 
   @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'Вы хотите пересмотреть эту жалобу и запланировать её?';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt =>
+      'Вы хотите пересмотреть эту жалобу и запланировать её?';
 
   @override
   String get edit => 'Редактировать';
@@ -230,7 +242,8 @@ class SRu extends S {
   String get editDeclinedComplaint => 'Редактировать отклоненную жалобу';
 
   @override
-  String get editFunctionalityForLandlordComingSoon => 'Функция редактирования для арендодателя скоро будет доступна';
+  String get editFunctionalityForLandlordComingSoon =>
+      'Функция редактирования для арендодателя скоро будет доступна';
 
   @override
   String get email => 'Электронная почта';
@@ -242,10 +255,12 @@ class SRu extends S {
   String get enterTextHere => 'Введите текст здесь...';
 
   @override
-  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'Не удалось определить тип пользователя. Пожалуйста, попробуйте снова войти.';
+  String get failedToDetermineUserTypePleaseTryLoggingInAgain =>
+      'Не удалось определить тип пользователя. Пожалуйста, попробуйте снова войти.';
 
   @override
-  String get failedToLoadTechnicianInformation => 'Не удалось загрузить информацию о технике';
+  String get failedToLoadTechnicianInformation =>
+      'Не удалось загрузить информацию о технике';
 
   @override
   String get feedbackIsRequired => 'Обратная связь обязательна';
@@ -260,7 +275,8 @@ class SRu extends S {
   String get resubmitComplaint => 'Повторно отправить жалобу';
 
   @override
-  String get mentionMissingOrUnclear => 'Укажите, что было упущено или неясно в вашей последней жалобе';
+  String get mentionMissingOrUnclear =>
+      'Укажите, что было упущено или неясно в вашей последней жалобе';
 
   @override
   String get originalComment => 'Оригинальный комментарий:';
@@ -281,7 +297,8 @@ class SRu extends S {
   String get history => 'История';
 
   @override
-  String get holdOnBringingEverythingTogether => 'Подождите, мы собираем все...';
+  String get holdOnBringingEverythingTogether =>
+      'Подождите, мы собираем все...';
 
   @override
   String get holdOnGettingHistory => 'Подождите, мы получаем историю...';
@@ -334,7 +351,8 @@ class SRu extends S {
   String get landlord_1 => 'АРЕНДОДАТЕЛЬ';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'ID арендодателя пустой или неверный, невозможно получить жалобы';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints =>
+      'ID арендодателя пустой или неверный, невозможно получить жалобы';
 
   @override
   String get language => 'Язык';
@@ -399,10 +417,12 @@ class SRu extends S {
   String get name => 'Имя';
 
   @override
-  String get navigatingToLandlordDashboard => 'Перехожу к панели управления арендодателем';
+  String get navigatingToLandlordDashboard =>
+      'Перехожу к панели управления арендодателем';
 
   @override
-  String get navigatingToTenantDashboard => 'Перехожу к панели управления арендаторами';
+  String get navigatingToTenantDashboard =>
+      'Перехожу к панели управления арендаторами';
 
   @override
   String get newComplaint => 'Новая жалоба';
@@ -426,7 +446,8 @@ class SRu extends S {
   String get noDeclineReasonProvided => 'Не указана причина отклонения';
 
   @override
-  String get noDeclinedComplaintsToShow => 'Нет отклоненных жалоб для отображения';
+  String get noDeclinedComplaintsToShow =>
+      'Нет отклоненных жалоб для отображения';
 
   @override
   String get noDetailsProvided => 'Не указаны детали';
@@ -441,7 +462,8 @@ class SRu extends S {
   String get noPendingComplaintsToShow => 'Нет ожидающих жалоб для отображения';
 
   @override
-  String get noResolutionCommentsAvailable => 'Нет доступных комментариев решения';
+  String get noResolutionCommentsAvailable =>
+      'Нет доступных комментариев решения';
 
   @override
   String get noSegment => 'Без сегмента';
@@ -512,19 +534,23 @@ class SRu extends S {
   String get phone_1 => 'Телефон:';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'Пожалуйста, проверьте ваше соединение и попробуйте снова';
+  String get pleaseCheckYourConnectionAndTryAgain =>
+      'Пожалуйста, проверьте ваше соединение и попробуйте снова';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'Пожалуйста, введите имя пользователя и пароль';
+  String get pleaseEnterBothUsernameAndPassword =>
+      'Пожалуйста, введите имя пользователя и пароль';
 
   @override
   String get pleaseEnterYourPassword => 'Пожалуйста, введите ваш пароль';
 
   @override
-  String get pleaseEnterYourUsername => 'Пожалуйста, введите ваше имя пользователя';
+  String get pleaseEnterYourUsername =>
+      'Пожалуйста, введите ваше имя пользователя';
 
   @override
-  String get pleaseFillAllRequiredFields => 'Пожалуйста, заполните все обязательные поля';
+  String get pleaseFillAllRequiredFields =>
+      'Пожалуйста, заполните все обязательные поля';
 
   @override
   String get pleaseProvideYourFeedback => 'Пожалуйста, оставьте ваш отзыв';
@@ -539,7 +565,8 @@ class SRu extends S {
   String get preparing => 'Подготовка...';
 
   @override
-  String get proMatrixNeedsInternetConnection => 'Pro Matrix требует подключения к интернету';
+  String get proMatrixNeedsInternetConnection =>
+      'Pro Matrix требует подключения к интернету';
 
   @override
   String get problem => 'ПРОБЛЕМА';
@@ -575,7 +602,8 @@ class SRu extends S {
   String get reconsiderAccept => 'Пересмотреть и принять';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'Функция пересмотра скоро будет доступна';
+  String get reconsiderFunctionalityComingSoon =>
+      'Функция пересмотра скоро будет доступна';
 
   @override
   String get reconsiderSchedule => 'Пересмотреть и запланировать';
@@ -602,7 +630,8 @@ class SRu extends S {
   String get rescheduleDeclinedComplaint => 'Переназначить отклоненную жалобу';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'Функция переназначения скоро будет доступна';
+  String get rescheduleFunctionalityComingSoon =>
+      'Функция переназначения скоро будет доступна';
 
   @override
   String get rescheduleRequest => 'Запрос переназначения';
@@ -639,7 +668,8 @@ class SRu extends S {
   String get resubmit => 'Повторно отправить';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'Функция повторного отправления скоро будет доступна';
+  String get resubmitFunctionalityComingSoon =>
+      'Функция повторного отправления скоро будет доступна';
 
   @override
   String get resubmitted => 'Повторно отправлено';
@@ -721,7 +751,8 @@ class SRu extends S {
   String get technicianAssigned_1 => 'Техник назначен';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'Данные техника недоступны. Пожалуйста, попробуйте снова.';
+  String get technicianDataNotAvailablePleaseTryAgain =>
+      'Данные техника недоступны. Пожалуйста, попробуйте снова.';
 
   @override
   String get technicianDetails => 'Детали техника';
@@ -757,10 +788,13 @@ class SRu extends S {
   String get tenant_2 => 'арендатор';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'Эта жалоба была отклонена. Что вы хотите сделать?';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo =>
+      'Эта жалоба была отклонена. Что вы хотите сделать?';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'Эта жалоба была отклонена. Хотите ли вы повторно отправить её с изменениями?';
+  String
+  get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications =>
+      'Эта жалоба была отклонена. Хотите ли вы повторно отправить её с изменениями?';
 
   @override
   String ticket(String num) {
@@ -774,7 +808,8 @@ class SRu extends S {
   String get updateComplaint => 'ОБНОВИТЬ ЖАЛОБУ';
 
   @override
-  String get userInfoNotLoadedTryAgain => 'Не удалось загрузить информацию о пользователе. Попробуйте снова.';
+  String get userInfoNotLoadedTryAgain =>
+      'Не удалось загрузить информацию о пользователе. Попробуйте снова.';
 
   @override
   String get username => 'Имя пользователя';
@@ -789,7 +824,8 @@ class SRu extends S {
   String get welcome => 'Добро пожаловать';
 
   @override
-  String get writeCommentOrInstructions => 'Напишите комментарий или инструкции';
+  String get writeCommentOrInstructions =>
+      'Напишите комментарий или инструкции';
 
   @override
   String get writeYourCommentHere => 'Напишите ваш комментарий здесь:';

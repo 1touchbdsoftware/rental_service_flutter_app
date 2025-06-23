@@ -63,7 +63,8 @@ class SAr extends S {
   String get approved => 'تمت الموافقة';
 
   @override
-  String get areYouSureYouWantToLogOutOfYourAccount => 'هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟';
+  String get areYouSureYouWantToLogOutOfYourAccount =>
+      'هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟';
 
   @override
   String get assignedTechnician => 'الفني المعين';
@@ -72,7 +73,8 @@ class SAr extends S {
   String get attachImages => 'إرفاق الصور';
 
   @override
-  String get beSpecificAboutTheIssueForFasterResolution => 'كن محدداً بشأن المشكلة للحصول على حل أسرع';
+  String get beSpecificAboutTheIssueForFasterResolution =>
+      'كن محدداً بشأن المشكلة للحصول على حل أسرع';
 
   @override
   String get camera => 'كاميرا';
@@ -84,19 +86,23 @@ class SAr extends S {
   String get cancel_1 => 'إلغاء';
 
   @override
-  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst => 'لا يمكن إتمام الشكاوى المرفوضة. يرجى إعادة النظر أولاً.';
+  String get cannotCompleteDeclinedComplaintsPleaseReconsiderFirst =>
+      'لا يمكن إتمام الشكاوى المرفوضة. يرجى إعادة النظر أولاً.';
 
   @override
   String get cannotEditSolvedComplaints => 'لا يمكن تعديل الشكاوى المحلولة';
 
   @override
-  String get cannotFetchComplaintsTenantidIsNullOrEmpty => 'لا يمكن جلب الشكاوى: tenantID فارغ أو غير صالح';
+  String get cannotFetchComplaintsTenantidIsNullOrEmpty =>
+      'لا يمكن جلب الشكاوى: tenantID فارغ أو غير صالح';
 
   @override
-  String get cannotRescheduleSolvedComplaints => 'لا يمكن إعادة جدولة الشكاوى المحلولة';
+  String get cannotRescheduleSolvedComplaints =>
+      'لا يمكن إعادة جدولة الشكاوى المحلولة';
 
   @override
-  String get cannotResubmitSolvedComplaints => 'لا يمكن إعادة تقديم الشكاوى المحلولة';
+  String get cannotResubmitSolvedComplaints =>
+      'لا يمكن إعادة تقديم الشكاوى المحلولة';
 
   @override
   String get chooseFromGallery => 'اختر من المعرض';
@@ -138,7 +144,8 @@ class SAr extends S {
   String get complaintHistory => 'تاريخ الشكوى';
 
   @override
-  String get complaintIsAlreadyAcceptedAndSolved => 'الشكوى تم قبولها وحلها بالفعل';
+  String get complaintIsAlreadyAcceptedAndSolved =>
+      'الشكوى تم قبولها وحلها بالفعل';
 
   @override
   String get complaintIsAlreadyCompleted => 'الشكوى تم إتمامها بالفعل';
@@ -218,10 +225,12 @@ class SAr extends S {
   String get descriptionIsRequired => 'الوصف مطلوب';
 
   @override
-  String get doYouWantToReconsiderAndAcceptThisComplaint => 'هل ترغب في إعادة النظر وقبول هذه الشكوى؟';
+  String get doYouWantToReconsiderAndAcceptThisComplaint =>
+      'هل ترغب في إعادة النظر وقبول هذه الشكوى؟';
 
   @override
-  String get doYouWantToReconsiderThisComplaintAndScheduleIt => 'هل ترغب في إعادة النظر في هذه الشكوى وتحديد موعد لها؟';
+  String get doYouWantToReconsiderThisComplaintAndScheduleIt =>
+      'هل ترغب في إعادة النظر في هذه الشكوى وتحديد موعد لها؟';
 
   @override
   String get edit => 'تعديل';
@@ -230,7 +239,8 @@ class SAr extends S {
   String get editDeclinedComplaint => 'تعديل الشكوى المرفوضة';
 
   @override
-  String get editFunctionalityForLandlordComingSoon => 'وظيفة التعديل للمالك قادمة قريباً';
+  String get editFunctionalityForLandlordComingSoon =>
+      'وظيفة التعديل للمالك قادمة قريباً';
 
   @override
   String get email => 'البريد الإلكتروني';
@@ -242,7 +252,8 @@ class SAr extends S {
   String get enterTextHere => 'أدخل النص هنا...';
 
   @override
-  String get failedToDetermineUserTypePleaseTryLoggingInAgain => 'فشل في تحديد نوع المستخدم. يرجى محاولة تسجيل الدخول مرة أخرى.';
+  String get failedToDetermineUserTypePleaseTryLoggingInAgain =>
+      'فشل في تحديد نوع المستخدم. يرجى محاولة تسجيل الدخول مرة أخرى.';
 
   @override
   String get failedToLoadTechnicianInformation => 'فشل في تحميل معلومات الفني';
@@ -260,7 +271,8 @@ class SAr extends S {
   String get resubmitComplaint => 'إعادة تقديم الشكوى';
 
   @override
-  String get mentionMissingOrUnclear => 'اذكر ما كان مفقوداً أو غير واضح في شكواك السابقة';
+  String get mentionMissingOrUnclear =>
+      'اذكر ما كان مفقوداً أو غير واضح في شكواك السابقة';
 
   @override
   String get originalComment => 'التعليق الأصلي:';
@@ -334,7 +346,8 @@ class SAr extends S {
   String get landlord_1 => 'مالك العقار';
 
   @override
-  String get landlordidIsNullOrEmptyCannotFetchComplaints => 'معرف المالك فارغ أو غير صالح، لا يمكن جلب الشكاوى';
+  String get landlordidIsNullOrEmptyCannotFetchComplaints =>
+      'معرف المالك فارغ أو غير صالح، لا يمكن جلب الشكاوى';
 
   @override
   String get language => 'اللغة';
@@ -399,10 +412,12 @@ class SAr extends S {
   String get name => 'الاسم';
 
   @override
-  String get navigatingToLandlordDashboard => 'جار الانتقال إلى لوحة تحكم المالك';
+  String get navigatingToLandlordDashboard =>
+      'جار الانتقال إلى لوحة تحكم المالك';
 
   @override
-  String get navigatingToTenantDashboard => 'جار الانتقال إلى لوحة تحكم المستأجر';
+  String get navigatingToTenantDashboard =>
+      'جار الانتقال إلى لوحة تحكم المستأجر';
 
   @override
   String get newComplaint => 'شكوى جديدة';
@@ -512,10 +527,12 @@ class SAr extends S {
   String get phone_1 => 'الهاتف:';
 
   @override
-  String get pleaseCheckYourConnectionAndTryAgain => 'يرجى التحقق من الاتصال والمحاولة مرة أخرى';
+  String get pleaseCheckYourConnectionAndTryAgain =>
+      'يرجى التحقق من الاتصال والمحاولة مرة أخرى';
 
   @override
-  String get pleaseEnterBothUsernameAndPassword => 'يرجى إدخال اسم المستخدم وكلمة المرور';
+  String get pleaseEnterBothUsernameAndPassword =>
+      'يرجى إدخال اسم المستخدم وكلمة المرور';
 
   @override
   String get pleaseEnterYourPassword => 'يرجى إدخال كلمة المرور';
@@ -539,7 +556,8 @@ class SAr extends S {
   String get preparing => 'جار التحضير...';
 
   @override
-  String get proMatrixNeedsInternetConnection => 'برنامج ProMatrix يحتاج إلى اتصال بالإنترنت';
+  String get proMatrixNeedsInternetConnection =>
+      'برنامج ProMatrix يحتاج إلى اتصال بالإنترنت';
 
   @override
   String get problem => 'مشكلة';
@@ -575,7 +593,8 @@ class SAr extends S {
   String get reconsiderAccept => 'إعادة النظر & قبول';
 
   @override
-  String get reconsiderFunctionalityComingSoon => 'وظيفة إعادة النظر قادمة قريبًا';
+  String get reconsiderFunctionalityComingSoon =>
+      'وظيفة إعادة النظر قادمة قريبًا';
 
   @override
   String get reconsiderSchedule => 'إعادة النظر & جدولة';
@@ -602,7 +621,8 @@ class SAr extends S {
   String get rescheduleDeclinedComplaint => 'إعادة جدولة الشكوى المرفوضة';
 
   @override
-  String get rescheduleFunctionalityComingSoon => 'وظيفة إعادة الجدولة قادمة قريبًا';
+  String get rescheduleFunctionalityComingSoon =>
+      'وظيفة إعادة الجدولة قادمة قريبًا';
 
   @override
   String get rescheduleRequest => 'طلب إعادة الجدولة';
@@ -639,7 +659,8 @@ class SAr extends S {
   String get resubmit => 'إعادة تقديم';
 
   @override
-  String get resubmitFunctionalityComingSoon => 'وظيفة إعادة التقديم قادمة قريبًا';
+  String get resubmitFunctionalityComingSoon =>
+      'وظيفة إعادة التقديم قادمة قريبًا';
 
   @override
   String get resubmitted => 'تم إعادة التقديم';
@@ -721,7 +742,8 @@ class SAr extends S {
   String get technicianAssigned_1 => 'تم تعيين الفني';
 
   @override
-  String get technicianDataNotAvailablePleaseTryAgain => 'بيانات الفني غير متوفرة. يرجى المحاولة مرة أخرى.';
+  String get technicianDataNotAvailablePleaseTryAgain =>
+      'بيانات الفني غير متوفرة. يرجى المحاولة مرة أخرى.';
 
   @override
   String get technicianDetails => 'تفاصيل الفني';
@@ -757,10 +779,13 @@ class SAr extends S {
   String get tenant_2 => 'مستأجر';
 
   @override
-  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo => 'تم رفض هذه الشكوى. ماذا ترغب في فعله؟';
+  String get thisComplaintHasBeenDeclinedWhatWouldYouLikeToDo =>
+      'تم رفض هذه الشكوى. ماذا ترغب في فعله؟';
 
   @override
-  String get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications => 'تم رفض هذه الشكوى. هل ترغب في إعادة تقديمها مع التعديلات؟';
+  String
+  get thisComplaintHasBeenDeclinedWouldYouLikeToResubmitItWithModifications =>
+      'تم رفض هذه الشكوى. هل ترغب في إعادة تقديمها مع التعديلات؟';
 
   @override
   String ticket(String num) {
@@ -774,7 +799,8 @@ class SAr extends S {
   String get updateComplaint => 'تحديث الشكوى';
 
   @override
-  String get userInfoNotLoadedTryAgain => 'لم يتم تحميل معلومات المستخدم. يرجى المحاولة مرة أخرى.';
+  String get userInfoNotLoadedTryAgain =>
+      'لم يتم تحميل معلومات المستخدم. يرجى المحاولة مرة أخرى.';
 
   @override
   String get username => 'اسم المستخدم';
