@@ -77,7 +77,7 @@ class LandlordDashboard extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
                                 child: Text(
-                                  'Quick Actions',
+                                  S.of(context).quickActions,
                                   style: textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: colorScheme.onSurface,
@@ -314,7 +314,7 @@ class LandlordDashboard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Recent Activity',
+          S.of(context).recentActivity,
           style: textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: colorScheme.onSurface,
