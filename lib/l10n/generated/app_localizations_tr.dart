@@ -659,7 +659,7 @@ class STr extends S {
   }
 
   @override
-  String get resolvedList => 'Çözülen Şikayetler Listesi';
+  String get resolvedList => 'Çözülen Listesi';
 
   @override
   String get resolved_1 => 'Çözüldü';
