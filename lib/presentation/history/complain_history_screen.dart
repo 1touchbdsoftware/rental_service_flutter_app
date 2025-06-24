@@ -430,7 +430,7 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           child: Text(
-                            _expanded ? "Read Less" : "Read More",
+                            _expanded ? S.of(context).readLess : S.of(context).readMore,
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.w400,
