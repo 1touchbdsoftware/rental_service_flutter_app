@@ -17,6 +17,7 @@ class UserInfoModel extends UserInfoEntity {
     required String contactNumber,
     required String emailAddress,
     required String userType,
+    required bool isDefaultPassword,
   }) : super(
     id: id,
     userName: userName,
@@ -33,6 +34,7 @@ class UserInfoModel extends UserInfoEntity {
     emailAddress: emailAddress,
     propertyName: propertyName,
     userType: userType,
+    isDefaultPassword: isDefaultPassword,
   );
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
@@ -43,15 +45,16 @@ class UserInfoModel extends UserInfoEntity {
       isActive: json['isActive'],
       landlordID: json['landlordID'],
       landlordName: json['landlordName'],
-      tenantID: json['tenantID'],
+      tenantID: json['employeeId'],
       tenantName: json['tenantName'],
       propertyID: json['propertyID'],
       tenantInfoID: json['tenantInfoID'],
       registrationType: json['registrationType'],
       contactNumber: json['contactNumber'],
-      emailAddress: json['emailAddress'],
+      emailAddress: json['email'],
       propertyName: json['propertyName'],
       userType: json['registrationType'],
+      isDefaultPassword: json['isDefaultPassword'],
     );
   }
 
@@ -59,7 +62,7 @@ class UserInfoModel extends UserInfoEntity {
     id: '',
     userName: 'Loading...',
     agencyID: '',
-    isActive: false, registrationType: '', contactNumber: '', emailAddress: '', userType: '',
+    isActive: false, registrationType: '', contactNumber: '', emailAddress: '', userType: '', isDefaultPassword: true,
     // ... other empty fields
   );
 }

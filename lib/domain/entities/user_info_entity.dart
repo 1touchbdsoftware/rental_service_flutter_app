@@ -14,6 +14,7 @@ class UserInfoEntity {
   final String emailAddress;
   final String? propertyName;
   final String? userType;
+  final bool isDefaultPassword;
 
   const UserInfoEntity({
     required this.id,
@@ -30,7 +31,8 @@ class UserInfoEntity {
     required this.registrationType,
     required this.contactNumber,
     required this.emailAddress,
-    required this.userType
+    required this.userType,
+    required  this.isDefaultPassword
 
   });
 }

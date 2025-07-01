@@ -28,6 +28,7 @@ class GetUserLocalServiceImpl extends GetUserLocalService{
       emailAddress: sharedPreferences.getString('emailAddress') ?? '',
       propertyName: sharedPreferences.getString('propertyName') ?? '',
       userType: sharedPreferences.getString('userType') ?? '',
+      isDefaultPassword: sharedPreferences.getBool('isDefaultPassword') ?? true,
     );
   }
 

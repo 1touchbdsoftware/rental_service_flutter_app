@@ -38,24 +38,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MyAppContent(),
 
-      // BlocBuilder<AuthCubit, AuthState>(
-      //   builder: (context, authState) {
-      //
-      //     return BlocBuilder<UserTypeCubit, UserTypeState>(
-      //       builder: (context, userTypeState) {
-      //         return MaterialApp(
-      //           title: 'Rental Service App',
-      //           theme: AppTheme.lightTheme,
-      //           // darkTheme: AppTheme.darkTheme,
-      //           // themeMode: ThemeMode.system,
-      //           home: const SplashWrapper(),
-      //           onGenerateRoute: AppRoutes.generateRoute,
-      //           routes: AppRoutes.getRoutes(),
-      //         );
-      //       },
-      //     );
-      //   },
-      // ),
     );
   }
 

@@ -88,11 +88,15 @@ class AuthRepositoryImpl extends AuthRepository {
           );
           sharedPreferences.setString(
             'emailAddress',
-            userModel.userInfo.emailAddress ?? "",
+            userModel.userInfo.emailAddress ,
           );
           sharedPreferences.setString(
             'contactNumber',
-            userModel.userInfo.contactNumber ?? "",
+            userModel.userInfo.contactNumber,
+          );
+          sharedPreferences.setBool(
+            'isDefaultPassword',
+            userModel.userInfo.isDefaultPassword ,
           );
           //check registrationType and save name also from landlordName
           return Right(success);

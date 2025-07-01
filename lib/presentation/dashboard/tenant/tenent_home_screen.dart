@@ -57,6 +57,8 @@ class TenantHomeScreen extends StatelessWidget {
                     );
                   },
                 ),
+
+
                 body: SafeArea(
                   child: BlocBuilder<UserInfoCubit, UserInfoModel>(
                     builder: (context, userInfo) {
