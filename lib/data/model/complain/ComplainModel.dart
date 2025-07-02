@@ -36,6 +36,8 @@ class ComplainModel {
   final bool? isDone;
   final bool? isAccepted;
   final bool? isApproved;
+  final bool? isRescheduled;
+  final bool? isReassignedTechnician;
   final String? rejectedBy;
   final String? rejectedDate;
   final int? imageCount;
@@ -78,6 +80,8 @@ class ComplainModel {
      this.rejectedDate,
      this.imageCount,
      this.images,
+    this.isRescheduled,
+    this.isReassignedTechnician,
     this.isAccepted,
     this.isApproved
   });
@@ -121,6 +125,11 @@ class ComplainModel {
       isAccepted: json['isAccepted'],
       isApproved: json['isApproved'],
       imageCount: json['imageCount'],
+      isRescheduled: json['isRescheduled'],
+      isReassignedTechnician: json['isReassignedTechnician'],
+
+
+
       // images: (json['images'] as List)
       //     .map((e) => ComplainImageModel.fromJson(e))
       //     .toList(),
@@ -166,6 +175,9 @@ class ComplainModel {
       isAccepted: isAccepted,
       isApproved:isApproved,
       imageCount: imageCount,
+        isRescheduled:isRescheduled,
+        isReassignedTechnician:isReassignedTechnician
+
       // images: images!.map((imageModel) => imageModel.toEntity()).toList(),
     );
   }
@@ -209,6 +221,9 @@ class ComplainModel {
       imageCount: entity.imageCount,
       isAccepted:entity.isAccepted,
         isApproved:entity.isApproved,
+      isRescheduled:entity.isRescheduled,
+        isReassignedTechnician:entity.isReassignedTechnician,
+
       // images: entity.images?.map((img) => ComplainImageModel.fromEntity(img)).toList(),
     );
   }

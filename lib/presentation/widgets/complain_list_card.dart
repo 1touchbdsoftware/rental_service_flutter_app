@@ -227,6 +227,7 @@ class ComplainCard extends StatelessWidget {
                       !complaint.isSentToLandlord! &&
                       !complaint.isRejected! &&
                       !complaint.isResubmitted! &&
+                      !complaint.isRescheduled! &&
                       !complaint.isDone!)
                     ElevatedButton(
                       onPressed: onEditPressed,
@@ -251,7 +252,7 @@ class ComplainCard extends StatelessWidget {
                     ),
 
                   //reschedule button
-                  if (complaint.isAssignedTechnician! &&
+                  if ((complaint.isReassignedTechnician! || complaint.isAssignedTechnician!) &&
                       !complaint.isSolved! &&
                       !complaint.isResubmitted! &&
                       !complaint.isAccepted! &&
