@@ -24,7 +24,6 @@ class SignInPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +32,7 @@ class SignInPage extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => ButtonStateCubit()),
           BlocProvider(create: (context) => UserTypeCubit()),
-          BlocProvider(
-            create: (context) => DefaultPasswordCubit(),
-          ),
+          BlocProvider(create: (context) => DefaultPasswordCubit()),
         ],
         child: MultiBlocListener(
           listeners: [
@@ -57,17 +54,19 @@ class SignInPage extends StatelessWidget {
                     );
 
                     // First check if password is default
-                    await context.read<DefaultPasswordCubit>().checkIfDefaultPassword();
+                    await context
+                        .read<DefaultPasswordCubit>()
+                        .checkIfDefaultPassword();
 
                     // Fetch user type with proper error handling
                     // await context.read<UserTypeCubit>().getUserType();
-
-
                   } catch (e) {
                     print("Error fetching user type: $e");
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Login successful but failed to load dashboard: $e'),
+                        content: Text(
+                          'Login successful but failed to load dashboard: $e',
+                        ),
                         backgroundColor: Colors.orange,
                         duration: const Duration(seconds: 4),
                       ),
@@ -77,7 +76,9 @@ class SignInPage extends StatelessWidget {
                   print("Login failed: ${state.errorMessage}");
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Could not Log you in ${state.errorMessage}"),
+                      content: Text(
+                        "Could not Log you in ${state.errorMessage}",
+                      ),
                       backgroundColor: Colors.red,
                       duration: const Duration(seconds: 3),
                     ),
@@ -88,29 +89,20 @@ class SignInPage extends StatelessWidget {
               },
             ),
 
-
             // Listener for default password check
             BlocListener<DefaultPasswordCubit, DefaultPasswordState>(
               listener: (context, state) {
                 if (state is IsDefaultPasswordState) {
-                  if (state.isDefaultPassword) {
-                    // If the password is default, navigate to ChangePasswordScreen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
-                    );
-                  } else {
-                    // Only check user type if password is not default
-                    print("Password is not default - fetching user type");
-                    context.read<UserTypeCubit>().getUserType();
-                  }
-                } else if (state is DefaultPasswordFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.errorMessage),
-                      backgroundColor: Colors.red,
+                  // If the password is default, navigate to ChangePasswordScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChangePasswordScreen(),
                     ),
                   );
+                } else if (state is NotDefaultPasswordState) {
+                  print("Password is not default - fetching user type");
+                  context.read<UserTypeCubit>().getUserType();
                 }
               },
             ),
@@ -125,7 +117,9 @@ class SignInPage extends StatelessWidget {
                   Future.microtask(() {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const LandlordDashboard()),
+                      MaterialPageRoute(
+                        builder: (context) => const LandlordDashboard(),
+                      ),
                     );
                   });
                 } else if (state is UserTypeTenant) {
@@ -133,14 +127,18 @@ class SignInPage extends StatelessWidget {
                   Future.microtask(() {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => TenantDashboardScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => TenantDashboardScreen(),
+                      ),
                     );
                   });
                 } else if (state is UserTypeError) {
                   print("UserType error: ${state.toString()}");
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Failed to determine user type. Please try logging in again.'),
+                      content: Text(
+                        'Failed to determine user type. Please try logging in again.',
+                      ),
                       backgroundColor: Colors.red,
                       action: SnackBarAction(
                         label: 'Retry',
@@ -162,10 +160,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildPageContent(BuildContext context) {
     return Stack(
-      children: [
-        _buildBackgroundWithForm(context),
-        _buildLoadingOverlay(),
-      ],
+      children: [_buildBackgroundWithForm(context), _buildLoadingOverlay()],
     );
   }
 
@@ -245,10 +240,7 @@ class SignInPage extends StatelessWidget {
         SizedBox(height: 10),
         Text(
           'Sign in to continue',
-          style: TextStyle(
-            color: Colors.white70,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: Colors.white70, fontSize: 16),
           textAlign: TextAlign.center,
         ),
       ],
@@ -319,17 +311,13 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-
   Widget _buildRememberForgotRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Row(
           children: [
-            Text(
-              'Remember me',
-              style: TextStyle(color: Colors.white),
-            ),
+            Text('Remember me', style: TextStyle(color: Colors.white)),
           ],
         ),
         TextButton(
@@ -347,9 +335,8 @@ class SignInPage extends StatelessWidget {
     return BlocBuilder<ButtonStateCubit, ButtonState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state is ButtonLoadingState
-              ? null
-              : () => _handleLogin(context),
+          onPressed:
+              state is ButtonLoadingState ? null : () => _handleLogin(context),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.logInButton,
             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -357,12 +344,10 @@ class SignInPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
           ),
-          child: state is ButtonLoadingState
-              ? const AdaptiveLoading()
-              : const Text(
-            'LOGIN',
-            style: TextStyle(fontSize: 18),
-          ),
+          child:
+              state is ButtonLoadingState
+                  ? const AdaptiveLoading()
+                  : const Text('LOGIN', style: TextStyle(fontSize: 18)),
         );
       },
     );
@@ -397,11 +382,9 @@ class SignInPage extends StatelessWidget {
       builder: (context, state) {
         return state is ButtonLoadingState
             ? Container(
-          color: Colors.black.withOpacity(0.5),
-          child: const Center(
-            child: AdaptiveLoading(),
-          ),
-        )
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(child: AdaptiveLoading()),
+            )
             : const SizedBox.shrink();
       },
     );
