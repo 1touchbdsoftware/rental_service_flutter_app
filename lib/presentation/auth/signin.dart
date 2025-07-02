@@ -4,13 +4,18 @@ import 'package:rental_service/common/bloc/button/button_state.dart';
 import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
 
 import 'package:rental_service/data/model/user/signin_req_params.dart';
+import 'package:rental_service/data/model/user/user_info_model.dart';
 import 'package:rental_service/domain/usecases/signin_usecase.dart';
+import 'package:rental_service/presentation/dashboard/bloc/user_info_cubit.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
+import 'package:rental_service/presentation/password/password_reset_screen.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
 import '../dashboard/tenant/TenantDashboard.dart';
+import '../password/default_password_state.dart';
+import '../password/default_password_cubit.dart';
 import '../widgets/loading.dart';
 
 class SignInPage extends StatelessWidget {
@@ -18,6 +23,7 @@ class SignInPage extends StatelessWidget {
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +33,9 @@ class SignInPage extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => ButtonStateCubit()),
           BlocProvider(create: (context) => UserTypeCubit()),
+          BlocProvider(
+            create: (context) => DefaultPasswordCubit(),
+          ),
         ],
         child: MultiBlocListener(
           listeners: [
@@ -47,8 +56,12 @@ class SignInPage extends StatelessWidget {
                       ),
                     );
 
+                    // First check if password is default
+                    await context.read<DefaultPasswordCubit>().checkIfDefaultPassword();
+
                     // Fetch user type with proper error handling
-                    await context.read<UserTypeCubit>().getUserType();
+                    // await context.read<UserTypeCubit>().getUserType();
+
 
                   } catch (e) {
                     print("Error fetching user type: $e");
@@ -71,6 +84,33 @@ class SignInPage extends StatelessWidget {
                   );
                 } else if (state is ButtonLoadingState) {
                   print("Login in progress...");
+                }
+              },
+            ),
+
+
+            // Listener for default password check
+            BlocListener<DefaultPasswordCubit, DefaultPasswordState>(
+              listener: (context, state) {
+                if (state is IsDefaultPasswordState) {
+                  if (state.isDefaultPassword) {
+                    // If the password is default, navigate to ChangePasswordScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
+                    );
+                  } else {
+                    // Only check user type if password is not default
+                    print("Password is not default - fetching user type");
+                    context.read<UserTypeCubit>().getUserType();
+                  }
+                } else if (state is DefaultPasswordFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.errorMessage),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
                 }
               },
             ),

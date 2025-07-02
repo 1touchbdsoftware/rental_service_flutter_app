@@ -4,5 +4,8 @@ abstract class UserRepository {
   Future<UserInfoModel> getSavedUserInfo(); // just the interface
 
   Future<String> getUserType();
+
+  Future<bool> isDefaultPassword();
+
 // ... other methods (login, etc.)
 }

@@ -26,6 +26,7 @@ class ApiUrls{
   static const getHistory = '${baseURL}Complain/GetComplainHistory';
 
   static const approveComplaints = '${baseURL}Complain/SaveComplainApproval';
+  static const resetPassword = '${baseURL}Access/ResetPassword';
 
 
 

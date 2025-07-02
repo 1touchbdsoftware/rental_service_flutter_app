@@ -11,20 +11,24 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserInfoModel> getSavedUserInfo() async {
-
     print("USER REPO: USER INFO CALLED");
-    // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return await sl<GetUserLocalService>().getSavedUserInfo();
   }
 
   @override
   Future<String> getUserType() async {
     print("USER REPO: GET USER TYPE CALLED");
-    // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // return sharedPreferences.getString('userType');
-
     return await sl<GetUserLocalService>().getUserType();
   }
+
+
+  @override
+  Future<bool> isDefaultPassword() async {
+    print("USER REPO: Default Password Check");
+
+    return await sl<GetUserLocalService>().isDefaultPassword();
+  }
+
 
 
 }

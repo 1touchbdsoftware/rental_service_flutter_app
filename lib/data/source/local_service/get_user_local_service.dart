@@ -5,6 +5,7 @@ abstract class GetUserLocalService{
 
   Future<String> getUserType();
   Future<UserInfoModel> getSavedUserInfo();
+  Future<bool> isDefaultPassword();
 
 }
 
@@ -37,5 +38,13 @@ class GetUserLocalServiceImpl extends GetUserLocalService{
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString('userType')!;
   }
+
+  @override
+  Future<bool> isDefaultPassword() async{
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool('isDefaultPassword') ?? true;
+  }
+
+
 
 }

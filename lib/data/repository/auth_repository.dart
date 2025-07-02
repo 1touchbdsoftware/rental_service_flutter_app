@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/repository/auth.dart';
 import '../../service_locator.dart';
 import '../model/api_failure.dart';
+import '../model/password/change_password_request.dart';
 import '../source/local_service/auth_local_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -119,5 +120,32 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either> logout() async {
     return await sl<AuthLocalService>().logout();
+  }
+
+  @override
+  Future<Either<String, bool>> changePassword(ChangePasswordRequest params) async {
+    Either<ApiFailure, Response> result =
+    await sl<AuthApiService>().changePassword(params);
+
+    return result.fold(
+          (error) {
+        return Left(error.message);
+      },
+          (response) {
+        try {
+          final success = response.statusCode == 200 || response.statusCode == 201;
+
+          // If successful, update the isDefaultPassword flag in SharedPreferences
+          if (success) {
+            SharedPreferences.getInstance().then((prefs) {
+              prefs.setBool('isDefaultPassword', false);
+            });
+          }
+          return Right(success);
+        } catch (e) {
+          return Left('Failed to parse response: ${e.toString()}');
+        }
+      },
+    );
   }
 }
