@@ -1,8 +1,8 @@
 
 class ApiUrls{
-  // static const baseURL = "https://api.promatrix.com.tr/api/";
+  static const baseURL = "https://api.promatrix.com.tr/api/";
 
-  static const baseURL = "http://152.89.106.226:9094/api/";
+  // static const baseURL = "http://152.89.106.226:9094/api/";
 
   static const register = '${baseURL}auth/register';
 

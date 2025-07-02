@@ -44,6 +44,8 @@ class AuthRepositoryImpl extends AuthRepository {
           if(!validUser){
             return Left('Invalid User Type');
           }
+
+
           // Convert to model
           final userModel = UserModel.fromJson(response.data);
 
@@ -52,6 +54,8 @@ class AuthRepositoryImpl extends AuthRepository {
           final SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
 
+          if(!response.data['data']['userInfo']['isDefaultPassword']){
+
           if (userType == "LANDLORD") {
             sharedPreferences.setString('userType', "LANDLORD");
           } else if (userType == "TENANT") {
@@ -59,6 +63,8 @@ class AuthRepositoryImpl extends AuthRepository {
           } else {
             return Left('User Type Mismatch, Visit Website');
           }
+          }
+
           sharedPreferences.setString('token', userModel.token);
           sharedPreferences.setString('userName', userModel.userInfo.userName);
           sharedPreferences.setString(
