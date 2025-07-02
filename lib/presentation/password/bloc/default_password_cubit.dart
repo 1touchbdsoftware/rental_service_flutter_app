@@ -2,7 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/domain/repository/user_repository.dart';
 import 'default_password_state.dart';
-import '../../service_locator.dart';
+import '../../../service_locator.dart';
 
 class DefaultPasswordCubit extends Cubit<DefaultPasswordState> {
 

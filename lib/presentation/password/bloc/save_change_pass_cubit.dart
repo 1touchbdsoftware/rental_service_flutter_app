@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/data/model/password/change_password_request.dart';
-import 'package:rental_service/presentation/password/save_change_pass_state.dart';
+import 'package:rental_service/presentation/password/bloc/save_change_pass_state.dart';
 import 'package:rental_service/service_locator.dart';
-import '../../domain/usecases/post_change_password_usecase.dart';
+import '../../../domain/usecases/post_change_password_usecase.dart';
 // Import the new state
 
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {

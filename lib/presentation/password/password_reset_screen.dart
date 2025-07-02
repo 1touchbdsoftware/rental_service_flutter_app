@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/password/change_password_request.dart';
-import 'package:rental_service/presentation/password/save_change_pass_cubit.dart';
-import 'package:rental_service/presentation/password/save_change_pass_state.dart';
+import 'package:rental_service/presentation/password/bloc/save_change_pass_cubit.dart';
+import 'package:rental_service/presentation/password/bloc/save_change_pass_state.dart';
 
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -14,8 +14,8 @@ import 'package:rental_service/presentation/password/password_reset_screen.dart'
 import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
 import '../dashboard/tenant/TenantDashboard.dart';
-import '../password/default_password_state.dart';
-import '../password/default_password_cubit.dart';
+import '../password/bloc/default_password_state.dart';
+import '../password/bloc/default_password_cubit.dart';
 import '../widgets/loading.dart';
 
 class SignInPage extends StatelessWidget {
