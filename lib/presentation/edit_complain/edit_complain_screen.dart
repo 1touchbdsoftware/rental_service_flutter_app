@@ -419,7 +419,7 @@ class _EditComplainScreenContentState extends State<_EditComplainScreenContent> 
                     BlocBuilder<EditComplainCubit, ComplainState>(
                       builder: (context, state) {
                         return SubmitButton(
-                          onPressed: () => _handleSubmit(context),
+                          onPressed: () => _isLoadingImages ? null :  _handleSubmit(context),
                           isLoading: state is ComplainLoading,
                           buttonText: S.of(context).updateComplaint,
                         );
