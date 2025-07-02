@@ -198,7 +198,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       drawer: buildAppDrawer(
         context,
         _tenantName,
-        'Tenant Dashboard', _userType
+          S.of(context).tenantDashboard_1, _userType
       ),
       body: RefreshIndicator(
         color: colorScheme.primary,

@@ -134,7 +134,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
         drawer: buildAppDrawer(
           context,
           _tenantName,
-          'Tenant Dashboard',
+            S.of(context).tenantDashboard_1,
             _userType
         ),
         body: RefreshIndicator(

@@ -144,7 +144,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
         drawer: buildAppDrawer(
           context,
           _landlordName,
-          'Landlord Dashboard',
+            S.of(context).landlordDashboard_1,
             _userType
         ),
         body: RefreshIndicator(

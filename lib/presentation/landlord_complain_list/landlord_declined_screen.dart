@@ -139,7 +139,7 @@ class _LandlordDeclinedListContentState extends State<LandlordDeclinedListConten
         drawer: buildAppDrawer(
           context,
           _landlordName,
-          'Landlord Dashboard', _userType
+            S.of(context).landlordDashboard_1, _userType
         ),
         body: RefreshIndicator(
           color: colorScheme.primary,

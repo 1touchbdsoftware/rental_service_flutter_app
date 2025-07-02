@@ -53,7 +53,7 @@ class TenantHomeScreen extends StatelessWidget {
                     return buildAppDrawer(
                       context,
                       userInfo.tenantName ?? "",
-                      'Tenant Dashboard', userInfo.userType ?? ''
+                        S.of(context).tenantDashboard_1, userInfo.userType ?? ''
                     );
                   },
                 ),

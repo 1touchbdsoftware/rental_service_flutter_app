@@ -59,7 +59,7 @@ class LandlordDashboard extends StatelessWidget {
                     return buildAppDrawer(
                       context,
                       userInfo.landlordName ?? "",
-                      'Landlord Dashboard', userInfo.userType ?? ''
+                        S.of(context).landlordDashboard_1, userInfo.userType ?? ''
                     );
                   },
                 ),
