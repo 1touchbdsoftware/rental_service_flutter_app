@@ -294,7 +294,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
     if (complaints.isEmpty) {
       return Center(
         child: Text(
-          'No complaints to Show',
+          S.of(context).noComplaintsToShow,
           style: textTheme.bodyLarge?.copyWith(
             color: colorScheme.primary,
           ),
