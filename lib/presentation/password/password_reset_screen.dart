@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/common/bloc/button/button_state.dart';
-import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
+import 'package:rental_service/core/constants/app_colors.dart';
+import 'package:rental_service/data/model/password/change_password_request.dart';
 import 'package:rental_service/presentation/password/save_change_pass_cubit.dart';
+import 'package:rental_service/presentation/password/save_change_pass_state.dart';
+
+import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../core/constants/app_colors.dart';
-import '../../data/model/password/change_password_request.dart';
 import '../widgets/loading.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -19,10 +20,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmNewPasswordController = TextEditingController();
-  bool _obscureDefaultPassword = true;
+  bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
   bool _obscureConfirmNewPassword = true;
-
 
   @override
   void dispose() {
@@ -38,20 +38,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
         create: (context) => ChangePasswordCubit(),
-        child: BlocListener<ChangePasswordCubit, ButtonState>(
+        child: BlocListener<ChangePasswordCubit, ChangePasswordState>(
           listener: (context, state) {
-            if (state is ButtonSuccessState) {
+            if (state is ChangePasswordSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Password changed successfully!'),
-                  duration: Duration(seconds: 2),
+                SnackBar(
+                  content: Text(state.message ?? 'Password changed successfully!'),
+                  duration: const Duration(seconds: 2),
                 ),
               );
               Navigator.pop(context);
-            } else if (state is ButtonFailureState) {
+            } else if (state is ChangePasswordFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("Failed to change password: ${state.errorMessage}"),
+                  content: Text(state.error),
                   backgroundColor: Colors.red,
                   duration: const Duration(seconds: 3),
                 ),
@@ -68,7 +68,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Stack(
       children: [
         _buildBackgroundWithForm(context),
-        _buildLoadingOverlay(),
+        _buildLoadingOverlay(context),
       ],
     );
   }
@@ -108,7 +108,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           const SizedBox(height: 30),
           _buildTitleText(),
           const SizedBox(height: 30),
-          _buildDefaultPasswordField(),
+          _buildCurrentPasswordField(),
           const SizedBox(height: 20),
           _buildNewPasswordField(),
           const SizedBox(height: 20),
@@ -147,7 +147,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         SizedBox(height: 10),
         Text(
-          'Enter your default password and new password to change',
+          'Enter your current password and new password',
           style: TextStyle(
             color: Colors.white70,
             fontSize: 16,
@@ -158,36 +158,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Widget _buildDefaultPasswordField() {
+  Widget _buildCurrentPasswordField() {
     return StatefulBuilder(
       builder: (context, setState) {
         return TextFormField(
           style: const TextStyle(color: Colors.white),
           controller: _currentPasswordController,
-          obscureText: _obscureDefaultPassword,
+          obscureText: _obscureCurrentPassword,
           decoration: InputDecoration(
             labelStyle: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
-            labelText: 'Default Password',
+            labelText: 'Current Password',
             prefixIcon: const Icon(Icons.lock, color: Colors.lightBlue),
             suffixIcon: IconButton(
               icon: Icon(
-                _obscureDefaultPassword ? Icons.visibility_off : Icons.visibility,
+                _obscureCurrentPassword ? Icons.visibility_off : Icons.visibility,
                 color: Colors.white70,
               ),
               onPressed: () {
                 setState(() {
-                  _obscureDefaultPassword = !_obscureDefaultPassword;
+                  _obscureCurrentPassword = !_obscureCurrentPassword;
                 });
               },
             ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your default password';
+              return 'Please enter your current password';
             }
             return null;
           },
@@ -226,6 +226,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your new password';
+            }
+            if (value.length < 8) {
+              return 'Password must be at least 8 characters';
             }
             return null;
           },
@@ -275,12 +278,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-
   Widget _buildChangePasswordButton(BuildContext context) {
-    return BlocBuilder<ChangePasswordCubit, ButtonState>(
+    return BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state is ButtonLoadingState
+          onPressed: state is ChangePasswordLoading
               ? null
               : () => _handleChangePassword(context),
           style: ElevatedButton.styleFrom(
@@ -290,7 +292,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               borderRadius: BorderRadius.circular(15),
             ),
           ),
-          child: state is ButtonLoadingState
+          child: state is ChangePasswordLoading
               ? const AdaptiveLoading()
               : const Text(
             'CHANGE PASSWORD',
@@ -301,8 +303,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-
-  void _handleChangePassword(BuildContext context)  async{
+  void _handleChangePassword(BuildContext context) async {
     if (_currentPasswordController.text.trim().isEmpty ||
         _newPasswordController.text.trim().isEmpty ||
         _confirmNewPasswordController.text.trim().isEmpty) {
@@ -324,20 +325,33 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       );
       return;
     }
+
+    if (_newPasswordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 8 characters'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     final prefs = await SharedPreferences.getInstance();
+    final userName = prefs.getString('userName') ?? '';
 
     final changePasswordRequest = ChangePasswordRequest(
       currentPassword: _currentPasswordController.text.trim(),
       password: _newPasswordController.text.trim(),
-      userName: prefs.getString('userName')!,
+      userName: userName,
     );
 
     context.read<ChangePasswordCubit>().changePassword(changePasswordRequest);
   }
-  Widget _buildLoadingOverlay() {
-    return BlocBuilder<ButtonStateCubit, ButtonState>(
+
+  Widget _buildLoadingOverlay(BuildContext context) {
+    return BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
       builder: (context, state) {
-        return state is ButtonLoadingState
+        return state is ChangePasswordLoading
             ? Container(
           color: Colors.black.withOpacity(0.5),
           child: const Center(

@@ -1,43 +1,40 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/data/model/password/change_password_request.dart';
+import 'package:rental_service/presentation/password/save_change_pass_state.dart';
 import 'package:rental_service/service_locator.dart';
-import '../../common/bloc/button/button_state.dart';
 import '../../domain/usecases/post_change_password_usecase.dart';
+// Import the new state
 
-class ChangePasswordCubit extends Cubit<ButtonState> {
+class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   final ChangePasswordUseCase _changePasswordUseCase;
 
   ChangePasswordCubit({ChangePasswordUseCase? useCase})
-    : _changePasswordUseCase = useCase ?? sl<ChangePasswordUseCase>(),
-      super(ButtonInitialState());
+      : _changePasswordUseCase = useCase ?? sl<ChangePasswordUseCase>(),
+        super(const ChangePasswordInitial());
 
   Future<void> changePassword(ChangePasswordRequest model) async {
-    emit(ButtonLoadingState());
+    emit(const ChangePasswordLoading());
 
     try {
       final result = await _changePasswordUseCase.call(param: model);
 
       result.fold(
-        (failure) {
+            (failure) {
           print("ChangePasswordCubit error: $failure");
-          emit(ButtonFailureState(errorMessage: failure));
+          emit(ChangePasswordFailure(failure));
         },
-        (success) {
+            (success) {
           if (success) {
-            emit(ButtonSuccessState());
+            emit(const ChangePasswordSuccess("Password changed successfully!"));
           } else {
-            emit(
-              ButtonFailureState(
-                errorMessage: "Password change failed unexpectedly",
-              ),
-            );
+            emit(const ChangePasswordFailure(
+                "Password change failed unexpectedly"
+            ));
           }
         },
       );
     } catch (e) {
-      emit(
-        ButtonFailureState(errorMessage: 'Unexpected error: ${e.toString()}'),
-      );
+      emit(ChangePasswordFailure('Unexpected error: ${e.toString()}'));
     }
   }
 }
