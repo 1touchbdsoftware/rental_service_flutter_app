@@ -27,7 +27,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => ButtonStateCubit()),
@@ -58,8 +58,6 @@ class SignInPage extends StatelessWidget {
                         .read<DefaultPasswordCubit>()
                         .checkIfDefaultPassword();
 
-                    // Fetch user type with proper error handling
-                    // await context.read<UserTypeCubit>().getUserType();
                   } catch (e) {
                     print("Error fetching user type: $e");
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -165,14 +163,25 @@ class SignInPage extends StatelessWidget {
   }
 
   Widget _buildBackgroundWithForm(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: _buildBackgroundDecoration(),
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: _buildFormContent(context),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return MediaQuery.removeViewInsets(
+          context: context,
+          removeBottom: true, // Prevent keyboard from shrinking height
+          child: Container(
+            width: double.infinity,
+            decoration: _buildBackgroundDecoration(),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  _buildFormContent(context),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

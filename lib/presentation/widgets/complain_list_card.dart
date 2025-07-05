@@ -111,7 +111,8 @@ class ComplainCard extends StatelessWidget {
                           Text(
                             "COMPLAINT:",
                             style: textTheme.labelSmall?.copyWith(
-                              color: colorScheme.onSurface.withOpacity(0.6),
+                              fontWeight: FontWeight.w800,
+                              color: Colors.grey[800],
                               letterSpacing: 1,
                             ),
                           ),
@@ -129,7 +130,6 @@ class ComplainCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w500,
                                 color: colorScheme.onSurface,
                               ),
                             ),
@@ -177,7 +177,8 @@ class ComplainCard extends StatelessWidget {
                             Text(
                               "LAST COMMENT:",
                               style: textTheme.labelSmall?.copyWith(
-                                color: colorScheme.onSurface.withOpacity(0.6),
+                                fontWeight: FontWeight.w800,
+                                color: Colors.grey[800],
                                 letterSpacing: 1,
                               ),
                             ),
