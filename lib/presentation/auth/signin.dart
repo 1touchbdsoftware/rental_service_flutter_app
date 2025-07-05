@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/button/button_state.dart';
 import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
-
 import 'package:rental_service/data/model/user/signin_req_params.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
 import 'package:rental_service/domain/usecases/signin_usecase.dart';
@@ -10,7 +9,6 @@ import 'package:rental_service/presentation/dashboard/bloc/user_info_cubit.dart'
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
 import 'package:rental_service/presentation/password/password_reset_screen.dart';
-
 import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
 import '../dashboard/tenant/TenantDashboard.dart';
@@ -27,7 +25,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
       body: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => ButtonStateCubit()),
@@ -36,28 +34,21 @@ class SignInPage extends StatelessWidget {
         ],
         child: MultiBlocListener(
           listeners: [
-            // Primary listener for login success/failure
             BlocListener<ButtonStateCubit, ButtonState>(
               listener: (context, state) async {
                 print("ButtonState changed: ${state.runtimeType}");
-
                 if (state is ButtonSuccessState) {
                   print("Login successful - fetching user type");
-
                   try {
-                    // Show loading indicator for user type fetch
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Login successful!'),
                         duration: Duration(seconds: 2),
                       ),
                     );
-
-                    // First check if password is default
                     await context
                         .read<DefaultPasswordCubit>()
                         .checkIfDefaultPassword();
-
                   } catch (e) {
                     print("Error fetching user type: $e");
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -86,12 +77,9 @@ class SignInPage extends StatelessWidget {
                 }
               },
             ),
-
-            // Listener for default password check
             BlocListener<DefaultPasswordCubit, DefaultPasswordState>(
               listener: (context, state) {
                 if (state is IsDefaultPasswordState) {
-                  // If the password is default, navigate to ChangePasswordScreen
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -104,12 +92,9 @@ class SignInPage extends StatelessWidget {
                 }
               },
             ),
-
-            // Listener for user type changes with better error handling
             BlocListener<UserTypeCubit, UserTypeState>(
               listener: (context, state) {
                 print("UserTypeState changed: ${state.runtimeType}");
-
                 if (state is UserTypeLandLord) {
                   print("Navigating to Landlord Dashboard");
                   Future.microtask(() {
@@ -158,65 +143,59 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildPageContent(BuildContext context) {
     return Stack(
-      children: [_buildBackgroundWithForm(context), _buildLoadingOverlay()],
+      children: [
+        _buildBackground(context),
+        _buildFormContent(context),
+        _buildLoadingOverlay(),
+      ],
     );
   }
 
-  Widget _buildBackgroundWithForm(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return MediaQuery.removeViewInsets(
-          context: context,
-          removeBottom: true, // Prevent keyboard from shrinking height
-          child: Container(
-            width: double.infinity,
-            decoration: _buildBackgroundDecoration(),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  _buildFormContent(context),
-                ],
-              ),
-            ),
+  Widget _buildBackground(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('asset/images/building.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.black54,
+            BlendMode.darken,
           ),
-        );
-      },
-    );
-  }
-
-  BoxDecoration _buildBackgroundDecoration() {
-    return BoxDecoration(
-      image: DecorationImage(
-        image: const AssetImage('asset/images/building.jpg'),
-        fit: BoxFit.cover,
-        colorFilter: ColorFilter.mode(
-          Colors.black.withAlpha(200),
-          BlendMode.darken,
         ),
       ),
     );
   }
 
   Widget _buildFormContent(BuildContext context) {
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 100),
-          _buildLogo(),
-          const SizedBox(height: 30),
-          _buildWelcomeText(),
-          const SizedBox(height: 30),
-          _buildUsernameField(),
-          const SizedBox(height: 20),
-          _buildPasswordField(),
-          const SizedBox(height: 30),
-          _buildRememberForgotRow(),
-          const SizedBox(height: 20),
-          _buildLoginButton(context),
-          const SizedBox(height: 30),
-        ],
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 100),
+            _buildLogo(),
+            const SizedBox(height: 30),
+            _buildWelcomeText(),
+            const SizedBox(height: 30),
+            _buildUsernameField(),
+            const SizedBox(height: 20),
+            _buildPasswordField(),
+            const SizedBox(height: 30),
+            _buildRememberForgotRow(),
+            const SizedBox(height: 20),
+            _buildLoginButton(context),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }
@@ -260,8 +239,8 @@ class SignInPage extends StatelessWidget {
     return TextFormField(
       style: const TextStyle(color: Colors.white),
       controller: _usernameController,
-      keyboardType: TextInputType.text, // Allows all characters
-      autocorrect: false, // Disables iOS auto-correction
+      keyboardType: TextInputType.text,
+      autocorrect: false,
       decoration: const InputDecoration(
         labelText: 'Username',
         labelStyle: TextStyle(
@@ -270,6 +249,12 @@ class SignInPage extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
         prefixIcon: Icon(Icons.person_rounded, color: Colors.lightBlue),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white70),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.lightBlue),
+        ),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -308,6 +293,12 @@ class SignInPage extends StatelessWidget {
                 });
               },
             ),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white70),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.lightBlue),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -324,13 +315,20 @@ class SignInPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Row(
-          children: [
-            Text('Remember me', style: TextStyle(color: Colors.white)),
-          ],
-        ),
+        // const Row(
+        //   children: [
+        //     Text('Remember me', style: TextStyle(color: Colors.white)),
+        //   ],
+        // ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const ChangePasswordScreen(),
+            //   ),
+            // );
+          },
           child: const Text(
             'Forgot Password?',
             style: TextStyle(color: Colors.white),
@@ -344,26 +342,24 @@ class SignInPage extends StatelessWidget {
     return BlocBuilder<ButtonStateCubit, ButtonState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed:
-              state is ButtonLoadingState ? null : () => _handleLogin(context),
+          onPressed: state is ButtonLoadingState ? null : () => _handleLogin(context),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.logInButton,
             padding: const EdgeInsets.symmetric(vertical: 15),
+            minimumSize: const Size(double.infinity, 50), // Width fills parent, min height 50
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
           ),
-          child:
-              state is ButtonLoadingState
-                  ? const AdaptiveLoading()
-                  : const Text('LOGIN', style: TextStyle(fontSize: 18)),
+          child: state is ButtonLoadingState
+              ? const AdaptiveLoading()
+              : const Text('LOGIN', style: TextStyle(fontSize: 18, color: Colors.white,)),
         );
       },
     );
   }
 
   void _handleLogin(BuildContext context) {
-    // Add validation
     if (_usernameController.text.trim().isEmpty ||
         _passwordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -392,10 +388,10 @@ class SignInPage extends StatelessWidget {
         return state is ButtonLoadingState
             ? Container(
           color: Colors.black.withValues(alpha: 0.5),
+          child: const Center(child: AdaptiveLoading()),
         )
             : const SizedBox.shrink();
       },
     );
   }
-
 }
