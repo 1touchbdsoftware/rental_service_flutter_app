@@ -382,11 +382,11 @@ class SignInPage extends StatelessWidget {
       builder: (context, state) {
         return state is ButtonLoadingState
             ? Container(
-              color: Colors.black.withOpacity(0.5),
-              child: const Center(child: AdaptiveLoading()),
-            )
+          color: Colors.black.withValues(alpha: 0.5),
+        )
             : const SizedBox.shrink();
       },
     );
   }
+
 }
