@@ -296,7 +296,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ? const AdaptiveLoading()
               : const Text(
             'CHANGE PASSWORD',
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, color: Colors.white,),
           ),
         );
       },
