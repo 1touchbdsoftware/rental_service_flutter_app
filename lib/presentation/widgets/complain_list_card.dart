@@ -55,6 +55,7 @@ class ComplainCard extends StatelessWidget {
           children: [
             const SizedBox(height: 8),
             Row(
+
               children: [
                 Text(
                   S.of(context).ticket(complaint.ticketNo!),
@@ -64,6 +65,9 @@ class ComplainCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+
+                Spacer(),
+                _buildStatusIndicator(context),
               ],
             ),
             const SizedBox(height: 14),
@@ -81,43 +85,146 @@ class ComplainCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 8),
-                _buildStatusIndicator(context),
-                const SizedBox(width: 8),
+
               ],
             ),
 
             const SizedBox(height: 20),
 
             // Complaint description with read more
-            Column(
+            // Complaint section
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  complaint.complainName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurface,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.report_problem,
+                            size: 20,
+                            color: Colors.orange,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            "COMPLAINT:",
+                            style: textTheme.labelSmall?.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.6),
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+
+                      // This Row puts complain text and Read More in same line
+                      Row(
+                        children: [
+                          // Complaint text with ellipsis
+                          Expanded(
+                            child: Text(
+                              complaint.complainName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurface,
+                              ),
+                            ),
+                          ),
+                          // Read More button only if text is long
+                          if (complaint.complainName.length > 45)
+                            TextButton(
+                              onPressed: onReadMorePressed,
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                S.of(context).readMore,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                if (complaint.complainName.length > 45)
-                  TextButton(
-                    onPressed: onReadMorePressed,
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      // Use primary color instead of hardcoded blue
-                      foregroundColor: colorScheme.primary,
-                    ),
-                    child: Text(
-                      S.of(context).readMore,
-                      style: TextStyle(fontSize: 12, color: Colors.blue),
-                    ),
-                  ),
               ],
             ),
+
+            if (complaint.lastComments != null) ...[
+              Divider(height: 24, thickness: 1),
+              // Last comment section
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.comment, size: 20, color: Colors.blue),
+                            SizedBox(width: 8),
+                            Text(
+                              "LAST COMMENT:",
+                              style: textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onSurface.withOpacity(0.6),
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+
+                        // Comment text + Read More in one row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                complaint.lastComments!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.onSurface,
+                                ),
+                              ),
+                            ),
+                            if (complaint.lastComments!.length > 45)
+                              TextButton(
+                                onPressed: onCommentsPressed,
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  S.of(context).readMore,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+            ],
+
             const SizedBox(height: 18),
 
             // History and Comments buttons
@@ -145,26 +252,26 @@ class ComplainCard extends StatelessWidget {
                       minimumSize: const Size(0, 30),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  ElevatedButton.icon(
-                    onPressed: onCommentsPressed,
-                    icon: Icon(Icons.comment, size: 16),
-                    label: Text(
-                      S.of(context).lastComment,
-                      style: textTheme.labelMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.surfaceContainerLow,
-                      foregroundColor: colorScheme.onSurface,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      minimumSize: const Size(0, 30),
-                    ),
-                  ),
+
+                  // ElevatedButton.icon(
+                  //   onPressed: onCommentsPressed,
+                  //   icon: Icon(Icons.comment, size: 16),
+                  //   label: Text(
+                  //     S.of(context).lastComment,
+                  //     style: textTheme.labelMedium?.copyWith(
+                  //       fontWeight: FontWeight.w500,
+                  //     ),
+                  //   ),
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: colorScheme.surfaceContainerLow,
+                  //     foregroundColor: colorScheme.onSurface,
+                  //     padding: const EdgeInsets.symmetric(
+                  //       horizontal: 8,
+                  //       vertical: 4,
+                  //     ),
+                  //     minimumSize: const Size(0, 30),
+                  //   ),
+                  // ),
                   const SizedBox(width: 8),
 
                   //landlord button
@@ -252,7 +359,8 @@ class ComplainCard extends StatelessWidget {
                     ),
 
                   //reschedule button
-                  if ((complaint.isReassignedTechnician! || complaint.isAssignedTechnician!) &&
+                  if ((complaint.isReassignedTechnician! ||
+                          complaint.isAssignedTechnician!) &&
                       !complaint.isSolved! &&
                       !complaint.isResubmitted! &&
                       !complaint.isAccepted! &&
@@ -361,7 +469,11 @@ class ComplainCard extends StatelessWidget {
                   onPressed: onImagePressed,
                   icon: const Icon(Icons.photo_library, size: 20),
                   label: Text(
-                    S.of(context).imageGalleryComplaintImagecount(complaint.imageCount.toString()),
+                    S
+                        .of(context)
+                        .imageGalleryComplaintImagecount(
+                          complaint.imageCount.toString(),
+                        ),
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
@@ -393,31 +505,31 @@ class ComplainCard extends StatelessWidget {
 
     if (complaint.isRejected!) {
       dotColor = Colors.red;
-      statusText =  S.of(context).rejected;
+      statusText = S.of(context).rejected;
     } else if (complaint.isSolved! && complaint.isCompleted!) {
       dotColor = Colors.green;
-      statusText =  S.of(context).completed;
+      statusText = S.of(context).completed;
     } else if (complaint.isSolved!) {
       dotColor = Colors.green;
-      statusText =  S.of(context).resolved;
+      statusText = S.of(context).resolved;
     } else if (complaint.isResubmitted!) {
       dotColor = Colors.orange;
-      statusText =  S.of(context).resubmitted;
+      statusText = S.of(context).resubmitted;
     } else if (complaint.isSentToLandlord! && complaint.isApproved!) {
       dotColor = Colors.purple;
-      statusText =  S.of(context).approved;
+      statusText = S.of(context).approved;
     } else if (complaint.isSentToLandlord!) {
       dotColor = Colors.blue;
-      statusText =  S.of(context).sentToLandlord;
+      statusText = S.of(context).sentToLandlord;
     } else if (complaint.isAssignedTechnician! && complaint.isAccepted!) {
       dotColor = Colors.purple;
-      statusText =  S.of(context).acceptedSchedule;
+      statusText = S.of(context).acceptedSchedule;
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
-      statusText =  S.of(context).technicianAssigned;
+      statusText = S.of(context).technicianAssigned;
     } else {
       dotColor = Colors.grey;
-      statusText =  S.of(context).pending;
+      statusText = S.of(context).pending;
     }
 
     return Row(
