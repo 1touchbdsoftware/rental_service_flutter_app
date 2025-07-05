@@ -160,7 +160,7 @@ class SignInPage extends StatelessWidget {
           image: AssetImage('asset/images/building.jpg'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            Colors.black54,
+            Colors.black87,
             BlendMode.darken,
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/data/model/password/change_password_request.dart';
 import 'package:rental_service/presentation/password/bloc/save_change_pass_cubit.dart';
 import 'package:rental_service/presentation/password/bloc/save_change_pass_state.dart';
-
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/loading.dart';
@@ -35,7 +34,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
       body: BlocProvider(
         create: (context) => ChangePasswordCubit(),
         child: BlocListener<ChangePasswordCubit, ChangePasswordState>(
@@ -67,55 +66,58 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget _buildPageContent(BuildContext context) {
     return Stack(
       children: [
-        _buildBackgroundWithForm(context),
+        _buildBackground(context),
+        _buildFormContent(context),
         _buildLoadingOverlay(context),
       ],
     );
   }
 
-  Widget _buildBackgroundWithForm(BuildContext context) {
+  Widget _buildBackground(BuildContext context) {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: _buildBackgroundDecoration(),
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: _buildFormContent(context),
-      ),
-    );
-  }
-
-  BoxDecoration _buildBackgroundDecoration() {
-    return BoxDecoration(
-      image: DecorationImage(
-        image: const AssetImage('asset/images/building.jpg'),
-        fit: BoxFit.cover,
-        colorFilter: ColorFilter.mode(
-          Colors.black.withAlpha(200),
-          BlendMode.darken,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('asset/images/building.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.black87,
+            BlendMode.darken,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildFormContent(BuildContext context) {
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 100),
-          _buildLogo(),
-          const SizedBox(height: 30),
-          _buildTitleText(),
-          const SizedBox(height: 30),
-          _buildCurrentPasswordField(),
-          const SizedBox(height: 20),
-          _buildNewPasswordField(),
-          const SizedBox(height: 20),
-          _buildConfirmNewPasswordField(),
-          const SizedBox(height: 30),
-          _buildChangePasswordButton(context),
-        ],
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 100),
+            _buildLogo(),
+            const SizedBox(height: 30),
+            _buildTitleText(),
+            const SizedBox(height: 30),
+            _buildCurrentPasswordField(),
+            const SizedBox(height: 20),
+            _buildNewPasswordField(),
+            const SizedBox(height: 20),
+            _buildConfirmNewPasswordField(),
+            const SizedBox(height: 30),
+            _buildChangePasswordButton(context),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }
@@ -184,6 +186,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 });
               },
             ),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white70),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.lightBlue),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -221,6 +229,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   _obscureNewPassword = !_obscureNewPassword;
                 });
               },
+            ),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white70),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.lightBlue),
             ),
           ),
           validator: (value) {
@@ -263,6 +277,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 });
               },
             ),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white70),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.lightBlue),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -296,7 +316,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ? const AdaptiveLoading()
               : const Text(
             'CHANGE PASSWORD',
-            style: TextStyle(fontSize: 18, color: Colors.white,),
+            style: TextStyle(fontSize: 18, color: Colors.white),
           ),
         );
       },
@@ -354,9 +374,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         return state is ChangePasswordLoading
             ? Container(
           color: Colors.black.withOpacity(0.5),
-          child: const Center(
-            child: AdaptiveLoading(),
-          ),
+          child: const Center(child: AdaptiveLoading()),
         )
             : const SizedBox.shrink();
       },
