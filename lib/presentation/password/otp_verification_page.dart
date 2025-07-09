@@ -11,7 +11,6 @@ import '../widgets/auth_widgets/build_welcome_text.dart';
 import 'bloc/forgot_password_cubit.dart';
 import 'bloc/forgot_request_state.dart';
 
-
 class OTPVerificationPage extends StatefulWidget {
   OTPVerificationPage({super.key});
 
@@ -26,10 +25,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => ForgotPasswordCubit()),
-        ],
+      body: BlocProvider(
+        create: (context) => ForgotPasswordCubit(), // Provide the cubit here
         child: MultiBlocListener(
           listeners: [
             BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
@@ -109,10 +106,10 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           return Column(
             children: [
               Text(
-                'OTP sent to: ${snapshot.data}',
+                'OTP sent to:\n ${snapshot.data}',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -173,11 +170,23 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   Widget _buildResendOTPButton(BuildContext context) {
     return TextButton(
-      onPressed: () {
-        // Trigger resend OTP functionality here
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('OTP has been resent!')),
-        );
+      onPressed: () async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String email = prefs.getString('email') ?? '';
+
+        if (email.isNotEmpty) {
+          // Trigger the resend OTP functionality by calling the cubit with the email
+          context.read<ForgotPasswordCubit>().requestPasswordReset(email);
+
+          // Show a snack bar for confirmation
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('OTP has been resent!')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No email found.')),
+          );
+        }
       },
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -192,7 +201,6 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       ),
     );
   }
-
 
   Widget _buildVerifyOTPButton(BuildContext context) {
     return ElevatedButton(

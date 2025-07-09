@@ -27,7 +27,10 @@ class ForgotPasswordPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OTPVerificationPage(),
+                      builder: (context) => BlocProvider(
+                        create: (context) => ForgotPasswordCubit(),
+                        child: OTPVerificationPage(),
+                      ),
                     ),
                   );
                 } else if (state is ForgotPasswordFailure) {
