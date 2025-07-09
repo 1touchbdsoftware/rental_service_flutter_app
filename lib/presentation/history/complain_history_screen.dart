@@ -139,26 +139,26 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
             },
           ),
         ),
-        floatingActionButton: BlocBuilder<GetHistoryCubit, GetHistoryState>(
-          builder: (context, state) {
-            if (state is GetHistorySuccessState) {
-              return FloatingActionButton(
-                onPressed: () {
-                  final userInfo = context.read<UserInfoCubit>().state;
-                  if (userInfo.agencyID.isNotEmpty) {
-                    final params = HistoryQueryParams(
-                      agencyID: userInfo.agencyID,
-                      complainID: widget.complainID,
-                    );
-                    context.read<GetHistoryCubit>().fetchHistory(params: params);
-                  }
-                },
-                child: const Icon(Icons.refresh),
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+        // floatingActionButton: BlocBuilder<GetHistoryCubit, GetHistoryState>(
+        //   builder: (context, state) {
+        //     if (state is GetHistorySuccessState) {
+        //       return FloatingActionButton(
+        //         onPressed: () {
+        //           final userInfo = context.read<UserInfoCubit>().state;
+        //           if (userInfo.agencyID.isNotEmpty) {
+        //             final params = HistoryQueryParams(
+        //               agencyID: userInfo.agencyID,
+        //               complainID: widget.complainID,
+        //             );
+        //             context.read<GetHistoryCubit>().fetchHistory(params: params);
+        //           }
+        //         },
+        //         child: const Icon(Icons.refresh),
+        //       );
+        //     }
+        //     return const SizedBox.shrink();
+        //   },
+        // ),
       ),
     );
   }
