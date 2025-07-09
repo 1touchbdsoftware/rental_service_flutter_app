@@ -167,7 +167,7 @@ class ComplainCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(Icons.comment, size: 18, color: Colors.blue),
-                            SizedBox(width: 8),
+                            SizedBox(width: 4),
                             Text(
                               "LAST COMMENT:",
                               style: textTheme.labelSmall?.copyWith(
