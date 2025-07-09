@@ -89,7 +89,7 @@ class ComplainCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             // Complaint description with read more
             // Complaint section
@@ -102,12 +102,6 @@ class ComplainCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.report_problem,
-                            size: 20,
-                            color: Colors.orange,
-                          ),
-                          SizedBox(width: 8),
                           Text(
                             "COMPLAINT:",
                             style: textTheme.labelSmall?.copyWith(
@@ -172,12 +166,13 @@ class ComplainCard extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.comment, size: 20, color: Colors.blue),
+                            Icon(Icons.comment, size: 18, color: Colors.blue),
                             SizedBox(width: 8),
                             Text(
                               "LAST COMMENT:",
                               style: textTheme.labelSmall?.copyWith(
                                 fontWeight: FontWeight.w800,
+                                fontSize: 10,
                                 color: Colors.grey[800],
                                 letterSpacing: 1,
                               ),
@@ -226,7 +221,7 @@ class ComplainCard extends StatelessWidget {
 
             ],
 
-            const SizedBox(height: 18),
+            const SizedBox(height: 12),
 
             // History and Comments buttons
             SingleChildScrollView(
@@ -460,7 +455,7 @@ class ComplainCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 12),
 
             // image gallery
             if (complaint.imageCount! > 0)
