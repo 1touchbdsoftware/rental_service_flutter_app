@@ -149,7 +149,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
         SizedBox(height: 10),
         Text(
-          'Enter your current password and new password',
+          'You must change the default password. \nPlease create new password.',
           style: TextStyle(
             color: Colors.white70,
             fontSize: 16,
@@ -364,7 +364,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       password: _newPasswordController.text.trim(),
       userName: userName,
     );
-
     context.read<ChangePasswordCubit>().changePassword(changePasswordRequest);
   }
 
@@ -373,8 +372,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       builder: (context, state) {
         return state is ChangePasswordLoading
             ? Container(
-          color: Colors.black.withOpacity(0.5),
-          child: const Center(child: AdaptiveLoading()),
+          color: Colors.black.withValues(alpha: 0.5),
+          child: const Center(),
         )
             : const SizedBox.shrink();
       },

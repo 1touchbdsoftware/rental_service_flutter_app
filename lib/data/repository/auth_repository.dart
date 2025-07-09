@@ -36,15 +36,15 @@ class AuthRepositoryImpl extends AuthRepository {
             response.statusCode == 200 || response.statusCode == 201;
         final validUser =
             response.data['data']['userInfo']['registrationType'] == "TENANT" ||
-                response.data['data']['userInfo']['registrationType'] == "LANDLORD"
+                    response.data['data']['userInfo']['registrationType'] ==
+                        "LANDLORD"
                 ? true
                 : false;
 
         if (success) {
-          if(!validUser){
+          if (!validUser) {
             return Left('Invalid User Type');
           }
-
 
           // Convert to model
           final userModel = UserModel.fromJson(response.data);
@@ -54,15 +54,14 @@ class AuthRepositoryImpl extends AuthRepository {
           final SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
 
-          if(!response.data['data']['userInfo']['isDefaultPassword']){
-
-          if (userType == "LANDLORD") {
-            sharedPreferences.setString('userType', "LANDLORD");
-          } else if (userType == "TENANT") {
-            sharedPreferences.setString('userType', "TENANT");
-          } else {
-            return Left('User Type Mismatch, Visit Website');
-          }
+          if (!response.data['data']['userInfo']['isDefaultPassword']) {
+            if (userType == "LANDLORD") {
+              sharedPreferences.setString('userType', "LANDLORD");
+            } else if (userType == "TENANT") {
+              sharedPreferences.setString('userType', "TENANT");
+            } else {
+              return Left('User Type Mismatch, Visit Website');
+            }
           }
 
           sharedPreferences.setString('token', userModel.token);
@@ -95,7 +94,7 @@ class AuthRepositoryImpl extends AuthRepository {
           );
           sharedPreferences.setString(
             'emailAddress',
-            userModel.userInfo.emailAddress ,
+            userModel.userInfo.emailAddress,
           );
           sharedPreferences.setString(
             'contactNumber',
@@ -103,7 +102,7 @@ class AuthRepositoryImpl extends AuthRepository {
           );
           sharedPreferences.setBool(
             'isDefaultPassword',
-            userModel.userInfo.isDefaultPassword ,
+            userModel.userInfo.isDefaultPassword,
           );
           //check registrationType and save name also from landlordName
           return Right(success);
@@ -129,17 +128,20 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<String, bool>> changePassword(ChangePasswordRequest params) async {
-    Either<ApiFailure, Response> result =
-    await sl<AuthApiService>().changePassword(params);
+  Future<Either<String, bool>> changePassword(
+    ChangePasswordRequest params,
+  ) async {
+    Either<ApiFailure, Response> result = await sl<AuthApiService>()
+        .changePassword(params);
 
     return result.fold(
-          (error) {
+      (error) {
         return Left(error.message);
       },
-          (response) {
+      (response) {
         try {
-          final success = response.statusCode == 200 || response.statusCode == 201;
+          final success =
+              response.statusCode == 200 || response.statusCode == 201;
 
           // If successful, update the isDefaultPassword flag in SharedPreferences
           if (success) {
