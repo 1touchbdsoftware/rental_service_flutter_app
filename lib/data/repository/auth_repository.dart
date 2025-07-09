@@ -156,4 +156,38 @@ class AuthRepositoryImpl extends AuthRepository {
       },
     );
   }
+
+  @override
+  Future<Either<String, bool>> forgotPassword(String email) async {
+    // Call the forgotPasswordRequest service
+    Either<ApiFailure, Response> result = await sl<AuthApiService>()
+        .forgotPasswordRequest(email);
+    return result.fold(
+      (error) {
+        // Handle error by returning the error message
+        return Left(error.message);
+      },
+      (response) {
+        try {
+          // If the response status code is 200 or 201, consider it successful
+          final success =
+              response.statusCode == 200 || response.statusCode == 201;
+          // Optionally, you can save additional flags or states (if necessary)
+          if (success) {
+            // Example: Save a success flag in SharedPreferences or handle other side effects
+            SharedPreferences.getInstance().then((prefs) {
+              prefs.setBool(
+                'passwordResetRequestSent',
+                true,
+              ); // Set a flag (optional)
+            });
+          }
+          return Right(success); // Return success (true/false)
+        } catch (e) {
+          // Catch any errors during response handling and return an error message
+          return Left('Failed to parse response: ${e.toString()}');
+        }
+      },
+    );
+  }
 }

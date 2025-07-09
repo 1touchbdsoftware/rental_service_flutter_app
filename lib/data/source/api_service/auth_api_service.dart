@@ -18,6 +18,7 @@ abstract class AuthApiService{
   Future<Either> signup();
   Future<Either<ApiFailure, Response>> signin(SignInReqParams signinReq);
   Future<Either<ApiFailure, Response>> changePassword(ChangePasswordRequest params);
+  Future<Either<ApiFailure, Response>> forgotPasswordRequest(String email);
 
 }
 
@@ -76,6 +77,26 @@ class AuthApiServiceImpl extends AuthApiService{
       return Left(ApiFailure(errorMsg));  // Return failure message
     } catch (e) {
       return Left(ApiFailure(e.toString()));  // Return any other errors
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, Response>> forgotPasswordRequest(String email) async {
+    try {
+      // Prepare the request data (email only)
+      final requestData = {"email": email};
+
+      // Make the API call for forgot password request
+      var response = await Dio().post(ApiUrls.forgotPassword, data: requestData);
+
+      return Right(response); // Return success
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg)); // Return failure
+    } catch (e) {
+      return Left(ApiFailure(e.toString())); // Return other errors
     }
   }
 

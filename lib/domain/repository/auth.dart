@@ -19,6 +19,7 @@ abstract class AuthRepository{
   Future<bool> isLoggedIn();
   Future<Either> logout();
   Future<Either<String, bool>> changePassword(ChangePasswordRequest params);
+  Future<Either<String, bool>> forgotPassword(String email);
 
 
 }
