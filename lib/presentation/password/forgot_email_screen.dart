@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/common/bloc/button/button_state.dart';
-import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
+import 'package:rental_service/presentation/password/otp_verification_page.dart';
 import '../../core/constants/app_colors.dart';
 import '../widgets/loading.dart';
+import 'bloc/forgot_password_cubit.dart';
+import 'bloc/forgot_request_state.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});
@@ -16,20 +17,20 @@ class ForgotPasswordPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => ButtonStateCubit()),
+          BlocProvider(create: (context) => ForgotPasswordCubit()),
         ],
         child: MultiBlocListener(
           listeners: [
-            BlocListener<ButtonStateCubit, ButtonState>(
-              listener: (context, state) async {
-                if (state is ButtonSuccessState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Password reset request sent!'),
-                      duration: Duration(seconds: 2),
+            BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
+              listener: (context, state) {
+                if (state is ForgotPasswordSuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OTPVerificationPage(),
                     ),
                   );
-                } else if (state is ButtonFailureState) {
+                } else if (state is ForgotPasswordFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("Error: ${state.errorMessage}"),
@@ -134,6 +135,7 @@ class ForgotPasswordPage extends StatelessWidget {
       ],
     );
   }
+
   Widget _buildEmailField() {
     return TextFormField(
       style: const TextStyle(color: Colors.white),
@@ -165,10 +167,10 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 
   Widget _buildRequestPasswordButton(BuildContext context) {
-    return BlocBuilder<ButtonStateCubit, ButtonState>(
+    return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state is ButtonLoadingState
+          onPressed: state is ForgotPasswordLoading
               ? null
               : () => _handleRequestPassword(context),
           style: ElevatedButton.styleFrom(
@@ -179,7 +181,7 @@ class ForgotPasswordPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
           ),
-          child: state is ButtonLoadingState
+          child: state is ForgotPasswordLoading
               ? const AdaptiveLoading()
               : const Text(
             'Request Password Reset',
@@ -201,20 +203,13 @@ class ForgotPasswordPage extends StatelessWidget {
       return;
     }
 
-    print("Requesting password reset for email: ${_emailController.text}");
-
-    // context.read<ButtonStateCubit>().execute(
-    //   usecase: null, // Replace with the appropriate use case for password reset
-    //   params: {
-    //     'email': _emailController.text.trim(),
-    //   },
-    // );
+    context.read<ForgotPasswordCubit>().requestPasswordReset(_emailController.text.trim());
   }
 
   Widget _buildLoadingOverlay() {
-    return BlocBuilder<ButtonStateCubit, ButtonState>(
+    return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
       builder: (context, state) {
-        return state is ButtonLoadingState
+        return state is ForgotPasswordLoading
             ? Container(
           color: Colors.black.withOpacity(0.5),
         )

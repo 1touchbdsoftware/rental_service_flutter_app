@@ -176,9 +176,9 @@ class AuthRepositoryImpl extends AuthRepository {
           if (success) {
             // Example: Save a success flag in SharedPreferences or handle other side effects
             SharedPreferences.getInstance().then((prefs) {
-              prefs.setBool(
-                'passwordResetRequestSent',
-                true,
+              prefs.setString(
+                'email',
+                email,
               ); // Set a flag (optional)
             });
           }
