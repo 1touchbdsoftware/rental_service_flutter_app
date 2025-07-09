@@ -38,6 +38,7 @@ import 'domain/usecases/post_accept_technician_usecase.dart';
 import 'domain/usecases/post_approve_complain_landlord_usecase.dart';
 import 'domain/usecases/post_change_password_usecase.dart';
 import 'domain/usecases/post_forgot_pass_req.dart';
+import 'domain/usecases/post_otp_verification.dart';
 import 'domain/usecases/post_reschedule_technician_usecase.dart';
 import 'domain/usecases/recomplain_usecase.dart';
 import 'domain/usecases/signin_usecase.dart';
@@ -164,7 +165,6 @@ void setupServiceLocator(){
       GetSegmentUseCase()
   );
 
-
   sl.registerSingleton<MarkComplainCompletedUseCase>(
       MarkComplainCompletedUseCase()
   );
@@ -183,6 +183,10 @@ void setupServiceLocator(){
 
   sl.registerSingleton<ForgotPasswordUseCase>(
       ForgotPasswordUseCase()
+  );
+
+  sl.registerSingleton<VerifyOtpUseCase>(
+      VerifyOtpUseCase()
   );
   //logout or other use cases
 

@@ -30,6 +30,7 @@ class ApiUrls{
   static const approveComplaints = '${baseURL}Complain/SaveComplainApproval';
   static const resetPassword = '${baseURL}Access/ResetPassword';
   static const forgotPassword = '${baseURL}Access/ForgotPassword';
+  static const verifyOtp = '${baseURL}Access/OTPVerification';
 
 
 

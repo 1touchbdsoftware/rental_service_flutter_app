@@ -190,4 +190,52 @@ class AuthRepositoryImpl extends AuthRepository {
       },
     );
   }
+
+
+  @override
+  Future<Either<String, bool>> verifyOtp(String email) async {
+    try {
+      // Retrieve the OTP from SharedPreferences
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final otp = prefs.getString('otp') ?? '';
+
+      if (otp.isEmpty) {
+        return Left('No OTP found in SharedPreferences.');
+      }
+
+      // Call the service to verify the OTP
+      Either<ApiFailure, Response> result =await sl<AuthApiService>().verifyOtp(otp);
+
+      return result.fold(
+            (error) {
+          // Handle error by returning the error message
+          return Left(error.message);
+        },
+            (response) {
+          try {
+            // If the response status code is 200 or 201, consider it successful
+            final success = response.statusCode == 200 || response.statusCode == 201;
+
+            // Optionally, you can handle additional flags or states if necessary
+            if (success) {
+              SharedPreferences.getInstance().then((prefs) {
+                prefs.setBool('otpVerified', true);  // Mark OTP as verified (optional)
+              });
+            }
+
+            return Right(success);  // Return success (true/false)
+          } catch (e) {
+            // Catch any errors during response handling and return an error message
+            return Left('Failed to parse response: ${e.toString()}');
+          }
+        },
+      );
+    } catch (e) {
+      // Handle unexpected errors (such as SharedPreferences not being available)
+      return Left('An unexpected error occurred: ${e.toString()}');
+    }
+  }
+
+
+
 }

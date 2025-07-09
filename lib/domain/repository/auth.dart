@@ -20,6 +20,7 @@ abstract class AuthRepository{
   Future<Either> logout();
   Future<Either<String, bool>> changePassword(ChangePasswordRequest params);
   Future<Either<String, bool>> forgotPassword(String email);
+  Future<Either<String, bool>> verifyOtp(String email);
 
 
 }

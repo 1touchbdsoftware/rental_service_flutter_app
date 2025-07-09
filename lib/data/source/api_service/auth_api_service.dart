@@ -19,6 +19,7 @@ abstract class AuthApiService{
   Future<Either<ApiFailure, Response>> signin(SignInReqParams signinReq);
   Future<Either<ApiFailure, Response>> changePassword(ChangePasswordRequest params);
   Future<Either<ApiFailure, Response>> forgotPasswordRequest(String email);
+  Future<Either<ApiFailure, Response>> verifyOtp(String otp);
 
 }
 
@@ -100,5 +101,42 @@ class AuthApiServiceImpl extends AuthApiService{
     }
   }
 
+  @override
+  Future<Either<ApiFailure, Response>> verifyOtp(String otp) async {
+    try {
+      // Retrieve the email from SharedPreferences
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final email = prefs.getString('email') ?? '';
+
+      if (email.isEmpty) {
+        return Left(ApiFailure('No email found in SharedPreferences.'));
+      }
+
+      final data = {
+        "email": email,
+        "otp": otp,
+      };
+
+      // Make the API call
+      final response = await Dio().post(
+        ApiUrls.verifyOtp,
+        data: data,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
 
 }
