@@ -388,9 +388,7 @@ class SignInPage extends StatelessWidget {
         return state is ButtonLoadingState
             ? Container(
           color: Colors.black.withValues(alpha: 0.5),
-          child: const Center(child: AdaptiveLoading()),
-        )
-            : const SizedBox.shrink();
+        ) : const SizedBox.shrink();
       },
     );
   }
