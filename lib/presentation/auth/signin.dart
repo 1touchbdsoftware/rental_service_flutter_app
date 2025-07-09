@@ -8,12 +8,16 @@ import 'package:rental_service/domain/usecases/signin_usecase.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_info_cubit.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
+import 'package:rental_service/presentation/password/forgot_email_screen.dart';
 import 'package:rental_service/presentation/password/password_reset_screen.dart';
 import '../../core/constants/app_colors.dart';
 import '../../service_locator.dart';
 import '../dashboard/tenant/TenantDashboard.dart';
 import '../password/bloc/default_password_state.dart';
 import '../password/bloc/default_password_cubit.dart';
+import '../widgets/auth_widgets/build_background.dart';
+import '../widgets/auth_widgets/build_logo.dart';
+import '../widgets/auth_widgets/build_welcome_text.dart';
 import '../widgets/loading.dart';
 
 class SignInPage extends StatelessWidget {
@@ -144,29 +148,13 @@ class SignInPage extends StatelessWidget {
   Widget _buildPageContent(BuildContext context) {
     return Stack(
       children: [
-        _buildBackground(context),
+        buildBackground(context),
         _buildFormContent(context),
         _buildLoadingOverlay(),
       ],
     );
   }
 
-  Widget _buildBackground(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('asset/images/building.jpg'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.black87,
-            BlendMode.darken,
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildFormContent(BuildContext context) {
     return SingleChildScrollView(
@@ -182,15 +170,15 @@ class SignInPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 100),
-            _buildLogo(),
+            buildLogo(),
             const SizedBox(height: 30),
-            _buildWelcomeText(),
+            buildWelcomeText(),
             const SizedBox(height: 30),
             _buildUsernameField(),
             const SizedBox(height: 20),
             _buildPasswordField(),
             const SizedBox(height: 30),
-            _buildRememberForgotRow(),
+            _buildRememberForgotRow(context),
             const SizedBox(height: 20),
             _buildLoginButton(context),
             const SizedBox(height: 30),
@@ -200,40 +188,8 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLogo() {
-    return Container(
-      height: 70,
-      width: 100,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('asset/images/pro_matrix_logo.png'),
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
-  }
 
-  Widget _buildWelcomeText() {
-    return const Column(
-      children: [
-        Text(
-          'Welcome',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 10),
-        Text(
-          'Sign in to continue',
-          style: TextStyle(color: Colors.white70, fontSize: 16),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildUsernameField() {
     return TextFormField(
@@ -311,7 +267,7 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRememberForgotRow() {
+  Widget _buildRememberForgotRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -322,12 +278,12 @@ class SignInPage extends StatelessWidget {
         // ),
         TextButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const ChangePasswordScreen(),
-            //   ),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ForgotPasswordPage(),
+              ),
+            );
           },
           child: const Text(
             'Forgot Password?',
