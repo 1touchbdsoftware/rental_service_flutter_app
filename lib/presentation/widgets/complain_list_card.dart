@@ -55,7 +55,6 @@ class ComplainCard extends StatelessWidget {
           children: [
             const SizedBox(height: 8),
             Row(
-
               children: [
                 Text(
                   S.of(context).ticket(complaint.ticketNo!),
@@ -85,7 +84,6 @@ class ComplainCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-
               ],
             ),
 
@@ -156,70 +154,75 @@ class ComplainCard extends StatelessWidget {
 
             if (complaint.lastComments != null) ...[
               Divider(height: 24, thickness: 1),
-              // Last comment section
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.comment, size: 18, color: Colors.blue),
-                            SizedBox(width: 4),
-                            Text(
-                              "LAST COMMENT:",
-                              style: textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 10,
-                                color: Colors.grey[800],
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 4),
-
-                        // Comment text + Read More in one row
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                complaint.lastComments!,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.onSurface,
+              // Last comment section with rounded white background
+              Container(
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.comment, size: 18, color: Colors.blue),
+                              SizedBox(width: 4),
+                              Text(
+                                "LAST COMMENT:",
+                                style: textTheme.labelSmall?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 10,
+                                  color: Colors.grey[800],
+                                  letterSpacing: 1,
                                 ),
                               ),
-                            ),
-                            if (complaint.lastComments!.length > 45)
-                              TextButton(
-                                onPressed: onCommentsPressed,
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                ),
+                            ],
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Expanded(
                                 child: Text(
-                                  S.of(context).readMore,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.w600,
+                                  complaint.lastComments!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    color: colorScheme.onSurface,
                                   ),
                                 ),
                               ),
-                          ],
-                        ),
-                      ],
+                              if (complaint.lastComments!.length > 45)
+                                TextButton(
+                                  onPressed: onCommentsPressed,
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: Text(
+                                    S.of(context).readMore,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-
             ],
+
 
             const SizedBox(height: 12),
 
