@@ -16,16 +16,16 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  final TextEditingController _currentPasswordController = TextEditingController();
+  // final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmNewPasswordController = TextEditingController();
-  bool _obscureCurrentPassword = true;
+  // bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
   bool _obscureConfirmNewPassword = true;
 
   @override
   void dispose() {
-    _currentPasswordController.dispose();
+    // _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmNewPasswordController.dispose();
     super.dispose();
@@ -43,6 +43,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message ?? 'Password changed successfully!'),
+                  backgroundColor: Colors.green,
                   duration: const Duration(seconds: 2),
                 ),
               );
@@ -108,7 +109,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             const SizedBox(height: 30),
             _buildTitleText(),
             const SizedBox(height: 30),
-            _buildCurrentPasswordField(),
+            // _buildCurrentPasswordField(),
             const SizedBox(height: 20),
             _buildNewPasswordField(),
             const SizedBox(height: 20),
@@ -160,49 +161,49 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Widget _buildCurrentPasswordField() {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return TextFormField(
-          style: const TextStyle(color: Colors.white),
-          controller: _currentPasswordController,
-          obscureText: _obscureCurrentPassword,
-          decoration: InputDecoration(
-            labelStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            labelText: 'Current Password',
-            prefixIcon: const Icon(Icons.lock, color: Colors.lightBlue),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscureCurrentPassword ? Icons.visibility_off : Icons.visibility,
-                color: Colors.white70,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscureCurrentPassword = !_obscureCurrentPassword;
-                });
-              },
-            ),
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white70),
-            ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.lightBlue),
-            ),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your current password';
-            }
-            return null;
-          },
-        );
-      },
-    );
-  }
+  // Widget _buildCurrentPasswordField() {
+  //   return StatefulBuilder(
+  //     builder: (context, setState) {
+  //       return TextFormField(
+  //         style: const TextStyle(color: Colors.white),
+  //         controller: _currentPasswordController,
+  //         obscureText: _obscureCurrentPassword,
+  //         decoration: InputDecoration(
+  //           labelStyle: const TextStyle(
+  //             color: Colors.white,
+  //             fontSize: 16,
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //           labelText: 'Current Password',
+  //           prefixIcon: const Icon(Icons.lock, color: Colors.lightBlue),
+  //           suffixIcon: IconButton(
+  //             icon: Icon(
+  //               _obscureCurrentPassword ? Icons.visibility_off : Icons.visibility,
+  //               color: Colors.white70,
+  //             ),
+  //             onPressed: () {
+  //               setState(() {
+  //                 _obscureCurrentPassword = !_obscureCurrentPassword;
+  //               });
+  //             },
+  //           ),
+  //           enabledBorder: const UnderlineInputBorder(
+  //             borderSide: BorderSide(color: Colors.white70),
+  //           ),
+  //           focusedBorder: const UnderlineInputBorder(
+  //             borderSide: BorderSide(color: Colors.lightBlue),
+  //           ),
+  //         ),
+  //         validator: (value) {
+  //           if (value == null || value.isEmpty) {
+  //             return 'Please enter your current password';
+  //           }
+  //           return null;
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildNewPasswordField() {
     return StatefulBuilder(
@@ -324,8 +325,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   void _handleChangePassword(BuildContext context) async {
-    if (_currentPasswordController.text.trim().isEmpty ||
-        _newPasswordController.text.trim().isEmpty ||
+    if (_newPasswordController.text.trim().isEmpty ||
         _confirmNewPasswordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -358,9 +358,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     final prefs = await SharedPreferences.getInstance();
     final userName = prefs.getString('userName') ?? '';
+    final currentPass = prefs.getString('defaultPassword') ?? '';
 
     final changePasswordRequest = ChangePasswordRequest(
-      currentPassword: _currentPasswordController.text.trim(),
+      currentPassword: currentPass,
       password: _newPasswordController.text.trim(),
       userName: userName,
     );

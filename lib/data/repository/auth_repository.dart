@@ -62,6 +62,8 @@ class AuthRepositoryImpl extends AuthRepository {
             } else {
               return Left('User Type Mismatch, Visit Website');
             }
+          }else{
+            sharedPreferences.setString('defaultPass', response.data['data']['userInfo']['defaultPassword']);
           }
 
           sharedPreferences.setString('token', userModel.token);
@@ -193,14 +195,14 @@ class AuthRepositoryImpl extends AuthRepository {
 
 
   @override
-  Future<Either<String, bool>> verifyOtp(String email) async {
+  Future<Either<String, bool>> verifyOtp(String otp) async {
     try {
       // Retrieve the OTP from SharedPreferences
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final otp = prefs.getString('otp') ?? '';
+      final email = prefs.getString('email') ?? '';
 
       if (otp.isEmpty) {
-        return Left('No OTP found in SharedPreferences.');
+        return Left('No OTP found.');
       }
 
       // Call the service to verify the OTP

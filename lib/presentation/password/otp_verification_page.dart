@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_service/common/bloc/button/button_state.dart';
-import 'package:rental_service/common/bloc/button/button_state_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/constants/app_colors.dart';
-import '../widgets/loading.dart';
 import '../widgets/auth_widgets/build_background.dart';
 import '../widgets/auth_widgets/build_logo.dart';
-import '../widgets/auth_widgets/build_welcome_text.dart';
-import 'bloc/forgot_password_cubit.dart';
-import 'bloc/forgot_request_state.dart';
+import 'bloc/verify_otp_cubit.dart';
+import 'bloc/verify_otp_state.dart';
 
 class OTPVerificationPage extends StatefulWidget {
   OTPVerificationPage({super.key});
@@ -26,19 +23,12 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
-        create: (context) => ForgotPasswordCubit(), // Provide the cubit here
+        create: (context) => VerifyOtpCubit(),
         child: MultiBlocListener(
           listeners: [
-            BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
+            BlocListener<VerifyOtpCubit, VerifyOtpState>(
               listener: (context, state) {
-                if (state is ForgotPasswordSuccess) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('OTP Verified successfully!'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                } else if (state is ForgotPasswordFailure) {
+                if (state is VerifyOtpFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("Error: ${state.errorMessage}"),
@@ -67,32 +57,120 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   Widget _buildFormContent(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 100,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+    return BlocBuilder<VerifyOtpCubit, VerifyOtpState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 100,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 30),
+                buildLogo(),
+                const SizedBox(height: 30),
+                buildWelcomeText(),
+                const SizedBox(height: 20),
+
+                // Show different UI based on state
+                if (state is VerifyOtpSuccess) ...[
+                  _buildSuccessUI(context),
+                ] else if (state is! VerifyOtpLoading) ...[
+                  _buildOTPField(),
+                  const SizedBox(height: 20),
+                  _buildResendOTPButton(context),
+                  const SizedBox(height: 20),
+                  _buildVerifyOTPButton(context),
+                ],
+                const SizedBox(height: 30),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSuccessUI(BuildContext context) {
+    return Column(
+      children: [
+        const Icon(Icons.check_circle, color: Colors.green, size: 80),
+        const SizedBox(height: 20),
+        const Text(
+          'Verification Successful!',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 30),
-            buildLogo(),
-            const SizedBox(height: 30),
-            buildWelcomeText(),
-            const SizedBox(height: 20),
-            _buildOTPField(),
-            const SizedBox(height: 20),
-            _buildResendOTPButton(context),
-            const SizedBox(height: 20),
-            _buildVerifyOTPButton(context),
-            const SizedBox(height: 30),
-          ],
+        const SizedBox(height: 10),
+        FutureBuilder<String>(
+          future: _getEmailFromSharedPrefs(),
+          builder: (context, snapshot) {
+            return Column(
+              children: [
+                const Text(
+                  'A default password has been sent to:',
+                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    if (snapshot.hasData) {
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: snapshot.data!,
+                      );
+                      launchUrl(emailLaunchUri);
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.email, color: Colors.white),
+                      const SizedBox(width: 8),
+                      Text(
+                        snapshot.data ?? 'your email',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
-      ),
+        const SizedBox(height: 30),
+        ElevatedButton(
+          onPressed: () {
+             Navigator.pushNamed(context, '/sign-in');
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.logInButton,
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            minimumSize: const Size(double.infinity, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          child: const Text(
+            'Login',
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 
@@ -105,14 +183,24 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         } else if (snapshot.hasData) {
           return Column(
             children: [
-              Text(
-                'OTP sent to:\n ${snapshot.data}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () {
+                  final email = snapshot.data!;
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: email,
+                  );
+                  launchUrl(emailLaunchUri);
+                },
+                child: Text(
+                  'OTP sent to:\n ${snapshot.data}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
               const Text(
@@ -169,35 +257,33 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   Widget _buildResendOTPButton(BuildContext context) {
-    return TextButton(
-      onPressed: () async {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        final String email = prefs.getString('email') ?? '';
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: () async {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          final String email = prefs.getString('email') ?? '';
 
-        if (email.isNotEmpty) {
-          // Trigger the resend OTP functionality by calling the cubit with the email
-          context.read<ForgotPasswordCubit>().requestPasswordReset(email);
-
-          // Show a snack bar for confirmation
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('OTP has been resent!')),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('No email found.')),
-          );
-        }
-      },
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        minimumSize: const Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          if (email.isNotEmpty) {
+            context.read<VerifyOtpCubit>().verifyOtp(email);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('OTP has been resent!')),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('No email found.')),
+            );
+          }
+        },
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          minimumSize: const Size(0, 30),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-      ),
-      child: const Text(
-        'Resend OTP',
-        style: TextStyle(fontSize: 18, color: Colors.white),
+        child: const Text(
+          'Resend OTP',
+          style: TextStyle(fontSize: 14, color: Colors.white),
+        ),
       ),
     );
   }
@@ -205,14 +291,12 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget _buildVerifyOTPButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Verify OTP
         if (_otpController.text.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Please enter the OTP')),
           );
         } else {
-          // Call cubit to verify OTP
-          context.read<ForgotPasswordCubit>().requestPasswordReset(_otpController.text);
+          context.read<VerifyOtpCubit>().verifyOtp(_otpController.text);
         }
       },
       style: ElevatedButton.styleFrom(
@@ -231,11 +315,14 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   Widget _buildLoadingOverlay() {
-    return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
+    return BlocBuilder<VerifyOtpCubit, VerifyOtpState>(
       builder: (context, state) {
-        return state is ForgotPasswordLoading
+        return state is VerifyOtpLoading
             ? Container(
           color: Colors.black.withOpacity(0.5),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
         )
             : const SizedBox.shrink();
       },

@@ -117,6 +117,8 @@ class AuthApiServiceImpl extends AuthApiService{
         "otp": otp,
       };
 
+      print("service - verify called: $email, $otp");
+
       // Make the API call
       final response = await Dio().post(
         ApiUrls.verifyOtp,

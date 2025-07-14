@@ -9,6 +9,8 @@ import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/tenent_home_screen.dart';
+import 'package:rental_service/presentation/password/bloc/forgot_password_cubit.dart';
+import 'package:rental_service/presentation/password/bloc/verify_otp_cubit.dart';
 import 'package:rental_service/presentation/routes.dart';
 import 'package:rental_service/service_locator.dart';
 
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit()..appStarted()),
         BlocProvider(create: (context) => UserTypeCubit()..getUserType()),
         BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => ForgotPasswordCubit()),
+        BlocProvider(create: (context) => VerifyOtpCubit()),
+
       ],
       child: MyAppContent(),
 
