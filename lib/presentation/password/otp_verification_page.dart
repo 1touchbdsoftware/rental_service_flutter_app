@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_service/presentation/password/bloc/forgot_password_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/constants/app_colors.dart';
@@ -74,11 +76,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 const SizedBox(height: 30),
                 buildLogo(),
                 const SizedBox(height: 30),
-
-                // Show different UI based on state
                 if (state is VerifyOtpSuccess) ...[
-                  _buildSuccessUI(context),
-                ] else if (state is! VerifyOtpLoading) ...[
+                  _buildSuccessUI(),
+                ] else if (state is VerifyOtpLoading) ...[
+                  _buildLoadingState(),
+                ] else ...[
                   buildWelcomeText(),
                   const SizedBox(height: 20),
                   _buildOTPField(),
@@ -96,7 +98,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     );
   }
 
-  Widget _buildSuccessUI(BuildContext context) {
+  Widget _buildSuccessUI() {
     return Column(
       children: [
         const Icon(Icons.check_circle, color: Colors.green, size: 80),
@@ -116,8 +118,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           builder: (context, snapshot) {
             return Column(
               children: [
-                Text(
-                  'A Default Password has been sent to:\n ${snapshot.data} \n Use the Default Password to Login.',
+                const Text(
+                  'A default password has been sent to:',
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -127,7 +129,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     if (snapshot.hasData) {
                       final Uri emailLaunchUri = Uri(
                         scheme: 'mailto',
-                        path: '',
+                        path: snapshot.data!,
                       );
                       launchUrl(emailLaunchUri);
                     }
@@ -138,7 +140,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                       const Icon(Icons.email, color: Colors.white),
                       const SizedBox(width: 8),
                       Text(
-                       'Open Email',
+                        snapshot.data ?? 'your email',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -155,7 +157,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         const SizedBox(height: 30),
         ElevatedButton(
           onPressed: () {
-             Navigator.pushNamed(context, '/sign-in');
+            // Navigate to login page or handle login
+            // Navigator.pushNamed(context, '/login');
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.logInButton,
@@ -172,6 +175,10 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         ),
       ],
     );
+  }
+
+  Widget _buildLoadingState() {
+    return const Center(child: CircularProgressIndicator());
   }
 
   Widget buildWelcomeText() {
@@ -257,34 +264,22 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   Widget _buildResendOTPButton(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () async {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          final String email = prefs.getString('email') ?? '';
+    return _ResendOTPButton(
+      onResend: () async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String email = prefs.getString('email') ?? '';
 
-          if (email.isNotEmpty) {
-            context.read<VerifyOtpCubit>().verifyOtp(email);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('OTP has been resent!')),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('No email found.')),
-            );
-          }
-        },
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          minimumSize: const Size(0, 30),
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        child: const Text(
-          'Resend OTP',
-          style: TextStyle(fontSize: 14, color: Colors.white),
-        ),
-      ),
+        if (email.isNotEmpty) {
+          context.read<ForgotPasswordCubit>().requestPasswordReset(email);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('OTP has been resent!')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No email found.')),
+          );
+        }
+      },
     );
   }
 
@@ -326,6 +321,90 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         )
             : const SizedBox.shrink();
       },
+    );
+  }
+}
+
+class _ResendOTPButton extends StatefulWidget {
+  final VoidCallback onResend;
+
+  const _ResendOTPButton({required this.onResend});
+
+  @override
+  State<_ResendOTPButton> createState() => _ResendOTPButtonState();
+}
+
+class _ResendOTPButtonState extends State<_ResendOTPButton>
+    with AutomaticKeepAliveClientMixin {
+  int _resendTimer = 60;
+  bool _canResend = false;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startResendTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startResendTimer() {
+    setState(() {
+      _canResend = false;
+      _resendTimer = 60;
+    });
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_resendTimer > 0) {
+        setState(() {
+          _resendTimer--;
+        });
+      } else {
+        setState(() {
+          _canResend = true;
+        });
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: _canResend
+            ? () {
+          widget.onResend();
+          _startResendTimer();
+        }
+            : null,
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          minimumSize: const Size(0, 30),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: _canResend
+            ? const Text(
+          'Resend OTP',
+          style: TextStyle(fontSize: 14, color: Colors.white),
+        )
+            : Text(
+          'Resend in $_resendTimer sec',
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.white54,
+          ),
+        ),
+      ),
     );
   }
 }
