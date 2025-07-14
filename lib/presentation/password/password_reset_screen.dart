@@ -161,49 +161,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  // Widget _buildCurrentPasswordField() {
-  //   return StatefulBuilder(
-  //     builder: (context, setState) {
-  //       return TextFormField(
-  //         style: const TextStyle(color: Colors.white),
-  //         controller: _currentPasswordController,
-  //         obscureText: _obscureCurrentPassword,
-  //         decoration: InputDecoration(
-  //           labelStyle: const TextStyle(
-  //             color: Colors.white,
-  //             fontSize: 16,
-  //             fontWeight: FontWeight.w500,
-  //           ),
-  //           labelText: 'Current Password',
-  //           prefixIcon: const Icon(Icons.lock, color: Colors.lightBlue),
-  //           suffixIcon: IconButton(
-  //             icon: Icon(
-  //               _obscureCurrentPassword ? Icons.visibility_off : Icons.visibility,
-  //               color: Colors.white70,
-  //             ),
-  //             onPressed: () {
-  //               setState(() {
-  //                 _obscureCurrentPassword = !_obscureCurrentPassword;
-  //               });
-  //             },
-  //           ),
-  //           enabledBorder: const UnderlineInputBorder(
-  //             borderSide: BorderSide(color: Colors.white70),
-  //           ),
-  //           focusedBorder: const UnderlineInputBorder(
-  //             borderSide: BorderSide(color: Colors.lightBlue),
-  //           ),
-  //         ),
-  //         validator: (value) {
-  //           if (value == null || value.isEmpty) {
-  //             return 'Please enter your current password';
-  //           }
-  //           return null;
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+
 
   Widget _buildNewPasswordField() {
     return StatefulBuilder(

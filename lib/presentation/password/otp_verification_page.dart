@@ -158,7 +158,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         ElevatedButton(
           onPressed: () {
             // Navigate to login page or handle login
-            // Navigator.pushNamed(context, '/login');
+            Navigator.pushNamed(context, '/sign-in');
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.logInButton,
