@@ -74,13 +74,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 const SizedBox(height: 30),
                 buildLogo(),
                 const SizedBox(height: 30),
-                buildWelcomeText(),
-                const SizedBox(height: 20),
 
                 // Show different UI based on state
                 if (state is VerifyOtpSuccess) ...[
                   _buildSuccessUI(context),
                 ] else if (state is! VerifyOtpLoading) ...[
+                  buildWelcomeText(),
+                  const SizedBox(height: 20),
                   _buildOTPField(),
                   const SizedBox(height: 20),
                   _buildResendOTPButton(context),
@@ -116,8 +116,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           builder: (context, snapshot) {
             return Column(
               children: [
-                const Text(
-                  'A default password has been sent to:',
+                Text(
+                  'A Default Password has been sent to:\n ${snapshot.data} \n Use the Default Password to Login.',
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -127,7 +127,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     if (snapshot.hasData) {
                       final Uri emailLaunchUri = Uri(
                         scheme: 'mailto',
-                        path: snapshot.data!,
+                        path: '',
                       );
                       launchUrl(emailLaunchUri);
                     }
@@ -138,7 +138,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                       const Icon(Icons.email, color: Colors.white),
                       const SizedBox(width: 8),
                       Text(
-                        snapshot.data ?? 'your email',
+                       'Open Email',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
