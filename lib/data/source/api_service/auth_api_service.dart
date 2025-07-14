@@ -90,6 +90,13 @@ class AuthApiServiceImpl extends AuthApiService{
       // Make the API call for forgot password request
       var response = await Dio().post(ApiUrls.forgotPassword, data: requestData);
 
+      // Check if response status code is 400 (Bad Request)
+      if (response.statusCode == 400) {
+        // Return a custom error message for 400 status code
+        return Left(ApiFailure('Invalid email'));
+      }
+
+
       return Right(response); // Return success
     } on DioException catch (e) {
       final errorMsg = e.response?.data?['message']?.toString() ??
