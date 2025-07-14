@@ -118,8 +118,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           builder: (context, snapshot) {
             return Column(
               children: [
-                const Text(
-                  'A default password has been sent to:',
+                 Text(
+                  'A default password has been sent to:\n ${snapshot.data}',
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -129,7 +129,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     if (snapshot.hasData) {
                       final Uri emailLaunchUri = Uri(
                         scheme: 'mailto',
-                        path: snapshot.data!,
+                        path: '',
                       );
                       launchUrl(emailLaunchUri);
                     }
@@ -140,7 +140,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                       const Icon(Icons.email, color: Colors.white),
                       const SizedBox(width: 8),
                       Text(
-                        snapshot.data ?? 'your email',
+                       'Open Mail',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -315,9 +315,6 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         return state is VerifyOtpLoading
             ? Container(
           color: Colors.black.withOpacity(0.5),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
         )
             : const SizedBox.shrink();
       },
