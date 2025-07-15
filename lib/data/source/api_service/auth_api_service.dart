@@ -88,23 +88,32 @@ class AuthApiServiceImpl extends AuthApiService{
       final requestData = {"email": email};
 
       // Make the API call for forgot password request
-      var response = await Dio().post(ApiUrls.forgotPassword, data: requestData);
+      var response = await Dio().post(
+        ApiUrls.forgotPassword,
+        data: requestData,
+        options: Options(validateStatus: (status) => status! < 500), // Accept 4xx status codes
+      );
 
-      // Check if response status code is 400 (Bad Request)
-      if (response.statusCode == 400) {
-        // Return a custom error message for 400 status code
-        return Left(ApiFailure('Invalid email'));
+      // Check response status code
+      if (response.statusCode == 404) {
+        return Left(ApiFailure('Email Not Found in Our Database'));
+      } else if(response.statusCode == 400){
+        return Left(ApiFailure('Email Not Valid'));
+      } else if (response.statusCode != 200) {
+        // Handle other non-success status codes
+        final errorMsg = response.data?['message']?.toString() ??
+            'Request failed with status ${response.statusCode}';
+        return Left(ApiFailure(errorMsg));
       }
-
-
       return Right(response); // Return success
     } on DioException catch (e) {
-      final errorMsg = e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
-      return Left(ApiFailure(errorMsg)); // Return failure
+      // Handle Dio-specific errors (connection issues, etc.)
+      if (e.response?.statusCode == 404) {
+        return Left(ApiFailure('Invalid email'));
+      }
+      return Left(ApiFailure("Something Went Wrong."));
     } catch (e) {
-      return Left(ApiFailure(e.toString())); // Return other errors
+      return Left(ApiFailure("Something Went Wrong.")); // Return other errors
     }
   }
 

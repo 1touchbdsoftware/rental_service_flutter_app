@@ -36,7 +36,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 } else if (state is ForgotPasswordFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("OTP Sending Failed"),
+                      content: Text("OTP Sending Failed : ${state.errorMessage}"),
 
                      // content: Text("Error: ${state.errorMessage}"),
                       backgroundColor: Colors.red,
