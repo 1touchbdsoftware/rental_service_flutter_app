@@ -195,16 +195,15 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                   final email = snapshot.data!;
                   final Uri emailLaunchUri = Uri(
                     scheme: 'mailto',
-                    path: email,
+                    path: '',
                   );
                   launchUrl(emailLaunchUri);
                 },
                 child: Text(
-                  'OTP sent to:\n ${snapshot.data}',
+                  'OTP sent to:\n ${snapshot.data}➡️',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
