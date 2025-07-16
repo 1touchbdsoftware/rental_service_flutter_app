@@ -33,9 +33,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                 if (state is VerifyOtpFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Error: ${state.errorMessage}"),
+                      content: Text("Issue: ${state.errorMessage}"),
                       backgroundColor: Colors.red,
-                      duration: const Duration(seconds: 3),
+                      duration: const Duration(seconds: 5),
                     ),
                   );
                 }
@@ -119,7 +119,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             return Column(
               children: [
                  Text(
-                  'A default password has been sent to:\n ${snapshot.data}',
+                  'A Default Password has been sent to:\n ${snapshot.data}',
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -192,7 +192,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  final email = snapshot.data!;
+                  // final email = snapshot.data!;
                   final Uri emailLaunchUri = Uri(
                     scheme: 'mailto',
                     path: '',
