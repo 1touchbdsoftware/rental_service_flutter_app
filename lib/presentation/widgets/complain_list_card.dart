@@ -334,7 +334,10 @@ class ComplainCard extends StatelessWidget {
                       !complaint.isRejected! &&
                       !complaint.isResubmitted! &&
                       !complaint.isRescheduled! &&
-                      !complaint.isDone!)
+                      !complaint.isDone! &&
+                  !complaint.isBudget! &&
+                  !complaint.isPaid!
+                  )
                     ElevatedButton(
                       onPressed: onEditPressed,
                       style: ElevatedButton.styleFrom(
@@ -455,6 +458,52 @@ class ComplainCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                  if (complaint.isBudget! && !complaint.isPaid!)
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: onCompletePressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text(
+                           "Pay Now",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: onResubmitPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text(
+                            "Request Budget Review",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
@@ -468,8 +517,7 @@ class ComplainCard extends StatelessWidget {
                   onPressed: onImagePressed,
                   icon: const Icon(Icons.photo_library, size: 20),
                   label: Text(
-                    S
-                        .of(context)
+                    S.of(context)
                         .imageGalleryComplaintImagecount(
                           complaint.imageCount.toString(),
                         ),
@@ -526,6 +574,9 @@ class ComplainCard extends StatelessWidget {
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
       statusText = S.of(context).technicianAssigned;
+    }else if (complaint.isBudget! && !complaint.isPaid!) {
+      dotColor = Colors.orange;
+      statusText = "Budget Provided";
     } else {
       dotColor = Colors.grey;
       statusText = S.of(context).pending;
