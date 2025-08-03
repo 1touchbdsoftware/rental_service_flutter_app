@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // <-- Needed for NumberFormat
+import 'package:intl/intl.dart';
 
 class EstimatedBudgetScreen extends StatelessWidget {
   final List<BudgetItem> items = const [
@@ -18,7 +18,8 @@ class EstimatedBudgetScreen extends StatelessWidget {
     final textTheme = theme.textTheme;
 
     final double totalBudget = items.fold(0, (sum, item) => sum + item.total);
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currencyFormat = NumberFormat.currency(symbol: '৳', decimalDigits: 0);
+
 
     return Scaffold(
       appBar: AppBar(
