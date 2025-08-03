@@ -64,7 +64,7 @@ class EstimatedBudgetScreen extends StatelessWidget {
         
               // Total Budget
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   border: Border.all(color: colorScheme.primary.withOpacity(0.2)),
                   borderRadius: BorderRadius.circular(8), // <-- Added missing borderRadius
