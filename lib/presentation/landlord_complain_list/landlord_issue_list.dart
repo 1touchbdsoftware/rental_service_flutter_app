@@ -265,7 +265,7 @@ class _LandlordIssueListContentState extends State<LandlordIssueListContent> {
             onApprovePressed: () => _handleApprove(context, complaint),
             onDeclinePressed: () => _handleDecline(context, complaint),
 
-            userType: _userType,
+            userType: _userType, onBudgetPressed: () {  },
           );
         } else {
           // Pagination widget at the end of the list

@@ -266,7 +266,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onCompletePressed: () {},
             onResubmitPressed: () {},
             onAcceptPressed: () {},
-            userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  },
+            userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  }, onBudgetPressed: () {  },
           );
         } else {
           // Pagination widget at the end of the list

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
-
-
 import 'package:rental_service/core/theme/app_theme.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';

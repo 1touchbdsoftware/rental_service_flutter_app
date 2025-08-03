@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_service/presentation/budget/budget_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/bloc/auth/auth_cubit.dart';
@@ -247,6 +248,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
             onCommentsPressed: () => _handleComments(context, complaint.lastComments),
             onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
             onImagePressed: () => handleImage(context, complaint),
+            onBudgetPressed: () {},
             // These actions are disabled for declined complaints
             onReschedulePressed: () {},
             onCompletePressed: () {},
@@ -379,6 +381,7 @@ class _ComplainsDeclinedListContentState extends State<ComplainsDeclinedListCont
       ),
     );
   }
+
 
   void _handleEdit(BuildContext context, ComplainEntity complaint) {
     // For declined complaints, editing might require special handling

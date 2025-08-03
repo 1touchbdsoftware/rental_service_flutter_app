@@ -16,6 +16,7 @@ import '../../data/model/complain/complain_req_params/completed_post_req.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
+import '../budget/budget_details.dart';
 import '../create_complain/bloc/complain_state.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../image_gallery/get_image_state.dart';
@@ -318,6 +319,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onAcceptPressed: () => _handleAccept(context, complaint),
             onImagePressed: () => handleImage(context, complaint),
             onReschedulePressed: () => _handleReschedule(context, complaint),
+            onBudgetPressed: ()=> _handleBudgetClick(context),
             userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  },
           );
         } else {
@@ -425,6 +427,18 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       MaterialPageRoute<void>(
         builder: (BuildContext context) => ComplaintHistoryScreen(
           complainID: complaint.complainID,
+        ),
+      ),
+    );
+  }
+
+
+  // Handler for budget
+  void _handleBudgetClick(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => EstimatedBudgetScreen(
         ),
       ),
     );
