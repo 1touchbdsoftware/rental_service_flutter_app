@@ -282,16 +282,3 @@ class _ActionButtons extends StatelessWidget {
   }
 }
 
-class BudgetItem {
-  final String description;
-  final int quantity;
-  final double unitPrice;
-
-  const BudgetItem({
-    required this.description,
-    required this.quantity,
-    required this.unitPrice,
-  });
-
-  double get total => quantity * unitPrice;
-}
