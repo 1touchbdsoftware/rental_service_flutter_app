@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../data/model/budget/BudgetItem.dart';
 import '../../data/model/complain/complain_image_model.dart';
 import '../../data/model/complain/complain_req_params/complain_edit_post.dart';
 import '../../data/model/complain/complain_req_params/complain_post_req.dart';
@@ -20,4 +21,5 @@ abstract class ComplainsRepository {
   Future<Either<String, bool>> markComplainAsCompleted(ComplainCompletedRequest model);
   Future<Either<String, List<ComplainImageModel>>> getComplainImages(String complainID, String agencyID);
   Future<Either<String, bool>> approveComplaints(ComplainApprovalRequestModel model);
+  Future<Either<String, List<BudgetItem>>> getBudgetForComplain({required String complainID});
 }

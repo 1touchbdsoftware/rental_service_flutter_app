@@ -6,6 +6,8 @@ import 'package:rental_service/domain/repository/complains_repository.dart';
 import '../../domain/entities/complain_response_entity.dart';
 import '../../service_locator.dart';
 import '../model/api_failure.dart';
+import '../model/budget/BudgetItem.dart';
+import '../model/budget/budgetResponse.dart';
 import '../model/complain/complain_image_model.dart';
 import '../model/complain/complain_req_params/complain_edit_post.dart';
 import '../model/complain/complain_req_params/complain_post_req.dart';
@@ -56,8 +58,7 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
           (images) => Right(images),      // Just forward the parsed list
     );
   }
-
-
+  ///New method: get budget
 
 
   ///New method: Save complain
@@ -79,6 +80,52 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
     );
   }
 
+  @override
+  Future<Either<String, List<BudgetItem>>> getBudgetForComplain({
+    required String complainID,
+  }) async {
+    final result = await sl<ComplainApiService>().getBudgetForComplain(
+      complainID: complainID,
+    );
+
+    print('REPO: getBudgetForComplain called for complainID: $complainID');
+
+    return result.fold(
+          (error) => Left(error.message),
+          (response) {
+        try {
+          // Parse the response data
+          if (response.data is! Map<String, dynamic>) {
+            return Left('Invalid response format');
+          }
+
+          final responseData = response.data as Map<String, dynamic>;
+
+          if (responseData['data'] is! Map<String, dynamic> ||
+              responseData['data']['list'] is! List) {
+            return Left('Budget list not found in response');
+          }
+
+          final data = responseData['data'] as Map<String, dynamic>;
+          final list = data['list'] as List;
+
+          // Parse and keep only the required fields
+          final budgetItems = list.map((item) {
+            return BudgetItem(
+              description: item['description'] as String,
+              quantity: (item['quantity'] as num).toDouble(),
+              costPerUnit: (item['costPerUnit'] as num).toDouble(),
+              total: (item['total'] as num).toDouble(),
+            );
+          }).toList();
+
+          return Right(budgetItems);
+        } catch (e) {
+          return Left('Failed to parse budget items: ${e.toString()}');
+        }
+      },
+    );
+  }
 
   @override
   Future<Either<String, bool>> editComplain(ComplainEditPostParams model) async {
