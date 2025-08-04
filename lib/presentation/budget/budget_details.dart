@@ -20,7 +20,6 @@ class EstimatedBudgetScreen extends StatelessWidget {
     final double totalBudget = items.fold(0, (sum, item) => sum + item.total);
     final currencyFormat = NumberFormat.currency(symbol: '৳', decimalDigits: 0);
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text(

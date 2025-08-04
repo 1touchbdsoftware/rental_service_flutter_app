@@ -32,7 +32,7 @@ class ApiUrls{
   static const forgotPassword = '${baseURL}Access/ForgotPassword';
   static const verifyOtp = '${baseURL}Access/OTPVerification';
 
-
+  static const getBudget = '${baseURL}BudgetEstimate/GetBudgetEstimates';
 
 
 }
