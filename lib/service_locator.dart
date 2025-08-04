@@ -32,6 +32,7 @@ import 'data/repository/segment_repository.dart';
 import 'data/source/api_service/auth_api_service.dart';
 import 'data/source/local_service/auth_local_service.dart';
 import 'domain/repository/auth.dart';
+import 'domain/usecases/get_budget_usecase.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
 import 'domain/usecases/mark_as_complete_usecase.dart';
 import 'domain/usecases/post_accept_technician_usecase.dart';
@@ -188,6 +189,12 @@ void setupServiceLocator(){
   sl.registerSingleton<VerifyOtpUseCase>(
       VerifyOtpUseCase()
   );
+  sl.registerSingleton<GetBudgetUseCase>(
+      GetBudgetUseCase()
+  );
+
+
+
   //logout or other use cases
 
 }

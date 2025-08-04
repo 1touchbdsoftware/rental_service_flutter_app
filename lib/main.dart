@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/core/theme/app_theme.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
+import 'package:rental_service/presentation/budget/blocs/get_budget_cubit.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/tenent_home_screen.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LanguageCubit()),
         BlocProvider(create: (context) => ForgotPasswordCubit()),
         BlocProvider(create: (context) => VerifyOtpCubit()),
+        BlocProvider(create: (context) => GetBudgetCubit()),
 
       ],
       child: MyAppContent(),

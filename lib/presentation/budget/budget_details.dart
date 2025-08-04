@@ -1,104 +1,160 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class EstimatedBudgetScreen extends StatelessWidget {
-  final List<BudgetItem> items = const [
-    BudgetItem(description: 'Venue Rental', quantity: 1, unitPrice: 5000),
-    BudgetItem(description: 'Catering (per person)', quantity: 50, unitPrice: 25),
-    BudgetItem(description: 'AV Equipment', quantity: 1, unitPrice: 1500),
-    BudgetItem(description: 'Decorations', quantity: 1, unitPrice: 800),
-  ];
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-  const EstimatedBudgetScreen({super.key});
+import '../../data/model/budget/BudgetItem.dart';
+import 'blocs/get_budget_cubit.dart';
+import 'blocs/get_budget_state.dart';
+
+class EstimatedBudgetScreen extends StatefulWidget {
+  final String complainID; // Add complainID parameter
+
+  const EstimatedBudgetScreen({
+    super.key,
+    required this.complainID,
+  });
+
+  @override
+  State<EstimatedBudgetScreen> createState() => _EstimatedBudgetScreenState();
+}
+
+class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch budget items when screen initializes
+    context.read<GetBudgetCubit>().fetchBudget(complainID: widget.complainID);
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
-
-    final double totalBudget = items.fold(0, (sum, item) => sum + item.total);
     final currencyFormat = NumberFormat.currency(symbol: '৳', decimalDigits: 0);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-         "Estimated Budget",
+          "Estimated Budget",
           style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
         ),
         backgroundColor: colorScheme.primary,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Table Header
-              Container(
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceVariant.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                child: const _TableHeaderRow(),
-              ),
-              const SizedBox(height: 8),
-        
-              // Table Content
-              Expanded(
-                child: ListView.separated(
-                  itemCount: items.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return _BudgetItemRow(
-                      item: item,
-                      currencyFormat: currencyFormat,
-                    );
-                  },
-                ),
-              ),
-        
-              const Divider(height: 24),
-        
-              // Total Budget
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: colorScheme.primary.withOpacity(0.2)),
-                  borderRadius: BorderRadius.circular(8), // <-- Added missing borderRadius
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: BlocBuilder<GetBudgetCubit, GetBudgetState>(
+          builder: (context, state) {
+            if (state is GetBudgetLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is GetBudgetFailureState) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Total Budget:',
-                      style: textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                    Text(state.errorMessage),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => context.read<GetBudgetCubit>().fetchBudget(
+                        complainID: widget.complainID,
                       ),
-                    ),
-                    Text(
-                      currencyFormat.format(totalBudget),
-                      style: textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.primary,
-                      ),
+                      child: const Text('Retry'),
                     ),
                   ],
                 ),
-              ),
-        
-              const SizedBox(height: 24),
-        
-              // Action Buttons
-              _ActionButtons(
-                onReviewPressed: () => _handleReviewRequest(context),
-                onPayPressed: () => _handlePayment(context, totalBudget),
-                colorScheme: colorScheme,
-              ),
-            ],
-          ),
+              );
+            }
+
+            if (state is GetBudgetSuccessState) {
+              final items = state.budgetItems;
+              final totalBudget = items.fold<double>(
+                  0.0, (sum, item) => sum + (item.total.toDouble()));
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Table Header
+                    Container(
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceVariant.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 8),
+                      child: const _TableHeaderRow(),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Table Content
+                    Expanded(
+                      child: ListView.separated(
+                        itemCount: items.length,
+                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        itemBuilder: (context, index) {
+                          final item = items[index];
+                          return _BudgetItemRow(
+                            item: item,
+                            currencyFormat: currencyFormat,
+                          );
+                        },
+                      ),
+                    ),
+
+                    const Divider(height: 24),
+
+                    // Total Budget
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: colorScheme.primary.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total Budget:',
+                            style: textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            currencyFormat.format(totalBudget),
+                            style: textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Action Buttons
+                    _ActionButtons(
+                      onReviewPressed: () => _handleReviewRequest(context),
+                      onPayPressed: () =>
+                          _handlePayment(context, totalBudget as double),
+                      colorScheme: colorScheme,
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            // Initial state
+            return const Center(child: Text('No budget data available'));
+          },
         ),
       ),
     );
@@ -125,7 +181,8 @@ class EstimatedBudgetScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Payment of \$${amount.toStringAsFixed(2)} processed')),
+                SnackBar(
+                    content: Text('Payment of \$${amount.toStringAsFixed(2)} processed')),
               );
             },
             child: const Text('Confirm'),
@@ -135,6 +192,8 @@ class EstimatedBudgetScreen extends StatelessWidget {
     );
   }
 }
+
+// Keep all your existing _TableHeaderRow, _BudgetItemRow, and _ActionButtons classes
 
 class _TableHeaderRow extends StatelessWidget {
   const _TableHeaderRow();
@@ -216,7 +275,7 @@ class _BudgetItemRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              currencyFormat.format(item.unitPrice),
+              currencyFormat.format(item.costPerUnit),
               style: textTheme.bodyMedium,
               textAlign: TextAlign.end,
             ),
@@ -269,7 +328,7 @@ class _ActionButtons extends StatelessWidget {
           child: ElevatedButton.icon(
             icon: const Icon(Icons.payment_outlined),
             onPressed: onPayPressed,
-            label: const Text('Pay Now'),
+            label: const Text('Accept Budget'),
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.primary,
               foregroundColor: colorScheme.onPrimary,
