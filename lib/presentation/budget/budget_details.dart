@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_service/domain/entities/complain_entity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/budget/BudgetItem.dart';
+import '../../data/model/budget/budget_post_model.dart';
 import 'blocs/get_budget_cubit.dart';
 import 'blocs/get_budget_state.dart';
+import 'blocs/post_budget_cubit.dart';
+import 'blocs/post_budget_state.dart';
 
 class EstimatedBudgetScreen extends StatefulWidget {
-  final String complainID; // Add complainID parameter
+  final ComplainEntity complain; // Add complainID parameter
 
   const EstimatedBudgetScreen({
     super.key,
-    required this.complainID,
+    required this.complain,
   });
 
   @override
@@ -22,7 +27,7 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
   void initState() {
     super.initState();
     // Fetch budget items when screen initializes
-    context.read<GetBudgetCubit>().fetchBudget(complainID: widget.complainID);
+    context.read<GetBudgetCubit>().fetchBudget(complainID: widget.complain.complainID);
   }
 
   @override
@@ -56,7 +61,7 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () => context.read<GetBudgetCubit>().fetchBudget(
-                        complainID: widget.complainID,
+                        complainID: widget.complain.complainID,
                       ),
                       child: const Text('Retry'),
                     ),
@@ -139,7 +144,7 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
                       onReviewPressed: () => _handleReviewRequest(context),
                       onPayPressed: () =>
                           _handlePayment(context, totalBudget),
-                      colorScheme: colorScheme,
+                      colorScheme: colorScheme, complain: widget.complain,
                     ),
                   ],
                 ),
@@ -293,44 +298,119 @@ class _ActionButtons extends StatelessWidget {
   final VoidCallback onReviewPressed;
   final VoidCallback onPayPressed;
   final ColorScheme colorScheme;
+  final ComplainEntity complain;
 
   const _ActionButtons({
     required this.onReviewPressed,
     required this.onPayPressed,
-    required this.colorScheme
+    required this.colorScheme,
+    required this.complain,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: OutlinedButton.icon(
-            icon: const Icon(Icons.reviews_outlined),
-            onPressed: onReviewPressed,
-            label: const Text('Request Review'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: colorScheme.primary,
-              side: BorderSide(color: colorScheme.primary),
-            )
-
+    return BlocListener<PostBudgetCubit, PostBudgetState>(
+      listener: (context, state) {
+        if (state is PostBudgetSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Budget accepted successfully')),
+          );
+        } else if (state is PostBudgetFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage)),
+          );
+        }
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.reviews_outlined),
+              onPressed: onReviewPressed,
+              label: const Text('Request Review'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: colorScheme.primary,
+                side: BorderSide(color: colorScheme.primary),
+              ),
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: ElevatedButton.icon(
-            icon: const Icon(Icons.payment_outlined),
-            onPressed: onPayPressed,
-            label: const Text('Accept Budget'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              foregroundColor: colorScheme.onPrimary,
-            )
-
+          const SizedBox(width: 16),
+          Expanded(
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.payment_outlined),
+              onPressed: () => _showAcceptBudgetDialog(context),
+              label: const Text('Accept Budget'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+              ),
+            ),
           ),
+        ],
+      ),
+    );
+  }
+
+  void _showAcceptBudgetDialog(BuildContext context) {
+    final commentController = TextEditingController();
+    final postBudgetCubit = context.read<PostBudgetCubit>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Accept Budget'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Please add any comments:'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: commentController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter your comments...',
+              ),
+              maxLines: 3,
+            ),
+          ],
         ),
-      ],
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              final tenantID = prefs.getString('tenantID') ?? '';
+              final agencyID = prefs.getString('agencyID') ?? '';
+
+              if (tenantID.isEmpty || agencyID.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('User information not found')),
+                );
+                return;
+              }
+
+              final now = DateTime.now();
+              final formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
+
+              final model = BudgetPostModel(
+                complainID: complain.complainID,
+                comments: commentController.text,
+                tenantID: tenantID,
+                agencyID: agencyID,
+                createdDate: formattedDate,
+                ticketNo: complain.ticketNo,
+              );
+
+              postBudgetCubit.postBudget(budgetModel: model);
+              Navigator.pop(context);
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
     );
   }
 }
-

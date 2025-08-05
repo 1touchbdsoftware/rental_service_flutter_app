@@ -319,7 +319,7 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onAcceptPressed: () => _handleAccept(context, complaint),
             onImagePressed: () => handleImage(context, complaint),
             onReschedulePressed: () => _handleReschedule(context, complaint),
-            onBudgetPressed: ()=> _handleBudgetClick(context, complaint.complainID),
+            onBudgetPressed: ()=> _handleBudgetClick(context, complaint),
             userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  },
           );
         } else {
@@ -434,11 +434,11 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
 
 
   // Handler for budget
-  void _handleBudgetClick(BuildContext context, String complainID) {
+  void _handleBudgetClick(BuildContext context, ComplainEntity complain) {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => EstimatedBudgetScreen( complainID: complainID
+        builder: (BuildContext context) => EstimatedBudgetScreen( complain: complain,
         ),
       ),
     );

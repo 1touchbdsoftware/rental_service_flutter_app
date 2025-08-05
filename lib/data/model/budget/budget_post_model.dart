@@ -3,8 +3,8 @@ class BudgetPostModel {
   final String comments;
   final String tenantID;
   final String agencyID;
-  final DateTime createdDate;
-  final String ticketNo;
+  final String createdDate;
+  String? ticketNo;
 
   BudgetPostModel({
     required this.complainID,
@@ -12,7 +12,7 @@ class BudgetPostModel {
     required this.tenantID,
     required this.agencyID,
     required this.createdDate,
-    required this.ticketNo,
+     this.ticketNo,
   });
 
   // Convert BudgetPostModel object to JSON
@@ -22,7 +22,7 @@ class BudgetPostModel {
       'comments': comments,
       'tenantID': tenantID,
       'agencyID': agencyID,
-      'createdDate': createdDate.toIso8601String(),
+      'createdDate': createdDate,
       'ticketNo': ticketNo,
     };
   }

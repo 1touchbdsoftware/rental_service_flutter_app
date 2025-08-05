@@ -35,6 +35,7 @@ import 'domain/repository/auth.dart';
 import 'domain/usecases/get_budget_usecase.dart';
 import 'domain/usecases/get_completed_complains_usecase.dart';
 import 'domain/usecases/mark_as_complete_usecase.dart';
+import 'domain/usecases/post_accept_budget.dart';
 import 'domain/usecases/post_accept_technician_usecase.dart';
 import 'domain/usecases/post_approve_complain_landlord_usecase.dart';
 import 'domain/usecases/post_change_password_usecase.dart';
@@ -191,6 +192,9 @@ void setupServiceLocator(){
   );
   sl.registerSingleton<GetBudgetUseCase>(
       GetBudgetUseCase()
+  );
+  sl.registerSingleton<AcceptBudgetUseCase>(
+      AcceptBudgetUseCase()
   );
 
 
