@@ -33,6 +33,8 @@ class ApiUrls{
   static const verifyOtp = '${baseURL}Access/OTPVerification';
 
   static const getBudget = '${baseURL}BudgetEstimate/GetBudgetEstimates';
+  static const acceptBudget = '${baseURL}BudgetEstimate/GetBudgetEstimates';
+  static const reviewBudget = '${baseURL}BudgetEstimate/GetBudgetEstimates';
 
 
 }

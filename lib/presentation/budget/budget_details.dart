@@ -1,12 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-
 import '../../data/model/budget/BudgetItem.dart';
 import 'blocs/get_budget_cubit.dart';
 import 'blocs/get_budget_state.dart';
@@ -144,7 +138,7 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
                     _ActionButtons(
                       onReviewPressed: () => _handleReviewRequest(context),
                       onPayPressed: () =>
-                          _handlePayment(context, totalBudget as double),
+                          _handlePayment(context, totalBudget),
                       colorScheme: colorScheme,
                     ),
                   ],
@@ -193,7 +187,6 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
   }
 }
 
-// Keep all your existing _TableHeaderRow, _BudgetItemRow, and _ActionButtons classes
 
 class _TableHeaderRow extends StatelessWidget {
   const _TableHeaderRow();
