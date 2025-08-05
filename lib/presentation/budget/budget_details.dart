@@ -313,8 +313,16 @@ class _ActionButtons extends StatelessWidget {
       listener: (context, state) {
         if (state is PostBudgetSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Budget accepted successfully')),
+            SnackBar(
+              content: const Text('Budget accepted successfully'),
+              backgroundColor: Colors.green.shade600, // Green background
+              behavior: SnackBarBehavior.floating,
+            ),
           );
+          // Pop back after a short delay
+          Future.delayed(const Duration(milliseconds: 1500), () {
+            Navigator.pop(context);
+          });
         } else if (state is PostBudgetFailureState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage)),
