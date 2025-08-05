@@ -5,6 +5,7 @@ import 'package:rental_service/domain/entities/complain_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/budget/BudgetItem.dart';
 import '../../data/model/budget/budget_post_model.dart';
+import '../tenant_complain_list/complain_pending_list_screen.dart';
 import 'blocs/get_budget_cubit.dart';
 import 'blocs/get_budget_state.dart';
 import 'blocs/post_budget_cubit.dart';
@@ -321,7 +322,9 @@ class _ActionButtons extends StatelessWidget {
           );
           // Pop back after a short delay
           Future.delayed(const Duration(milliseconds: 1500), () {
-            Navigator.pop(context);
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const ComplainsListScreen()),
+            );
           });
         } else if (state is PostBudgetFailureState) {
           ScaffoldMessenger.of(context).showSnackBar(
