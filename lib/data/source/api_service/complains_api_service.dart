@@ -10,6 +10,7 @@ import '../../../core/network/dio_client.dart';
 
 import '../../../service_locator.dart';
 import '../../model/api_failure.dart';
+import '../../model/budget/budget_post_model.dart';
 import '../../model/complain/complain_image_model.dart';
 import '../../model/complain/complain_req_params/complain_edit_post.dart';
 import '../../model/complain/complain_req_params/completed_post_req.dart';
@@ -29,6 +30,7 @@ abstract class ComplainApiService {
   Future<Either<ApiFailure, Response>> approveComplaints(ComplainApprovalRequestModel model);
 
   Future<Either<ApiFailure, Response>> getBudgetForComplain({ required String complainID});
+  Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model);
 }
 
 class ComplainApiServiceImpl implements ComplainApiService {
@@ -315,6 +317,45 @@ class ComplainApiServiceImpl implements ComplainApiService {
 
       final response = await sl<DioClient>().post(
         ApiUrls.markComplainCompleted, // Make sure to add this endpoint to your ApiUrls class
+        data: requestData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        return Left(ApiFailure('Authentication token not found'));
+      }
+
+      // Convert model to JSON
+      final requestData = model.toJson();
+
+      print('Sending to ${ApiUrls.acceptBudget}');
+      print('Headers: Authorization: Bearer $token');
+      print('Request data: $requestData');
+
+      final response = await sl<DioClient>().post(
+        ApiUrls.acceptBudget, // Make sure to define this in your ApiUrls class
         data: requestData,
         options: Options(
           headers: {

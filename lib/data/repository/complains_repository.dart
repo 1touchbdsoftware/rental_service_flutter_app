@@ -8,6 +8,7 @@ import '../../service_locator.dart';
 import '../model/api_failure.dart';
 import '../model/budget/BudgetItem.dart';
 import '../model/budget/budgetResponse.dart';
+import '../model/budget/budget_post_model.dart';
 import '../model/complain/complain_image_model.dart';
 import '../model/complain/complain_req_params/complain_edit_post.dart';
 import '../model/complain/complain_req_params/complain_post_req.dart';
@@ -58,9 +59,26 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
           (images) => Right(images),      // Just forward the parsed list
     );
   }
-  ///New method: get budget
+  ///New method: accept budget
+  @override
+  Future<Either<String, bool>> postAcceptBudget(BudgetPostModel model) async {
+    final result = await sl<ComplainApiService>().postAcceptBudget(model);
 
+    print('REPO: postAcceptBudget called for complainID: ${model.complainID}, '
+        'tenantID: ${model.tenantID}');
 
+    return result.fold(
+          (error) => Left(error.message), // Convert ApiFailure to String
+          (response) {
+        // Check if the request was successful (status code 200-299)
+        final success = response.statusCode != null &&
+            response.statusCode! >= 200 &&
+            response.statusCode! < 300;
+
+        return Right(success);
+      },
+    );
+  }
   ///New method: Save complain
   @override
   Future<Either<String, bool>> saveComplain(ComplainPostModel model) async {
