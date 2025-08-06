@@ -565,7 +565,7 @@ class ComplainCard extends StatelessWidget {
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.orange;
       statusText = S.of(context).technicianAssigned;
-    }else if (complaint.isBudget! && !complaint.isPaid! && !complaint.isApprovedBudget!) {
+    }else if (complaint.isBudget! && !complaint.isPaid! && !complaint.isApprovedBudget! && !complaint.isBudgetReviewRequested!) {
       dotColor = Colors.orange;
       statusText = "Budget Provided";
     }else if (complaint.isBudget! && !complaint.isPaid! && complaint.isBudgetReviewRequested!) {
