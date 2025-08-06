@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_service/common/utils/dateTimeForamtUtil.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/budget/BudgetItem.dart';
@@ -81,6 +82,8 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    //complain details
+                    ComplainDetailsCard(complain: widget.complain, budgetItems: items),
                     // Table Header
                     Container(
                       decoration: BoxDecoration(
@@ -424,4 +427,52 @@ class _ActionButtons extends StatelessWidget {
       ),
     );
   }
+
+
 }
+
+class ComplainDetailsCard extends StatelessWidget {
+  final ComplainEntity complain;
+  final List<BudgetItem> budgetItems;
+
+  const ComplainDetailsCard({super.key, required this.complain,required this.budgetItems });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Ticket #: ${complain.ticketNo}',
+              style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            // Text(
+            //   'Description:',
+            //   style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+            // ),
+            // const SizedBox(height: 4),
+            // Text(
+            //   complain.complainName ?? 'No description provided.',
+            //   style: textTheme.bodyMedium,
+            // ),
+            const SizedBox(height: 12),
+            Text(
+              'Last Updated: ${formatDateTimeReadable(DateTime.tryParse(budgetItems.first.updatedDate) ?? DateTime.now())}',
+              style: textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

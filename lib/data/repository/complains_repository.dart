@@ -128,14 +128,7 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
           final list = data['list'] as List;
 
           // Parse and keep only the required fields
-          final budgetItems = list.map((item) {
-            return BudgetItem(
-              description: item['description'] as String,
-              quantity: (item['quantity'] as num).toDouble(),
-              costPerUnit: (item['costPerUnit'] as num).toDouble(),
-              total: (item['total'] as num).toDouble(),
-            );
-          }).toList();
+          final budgetItems = list.map((item) => BudgetItem.fromJson(item)).toList();
 
           return Right(budgetItems);
         } catch (e) {
