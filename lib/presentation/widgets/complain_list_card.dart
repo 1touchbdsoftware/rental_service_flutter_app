@@ -461,7 +461,7 @@ class ComplainCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (complaint.isBudget! && !complaint.isPaid!)
+                  if (complaint.isBudget! && !complaint.isPaid! && !complaint.isApprovedBudget!)
                     Row(
                       children: [
                         ElevatedButton(
@@ -529,6 +529,15 @@ class ComplainCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     // Status colors using semantically appropriate theme colors
+   /*
+
+   status color convention:
+   if any Warning/Todo for tenant: show Orange or Red color
+   for all others: purple, blue
+   for indicating success: green
+   */
+
+
     Color dotColor;
     String statusText;
 
@@ -554,12 +563,20 @@ class ComplainCard extends StatelessWidget {
       dotColor = Colors.purple;
       statusText = S.of(context).acceptedSchedule;
     } else if (complaint.isAssignedTechnician!) {
-      dotColor = Colors.purple;
+      dotColor = Colors.orange;
       statusText = S.of(context).technicianAssigned;
     }else if (complaint.isBudget! && !complaint.isPaid! && !complaint.isApprovedBudget!) {
       dotColor = Colors.orange;
       statusText = "Budget Provided";
-    } else {
+    } else if (complaint.isBudget! && !complaint.isPaid! && complaint.isApprovedBudget!) {
+      dotColor = Colors.purple;
+      statusText = "Budget Approved";
+    }
+    else if (complaint.isBudget! && !complaint.isPaid! && complaint.isBudgetReviewRequested!) {
+      dotColor = Colors.orange;
+      statusText = "Budget Review Requested";
+    }
+    else {
       dotColor = Colors.grey;
       statusText = S.of(context).pending;
     }
