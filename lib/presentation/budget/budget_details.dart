@@ -337,7 +337,7 @@ class _ActionButtons extends StatelessWidget {
           Expanded(
             child: OutlinedButton.icon(
               icon: const Icon(Icons.reviews_outlined),
-              onPressed: onReviewPressed,
+              onPressed:() => _showAcceptBudgetDialog(context, "Review Request", true),
               label: const Text('Request Review'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.primary,
@@ -349,7 +349,7 @@ class _ActionButtons extends StatelessWidget {
           Expanded(
             child: ElevatedButton.icon(
               icon: const Icon(Icons.payment_outlined),
-              onPressed: () => _showAcceptBudgetDialog(context),
+              onPressed: () => _showAcceptBudgetDialog(context, "Accept Budget", false),
               label: const Text('Accept Budget'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.primary,
@@ -362,14 +362,14 @@ class _ActionButtons extends StatelessWidget {
     );
   }
 
-  void _showAcceptBudgetDialog(BuildContext context) {
+  void _showAcceptBudgetDialog(BuildContext context, String dialogTitle, bool isReview) {
     final commentController = TextEditingController();
     final postBudgetCubit = context.read<PostBudgetCubit>();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Accept Budget'),
+        title: Text(dialogTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -415,7 +415,7 @@ class _ActionButtons extends StatelessWidget {
                 ticketNo: complain.ticketNo,
               );
 
-              postBudgetCubit.postBudget(budgetModel: model);
+              postBudgetCubit.postBudget(budgetModel: model, isReview: isReview);
               Navigator.pop(context);
             },
             child: const Text('Submit'),

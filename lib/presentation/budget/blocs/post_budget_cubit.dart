@@ -17,13 +17,15 @@ class PostBudgetCubit extends Cubit<PostBudgetState> {
         super(PostBudgetInitialState());
 
   Future<void> postBudget({
-    required BudgetPostModel budgetModel,
+    required BudgetPostModel budgetModel, required bool isReview
   }) async {
     emit(PostBudgetLoadingState());
 
     try {
       final Either<String, bool> result =
-      await _useCase.call(param: budgetModel);
+      await _useCase.call(
+        param: Tuple2(budgetModel, isReview),
+      );
 
       result.fold(
             (error) {

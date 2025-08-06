@@ -24,5 +24,5 @@ abstract class ComplainsRepository {
   Future<Either<String, List<ComplainImageModel>>> getComplainImages(String complainID, String agencyID);
   Future<Either<String, bool>> approveComplaints(ComplainApprovalRequestModel model);
   Future<Either<String, List<BudgetItem>>> getBudgetForComplain({required String complainID});
-  Future<Either<String, bool>> postAcceptBudget(BudgetPostModel model);
+  Future<Either<String, bool>> postAcceptBudget({required BudgetPostModel budgetModel, required bool isReview});
 }

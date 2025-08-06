@@ -61,11 +61,11 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
   }
   ///New method: accept budget
   @override
-  Future<Either<String, bool>> postAcceptBudget(BudgetPostModel model) async {
-    final result = await sl<ComplainApiService>().postAcceptBudget(model);
+  Future<Either<String, bool>> postAcceptBudget({required BudgetPostModel budgetModel, required bool isReview}) async {
+    final result = await sl<ComplainApiService>().postAcceptBudget(budgetModel, isReview);
 
-    print('REPO: postAcceptBudget called for complainID: ${model.complainID}, '
-        'tenantID: ${model.tenantID}');
+    print('REPO: postAcceptBudget called for complainID: ${budgetModel.complainID}, '
+        'tenantID: ${budgetModel.tenantID}');
 
     return result.fold(
           (error) => Left(error.message), // Convert ApiFailure to String

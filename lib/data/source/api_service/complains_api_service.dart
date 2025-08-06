@@ -30,7 +30,7 @@ abstract class ComplainApiService {
   Future<Either<ApiFailure, Response>> approveComplaints(ComplainApprovalRequestModel model);
 
   Future<Either<ApiFailure, Response>> getBudgetForComplain({ required String complainID});
-  Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model);
+  Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model, bool isReview);
 }
 
 class ComplainApiServiceImpl implements ComplainApiService {
@@ -338,10 +338,11 @@ class ComplainApiServiceImpl implements ComplainApiService {
   }
 
   @override
-  Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model) async {
+  Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model, bool isReview) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
+      String url = '';
 
       if (token == null) {
         return Left(ApiFailure('Authentication token not found'));
@@ -350,12 +351,18 @@ class ComplainApiServiceImpl implements ComplainApiService {
       // Convert model to JSON
       final requestData = model.toJson();
 
+      if(isReview){
+        url = ApiUrls.reviewBudget;
+      }else{
+        url = ApiUrls.acceptBudget;
+      }
+
       print('Sending to ${ApiUrls.acceptBudget}');
       print('Headers: Authorization: Bearer $token');
       print('Request data: $requestData');
 
       final response = await sl<DioClient>().post(
-        ApiUrls.acceptBudget, // Make sure to define this in your ApiUrls class
+        url, // conditional url
         data: requestData,
         options: Options(
           headers: {
