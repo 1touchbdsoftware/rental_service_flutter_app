@@ -40,6 +40,8 @@ class ComplainEntity {
   final bool? isReassignedTechnician;
   final bool? isBudget;
   final bool? isPaid;
+  final bool? isApprovedBudget;
+  final bool? isBudgetReviewRequested;
   final String? rejectedBy;
   final String? rejectedDate;
   final int? imageCount;
@@ -80,6 +82,8 @@ class ComplainEntity {
      this.isDone,
     this.isBudget,
     this.isPaid,
+    this.isApprovedBudget,
+    this.isBudgetReviewRequested,
      this.rejectedBy,
      this.rejectedDate,
      this.imageCount,

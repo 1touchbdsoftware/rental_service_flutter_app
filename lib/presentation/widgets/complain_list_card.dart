@@ -464,27 +464,6 @@ class ComplainCard extends StatelessWidget {
                   if (complaint.isBudget! && !complaint.isPaid!)
                     Row(
                       children: [
-                        // ElevatedButton(
-                        //   onPressed: onCompletePressed,
-                        //   style: ElevatedButton.styleFrom(
-                        //     backgroundColor: colorScheme.surfaceContainerLow,
-                        //     foregroundColor: colorScheme.primary,
-                        //     padding: const EdgeInsets.symmetric(
-                        //       horizontal: 8,
-                        //       vertical: 4,
-                        //     ),
-                        //     minimumSize: const Size(0, 30),
-                        //   ),
-                        //   child: Text(
-                        //    "Pay Now",
-                        //     style: TextStyle(
-                        //       fontWeight: FontWeight.w500,
-                        //       color: Colors.blue,
-                        //       fontSize: 12,
-                        //     ),
-                        //   ),
-                        // ),
-                        // const SizedBox(width: 8),
                         ElevatedButton(
                           onPressed: onBudgetPressed,
                           style: ElevatedButton.styleFrom(

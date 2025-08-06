@@ -40,7 +40,8 @@ class ComplainModel {
   final bool? isReassignedTechnician;
   final bool? isBudget;
   final bool? isPaid;
-
+  final bool? isApprovedBudget;
+  final bool? isBudgetReviewRequested;
   final String? rejectedBy;
   final String? rejectedDate;
   final int? imageCount;
@@ -83,6 +84,8 @@ class ComplainModel {
      this.rejectedDate,
      this.imageCount,
      this.images,
+    this.isApprovedBudget,
+    this.isBudgetReviewRequested,
     this.isRescheduled,
     this.isReassignedTechnician,
     this.isAccepted,
@@ -133,8 +136,9 @@ class ComplainModel {
       isRescheduled: json['isRescheduled'],
       isReassignedTechnician: json['isReassignedTechnician'],
       isBudget: json["isBudget"],
-      isPaid: json["isPaid"]
-
+      isPaid: json["isPaid"],
+      isApprovedBudget : json["isApprovedBudget"],
+      isBudgetReviewRequested : json["isBudgetReviewRequested"]
       // images: (json['images'] as List)
       //     .map((e) => ComplainImageModel.fromJson(e))
       //     .toList(),
@@ -183,8 +187,9 @@ class ComplainModel {
       isRescheduled:isRescheduled,
       isReassignedTechnician:isReassignedTechnician,
       isBudget: isBudget,
-      isPaid: isPaid
-
+      isPaid: isPaid,
+      isApprovedBudget:isApprovedBudget,
+      isBudgetReviewRequested:isBudgetReviewRequested
 
       // images: images!.map((imageModel) => imageModel.toEntity()).toList(),
     );
