@@ -464,7 +464,7 @@ class ComplainDetailsCard extends StatelessWidget {
             // ),
             const SizedBox(height: 12),
             Text(
-              'Budget Updated: ${formatDateTimeReadable(DateTime.tryParse(budgetItems.first.updatedDate) ?? DateTime.now())}',
+              'Budget Updated: ${formatDateTimeReadable(DateTime.tryParse(budgetItems.first.updatedDate!) ?? DateTime.now())}',
               style: textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
             ),
           ],
