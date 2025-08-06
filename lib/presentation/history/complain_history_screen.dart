@@ -171,7 +171,10 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
       case 'solved':
       case 'resolved':
       case 'done':
+      case "budget accepted":
+
         return Colors.green;
+      case 'budget provided':
       case 'resubmitted':
         return Colors.orange;
       case 'approved':
@@ -180,6 +183,7 @@ class _ComplaintHistoryScreenState extends State<ComplaintHistoryScreen> {
       case 'accepted schedule':
       case 'technician assigned':
       case 'rescheduled':
+      case 'budget review requested':
         return Colors.purple;
       case 'pending':
       default:
@@ -237,7 +241,9 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
       case 'solved':
       case 'resolved':
       case 'done':
+      case "budget accepted":
         return Colors.green;
+      case 'budget provided':
       case 'resubmitted':
         return Colors.orange;
       case 'approved':
@@ -246,6 +252,7 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
       case 'accepted schedule':
       case 'technician assigned':
       case 'rescheduled':
+      case 'budget review requested':
         return Colors.purple;
       case 'pending':
       default:
@@ -275,6 +282,12 @@ class _HistoryTimelineCardState extends State<HistoryTimelineCard> {
         return S.of(context).technicianAssigned;
       case 'rescheduled':
         return S.of(context).rescheduled;
+      case 'budget accepted':
+        return "Budget Accepted";
+      case 'budget provided':
+        return "Budget Provided";
+      case 'budget review requested':
+        return "Budget Review Requested";
       case 'pending':
       default:
         return S.of(context).pending;
