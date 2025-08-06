@@ -476,7 +476,7 @@ class ComplainCard extends StatelessWidget {
                             minimumSize: const Size(0, 30),
                           ),
                           child: Text(
-                            "View Budget",
+                            complaint.isBudgetReviewRequested! ? "View New Budget": "View Budget",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
@@ -556,7 +556,7 @@ class ComplainCard extends StatelessWidget {
     } else if (complaint.isAssignedTechnician!) {
       dotColor = Colors.purple;
       statusText = S.of(context).technicianAssigned;
-    }else if (complaint.isBudget! && !complaint.isPaid!) {
+    }else if (complaint.isBudget! && !complaint.isPaid! && !complaint.isApprovedBudget!) {
       dotColor = Colors.orange;
       statusText = "Budget Provided";
     } else {
