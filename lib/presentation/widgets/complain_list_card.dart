@@ -461,7 +461,12 @@ class ComplainCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if (complaint.isBudget! && !complaint.isPaid! && !complaint.isApprovedBudget!)
+
+                  //before technician assign
+                  if (complaint.isBudget! &&
+                      !complaint.isPaid! &&
+                      !complaint.isAssignedTechnician! &&
+                      userType == "TENANT")
                     Row(
                       children: [
                         ElevatedButton(
@@ -475,8 +480,7 @@ class ComplainCard extends StatelessWidget {
                             ),
                             minimumSize: const Size(0, 30),
                           ),
-                          child: Text(
-                            complaint.isBudgetReviewRequested! ? "View New Budget": "View Budget",
+                          child: Text("View Budget",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,

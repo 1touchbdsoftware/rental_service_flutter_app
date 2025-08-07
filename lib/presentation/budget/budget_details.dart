@@ -140,16 +140,30 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
                         ],
                       ),
                     ),
-
                     const SizedBox(height: 24),
 
-                    // Action Buttons
-                    _ActionButtons(
-                      onReviewPressed: () => _handleReviewRequest(context),
-                      onPayPressed: () =>
-                          _handlePayment(context, totalBudget),
-                      colorScheme: colorScheme, complain: widget.complain,
-                    ),
+                    if ( widget.complain.isApprovedBudget! || widget.complain.isBudgetReviewRequested!)
+                      Row(
+                        children: [
+                          Icon(Icons.info_outline, color: colorScheme.primary),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              widget.complain.isApprovedBudget! ? "Budget Approved, Waiting for Agency" : 'Waiting for budget review' ,
+                              style: textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      )
+                    else
+                      _ActionButtons(
+                        onReviewPressed: () => _handleReviewRequest(context),
+                        onPayPressed: () =>
+                            _handlePayment(context, totalBudget),
+                        colorScheme: colorScheme,
+                        complain: widget.complain,
+                      ),
+
                   ],
                 ),
               );
@@ -438,7 +452,7 @@ class ComplainDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+    //final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
     return Card(
       elevation: 2,
