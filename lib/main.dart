@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -17,11 +19,20 @@ import 'package:rental_service/service_locator.dart';
 import 'core/localization/language_cubit.dart';
 import 'l10n/generated/app_localizations.dart';
 
-void main() {
+void main() async{
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   setupServiceLocator();
+  await Firebase.initializeApp();
+
+  // 🔽 FCM Token fetching
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Get the token
+  String? token = await messaging.getToken();
+  print("🔥 FCM Token: $token");
   runApp(const MyApp());
 }
 
@@ -135,3 +146,9 @@ class SplashWrapperState extends State<SplashWrapper> {
     );
   }
 }
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(); // Required!
+  print("Handling a background message: ${message.messageId}");
+}
+
