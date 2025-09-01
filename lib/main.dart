@@ -17,6 +17,7 @@ import 'package:rental_service/presentation/routes.dart';
 import 'package:rental_service/service_locator.dart';
 
 import 'core/localization/language_cubit.dart';
+import 'data/source/api_service/my_firebase_service.dart';
 import 'l10n/generated/app_localizations.dart';
 
 void main() async{
@@ -28,7 +29,11 @@ void main() async{
 
   // 🔽 FCM Token fetching
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  final notificationService = FirebaseNotificationService();
+  await notificationService.initNotifications();
+
 
   // Get the token
   String? token = await messaging.getToken();
