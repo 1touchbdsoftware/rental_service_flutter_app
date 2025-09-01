@@ -36,5 +36,8 @@ class ApiUrls{
   static const acceptBudget = '${baseURL}BudgetEstimate/SaveAcceptBudget';
   static const reviewBudget = '${baseURL}BudgetEstimate/SaveBudgetReviewRequest';
 
+// notifications
+  static const saveDeviceToken = '${baseURL}Notifications/UpdateDeviceToken';
+
 
 }

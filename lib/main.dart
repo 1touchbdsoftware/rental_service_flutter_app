@@ -15,6 +15,7 @@ import 'package:rental_service/presentation/password/bloc/forgot_password_cubit.
 import 'package:rental_service/presentation/password/bloc/verify_otp_cubit.dart';
 import 'package:rental_service/presentation/routes.dart';
 import 'package:rental_service/service_locator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/localization/language_cubit.dart';
 import 'data/source/api_service/my_firebase_service.dart';
@@ -34,10 +35,15 @@ void main() async{
   final notificationService = FirebaseNotificationService();
   await notificationService.initNotifications();
 
-
   // Get the token
   String? token = await messaging.getToken();
-  print("🔥 FCM Token: $token");
+  //print("🔥 FCM Token: $token");
+
+  if (token != null) {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fcm_token', token);
+    print('✅ Token saved to SharedPreferences');
+  }
   runApp(const MyApp());
 }
 

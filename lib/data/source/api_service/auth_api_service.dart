@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../service_locator.dart';
 import '../../model/api_failure.dart';
 import '../../model/password/change_password_request.dart';
+import '../../model/user/device_token_request.dart';
 
 
 //we will call the api from here
@@ -32,16 +33,60 @@ class AuthApiServiceImpl extends AuthApiService{
   }
 
   @override
-  Future<Either<ApiFailure, Response>> signin(SignInReqParams signinReq) async{
-    try{
+  Future<Either<ApiFailure, Response>> signin(SignInReqParams signinReq) async {
+    try {
       var response = await sl<DioClient>().post(ApiUrls.signin, data: signinReq.toJson());
-      return Right(response);
-    }on DioException catch(e){
 
+      // Check if response is successful and call saveDeviceToken
+      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+        // Extract user ID from response data
+        final userId = response.data['data']['userInfo']['id']?.toString();
+
+        if (userId != null && userId.isNotEmpty) {
+          await _saveDeviceToken(userId);
+        } else {
+          print('User ID not found in response');
+        }
+      }
+
+      return Right(response);
+    } on DioException catch(e) {
       final errorMsg = e.response?.data?['message']?.toString() ??
           e.message ??
           'Request failed with status ${e.response?.statusCode ?? "unknown"}';
       return Left(ApiFailure(errorMsg));
+    }
+  }
+
+  Future<void> _saveDeviceToken(String userId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('fcm_token');
+
+      if (token == null) {
+        print('FCM token not found in shared preferences');
+        return;
+      }
+
+      // Create device input request
+      final deviceRequest = DeviceInputRequest(
+        userId: userId,
+        deviceToken: token,
+        platform: 'app',
+      );
+
+      // Make API call to save device token
+      await sl<DioClient>().post(
+        ApiUrls.saveDeviceToken,
+        data: deviceRequest.toJson(),
+      );
+
+      print('Device token saved successfully for user: $userId');
+
+    } catch (e) {
+      print('Error saving device token: $e');
+      // Note: We don't throw or return failure here since this is a secondary operation
+      // that shouldn't affect the main signin flow
     }
   }
 
