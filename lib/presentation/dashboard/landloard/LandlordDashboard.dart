@@ -5,6 +5,7 @@ import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/data/model/user/user_info_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/drawer.dart';
+import '../../widgets/notification_icon_button.dart';
 import '../bloc/user_info_cubit.dart';
 
 class LandlordDashboard extends StatelessWidget {
@@ -46,12 +47,7 @@ class LandlordDashboard extends StatelessWidget {
                     },
                   ),
                   actions: [
-                    IconButton(
-                      icon: Icon(Icons.notifications_outlined, color: colorScheme.primary),
-                      onPressed: () {
-                        // Handle notifications
-                      },
-                    ),
+                    NotificationIconButton(),
                   ],
                 ),
                 drawer: BlocBuilder<UserInfoCubit, UserInfoModel>(

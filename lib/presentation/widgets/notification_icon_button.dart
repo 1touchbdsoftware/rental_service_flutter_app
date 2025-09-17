@@ -45,29 +45,43 @@ class NotificationIconButton extends StatelessWidget {
               ),
               onPressed: () => _openNotificationsScreen(context),
             ),
+
             if (state.unreadCount > 0)
               Positioned(
-                right: 4,
-                top: 4,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: badgeColor ?? Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                  child: Text(
-                    state.unreadCount > 99 ? '99+' : state.unreadCount.toString(),
-                    style: TextStyle(
-                      color: badgeTextColor ?? Colors.white,
-                      fontSize: 9,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                    ),
-                    textAlign: TextAlign.center,
+                right: 8,
+                top: 8,
+                child: Text(
+                  state.unreadCount > 99 ? '99+' : state.unreadCount.toString(),
+                  style: TextStyle(
+                    color: badgeColor ?? Colors.red, // Changed to use badgeColor for text color
+                    fontSize: 12, // Slightly larger font size
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+            // if (state.unreadCount > 0)
+            //   Positioned(
+            //     right: 4,
+            //     top: 4,
+            //     child: Container(
+            //       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+            //       decoration: BoxDecoration(
+            //         color: badgeColor ?? Colors.red,
+            //         shape: BoxShape.circle,
+            //       ),
+            //       constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+            //       child: Text(
+            //         state.unreadCount > 99 ? '99+' : state.unreadCount.toString(),
+            //         style: TextStyle(
+            //           color: badgeTextColor ?? Colors.white,
+            //           fontSize: 9,
+            //           fontWeight: FontWeight.bold,
+            //           height: 1.2,
+            //         ),
+            //         textAlign: TextAlign.center,
+            //       ),
+            //     ),
+            //   ),
             if (state.unreadLoading)
               Positioned(
                 right: 4,

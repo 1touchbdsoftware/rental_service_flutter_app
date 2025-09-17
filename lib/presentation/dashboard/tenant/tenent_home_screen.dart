@@ -42,13 +42,6 @@ class TenantHomeScreen extends StatelessWidget {
                   ),
                   actions: [
                     NotificationIconButton(),
-                   // Notifications icon with number
-                   //  IconButton(
-                   //    icon: const Icon(Icons.notifications_outlined),
-                   //    onPressed: () {
-                   //      // Handle notifications
-                   //    },
-                   //  ),
                   ],
                 ),
                 drawer: BlocBuilder<UserInfoCubit, UserInfoModel>(

@@ -30,6 +30,7 @@ import '../widgets/drawer.dart';
 import '../widgets/image_dialog.dart';
 import '../widgets/info_dialog.dart';
 import '../widgets/no_internet_widget.dart';
+import '../widgets/notification_icon_button.dart';
 import '../widgets/paging_controls.dart';
 import 'bloc/get_complains_state_cubit.dart';
 import '../../service_locator.dart';
@@ -195,6 +196,9 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             color: colorScheme.onSurface,
           ),
         ),
+        actions: [
+          NotificationIconButton(),
+        ],
       ),
       drawer: buildAppDrawer(
         context,
