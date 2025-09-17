@@ -6,6 +6,7 @@ import 'package:rental_service/data/repository/complains_repository.dart';
 import 'package:rental_service/data/repository/technician_repository.dart';
 import 'package:rental_service/data/repository/user_repository.dart';
 import 'package:rental_service/data/source/api_service/complains_api_service.dart';
+import 'package:rental_service/data/source/api_service/notifications_api_service.dart';
 import 'package:rental_service/data/source/api_service/technician_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_history_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
@@ -83,6 +84,11 @@ void setupServiceLocator(){
   sl.registerSingleton<HistoryApiService>(
       HistoryApiServiceImpl()
   );
+
+  sl.registerSingleton<NotificationApiService>(
+      NotificationApiServiceImpl()
+  );
+
 
 
   // Repositories

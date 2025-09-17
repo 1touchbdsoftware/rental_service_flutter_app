@@ -39,7 +39,7 @@ class NotificationApiServiceImpl implements NotificationApiService {
     return prefs.getString('token');
   }
 
-  Future<String?> _getUserIdFallback() async {
+  Future<String?> _getUserId() async {
     final prefs = await SharedPreferences.getInstance();
 
     return prefs.getString('userId');
@@ -53,7 +53,7 @@ class NotificationApiServiceImpl implements NotificationApiService {
   Future<Either<ApiFailure, Response>> getUnreadCount({String? userId}) async {
     try {
       final token = await _getToken();
-      final resolvedUserId = userId ?? await _getUserIdFallback();
+      final resolvedUserId = await _getUserId();
 
       if (token == null) {
         return Left(ApiFailure('Authentication token not found'));

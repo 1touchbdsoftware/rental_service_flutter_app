@@ -65,7 +65,7 @@ class AuthRepositoryImpl extends AuthRepository {
           }else{
             sharedPreferences.setString('defaultPass', response.data['data']['userInfo']['defaultPassword']);
           }
-
+          sharedPreferences.setString('userId', response.data['data']['userInfo']['id']);
           sharedPreferences.setString('token', userModel.token);
           sharedPreferences.setString('userName', userModel.userInfo.userName);
           sharedPreferences.setString(
