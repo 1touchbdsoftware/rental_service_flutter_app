@@ -17,6 +17,7 @@ import 'package:rental_service/presentation/routes.dart';
 import 'package:rental_service/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'common/bloc/notifications/notifications_cubit.dart';
 import 'core/localization/language_cubit.dart';
 import 'data/source/api_service/my_firebase_service.dart';
 import 'l10n/generated/app_localizations.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => VerifyOtpCubit()),
         BlocProvider(create: (context) => GetBudgetCubit()),
         BlocProvider(create: (context) => PostBudgetCubit()),
+        BlocProvider(create: (context) => NotificationCubit()..fetchUnreadCount()),
 
       ],
       child: MyAppContent(),

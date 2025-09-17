@@ -6,6 +6,7 @@ import 'package:rental_service/presentation/auth/signin.dart';
 import '../../../data/model/user/user_info_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/drawer.dart';
+import '../../widgets/notification_icon_button.dart';
 import '../bloc/user_info_cubit.dart';
 
 class TenantHomeScreen extends StatelessWidget {
@@ -40,12 +41,14 @@ class TenantHomeScreen extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   actions: [
-                    IconButton(
-                      icon: const Icon(Icons.notifications_outlined),
-                      onPressed: () {
-                        // Handle notifications
-                      },
-                    ),
+                    NotificationIconButton(),
+                   // Notifications icon with number
+                   //  IconButton(
+                   //    icon: const Icon(Icons.notifications_outlined),
+                   //    onPressed: () {
+                   //      // Handle notifications
+                   //    },
+                   //  ),
                   ],
                 ),
                 drawer: BlocBuilder<UserInfoCubit, UserInfoModel>(
