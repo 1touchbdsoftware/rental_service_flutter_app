@@ -1,6 +1,3 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,16 +7,66 @@ import '../../data/model/notifications/get_user_notifs_params.dart';
 import '../../data/model/notifications/mark_as_read_all_req.dart';
 import '../../data/model/notifications/mark_as_read_single_request.dart';
 import '../../data/model/notifications/notifications_entity.dart';
-import '../../data/model/pagination_model.dart';
 
-class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({super.key});
+
+class NotificationsPage extends StatefulWidget {
+
+  const NotificationsPage({super.key});
+
+  @override
+  State<NotificationsPage> createState() => _NotificationsPageState();
+}
+
+class _NotificationsPageState extends State<NotificationsPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+
+    // Initialize notifications
+    _loadInitialData();
+  }
+
+  void _loadInitialData() {
+    context.read<NotificationCubit>().fetchUnreadCount();
+    context.read<NotificationCubit>().fetchFirstPage(
+
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      final state = context.read<NotificationCubit>().state;
+      final page = state.page;
+
+      if (page != null &&
+          page.pageNumber < page.totalPages &&
+          !state.loadMoreLoading) {
+        context.read<NotificationCubit>().loadMore(
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
         actions: [
           BlocBuilder<NotificationCubit, NotificationState>(
             builder: (context, state) {
@@ -33,125 +80,213 @@ class NotificationsScreen extends StatelessWidget {
                   ),
                 );
               }
+
               return IconButton(
-                icon: const Icon(Icons.done_all),
+                icon: Icon(Icons.check_circle, color: colorScheme.primary),
                 onPressed: state.items.isNotEmpty && state.unreadCount > 0
-                    ? () => context.read<NotificationCubit>().markAllRead(
-                  MarkAllAsReadRequest(userId: 'current-user-id'),
-                )
+                    ? () {
+                  context.read<NotificationCubit>().markAllRead(
+
+                  );
+                }
                     : null,
+                tooltip: 'Mark all as read',
               );
             },
           ),
         ],
       ),
-      body: BlocBuilder<NotificationCubit, NotificationState>(
+      body: BlocConsumer<NotificationCubit, NotificationState>(
+        listener: (context, state) {
+          // Handle errors
+          if (state.listError != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.listError!),
+                backgroundColor: colorScheme.error,
+              ),
+            );
+          }
+
+          if (state.markAllError != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.markAllError!),
+                backgroundColor: colorScheme.error,
+              ),
+            );
+          }
+
+          if (state.markSingleError != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.markSingleError!),
+                backgroundColor: colorScheme.error,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state.listLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state.listError != null) {
+          if (state.items.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Error: ${state.listError}'),
-                  ElevatedButton(
-                    onPressed: () => context.read<NotificationCubit>().fetchFirstPage(
-                      GetUserNotificationsParams(
-                        userId: 'current-user-id',
-                        pageNumber: 1,
-                        pageSize: 20,
-                      ),
+                  Icon(
+                    Icons.notifications_none,
+                    size: 64,
+                    color: colorScheme.onSurface.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No notifications yet',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurface.withOpacity(0.7),
                     ),
-                    child: const Text('Retry'),
                   ),
                 ],
               ),
             );
           }
 
-          if (state.items.isEmpty) {
-            return const Center(child: Text('No notifications'));
-          }
-
-          return ListView.builder(
-            itemCount: state.items.length + (_hasNextPage(state.page) ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == state.items.length) {
-                return _buildLoadMoreButton(context, state);
-              }
-
-              final notification = state.items[index];
-              return _buildNotificationItem(context, notification, state);
+          return RefreshIndicator(
+            onRefresh: () async {
+              _loadInitialData();
             },
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: state.items.length + (state.loadMoreLoading ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index >= state.items.length) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
+                final notification = state.items[index];
+                return _NotificationItem(
+                  notification: notification,
+                  onTap: () {
+                    if (!notification.isRead) {
+                      context.read<NotificationCubit>().markSingleRead(
+                    notification.userNotificationId,
+                      );
+                    }
+
+                    // Handle notification tap (navigate to relevant screen)
+                    if (notification.redirectEndpoint != null) {
+                      // Navigate to the redirect endpoint
+                    }
+                  },
+                );
+              },
+            ),
           );
         },
       ),
     );
   }
+}
 
-  Widget _buildLoadMoreButton(BuildContext context, NotificationState state) {
-    if (state.loadMoreLoading) {
-      return const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(child: CircularProgressIndicator()),
-      );
+class _NotificationItem extends StatelessWidget {
+  final UserNotificationEntity notification;
+  final VoidCallback onTap;
+
+  const _NotificationItem({
+    required this.notification,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Material(
+      color: notification.isRead
+          ? colorScheme.surface
+          : colorScheme.primary.withOpacity(0.05),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title
+              Text(
+                notification.title,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: notification.isRead
+                      ? colorScheme.onSurface
+                      : colorScheme.primary,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              // Body
+              Text(
+                notification.body,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.8),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Metadata row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Sent by
+                  if (notification.sentBy != null && notification.sentBy!.isNotEmpty)
+                    Text(
+                      'From: ${notification.sentBy}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                    ),
+
+                  // Delivered at or created at
+                  if (notification.deliveredAt != null || notification.createdAt != null)
+                    Text(
+                      _formatDate(notification.deliveredAt ?? notification.createdAt!),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays > 7) {
+      return '${date.day}/${date.month}/${date.year}';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays}d ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m ago';
+    } else {
+      return 'Just now';
     }
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ElevatedButton(
-        onPressed: () {
-          final nextPage = state.page?.pageNumber != null ? state.page!.pageNumber + 1 : 2;
-          context.read<NotificationCubit>().loadMore(
-            GetUserNotificationsParams(
-              userId: 'current-user-id',
-              pageNumber: nextPage,
-              pageSize: 20,
-            ),
-          );
-        },
-        child: const Text('Load More'),
-      ),
-    );
-  }
-// this helper method to check if there's a next page
-  bool _hasNextPage(Pagination? page) {
-    if (page == null) return false;
-    return page.pageNumber < page.totalPages;
-  }
-  Widget _buildNotificationItem(
-      BuildContext context,
-      UserNotificationEntity notification,
-      NotificationState state,
-      ) {
-    return ListTile(
-      leading: Icon(
-        notification.isRead ? Icons.notifications : Icons.notifications_active,
-        color: notification.isRead ? Colors.grey : Theme.of(context).primaryColor,
-      ),
-      title: Text(notification.title),
-      subtitle: Text(notification.body),
-      trailing: state.markingIds.contains(notification.userNotificationId.toString())
-          ? const SizedBox(
-        width: 20,
-        height: 20,
-        child: CircularProgressIndicator(strokeWidth: 2),
-      )
-          : null,
-      onTap: () {
-        if (!notification.isRead) {
-          context.read<NotificationCubit>().markSingleRead(
-            MarkAsReadSingleRequest(
-              userNotificationId: notification.userNotificationId,
-              userId: 'current-user-id',
-            ),
-          );
-        }
-        // Handle notification tap (navigate to relevant screen)
-      },
-    );
   }
 }

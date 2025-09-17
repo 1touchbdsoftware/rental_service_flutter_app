@@ -114,7 +114,7 @@ class NotificationIconButton extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => BlocProvider.value(
           value: cubit,
-          child: const NotificationsScreen(),
+          child: const NotificationsPage(),
         ),
       ),
     );

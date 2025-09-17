@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:rental_service/service_locator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../domain/repository/notifications_repository.dart';
 import '../../../data/model/notifications/notifications_entity.dart'; // UserNotificationEntity
@@ -18,10 +19,17 @@ class NotificationCubit extends Cubit<NotificationState> {
       : _repo = repo ?? sl<NotificationsRepository>(),
         super(const NotificationState());
 
+
+  static Future<String> _getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId') ?? '';
+  }
+
   /// Fetch only the unread count (e.g., app start, pull-to-refresh on badge)
-  Future<void> fetchUnreadCount({String? userId}) async {
+  Future<void> fetchUnreadCount() async { // Remove userId parameter
+    final currentUserId = await _getUserId();
     emit(state.copyWith(unreadLoading: true, unreadError: null));
-    final Either<String, int> res = await _repo.getUnreadCount(userId: userId);
+    final Either<String, int> res = await _repo.getUnreadCount(userId: currentUserId);
     res.fold(
           (err) => emit(state.copyWith(unreadLoading: false, unreadError: err)),
           (count) => emit(state.copyWith(
@@ -32,10 +40,18 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
   }
 
+
   /// Fetch first page (or refresh list) with given params
-  Future<void> fetchFirstPage(GetUserNotificationsParams params) async {
+  Future<void> fetchFirstPage() async { // Remove params parameter
+    final currentUserId = await _getUserId();
     emit(state.copyWith(listLoading: true, listError: null));
-    final res = await _repo.getUserNotifications(params);
+    final res = await _repo.getUserNotifications(
+      GetUserNotificationsParams(
+        userId: currentUserId,
+        pageNumber: 1,
+        pageSize: 20,
+      ),
+    );
     res.fold(
           (err) => emit(state.copyWith(listLoading: false, listError: err)),
           (pageResult) => emit(state.copyWith(
@@ -48,11 +64,21 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   /// Load more using next params (caller computes next page in params).
-  /// This keeps the Cubit decoupled from your Pagination shape.
-  Future<void> loadMore(GetUserNotificationsParams nextParams) async {
-    if (state.loadMoreLoading) return; // guard
+  Future<void> loadMore() async {
+    if (state.loadMoreLoading) return;
+
+    final currentUserId = await _getUserId();
+    final currentPage = state.page;
+    if (currentPage == null || currentPage.pageNumber >= currentPage.totalPages) return;
+
     emit(state.copyWith(loadMoreLoading: true, listError: null));
-    final res = await _repo.getUserNotifications(nextParams);
+    final res = await _repo.getUserNotifications(
+      GetUserNotificationsParams(
+        userId: currentUserId,
+        pageNumber: currentPage.pageNumber + 1,
+        pageSize: currentPage.pageSize,
+      ),
+    );
     res.fold(
           (err) => emit(state.copyWith(loadMoreLoading: false, listError: err)),
           (pageResult) {
@@ -68,28 +94,34 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   /// Mark a single notification as read (optimistic, with rollback on failure)
-  Future<void> markSingleRead(MarkAsReadSingleRequest request) async {
-    // Already marking this id? avoid duplicate hit
-    if (state.markingIds.contains(request.userNotificationId.toString())) return;
+  Future<void> markSingleRead(int userNotificationId) async { // Simplify parameter
+    final currentUserId = await _getUserId();
 
-    final id = request.userNotificationId;
+    // Already marking this id? avoid duplicate hit
+    if (state.markingIds.contains(userNotificationId.toString())) return;
+
     final before = state.items;
 
     // Optimistic UI: set item read=true and decrement unreadCount if applicable
     final updated = before
-        .map((n) => n.userNotificationId == id ? _withRead(n, true) : n)
+        .map((n) => n.userNotificationId == userNotificationId ? _withRead(n, true) : n)
         .toList();
 
-    final dec = _shouldDecrementUnread(before, id) ? 1 : 0;
+    final dec = _shouldDecrementUnread(before, userNotificationId) ? 1 : 0;
 
     emit(state.copyWith(
       items: updated,
       unreadCount: (state.unreadCount - dec).clamp(0, 1 << 31),
-      markingIds: {...state.markingIds, id.toString()},
+      markingIds: {...state.markingIds, userNotificationId.toString()},
       markSingleError: null,
     ));
 
-    final res = await _repo.markAsReadSingle(request);
+    final res = await _repo.markAsReadSingle(
+      MarkAsReadSingleRequest(
+        userNotificationId: userNotificationId,
+        userId: currentUserId,
+      ),
+    );
 
     res.fold(
           (err) {
@@ -97,7 +129,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         emit(state.copyWith(
           items: before,
           unreadCount: state.unreadCount + dec,
-          markingIds: _without(state.markingIds, id.toString()),
+          markingIds: _without(state.markingIds, userNotificationId.toString()),
           markSingleError: err,
         ));
       },
@@ -105,7 +137,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         // If your backend adjusts unread count server-side, optionally re-sync:
         // await fetchUnreadCount();
         emit(state.copyWith(
-          markingIds: _without(state.markingIds, id.toString()),
+          markingIds: _without(state.markingIds, userNotificationId.toString()),
           markSingleError: null,
         ));
       },
@@ -113,9 +145,10 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   /// Mark all as read (optimistic: clear unread flags and zero badge)
-  Future<void> markAllRead(MarkAllAsReadRequest request) async {
+  Future<void> markAllRead() async { // Remove request parameter
     if (state.markAllLoading) return;
 
+    final currentUserId = await _getUserId();
     final before = state.items;
     final optimistic = before.map((n) => _withRead(n, true)).toList();
 
@@ -126,7 +159,11 @@ class NotificationCubit extends Cubit<NotificationState> {
       markAllError: null,
     ));
 
-    final res = await _repo.markAllAsRead(request);
+    final res = await _repo.markAllAsRead(
+      MarkAllAsReadRequest(
+        userId: currentUserId,
+      ),
+    );
 
     res.fold(
           (err) {
