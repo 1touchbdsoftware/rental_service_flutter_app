@@ -22,6 +22,7 @@ abstract class AuthApiService{
   Future<Either<ApiFailure, Response>> forgotPasswordRequest(String email);
   Future<Either<ApiFailure, Response>> verifyOtp(String otp);
 
+
 }
 
 class AuthApiServiceImpl extends AuthApiService{

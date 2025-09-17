@@ -2,7 +2,7 @@
 class ApiUrls{
   static const baseURL = "https://api.promatrix.com.tr/api/";
 
-     //static const baseURL = "http://192.168.0.15:9097/api/";
+     //static const baseURL = "http://127.0.0.1:5001/api/";
 
   static const register = '${baseURL}auth/register';
 
@@ -39,5 +39,9 @@ class ApiUrls{
 // notifications
   static const saveDeviceToken = '${baseURL}Notifications/UpdateDeviceToken';
 
+  static const getUnreadNotificationsCount = '${baseURL}Notifications/GetUnreadNotificationsCount';
+  static const getUserNotifications = '${baseURL}Notifications/GetUserNotifications';
+  static const markNotificationReadSingle = '${baseURL}Notifications/MarkAsReadSingle';
+  static const markAllNotificationsRead = '${baseURL}Notifications/MarkAllAsRead';
 
 }
