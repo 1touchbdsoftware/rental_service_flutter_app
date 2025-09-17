@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/bloc/notifications/notifications_cubit.dart';
 import '../../common/bloc/notifications/notifications_state.dart';
-import '../../data/model/notifications/get_user_notifs_params.dart';
-import '../../data/model/notifications/mark_as_read_all_req.dart';
-import '../../data/model/notifications/mark_as_read_single_request.dart';
 import '../../data/model/notifications/notifications_entity.dart';
 
 
@@ -82,7 +79,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               }
 
               return IconButton(
-                icon: Icon(Icons.check_circle, color: colorScheme.primary),
+                icon: Icon(Icons.done_all, color: colorScheme.primary),
                 onPressed: state.items.isNotEmpty && state.unreadCount > 0
                     ? () {
                   context.read<NotificationCubit>().markAllRead(
@@ -185,6 +182,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       // Navigate to the redirect endpoint
                     }
                   },
+                  onMarkAsRead: () {
+                    // Call mark as read when the icon is pressed
+                    context.read<NotificationCubit>().markSingleRead(
+                      notification.userNotificationId,
+                    );
+                  },
                 );
               },
             ),
@@ -198,10 +201,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
 class _NotificationItem extends StatelessWidget {
   final UserNotificationEntity notification;
   final VoidCallback onTap;
+  final VoidCallback onMarkAsRead;
+  final bool isMarking;
 
   const _NotificationItem({
     required this.notification,
     required this.onTap,
+    required this.onMarkAsRead,
+    this.isMarking = false,
   });
 
   @override
@@ -262,6 +269,26 @@ class _NotificationItem extends StatelessWidget {
                       _formatDate(notification.deliveredAt ?? notification.createdAt!),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                    ),
+
+                  if (!notification.isRead)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: isMarking
+                          ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                          : IconButton(
+                        icon: Icon(
+                          Icons.mark_email_read,
+                          color: colorScheme.primary,
+                        ),
+                        onPressed: onMarkAsRead,
+                        tooltip: 'Mark as read',
+                        iconSize: 24,
                       ),
                     ),
                 ],
