@@ -33,8 +33,8 @@ void main() async{
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  final notificationService = FirebaseNotificationService();
-  await notificationService.initNotifications();
+  // final notificationService = FirebaseNotificationService();
+  // await notificationService.initNotifications(context);
 
   // Get the token
   String? token = await messaging.getToken();
@@ -74,8 +74,26 @@ class MyApp extends StatelessWidget {
 
 }
 
-class MyAppContent extends StatelessWidget {
+class MyAppContent extends StatefulWidget {
   const MyAppContent({super.key});
+
+  @override
+  _MyAppContentState createState() => _MyAppContentState();
+}
+
+class _MyAppContentState extends State<MyAppContent> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebaseNotifications();
+  }
+
+  // Function to initialize Firebase notifications and pass context
+  Future<void> _initializeFirebaseNotifications() async {
+    final notificationService = FirebaseNotificationService();
+    await notificationService.initNotifications(context); // Passing context here
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +176,5 @@ class SplashWrapperState extends State<SplashWrapper> {
       },
     );
   }
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(); // Required!
-  print("Handling a background message: ${message.messageId}");
 }
 
