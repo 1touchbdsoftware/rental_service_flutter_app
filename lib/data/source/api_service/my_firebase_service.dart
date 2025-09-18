@@ -84,7 +84,7 @@ class FirebaseNotificationService {
   }
 }
 
-// ✅ Add this annotation!
+// background handler
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
