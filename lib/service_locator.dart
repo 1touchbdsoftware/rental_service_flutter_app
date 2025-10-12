@@ -11,6 +11,7 @@ import 'package:rental_service/data/source/api_service/notifications_api_service
 import 'package:rental_service/data/source/api_service/technician_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_history_api_service.dart';
 import 'package:rental_service/data/source/api_service/get_segment_api_service.dart';
+import 'package:rental_service/data/source/local_service/PdfInoviceService.dart';
 import 'package:rental_service/data/source/local_service/get_user_local_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
 import 'package:rental_service/domain/repository/history_repository.dart';
@@ -91,6 +92,10 @@ void setupServiceLocator(){
       NotificationApiServiceImpl()
   );
 
+  sl.registerSingleton<PdfInvoiceService>(
+      PdfInvoiceService()
+  );
+
 
 
   // Repositories
@@ -121,6 +126,8 @@ void setupServiceLocator(){
   sl.registerSingleton<NotificationsRepository>(
       NotificationsRepositoryImpl()
   );
+
+
 
 
   //UseCases:

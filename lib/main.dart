@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/core/theme/app_theme.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
+import 'package:rental_service/presentation/budget/agency/agency_info_cubit.dart';
 import 'package:rental_service/presentation/budget/blocs/get_budget_cubit.dart';
 import 'package:rental_service/presentation/budget/blocs/post_budget_cubit.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => GetBudgetCubit()),
         BlocProvider(create: (context) => PostBudgetCubit()),
         BlocProvider(create: (context) => NotificationCubit()..fetchUnreadCount()),
+        BlocProvider(create: (context) => GetAgencyInfoCubit()),
 
       ],
       child: MyAppContent(),

@@ -45,7 +45,7 @@ class ApiUrls{
   static const markAllNotificationsRead = '${baseURL}Notifications/MarkAllAsRead';
 
 
-  static const getAgencyInfo = '$baseURL/Agency/GetAgencyInfo';
+  static const getAgencyInfo = '${baseURL}Agency/GetAgencyInfo';
 
 
 }

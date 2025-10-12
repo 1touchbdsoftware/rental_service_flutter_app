@@ -3,12 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/utils/dateTimeForamtUtil.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/budget/BudgetItem.dart';
 import '../../data/model/budget/budget_post_model.dart';
 import '../../data/source/local_service/PdfInoviceService.dart';
 import '../tenant_complain_list/complain_pending_list_screen.dart';
+import 'agency/agency_info_cubit.dart';
+import 'agency/agency_info_state.dart';
 import 'blocs/get_budget_cubit.dart';
 import 'blocs/get_budget_state.dart';
 import 'blocs/post_budget_cubit.dart';
@@ -193,16 +194,32 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
       const SnackBar(content: Text('Budget review requested')),
     );
   }
-  void _handleDownloadInvoice(BuildContext context, List<BudgetItem> budgetItems, double totalAmount) async {
+  void _handleDownloadInvoice(
+      BuildContext context,
+      List<BudgetItem> budgetItems,
+      double totalAmount,
+      ) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Generating invoice...')),
       );
 
-      // You'll need to get agency info from your data source
-      // Replace these with actual data from your app
-      final agencyInfo = await _getAgencyInfo(); // Implement this method
+      // Trigger agency info load (if not already fetched)
+      await context.read<GetAgencyInfoCubit>().fetchAgencyInfo();
 
+      // Get latest state
+      final state = context.read<GetAgencyInfoCubit>().state;
+
+      if (state is! GetAgencyInfoSuccessState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Agency info not loaded yet')),
+        );
+        return;
+      }
+
+      final agencyInfo = state.agencyInfo;
+
+      // ✅ Generate the PDF
       final file = await PdfInvoiceService.generateInvoice(
         agencyName: agencyInfo.agencyName ?? 'Agency Name',
         agencyLogoPath: agencyInfo.fullLogoPath,
@@ -217,19 +234,24 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
         isPaid: widget.complain.isPaid ?? false,
       );
 
-      // Share the PDF file
-      await Share.shareXFiles([XFile(file.path)],
-          subject: 'Invoice ${widget.complain.ticketNo}');
+      // ✅ Share the generated file
+      // await Share.shareXFiles(
+      //   [XFile(file.path)],
+      //   subject: 'Invoice ${widget.complain.ticketNo}',
+      //   text: 'Please find attached your invoice for ticket #${widget.complain.ticketNo}.',
+      // );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invoice downloaded successfully')),
+        const SnackBar(content: Text('Invoice generated and shared successfully')),
       );
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint("Invoice generation error: $e\n$st");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to generate invoice: $e')),
       );
     }
   }
+
 
   void _handlePayment(BuildContext context, double amount) {
     showDialog(

@@ -6,6 +6,7 @@ class AgencyInfoModel {
   final String contactNumber;
   final String? fullLogoPath;
   final String? smallLogoPath;
+  final String? address;
   final bool isActive;
   final bool isApproved;
   final String stateStatus;
@@ -16,6 +17,7 @@ class AgencyInfoModel {
     required this.agencyName,
     required this.emailAddress,
     required this.contactNumber,
+    this.address,
     this.fullLogoPath,
     this.smallLogoPath,
     required this.isActive,
@@ -35,6 +37,7 @@ class AgencyInfoModel {
       isActive: json['isActive'] ?? false,
       isApproved: json['isApproved'] ?? false,
       stateStatus: json['stateStatus'] ?? '',
+      address: json['address'] ?? '',
     );
   }
 }
