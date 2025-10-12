@@ -4,6 +4,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
 
 import '../../model/budget/BudgetItem.dart';
 
@@ -148,7 +149,7 @@ class PdfInvoiceService {
               // Budget Table
               pw.Text(
                 'Budget Details',
-                style:  pw.TextStyle(
+                style: pw.TextStyle(
                   fontSize: 14,
                   fontWeight: pw.FontWeight.bold,
                 ),
@@ -166,7 +167,11 @@ class PdfInvoiceService {
                     _buildTableHeaderCell('#', 0.5, pw.TextAlign.center),
                     _buildTableHeaderCell('DESCRIPTION', 3, pw.TextAlign.left),
                     _buildTableHeaderCell('QTY', 1, pw.TextAlign.right),
-                    _buildTableHeaderCell('UNIT PRICE', 1.5, pw.TextAlign.right),
+                    _buildTableHeaderCell(
+                      'UNIT PRICE',
+                      1.5,
+                      pw.TextAlign.right,
+                    ),
                     _buildTableHeaderCell('TOTAL', 1.5, pw.TextAlign.right),
                   ],
                 ),
@@ -187,14 +192,26 @@ class PdfInvoiceService {
                   child: pw.Row(
                     children: [
                       _buildTableCell(
-                          (index + 1).toString(), 0.5, pw.TextAlign.center),
+                        (index + 1).toString(),
+                        0.5,
+                        pw.TextAlign.center,
+                      ),
                       _buildTableCell(item.description, 3, pw.TextAlign.left),
                       _buildTableCell(
-                          item.quantity.toString(), 1, pw.TextAlign.right),
-                      _buildTableCell(currencyFormat.format(item.costPerUnit),
-                          1.5, pw.TextAlign.right),
-                      _buildTableCell(currencyFormat.format(item.total), 1.5,
-                          pw.TextAlign.right),
+                        item.quantity.toString(),
+                        1,
+                        pw.TextAlign.right,
+                      ),
+                      _buildTableCell(
+                        currencyFormat.format(item.costPerUnit),
+                        1.5,
+                        pw.TextAlign.right,
+                      ),
+                      _buildTableCell(
+                        currencyFormat.format(item.total),
+                        1.5,
+                        pw.TextAlign.right,
+                      ),
                     ],
                   ),
                 );
@@ -274,8 +291,9 @@ class PdfInvoiceService {
                 width: double.infinity,
                 padding: const pw.EdgeInsets.only(top: 10),
                 decoration: pw.BoxDecoration(
-                  border: pw.Border(top: pw.BorderSide(color: PdfColors.grey300)),
-
+                  border: pw.Border(
+                    top: pw.BorderSide(color: PdfColors.grey300),
+                  ),
                 ),
                 child: pw.Column(
                   children: [
@@ -308,24 +326,27 @@ class PdfInvoiceService {
     final file = File('${output.path}/invoice_$ticketNo.pdf');
     await file.writeAsBytes(await pdf.save());
 
+    // After generating the file
+    final pdfBytes = await pdf.save();
+
+    // Open print preview
+    await Printing.layoutPdf(onLayout: (format) async => pdfBytes);
+
     return file;
   }
 
   static pw.Widget _buildTableHeaderCell(
-      String text,
-      double flex,
-      pw.TextAlign align,
-      ) {
+    String text,
+    double flex,
+    pw.TextAlign align,
+  ) {
     return pw.Expanded(
       flex: (flex * 2).round(),
       child: pw.Container(
         padding: const pw.EdgeInsets.all(8),
         child: pw.Text(
           text,
-          style: pw.TextStyle(
-            fontSize: 10,
-            fontWeight: pw.FontWeight.bold,
-          ),
+          style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
           textAlign: align,
         ),
       ),
@@ -333,10 +354,10 @@ class PdfInvoiceService {
   }
 
   static pw.Widget _buildTableCell(
-      String text,
-      double flex,
-      pw.TextAlign align,
-      ) {
+    String text,
+    double flex,
+    pw.TextAlign align,
+  ) {
     return pw.Expanded(
       flex: (flex * 2).round(),
       child: pw.Container(
