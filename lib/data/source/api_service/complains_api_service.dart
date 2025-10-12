@@ -31,6 +31,9 @@ abstract class ComplainApiService {
 
   Future<Either<ApiFailure, Response>> getBudgetForComplain({ required String complainID});
   Future<Either<ApiFailure, Response>> postAcceptBudget(BudgetPostModel model, bool isReview);
+
+  Future<Either<ApiFailure, Response>> getAgencyInfo(String agencyID);
+
 }
 
 class ComplainApiServiceImpl implements ComplainApiService {
@@ -407,6 +410,40 @@ class ComplainApiServiceImpl implements ComplainApiService {
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+
+  @override
+  Future<Either<ApiFailure, Response>> getAgencyInfo(String agencyID) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        return Left(ApiFailure('Authentication token not found'));
+      }
+
+      final response = await sl<DioClient>().get(
+        ApiUrls.getAgencyInfo,
+        queryParameters: {
+          'AgencyId': agencyID,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
           },
         ),
       );

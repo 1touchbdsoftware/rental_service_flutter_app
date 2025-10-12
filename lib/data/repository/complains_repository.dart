@@ -3,12 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:rental_service/data/model/complain/complain_req_params/get_complain_req_params.dart';
 import 'package:rental_service/data/source/api_service/complains_api_service.dart';
 import 'package:rental_service/domain/repository/complains_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/entities/complain_response_entity.dart';
 import '../../service_locator.dart';
 import '../model/api_failure.dart';
 import '../model/budget/BudgetItem.dart';
 import '../model/budget/budgetResponse.dart';
 import '../model/budget/budget_post_model.dart';
+import '../model/complain/agency_info_model.dart';
 import '../model/complain/complain_image_model.dart';
 import '../model/complain/complain_req_params/complain_edit_post.dart';
 import '../model/complain/complain_req_params/complain_post_req.dart';
@@ -235,6 +237,53 @@ class ComplainsRepositoryImpl implements ComplainsRepository {
       },
     );
   }
+
+
+  @override
+  Future<Either<String, AgencyInfoModel>> getAgencyInfo() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final agencyID = prefs.getString('agencyID');
+
+      if (agencyID == null || agencyID.isEmpty) {
+        return Left('Agency ID not found in local storage');
+      }
+
+      final result = await sl<ComplainApiService>().getAgencyInfo(agencyID);
+
+      print('REPO: getAgencyInfo called for AgencyID: $agencyID');
+
+      return result.fold(
+            (error) => Left(error.message),
+            (response) {
+          try {
+            if (response.data is! Map<String, dynamic>) {
+              return Left('Invalid response format');
+            }
+
+            final data = response.data['data'];
+            if (data == null ||
+                data['listOfObject'] == null ||
+                data['listOfObject'] is! List ||
+                (data['listOfObject'] as List).isEmpty) {
+              return Left('No agency info found');
+            }
+
+            final agencyJson = (data['listOfObject'] as List).first;
+            final agencyInfo = AgencyInfoModel.fromJson(agencyJson);
+
+            return Right(agencyInfo);
+          } catch (e) {
+            return Left('Failed to parse agency info: ${e.toString()}');
+          }
+        },
+      );
+    } catch (e) {
+      return Left('Unexpected error: ${e.toString()}');
+    }
+  }
+
+
 
 
 }

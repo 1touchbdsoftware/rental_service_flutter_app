@@ -3,9 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/utils/dateTimeForamtUtil.dart';
 import 'package:rental_service/domain/entities/complain_entity.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/budget/BudgetItem.dart';
 import '../../data/model/budget/budget_post_model.dart';
+import '../../data/source/local_service/PdfInoviceService.dart';
 import '../tenant_complain_list/complain_pending_list_screen.dart';
 import 'blocs/get_budget_cubit.dart';
 import 'blocs/get_budget_state.dart';
@@ -142,6 +144,15 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
                     ),
                     const SizedBox(height: 24),
 
+                    if (widget.complain.isApprovedBudget!)
+                    // Download Invoice Button - shown when paid
+                      _DownloadInvoiceButton(
+                        onDownloadPressed: () => _handleDownloadInvoice(context, items, totalBudget),
+                        colorScheme: colorScheme,
+                        budgetItems: items,
+                        totalAmount: totalBudget,
+                      ),
+
                     if ( widget.complain.isApprovedBudget! || widget.complain.isBudgetReviewRequested!)
                       Row(
                         children: [
@@ -182,6 +193,43 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
       const SnackBar(content: Text('Budget review requested')),
     );
   }
+  void _handleDownloadInvoice(BuildContext context, List<BudgetItem> budgetItems, double totalAmount) async {
+    try {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Generating invoice...')),
+      );
+
+      // You'll need to get agency info from your data source
+      // Replace these with actual data from your app
+      final agencyInfo = await _getAgencyInfo(); // Implement this method
+
+      final file = await PdfInvoiceService.generateInvoice(
+        agencyName: agencyInfo.agencyName ?? 'Agency Name',
+        agencyLogoPath: agencyInfo.fullLogoPath,
+        agencyAddress: agencyInfo.address ?? '',
+        agencyEmail: agencyInfo.emailAddress ?? '',
+        agencyContact: agencyInfo.contactNumber ?? '',
+        ticketNo: widget.complain.ticketNo!,
+        tenantName: widget.complain.tenantName ?? 'Tenant',
+        propertyName: widget.complain.propertyName ?? 'Property',
+        budgetItems: budgetItems,
+        totalAmount: totalAmount,
+        isPaid: widget.complain.isPaid ?? false,
+      );
+
+      // Share the PDF file
+      await Share.shareXFiles([XFile(file.path)],
+          subject: 'Invoice ${widget.complain.ticketNo}');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invoice downloaded successfully')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to generate invoice: $e')),
+      );
+    }
+  }
 
   void _handlePayment(BuildContext context, double amount) {
     showDialog(
@@ -209,7 +257,35 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
     );
   }
 }
+// New Download Invoice Button Widget
+// Update the DownloadInvoiceButton to accept budget items and total amount
+class _DownloadInvoiceButton extends StatelessWidget {
+  final VoidCallback onDownloadPressed;
+  final ColorScheme colorScheme;
+  final List<BudgetItem> budgetItems;
+  final double totalAmount;
 
+  const _DownloadInvoiceButton({
+    required this.onDownloadPressed,
+    required this.colorScheme,
+    required this.budgetItems,
+    required this.totalAmount,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      icon: const Icon(Icons.download_outlined),
+      onPressed: onDownloadPressed,
+      label: const Text('Download Invoice'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+    );
+  }
+}
 
 class _TableHeaderRow extends StatelessWidget {
   const _TableHeaderRow();
