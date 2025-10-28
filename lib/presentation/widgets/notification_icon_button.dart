@@ -59,43 +59,7 @@ class NotificationIconButton extends StatelessWidget {
                   ),
                 ),
               ),
-            // if (state.unreadCount > 0)
-            //   Positioned(
-            //     right: 4,
-            //     top: 4,
-            //     child: Container(
-            //       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-            //       decoration: BoxDecoration(
-            //         color: badgeColor ?? Colors.red,
-            //         shape: BoxShape.circle,
-            //       ),
-            //       constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-            //       child: Text(
-            //         state.unreadCount > 99 ? '99+' : state.unreadCount.toString(),
-            //         style: TextStyle(
-            //           color: badgeTextColor ?? Colors.white,
-            //           fontSize: 9,
-            //           fontWeight: FontWeight.bold,
-            //           height: 1.2,
-            //         ),
-            //         textAlign: TextAlign.center,
-            //       ),
-            //     ),
-            //   ),
-            if (state.unreadLoading)
-              Positioned(
-                right: 4,
-                top: 4,
-                child: Container(
-                  width: 12,
-                  height: 12,
-                  padding: const EdgeInsets.all(2),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation(badgeColor ?? Colors.red),
-                  ),
-                ),
-              ),
+
           ],
         );
       },

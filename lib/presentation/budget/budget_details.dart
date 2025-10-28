@@ -29,12 +29,12 @@ class EstimatedBudgetScreen extends StatefulWidget {
 
 class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
   @override
-  void initState() async{
+  void initState() {
     super.initState();
     // Fetch budget items when screen initializes
     context.read<GetBudgetCubit>().fetchBudget(complainID: widget.complain.complainID);
     // Trigger agency info load (if not already fetched)
-    await context.read<GetAgencyInfoCubit>().fetchAgencyInfo();
+    context.read<GetAgencyInfoCubit>().fetchAgencyInfo();
 
 
   }
