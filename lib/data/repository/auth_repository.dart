@@ -67,6 +67,7 @@ class AuthRepositoryImpl extends AuthRepository {
           }
           sharedPreferences.setString('userId', response.data['data']['userInfo']['id']);
           sharedPreferences.setString('token', userModel.token);
+          sharedPreferences.setString('refreshToken', userModel.refreshToken);
           sharedPreferences.setString('userName', userModel.userInfo.userName);
           sharedPreferences.setString(
             'tenantName',

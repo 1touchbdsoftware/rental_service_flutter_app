@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,8 @@ class PdfInvoiceService {
     final currencyFormat = NumberFormat.currency(symbol: '৳', decimalDigits: 2);
     final dateFormat = DateFormat('dd MMM yyyy, hh:mm a');
     final currentDate = dateFormat.format(DateTime.now());
+    final ttf = pw.Font.ttf(await rootBundle.load('asset/fonts/NotoSans-Regular.ttf'));
+
 
     // ✅ Preload image bytes before building PDF
     Uint8List? logoBytes;
@@ -57,6 +60,7 @@ class PdfInvoiceService {
                         pw.Text(
                           agencyName,
                           style: pw.TextStyle(
+                            font: ttf,
                             fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
                           ),
@@ -86,6 +90,7 @@ class PdfInvoiceService {
                       pw.Text(
                         'INVOICE',
                         style: pw.TextStyle(
+                          font: ttf,
                           fontSize: 24,
                           fontWeight: pw.FontWeight.bold,
                           color: PdfColors.black,
@@ -98,13 +103,15 @@ class PdfInvoiceService {
                           pw.Text(
                             'Invoice #: ',
                             style: pw.TextStyle(
+                              font: ttf,
                               fontWeight: pw.FontWeight.bold,
                               fontSize: 10,
                             ),
                           ),
                           pw.Text(
                             ticketNo,
-                            style: const pw.TextStyle(fontSize: 10),
+
+                            style: pw.TextStyle( font: ttf,fontSize: 10),
                           ),
                         ],
                       ),
@@ -131,6 +138,7 @@ class PdfInvoiceService {
                     pw.Text(
                       'BILL TO',
                       style: pw.TextStyle(
+                        font: ttf,
                         fontSize: 13,
                         fontWeight: pw.FontWeight.bold,
                         color: PdfColors.blue900,
@@ -266,6 +274,7 @@ class PdfInvoiceService {
                       pw.Text(
                         'Total Amount:',
                         style: pw.TextStyle(
+                          font: ttf,
                           fontSize: 14,
                           fontWeight: pw.FontWeight.bold,
                         ),
@@ -274,6 +283,7 @@ class PdfInvoiceService {
                       pw.Text(
                         'BDT ${currencyFormat.format(totalAmount)}',
                         style: pw.TextStyle(
+                          font: ttf,
                           fontSize: 20,
                           fontWeight: pw.FontWeight.bold,
                           color: PdfColors.blue900,

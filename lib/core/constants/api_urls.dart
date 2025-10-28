@@ -47,5 +47,9 @@ class ApiUrls{
 
   static const getAgencyInfo = '${baseURL}Agency/GetAgencyInfo';
 
+  static const validateToken = '${baseURL}Access/ValidateToken';
+  static const refreshToken = '${baseURL}Access/RefreshToken';
+
+
 
 }

@@ -8,11 +8,13 @@ class UserModel extends UserEntity {
     required int statusCode,
     required String message,
     required String token,
+    required refreshToken,
     required UserInfoEntity userInfo,
   }) : super(
     statusCode: statusCode,
     message: message,
     token: token,
+    refreshToken:refreshToken,
     userInfo: userInfo,
   );
 
@@ -21,6 +23,7 @@ class UserModel extends UserEntity {
       statusCode: json['statusCode'] as int,
       message: json['message'],
       token: json['data']['token'],
+      refreshToken: json['data']['refreshToken'],
       userInfo: UserInfoModel.fromJson(json['data']['userInfo']),
     );
   }

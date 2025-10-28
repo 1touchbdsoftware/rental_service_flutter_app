@@ -22,6 +22,8 @@ abstract class AuthApiService{
   Future<Either<ApiFailure, Response>> changePassword(ChangePasswordRequest params);
   Future<Either<ApiFailure, Response>> forgotPasswordRequest(String email);
   Future<Either<ApiFailure, Response>> verifyOtp(String otp);
+  Future<Either<ApiFailure, Response>> validateToken(String userName, String accessToken);
+  Future<Either<ApiFailure, Response>> refreshToken(String accessToken, String refreshToken);
 
 
 }
@@ -206,6 +208,65 @@ class AuthApiServiceImpl extends AuthApiService{
       final response = await Dio().post(
         ApiUrls.verifyOtp,
         data: data,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+
+  @override
+  Future<Either<ApiFailure, Response>> validateToken(String userName, String accessToken) async {
+    try {
+      final requestData = {
+        "userName": userName,
+        "accessToken": accessToken,
+      };
+
+      final response = await Dio().post(
+        ApiUrls.validateToken,
+        data: requestData,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return Right(response);
+    } on DioException catch (e) {
+      final errorMsg = e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed with status ${e.response?.statusCode ?? "unknown"}';
+      return Left(ApiFailure(errorMsg));
+    } catch (e) {
+      return Left(ApiFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, Response>> refreshToken(String accessToken, String refreshToken) async {
+    try {
+      final requestData = {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken,
+      };
+
+      final response = await Dio().post(
+        ApiUrls.refreshToken,
+        data: requestData,
         options: Options(
           headers: {
             'Content-Type': 'application/json',
