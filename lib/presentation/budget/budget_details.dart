@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/budget/BudgetItem.dart';
 import '../../data/model/budget/budget_post_model.dart';
 import '../../data/source/local_service/PdfInoviceService.dart';
+import '../dashboard/bloc/user_info_cubit.dart';
+import '../dashboard/bloc/user_type_cubit.dart';
 import '../tenant_complain_list/complain_pending_list_screen.dart';
 import 'agency/agency_info_cubit.dart';
 import 'agency/agency_info_state.dart';
@@ -16,12 +18,9 @@ import 'blocs/post_budget_cubit.dart';
 import 'blocs/post_budget_state.dart';
 
 class EstimatedBudgetScreen extends StatefulWidget {
-  final ComplainEntity complain; // Add complainID parameter
+  final ComplainEntity complain;
 
-  const EstimatedBudgetScreen({
-    super.key,
-    required this.complain,
-  });
+  const EstimatedBudgetScreen({super.key, required this.complain});
 
   @override
   State<EstimatedBudgetScreen> createState() => _EstimatedBudgetScreenState();
@@ -32,11 +31,13 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
   void initState() {
     super.initState();
     // Fetch budget items when screen initializes
-    context.read<GetBudgetCubit>().fetchBudget(complainID: widget.complain.complainID);
+    context.read<GetBudgetCubit>().fetchBudget(
+      complainID: widget.complain.complainID,
+    );
     // Trigger agency info load (if not already fetched)
     context.read<GetAgencyInfoCubit>().fetchAgencyInfo();
-
-
+    // Load user info
+    context.read<UserTypeCubit>().getUserType();
   }
 
   @override
@@ -55,160 +56,254 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
         backgroundColor: colorScheme.primary,
       ),
       body: SafeArea(
-        child: BlocBuilder<GetBudgetCubit, GetBudgetState>(
-          builder: (context, state) {
-            if (state is GetBudgetLoadingState) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (state is GetBudgetFailureState) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(state.errorMessage),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => context.read<GetBudgetCubit>().fetchBudget(
-                        complainID: widget.complain.complainID,
-                      ),
-                      child: const Text('Retry'),
+        child: MultiBlocListener(
+          listeners: [
+            // Listen for UserType changes
+            BlocListener<UserTypeCubit, UserTypeState>(
+              listener: (context, state) {
+                print("UserTypeState changed: ${state.runtimeType}");
+                // You can handle user type changes here if needed
+              },
+            ),
+            // Listen for PostBudget success/failure
+            BlocListener<PostBudgetCubit, PostBudgetState>(
+              listener: (context, state) {
+                if (state is PostBudgetSuccessState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Budget accepted successfully'),
+                      backgroundColor: Colors.green.shade600,
+                      behavior: SnackBarBehavior.floating,
                     ),
-                  ],
-                ),
-              );
-            }
-
-            if (state is GetBudgetSuccessState) {
-              final items = state.budgetItems;
-              final totalBudget = items.fold<double>(
-                  0.0, (sum, item) => sum + (item.total.toDouble()));
-
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    //complain details
-                    ComplainDetailsCard(complain: widget.complain, budgetItems: items),
-                    // Table Header
-                    Container(
-                      decoration: BoxDecoration(
-                        color: colorScheme.surfaceVariant.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(8),
+                  );
+                  // Pop back after a short delay
+                  Future.delayed(const Duration(milliseconds: 1500), () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const ComplainsListScreen(),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 8),
-                      child: const _TableHeaderRow(),
-                    ),
-                    const SizedBox(height: 8),
+                    );
+                  });
+                } else if (state is PostBudgetFailureState) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                }
+              },
+            ),
+            // Listen for Agency Info changes if needed
+            BlocListener<GetAgencyInfoCubit, GetAgencyInfoState>(
+              listener: (context, state) {
+                if (state is GetAgencyInfoFailureState) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                }
+              },
+            ),
+          ],
+          child: BlocBuilder<GetBudgetCubit, GetBudgetState>(
+            builder: (context, state) {
+              if (state is GetBudgetLoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                    // Table Content
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: items.length,
-                        separatorBuilder: (_, __) => const Divider(height: 1),
-                        itemBuilder: (context, index) {
-                          final item = items[index];
-                          return _BudgetItemRow(
-                            item: item,
-                            currencyFormat: currencyFormat,
-                          );
+              if (state is GetBudgetFailureState) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(state.errorMessage),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed:
+                            () => context.read<GetBudgetCubit>().fetchBudget(
+                              complainID: widget.complain.complainID,
+                            ),
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              if (state is GetBudgetSuccessState) {
+                final items = state.budgetItems;
+                final totalBudget = items.fold<double>(
+                  0.0,
+                  (sum, item) => sum + (item.total.toDouble()),
+                );
+
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Complain details
+                      ComplainDetailsCard(
+                        complain: widget.complain,
+                        budgetItems: items,
+                      ),
+                      // Table Header
+                      Container(
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceVariant.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 8,
+                        ),
+                        child: const _TableHeaderRow(),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Table Content
+                      Expanded(
+                        child: ListView.separated(
+                          itemCount: items.length,
+                          separatorBuilder: (_, __) => const Divider(height: 1),
+                          itemBuilder: (context, index) {
+                            final item = items[index];
+                            return _BudgetItemRow(
+                              item: item,
+                              currencyFormat: currencyFormat,
+                            );
+                          },
+                        ),
+                      ),
+
+                      const Divider(height: 24),
+
+                      // Total Budget
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colorScheme.primary.withOpacity(0.2),
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total Budget:',
+                              style: textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              currencyFormat.format(totalBudget),
+                              style: textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Conditionally show buttons based on user type and budget status
+                      BlocBuilder<UserTypeCubit, UserTypeState>(
+                        builder: (context, userTypeState) {
+                          // Show action buttons only for TENANT users when conditions are met
+                          if (userTypeState is UserTypeTenant) {
+                            final isApprovedBudget =
+                                widget.complain.isApprovedBudget ?? false;
+                            final isBudgetReviewRequested =
+                                widget.complain.isBudgetReviewRequested ??
+                                false;
+
+                            // Show action buttons only if budget is NOT approved AND NOT under review
+                            if (!isApprovedBudget && !isBudgetReviewRequested) {
+                              return _ActionButtons(
+                                onReviewPressed:
+                                    () => _handleReviewRequest(context),
+                                onPayPressed:
+                                    () => _handlePayment(context, totalBudget),
+                                colorScheme: colorScheme,
+                                complain: widget.complain,
+                              );
+                            }
+                          }
+
+                          // Show info message if budget is approved or under review
+                          final isApprovedBudget =
+                              widget.complain.isApprovedBudget ?? false;
+                          final isBudgetReviewRequested =
+                              widget.complain.isBudgetReviewRequested ?? false;
+
+                          // Show download invoice button if budget is approved
+                          if (isApprovedBudget) {
+                            return _DownloadInvoiceButton(
+                              onDownloadPressed:
+                                  () => _handleDownloadInvoice(
+                                    context,
+                                    items,
+                                    totalBudget,
+                                  ),
+                              colorScheme: colorScheme,
+                              budgetItems: items,
+                              totalAmount: totalBudget,
+                            );
+                          }
+
+                          return const SizedBox.shrink();
                         },
                       ),
-                    ),
 
-                    const Divider(height: 24),
-
-                    // Total Budget
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: colorScheme.primary.withOpacity(0.2)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total Budget:',
-                            style: textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            currencyFormat.format(totalBudget),
-                            style: textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
+                      if (widget.complain.isApprovedBudget! ||
+                          widget.complain.isBudgetReviewRequested!)
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.info_outline,
                               color: colorScheme.primary,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    if (widget.complain.isApprovedBudget!)
-                    // Download Invoice Button - shown when paid
-                      _DownloadInvoiceButton(
-                        onDownloadPressed: () => _handleDownloadInvoice(context, items, totalBudget),
-                        colorScheme: colorScheme,
-                        budgetItems: items,
-                        totalAmount: totalBudget,
-                      ),
-
-                    if ( widget.complain.isApprovedBudget! || widget.complain.isBudgetReviewRequested!)
-                      Row(
-                        children: [
-                          Icon(Icons.info_outline, color: colorScheme.primary),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              widget.complain.isApprovedBudget! ? "Budget Approved, Waiting for Agency" : 'Waiting for budget review' ,
-                              style: textTheme.bodyMedium,
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                widget.complain.isApprovedBudget!
+                                    ? "Budget Approved, Waiting for Agency"
+                                    : 'Waiting for budget review',
+                                style: textTheme.bodyMedium,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    else
-                      _ActionButtons(
-                        onReviewPressed: () => _handleReviewRequest(context),
-                        onPayPressed: () =>
-                            _handlePayment(context, totalBudget),
-                        colorScheme: colorScheme,
-                        complain: widget.complain,
-                      ),
+                          ],
+                        ),
+                    ],
+                  ),
+                );
+              }
 
-                  ],
-                ),
-              );
-            }
-
-            // Initial state
-            return const Center(child: Text('No budget data available'));
-          },
+              // Initial state
+              return const Center(child: Text('No budget data available'));
+            },
+          ),
         ),
       ),
     );
   }
 
   void _handleReviewRequest(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Budget review requested')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Budget review requested')));
   }
-  void _handleDownloadInvoice(
-      BuildContext context,
-      List<BudgetItem> budgetItems,
-      double totalAmount,
-      ) async {
-    try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Generating invoice...')),
-      );
 
-// Get latest state
+  void _handleDownloadInvoice(
+    BuildContext context,
+    List<BudgetItem> budgetItems,
+    double totalAmount,
+  ) async {
+    try {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Generating invoice...')));
+
+      // Get latest state
       final state = context.read<GetAgencyInfoCubit>().state;
 
       if (state is! GetAgencyInfoSuccessState) {
@@ -220,7 +315,7 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
 
       final agencyInfo = state.agencyInfo;
 
-      // ✅ Generate the PDF
+      // Generate the PDF
       final file = await PdfInvoiceService.generateInvoice(
         agencyName: agencyInfo.agencyName ?? 'Agency Name',
         agencyLogoPath: agencyInfo.fullLogoPath,
@@ -235,53 +330,56 @@ class _EstimatedBudgetScreenState extends State<EstimatedBudgetScreen> {
         isPaid: widget.complain.isPaid ?? false,
       );
 
-      // ✅ Share the generated file
-      // await Share.shareXFiles(
-      //   [XFile(file.path)],
-      //   subject: 'Invoice ${widget.complain.ticketNo}',
-      //   text: 'Please find attached your invoice for ticket #${widget.complain.ticketNo}.',
-      // );
+      // Share the generated file (commented out as per original)
+      // await Share.shareXFiles([XFile(file.path)], ...);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invoice generated and shared successfully')),
+        const SnackBar(
+          content: Text('Invoice generated and shared successfully'),
+        ),
       );
     } catch (e, st) {
       debugPrint("Invoice generation error: $e\n$st");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to generate invoice: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to generate invoice: $e')));
     }
   }
-
 
   void _handlePayment(BuildContext context, double amount) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Confirm Payment'),
-        content: Text('Proceed with payment of \$${amount.toStringAsFixed(2)}?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Confirm Payment'),
+            content: Text(
+              'Proceed with payment of \$${amount.toStringAsFixed(2)}?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Payment of \$${amount.toStringAsFixed(2)} processed',
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Confirm'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text('Payment of \$${amount.toStringAsFixed(2)} processed')),
-              );
-            },
-            child: const Text('Confirm'),
-          ),
-        ],
-      ),
     );
   }
 }
-// New Download Invoice Button Widget
-// Update the DownloadInvoiceButton to accept budget items and total amount
+
+// Rest of the widget classes remain the same...
 class _DownloadInvoiceButton extends StatelessWidget {
   final VoidCallback onDownloadPressed;
   final ColorScheme colorScheme;
@@ -359,10 +457,7 @@ class _BudgetItemRow extends StatelessWidget {
   final BudgetItem item;
   final NumberFormat currencyFormat;
 
-  const _BudgetItemRow({
-    required this.item,
-    required this.currencyFormat,
-  });
+  const _BudgetItemRow({required this.item, required this.currencyFormat});
 
   @override
   Widget build(BuildContext context) {
@@ -374,10 +469,7 @@ class _BudgetItemRow extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Text(
-              item.description,
-              style: textTheme.bodyMedium,
-            ),
+            child: Text(item.description, style: textTheme.bodyMedium),
           ),
           Expanded(
             flex: 1,
@@ -426,118 +518,109 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PostBudgetCubit, PostBudgetState>(
-      listener: (context, state) {
-        if (state is PostBudgetSuccessState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Budget accepted successfully'),
-              backgroundColor: Colors.green.shade600, // Green background
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-          // Pop back after a short delay
-          Future.delayed(const Duration(milliseconds: 1500), () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const ComplainsListScreen()),
-            );
-          });
-        } else if (state is PostBudgetFailureState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)),
-          );
-        }
-      },
-      child: Row(
-        children: [
-          Expanded(
-            child: OutlinedButton.icon(
-              icon: const Icon(Icons.reviews_outlined),
-              onPressed:() => _showAcceptBudgetDialog(context, "Review Request", true),
-              label: const Text('Request Review'),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colorScheme.primary,
-                side: BorderSide(color: colorScheme.primary),
-              ),
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton.icon(
+            icon: const Icon(Icons.reviews_outlined),
+            onPressed:
+                () => _showAcceptBudgetDialog(context, "Review Request", true),
+            label: const Text('Request Review'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: colorScheme.primary,
+              side: BorderSide(color: colorScheme.primary),
             ),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.payment_outlined),
-              onPressed: () => _showAcceptBudgetDialog(context, "Accept Budget", false),
-              label: const Text('Accept Budget'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                foregroundColor: colorScheme.onPrimary,
-              ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: ElevatedButton.icon(
+            icon: const Icon(Icons.payment_outlined),
+            onPressed:
+                () => _showAcceptBudgetDialog(context, "Accept Budget", false),
+            label: const Text('Accept Budget'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  void _showAcceptBudgetDialog(BuildContext context, String dialogTitle, bool isReview) {
+  void _showAcceptBudgetDialog(
+    BuildContext context,
+    String dialogTitle,
+    bool isReview,
+  ) {
     final commentController = TextEditingController();
     final postBudgetCubit = context.read<PostBudgetCubit>();
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(dialogTitle),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Please add any comments:'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: commentController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your comments...',
-              ),
-              maxLines: 3,
+      builder:
+          (context) => AlertDialog(
+            title: Text(dialogTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Please add any comments:'),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: commentController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter your comments...',
+                  ),
+                  maxLines: 3,
+                ),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  final tenantID = prefs.getString('tenantID') ?? '';
+                  final agencyID = prefs.getString('agencyID') ?? '';
+
+                  if (tenantID.isEmpty || agencyID.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('User information not found'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  final now = DateTime.now();
+                  final formattedDate = DateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                  ).format(now);
+
+                  final model = BudgetPostModel(
+                    complainID: complain.complainID,
+                    comments: commentController.text,
+                    tenantID: tenantID,
+                    agencyID: agencyID,
+                    createdDate: formattedDate,
+                    ticketNo: complain.ticketNo,
+                  );
+
+                  postBudgetCubit.postBudget(
+                    budgetModel: model,
+                    isReview: isReview,
+                  );
+                  Navigator.pop(context);
+                },
+                child: const Text('Submit'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              final tenantID = prefs.getString('tenantID') ?? '';
-              final agencyID = prefs.getString('agencyID') ?? '';
-
-              if (tenantID.isEmpty || agencyID.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('User information not found')),
-                );
-                return;
-              }
-
-              final now = DateTime.now();
-              final formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now);
-
-              final model = BudgetPostModel(
-                complainID: complain.complainID,
-                comments: commentController.text,
-                tenantID: tenantID,
-                agencyID: agencyID,
-                createdDate: formattedDate,
-                ticketNo: complain.ticketNo,
-              );
-
-              postBudgetCubit.postBudget(budgetModel: model, isReview: isReview);
-              Navigator.pop(context);
-            },
-            child: const Text('Submit'),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -546,12 +629,15 @@ class ComplainDetailsCard extends StatelessWidget {
   final ComplainEntity complain;
   final List<BudgetItem> budgetItems;
 
-  const ComplainDetailsCard({super.key, required this.complain,required this.budgetItems });
+  const ComplainDetailsCard({
+    super.key,
+    required this.complain,
+    required this.budgetItems,
+  });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    //final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
     return Card(
       elevation: 2,
@@ -563,19 +649,11 @@ class ComplainDetailsCard extends StatelessWidget {
           children: [
             Text(
               'Ticket #: ${complain.ticketNo}',
-              style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              style: textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
-            // Text(
-            //   'Description:',
-            //   style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-            // ),
-            // const SizedBox(height: 4),
-            // Text(
-            //   complain.complainName ?? 'No description provided.',
-            //   style: textTheme.bodyMedium,
-            // ),
-            const SizedBox(height: 12),
             Text(
               'Budget Updated: ${formatDateTimeReadable(DateTime.tryParse(budgetItems.first.updatedDate!) ?? DateTime.now())}',
               style: textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
@@ -586,4 +664,3 @@ class ComplainDetailsCard extends StatelessWidget {
     );
   }
 }
-

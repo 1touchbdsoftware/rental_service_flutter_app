@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/core/theme/app_theme.dart';
+import 'package:rental_service/domain/entities/user_info_entity.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
 import 'package:rental_service/presentation/budget/agency/agency_info_cubit.dart';
 import 'package:rental_service/presentation/budget/blocs/get_budget_cubit.dart';
 import 'package:rental_service/presentation/budget/blocs/post_budget_cubit.dart';
+import 'package:rental_service/presentation/dashboard/bloc/user_info_cubit.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/tenant/tenent_home_screen.dart';
@@ -20,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'common/bloc/notifications/notifications_cubit.dart';
 import 'core/localization/language_cubit.dart';
+import 'data/model/user/user_info_model.dart';
 import 'data/source/api_service/my_firebase_service.dart';
 import 'l10n/generated/app_localizations.dart';
 
@@ -61,6 +64,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit()..appStarted()),
         BlocProvider(create: (context) => UserTypeCubit()..getUserType()),
         BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => UserInfoCubit(UserInfoModel.empty())),
         BlocProvider(create: (context) => ForgotPasswordCubit()),
         BlocProvider(create: (context) => VerifyOtpCubit()),
         BlocProvider(create: (context) => GetBudgetCubit()),
