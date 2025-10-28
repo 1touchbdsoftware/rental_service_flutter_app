@@ -28,8 +28,23 @@ class PdfInvoiceService {
     final currencyFormat = NumberFormat.currency(symbol: '৳', decimalDigits: 2);
     final dateFormat = DateFormat('dd MMM yyyy, hh:mm a');
     final currentDate = dateFormat.format(DateTime.now());
-    final ttf = pw.Font.ttf(await rootBundle.load('asset/fonts/NotoSans-Regular.ttf'));
 
+    // Load multiple font options for fallback
+    final notoSansRegular = pw.Font.ttf(await rootBundle.load('assets/fonts/NotoSans-Regular.ttf'));
+    final notoSansBold = pw.Font.ttf(await rootBundle.load('assets/fonts/NotoSans-Bold.ttf'));
+
+    // Try to load a Bengali-specific font as fallback
+    pw.Font? notoSansBengali;
+    try {
+      notoSansBengali = pw.Font.ttf(await rootBundle.load('assets/fonts/NotoSansBengali-Regular.ttf'));
+    } catch (e) {
+      print('NotoSansBengali not found, using regular NotoSans as fallback');
+    }
+
+    // Create font fallbacks - prioritize Bengali font if available
+    final fontFallbacks = notoSansBengali != null
+        ? [notoSansBengali, notoSansRegular]
+        : [notoSansRegular];
 
     // ✅ Preload image bytes before building PDF
     Uint8List? logoBytes;
@@ -60,7 +75,8 @@ class PdfInvoiceService {
                         pw.Text(
                           agencyName,
                           style: pw.TextStyle(
-                            font: ttf,
+                            font: notoSansBold,
+                            fontFallback: fontFallbacks,
                             fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
                           ),
@@ -68,17 +84,29 @@ class PdfInvoiceService {
                       pw.SizedBox(height: 5),
                       pw.Text(
                         agencyAddress,
-                        style: const pw.TextStyle(fontSize: 10),
+                        style: pw.TextStyle(
+                          font: notoSansRegular,
+                          fontFallback: fontFallbacks,
+                          fontSize: 10,
+                        ),
                       ),
                       pw.SizedBox(height: 2),
                       pw.Text(
                         agencyEmail,
-                        style: const pw.TextStyle(fontSize: 10),
+                        style: pw.TextStyle(
+                          font: notoSansRegular,
+                          fontFallback: fontFallbacks,
+                          fontSize: 10,
+                        ),
                       ),
                       pw.SizedBox(height: 2),
                       pw.Text(
                         agencyContact,
-                        style: const pw.TextStyle(fontSize: 10),
+                        style: pw.TextStyle(
+                          font: notoSansRegular,
+                          fontFallback: fontFallbacks,
+                          fontSize: 10,
+                        ),
                       ),
                     ],
                   ),
@@ -90,7 +118,8 @@ class PdfInvoiceService {
                       pw.Text(
                         'INVOICE',
                         style: pw.TextStyle(
-                          font: ttf,
+                          font: notoSansBold,
+                          fontFallback: fontFallbacks,
                           fontSize: 24,
                           fontWeight: pw.FontWeight.bold,
                           color: PdfColors.black,
@@ -103,15 +132,19 @@ class PdfInvoiceService {
                           pw.Text(
                             'Invoice #: ',
                             style: pw.TextStyle(
-                              font: ttf,
+                              font: notoSansBold,
+                              fontFallback: fontFallbacks,
                               fontWeight: pw.FontWeight.bold,
                               fontSize: 10,
                             ),
                           ),
                           pw.Text(
                             ticketNo,
-
-                            style: pw.TextStyle( font: ttf,fontSize: 10),
+                            style: pw.TextStyle(
+                              font: notoSansRegular,
+                              fontFallback: fontFallbacks,
+                              fontSize: 10,
+                            ),
                           ),
                         ],
                       ),
@@ -138,16 +171,29 @@ class PdfInvoiceService {
                     pw.Text(
                       'BILL TO',
                       style: pw.TextStyle(
-                        font: ttf,
+                        font: notoSansBold,
+                        fontFallback: fontFallbacks,
                         fontSize: 13,
                         fontWeight: pw.FontWeight.bold,
                         color: PdfColors.blue900,
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text('Name: $tenantName'),
+                    pw.Text(
+                      'Name: $tenantName',
+                      style: pw.TextStyle(
+                        font: notoSansRegular,
+                        fontFallback: fontFallbacks,
+                      ),
+                    ),
                     pw.SizedBox(height: 3),
-                    pw.Text('Property: $propertyName'),
+                    pw.Text(
+                      'Property: $propertyName',
+                      style: pw.TextStyle(
+                        font: notoSansRegular,
+                        fontFallback: fontFallbacks,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -158,6 +204,8 @@ class PdfInvoiceService {
               pw.Text(
                 'Budget Details',
                 style: pw.TextStyle(
+                  font: notoSansBold,
+                  fontFallback: fontFallbacks,
                   fontSize: 14,
                   fontWeight: pw.FontWeight.bold,
                 ),
@@ -172,15 +220,17 @@ class PdfInvoiceService {
                 ),
                 child: pw.Row(
                   children: [
-                    _buildTableHeaderCell('#', 0.5, pw.TextAlign.center),
-                    _buildTableHeaderCell('DESCRIPTION', 3, pw.TextAlign.left),
-                    _buildTableHeaderCell('QTY', 1, pw.TextAlign.right),
+                    _buildTableHeaderCell('#', 0.5, pw.TextAlign.center, notoSansBold, fontFallbacks),
+                    _buildTableHeaderCell('DESCRIPTION', 3, pw.TextAlign.left, notoSansBold, fontFallbacks),
+                    _buildTableHeaderCell('QTY', 1, pw.TextAlign.right, notoSansBold, fontFallbacks),
                     _buildTableHeaderCell(
                       'UNIT PRICE',
                       1.5,
                       pw.TextAlign.right,
+                      notoSansBold,
+                      fontFallbacks,
                     ),
-                    _buildTableHeaderCell('TOTAL', 1.5, pw.TextAlign.right),
+                    _buildTableHeaderCell('TOTAL', 1.5, pw.TextAlign.right, notoSansBold, fontFallbacks),
                   ],
                 ),
               ),
@@ -203,22 +253,36 @@ class PdfInvoiceService {
                         (index + 1).toString(),
                         0.5,
                         pw.TextAlign.center,
+                        notoSansRegular,
+                        fontFallbacks,
                       ),
-                      _buildTableCell(item.description, 3, pw.TextAlign.left),
+                      _buildTableCell(
+                        item.description,
+                        3,
+                        pw.TextAlign.left,
+                        notoSansRegular,
+                        fontFallbacks,
+                      ),
                       _buildTableCell(
                         item.quantity.toString(),
                         1,
                         pw.TextAlign.right,
+                        notoSansRegular,
+                        fontFallbacks,
                       ),
                       _buildTableCell(
                         currencyFormat.format(item.costPerUnit),
                         1.5,
                         pw.TextAlign.right,
+                        notoSansRegular,
+                        fontFallbacks,
                       ),
                       _buildTableCell(
                         currencyFormat.format(item.total),
                         1.5,
                         pw.TextAlign.right,
+                        notoSansRegular,
+                        fontFallbacks,
                       ),
                     ],
                   ),
@@ -250,6 +314,8 @@ class PdfInvoiceService {
                         child: pw.Text(
                           isPaid ? 'PAID' : 'PENDING',
                           style: pw.TextStyle(
+                            font: notoSansBold,
+                            fontFallback: fontFallbacks,
                             color: PdfColors.white,
                             fontSize: 10,
                             fontWeight: pw.FontWeight.bold,
@@ -259,7 +325,9 @@ class PdfInvoiceService {
                       pw.SizedBox(height: 8),
                       pw.Text(
                         'Thank you for your business!',
-                        style: const pw.TextStyle(
+                        style: pw.TextStyle(
+                          font: notoSansRegular,
+                          fontFallback: fontFallbacks,
                           fontSize: 10,
                           color: PdfColors.grey600,
                         ),
@@ -274,7 +342,8 @@ class PdfInvoiceService {
                       pw.Text(
                         'Total Amount:',
                         style: pw.TextStyle(
-                          font: ttf,
+                          font: notoSansBold,
+                          fontFallback: fontFallbacks,
                           fontSize: 14,
                           fontWeight: pw.FontWeight.bold,
                         ),
@@ -283,7 +352,8 @@ class PdfInvoiceService {
                       pw.Text(
                         'BDT ${currencyFormat.format(totalAmount)}',
                         style: pw.TextStyle(
-                          font: ttf,
+                          font: notoSansBold,
+                          fontFallback: fontFallbacks,
                           fontSize: 20,
                           fontWeight: pw.FontWeight.bold,
                           color: PdfColors.blue900,
@@ -309,7 +379,9 @@ class PdfInvoiceService {
                   children: [
                     pw.Text(
                       'Downloaded on $currentDate',
-                      style: const pw.TextStyle(
+                      style: pw.TextStyle(
+                        font: notoSansRegular,
+                        fontFallback: fontFallbacks,
                         fontSize: 9,
                         color: PdfColors.grey600,
                       ),
@@ -317,7 +389,9 @@ class PdfInvoiceService {
                     pw.SizedBox(height: 3),
                     pw.Text(
                       'by ProMatrix System',
-                      style: const pw.TextStyle(
+                      style: pw.TextStyle(
+                        font: notoSansRegular,
+                        fontFallback: fontFallbacks,
                         fontSize: 9,
                         color: PdfColors.grey600,
                       ),
@@ -346,17 +420,24 @@ class PdfInvoiceService {
   }
 
   static pw.Widget _buildTableHeaderCell(
-    String text,
-    double flex,
-    pw.TextAlign align,
-  ) {
+      String text,
+      double flex,
+      pw.TextAlign align,
+      pw.Font font,
+      List<pw.Font> fontFallbacks,
+      ) {
     return pw.Expanded(
       flex: (flex * 2).round(),
       child: pw.Container(
         padding: const pw.EdgeInsets.all(8),
         child: pw.Text(
           text,
-          style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+          style: pw.TextStyle(
+            font: font,
+            fontFallback: fontFallbacks,
+            fontSize: 10,
+            fontWeight: pw.FontWeight.bold,
+          ),
           textAlign: align,
         ),
       ),
@@ -364,17 +445,23 @@ class PdfInvoiceService {
   }
 
   static pw.Widget _buildTableCell(
-    String text,
-    double flex,
-    pw.TextAlign align,
-  ) {
+      String text,
+      double flex,
+      pw.TextAlign align,
+      pw.Font font,
+      List<pw.Font> fontFallbacks,
+      ) {
     return pw.Expanded(
       flex: (flex * 2).round(),
       child: pw.Container(
         padding: const pw.EdgeInsets.all(8),
         child: pw.Text(
           text,
-          style: const pw.TextStyle(fontSize: 9),
+          style: pw.TextStyle(
+            font: font,
+            fontFallback: fontFallbacks,
+            fontSize: 9,
+          ),
           textAlign: align,
         ),
       ),
