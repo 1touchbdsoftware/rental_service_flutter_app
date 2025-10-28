@@ -15,6 +15,7 @@ import '../../data/model/user/user_info_model.dart';
 import '../../domain/entities/complain_entity.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../auth/signin.dart';
+import '../budget/budget_details.dart';
 import '../dashboard/bloc/user_info_cubit.dart';
 import '../history/complain_history_screen.dart';
 import '../image_gallery/get_image_state.dart';
@@ -261,12 +262,13 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
             onCommentsPressed: () => _handleComments(context, complaint.lastComments),
             onReadMorePressed: () => _handleReadMore(context, complaint.complainName),
             onImagePressed: () => handleImage(context, complaint),
+            onBudgetPressed: ()=> _handleBudgetClick(context, complaint),
             // These actions are disabled for solved complaints
             onReschedulePressed: () {},
             onCompletePressed: () {},
             onResubmitPressed: () {},
             onAcceptPressed: () {},
-            userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  }, onBudgetPressed: () {  },
+            userType: _userType, onApprovePressed: () {  }, onDeclinePressed: () {  },
           );
         } else {
           // Pagination widget at the end of the list
@@ -301,7 +303,16 @@ class _ComplainsListContentState extends State<ComplainsListContent> {
       },
     );
   }
-
+  // Handler for budget
+  void _handleBudgetClick(BuildContext context, ComplainEntity complain) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => EstimatedBudgetScreen( complain: complain,
+        ),
+      ),
+    );
+  }
 
   void handleImage(BuildContext context, ComplainEntity complaint) {
     // Get the cubit instance
