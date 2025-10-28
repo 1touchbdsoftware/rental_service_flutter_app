@@ -37,13 +37,13 @@ void main() async{
   // final notificationService = FirebaseNotificationService();
   // await notificationService.initNotifications(context);
 
-  // Get the token
-  String? token = await messaging.getToken();
+  // Get the fcm token
+  String? fcmtoken = await messaging.getToken();
   //print("🔥 FCM Token: $token");
 
-  if (token != null) {
+  if (fcmtoken != null) {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('fcm_token', token);
+    await prefs.setString('fcm_token', fcmtoken);
     print('✅ Token saved to SharedPreferences');
   }
   runApp(const MyApp());

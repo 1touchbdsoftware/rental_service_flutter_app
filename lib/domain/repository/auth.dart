@@ -22,5 +22,8 @@ abstract class AuthRepository{
   Future<Either<String, bool>> forgotPassword(String email);
   Future<Either<String, bool>> verifyOtp(String email);
 
+// Add these new methods
+  Future<Either<String, Map<String, dynamic>>> validateToken(String userName, String accessToken);
+  Future<Either<String, Map<String, dynamic>>> refreshToken(String accessToken, String refreshToken);
 
 }

@@ -239,6 +239,86 @@ class AuthRepositoryImpl extends AuthRepository {
     }
   }
 
+  @override
+  Future<Either<String, Map<String, dynamic>>> validateToken(String userName, String accessToken) async {
+    Either<ApiFailure, Response> result = await sl<AuthApiService>()
+        .validateToken(userName, accessToken);
 
+    return result.fold(
+          (error) {
+        return Left(error.message);
+      },
+          (response) {
+        try {
+          final success = response.statusCode == 200 || response.statusCode == 201;
+
+          if (success) {
+            // Return the validation response data
+            final validationData = {
+              'isExpired': response.data['isExpired'] ?? true,
+              'message': response.data['message'] ?? '',
+              'isValid': !(response.data['isExpired'] ?? true),
+            };
+            return Right(validationData);
+          } else {
+            return Left('Token validation failed with status: ${response.statusCode}');
+          }
+        } catch (e) {
+          return Left('Failed to parse token validation response: ${e.toString()}');
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<String, Map<String, dynamic>>> refreshToken(String accessToken, String refreshToken) async {
+    Either<ApiFailure, Response> result = await sl<AuthApiService>()
+        .refreshToken(accessToken, refreshToken);
+
+    return result.fold(
+          (error) {
+        return Left(error.message);
+      },
+          (response) {
+        try {
+          final success = response.statusCode == 200 || response.statusCode == 201;
+
+          if (success) {
+            // Save new tokens to SharedPreferences
+            _saveNewTokens(response.data);
+
+            // Return the new tokens
+            final tokenData = {
+              'accessToken': response.data['accessToken'],
+              'refreshToken': response.data['refreshToken'],
+              'success': true,
+            };
+            return Right(tokenData);
+          } else {
+            return Left('Token refresh failed with status: ${response.statusCode}');
+          }
+        } catch (e) {
+          return Left('Failed to parse token refresh response: ${e.toString()}');
+        }
+      },
+    );
+  }
+
+  Future<void> _saveNewTokens(Map<String, dynamic> data) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final newAccessToken = data['accessToken'];
+      final newRefreshToken = data['refreshToken'];
+
+      if (newAccessToken != null && newAccessToken is String) {
+        await prefs.setString('token', newAccessToken);
+      }
+      if (newRefreshToken != null && newRefreshToken is String) {
+        await prefs.setString('refreshToken', newRefreshToken);
+      }
+    } catch (e) {
+      print('Error saving new tokens in repository: $e');
+    }
+  }
 
 }
