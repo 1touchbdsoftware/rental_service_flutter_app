@@ -363,6 +363,34 @@ class ComplainCard extends StatelessWidget {
                       ),
                     ),
 
+                  //VIEW BUDGET BUTTON SHOW IF BUDGET PROVIDED
+                  if (complaint.isBudget!)
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: onBudgetPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: colorScheme.surfaceContainerLow,
+                            foregroundColor: colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            minimumSize: const Size(0, 30),
+                          ),
+                          child: Text("View Budget",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  const SizedBox(width: 8),
+
                   //reschedule button
                   if ((complaint.isReassignedTechnician! ||
                           complaint.isAssignedTechnician!) &&
@@ -452,35 +480,6 @@ class ComplainCard extends StatelessWidget {
                           ),
                           child: Text(
                             S.of(context).resubmit,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.blue,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  //before technician assign
-                  if (complaint.isBudget! &&
-                      !complaint.isPaid! &&
-                      !complaint.isAssignedTechnician! &&
-                      userType == "TENANT")
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: onBudgetPressed,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: colorScheme.surfaceContainerLow,
-                            foregroundColor: colorScheme.primary,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            minimumSize: const Size(0, 30),
-                          ),
-                          child: Text("View Budget",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.blue,
