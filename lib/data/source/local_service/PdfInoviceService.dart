@@ -30,13 +30,13 @@ class PdfInvoiceService {
     final currentDate = dateFormat.format(DateTime.now());
 
     // Load multiple font options for fallback
-    final notoSansRegular = pw.Font.ttf(await rootBundle.load('assets/fonts/NotoSans-Regular.ttf'));
-    final notoSansBold = pw.Font.ttf(await rootBundle.load('assets/fonts/NotoSans-Bold.ttf'));
+    final notoSansRegular = pw.Font.ttf(await rootBundle.load('asset/fonts/NotoSans-Regular.ttf'));
+    final notoSansBold = pw.Font.ttf(await rootBundle.load('asset/fonts/NotoSans-Bold.ttf'));
 
     // Try to load a Bengali-specific font as fallback
     pw.Font? notoSansBengali;
     try {
-      notoSansBengali = pw.Font.ttf(await rootBundle.load('assets/fonts/NotoSansBengali-Regular.ttf'));
+      notoSansBengali = pw.Font.ttf(await rootBundle.load('asset/fonts/NotoSansBengali-Regular.ttf'));
     } catch (e) {
       print('NotoSansBengali not found, using regular NotoSans as fallback');
     }
