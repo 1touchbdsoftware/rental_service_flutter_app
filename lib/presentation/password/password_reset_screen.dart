@@ -316,7 +316,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     final prefs = await SharedPreferences.getInstance();
     final userName = prefs.getString('userName') ?? '';
-    final currentPass = prefs.getString('defaultPassword') ?? '';
+    final currentPass = prefs.getString('defaultPass') ?? '';
 
     final changePasswordRequest = ChangePasswordRequest(
       currentPassword: currentPass,
