@@ -365,14 +365,11 @@ class TenantHomeScreen extends StatelessWidget {
                                 .read<NotificationCubit>()
                                 .markSingleRead(n.userNotificationId);
                           }
-
-                          if (n.redirectEndpoint != null) {
-                            // TODO: navigate to redirect
-                          }
+                          Navigator.pushNamed(context, '/complain-list-screen');
                         },
                       ),
                       if (index != notifications.length - 1)
-                        const Divider(height: 1),
+                        const Divider(height: 0.5),
                     ],
                   );
                 }),
