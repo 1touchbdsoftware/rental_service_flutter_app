@@ -16,9 +16,8 @@ class NotificationCubit extends Cubit<NotificationState> {
   final NotificationsRepository _repo;
 
   NotificationCubit({NotificationsRepository? repo})
-      : _repo = repo ?? sl<NotificationsRepository>(),
-        super(const NotificationState());
-
+    : _repo = repo ?? sl<NotificationsRepository>(),
+      super(const NotificationState());
 
   static Future<String> _getUserId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -26,23 +25,28 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   /// Fetch only the unread count (e.g., app start, pull-to-refresh on badge)
-  Future<void> fetchUnreadCount() async { // Remove userId parameter
+  Future<void> fetchUnreadCount() async {
+    // Remove userId parameter
     final currentUserId = await _getUserId();
     emit(state.copyWith(unreadLoading: true, unreadError: null));
-    final Either<String, int> res = await _repo.getUnreadCount(userId: currentUserId);
+    final Either<String, int> res = await _repo.getUnreadCount(
+      userId: currentUserId,
+    );
     res.fold(
-          (err) => emit(state.copyWith(unreadLoading: false, unreadError: err)),
-          (count) => emit(state.copyWith(
-        unreadLoading: false,
-        unreadCount: count,
-        unreadError: null,
-      )),
+      (err) => emit(state.copyWith(unreadLoading: false, unreadError: err)),
+      (count) => emit(
+        state.copyWith(
+          unreadLoading: false,
+          unreadCount: count,
+          unreadError: null,
+        ),
+      ),
     );
   }
 
-
   /// Fetch first page (or refresh list) with given params
-  Future<void> fetchFirstPage() async { // Remove params parameter
+  Future<void> fetchFirstPage() async {
+    // Remove params parameter
     final currentUserId = await _getUserId();
     emit(state.copyWith(listLoading: true, listError: null));
     final res = await _repo.getUserNotifications(
@@ -53,13 +57,15 @@ class NotificationCubit extends Cubit<NotificationState> {
       ),
     );
     res.fold(
-          (err) => emit(state.copyWith(listLoading: false, listError: err)),
-          (pageResult) => emit(state.copyWith(
-        listLoading: false,
-        items: pageResult.items,
-        page: pageResult.page,
-        listError: null,
-      )),
+      (err) => emit(state.copyWith(listLoading: false, listError: err)),
+      (pageResult) => emit(
+        state.copyWith(
+          listLoading: false,
+          items: pageResult.items,
+          page: pageResult.page,
+          listError: null,
+        ),
+      ),
     );
   }
 
@@ -69,7 +75,8 @@ class NotificationCubit extends Cubit<NotificationState> {
 
     final currentUserId = await _getUserId();
     final currentPage = state.page;
-    if (currentPage == null || currentPage.pageNumber >= currentPage.totalPages) return;
+    if (currentPage == null || currentPage.pageNumber >= currentPage.totalPages)
+      return;
 
     emit(state.copyWith(loadMoreLoading: true, listError: null));
     final res = await _repo.getUserNotifications(
@@ -80,21 +87,24 @@ class NotificationCubit extends Cubit<NotificationState> {
       ),
     );
     res.fold(
-          (err) => emit(state.copyWith(loadMoreLoading: false, listError: err)),
-          (pageResult) {
+      (err) => emit(state.copyWith(loadMoreLoading: false, listError: err)),
+      (pageResult) {
         final merged = List<UserNotificationEntity>.from(state.items)
           ..addAll(pageResult.items);
-        emit(state.copyWith(
-          loadMoreLoading: false,
-          items: merged,
-          page: pageResult.page,
-        ));
+        emit(
+          state.copyWith(
+            loadMoreLoading: false,
+            items: merged,
+            page: pageResult.page,
+          ),
+        );
       },
     );
   }
 
   /// Mark a single notification as read (optimistic, with rollback on failure)
-  Future<void> markSingleRead(int userNotificationId) async { // Simplify parameter
+  Future<void> markSingleRead(int userNotificationId) async {
+    // Simplify parameter
     final currentUserId = await _getUserId();
 
     // Already marking this id? avoid duplicate hit
@@ -103,18 +113,26 @@ class NotificationCubit extends Cubit<NotificationState> {
     final before = state.items;
 
     // Optimistic UI: set item read=true and decrement unreadCount if applicable
-    final updated = before
-        .map((n) => n.userNotificationId == userNotificationId ? _withRead(n, true) : n)
-        .toList();
+    final updated =
+        before
+            .map(
+              (n) =>
+                  n.userNotificationId == userNotificationId
+                      ? _withRead(n, true)
+                      : n,
+            )
+            .toList();
 
     final dec = _shouldDecrementUnread(before, userNotificationId) ? 1 : 0;
 
-    emit(state.copyWith(
-      items: updated,
-      unreadCount: (state.unreadCount - dec).clamp(0, 1 << 31),
-      markingIds: {...state.markingIds, userNotificationId.toString()},
-      markSingleError: null,
-    ));
+    emit(
+      state.copyWith(
+        items: updated,
+        unreadCount: (state.unreadCount - dec).clamp(0, 1 << 31),
+        markingIds: {...state.markingIds, userNotificationId.toString()},
+        markSingleError: null,
+      ),
+    );
 
     final res = await _repo.markAsReadSingle(
       MarkAsReadSingleRequest(
@@ -124,64 +142,74 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
 
     res.fold(
-          (err) {
+      (err) {
         // Rollback if server failed
-        emit(state.copyWith(
-          items: before,
-          unreadCount: state.unreadCount + dec,
-          markingIds: _without(state.markingIds, userNotificationId.toString()),
-          markSingleError: err,
-        ));
+        emit(
+          state.copyWith(
+            items: before,
+            unreadCount: state.unreadCount + dec,
+            markingIds: _without(
+              state.markingIds,
+              userNotificationId.toString(),
+            ),
+            markSingleError: err,
+          ),
+        );
       },
-          (ok) async {
+      (ok) async {
         // If your backend adjusts unread count server-side, optionally re-sync:
         // await fetchUnreadCount();
-        emit(state.copyWith(
-          markingIds: _without(state.markingIds, userNotificationId.toString()),
-          markSingleError: null,
-        ));
+        emit(
+          state.copyWith(
+            markingIds: _without(
+              state.markingIds,
+              userNotificationId.toString(),
+            ),
+            markSingleError: null,
+          ),
+        );
       },
     );
   }
 
   /// Mark all as read (optimistic: clear unread flags and zero badge)
-  Future<void> markAllRead() async { // Remove request parameter
+  Future<void> markAllRead() async {
+    // Remove request parameter
     if (state.markAllLoading) return;
 
     final currentUserId = await _getUserId();
     final before = state.items;
     final optimistic = before.map((n) => _withRead(n, true)).toList();
 
-    emit(state.copyWith(
-      items: optimistic,
-      unreadCount: 0,
-      markAllLoading: true,
-      markAllError: null,
-    ));
-
-    final res = await _repo.markAllAsRead(
-      MarkAllAsReadRequest(
-        userId: currentUserId,
+    emit(
+      state.copyWith(
+        items: optimistic,
+        unreadCount: 0,
+        markAllLoading: true,
+        markAllError: null,
       ),
     );
 
+    final res = await _repo.markAllAsRead(
+      MarkAllAsReadRequest(userId: currentUserId),
+    );
+
     res.fold(
-          (err) {
+      (err) {
         // Rollback
-        emit(state.copyWith(
-          items: before,
-          unreadCount: _recountUnread(before),
-          markAllLoading: false,
-          markAllError: err,
-        ));
+        emit(
+          state.copyWith(
+            items: before,
+            unreadCount: _recountUnread(before),
+            markAllLoading: false,
+            markAllError: err,
+          ),
+        );
       },
-          (ok) async {
+      (ok) async {
         // Optionally re-sync from server for absolute truth:
         // await fetchUnreadCount();
-        emit(state.copyWith(
-          markAllLoading: false,
-          markAllError: null,
-        ));
+        emit(state.copyWith(markAllLoading: false, markAllError: null));
       },
     );
   }
@@ -190,8 +218,6 @@ class NotificationCubit extends Cubit<NotificationState> {
   void reset() {
     emit(const NotificationState());
   }
-
-
 
   Future<void> fetchFirstPageCustom({int pageSize = 5}) async {
     final currentUserId = await _getUserId();
@@ -206,13 +232,15 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
 
     res.fold(
-          (err) => emit(state.copyWith(listLoading: false, listError: err)),
-          (pageResult) => emit(state.copyWith(
-        listLoading: false,
-        items: pageResult.items,
-        page: pageResult.page,
-        listError: null,
-      )),
+      (err) => emit(state.copyWith(listLoading: false, listError: err)),
+      (pageResult) => emit(
+        state.copyWith(
+          listLoading: false,
+          items: pageResult.items,
+          page: pageResult.page,
+          listError: null,
+        ),
+      ),
     );
   }
 
@@ -220,16 +248,20 @@ class NotificationCubit extends Cubit<NotificationState> {
   static int _recountUnread(List<UserNotificationEntity> list) =>
       list.where((n) => !n.isRead).length;
 
-  static bool _shouldDecrementUnread(List<UserNotificationEntity> before, int id) {
+  static bool _shouldDecrementUnread(
+    List<UserNotificationEntity> before,
+    int id,
+  ) {
     final found = before.firstWhere(
-          (e) => e.userNotificationId == id,
-      orElse: () => UserNotificationEntity(
-        userNotificationId: id,
-        title: '',
-        body: '',
-        isRead: true,
-        sentBy: '',
-      ),
+      (e) => e.userNotificationId == id,
+      orElse:
+          () => UserNotificationEntity(
+            userNotificationId: id,
+            title: '',
+            body: '',
+            isRead: true,
+            sentBy: '',
+          ),
     );
     // Decrement only if it was previously unread
     return !found.isRead;
@@ -242,9 +274,6 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   UserNotificationEntity _withRead(UserNotificationEntity n, bool read) {
-    return n.withRead(
-      isRead: read,
-      readAt: read ? DateTime.now() : null,
-    );
+    return n.withRead(isRead: read, readAt: read ? DateTime.now() : null);
   }
 }
