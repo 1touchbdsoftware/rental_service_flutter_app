@@ -309,9 +309,9 @@ class TenantHomeScreen extends StatelessWidget {
           );
         }
 
-        final notifications = state.items;
+        final notifications = state.recentActivityItems; // <- use recentActivityItems
 
-        if (notifications.isEmpty) {
+        if (notifications!.isEmpty) {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -353,11 +353,11 @@ class TenantHomeScreen extends StatelessWidget {
                     children: [
                       _buildActivityItem(
                         title: n.title,
-                        description: n.body.length > 60
-                            ? '${n.body.substring(0, 60)}...'
-                            : n.body,
+                        description: n.body.length > 80
+                            ? '${n.body.substring(0, 80)}...'
+                            : n.body, // <- truncate to 80 chars
                         dateTime: _formatDateTime(n.createdAt),
-                        iconData: Icons.notifications, // customize if you have type
+                        iconData: Icons.notifications,
                         iconColor: n.isRead ? Colors.grey : Colors.blue,
                         onTap: () {
                           if (!n.isRead) {
@@ -380,6 +380,7 @@ class TenantHomeScreen extends StatelessWidget {
       },
     );
   }
+
 
 
   String _formatDateTime(DateTime? dt) {
