@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
 
@@ -199,7 +198,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                 InkWell(
                   onTap: () async {
                     Navigator.pop(context);
-                    await _pickFromCamera();
+                    await _openCamera();
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Column(
@@ -224,7 +223,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                 InkWell(
                   onTap: () async {
                     Navigator.pop(context);
-                    await _pickImagesFromGallery();
+                    await _openGallery();
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Column(
@@ -253,21 +252,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     );
   }
 
-  Future<void> _pickFromCamera() async {
-    final cameraStatus = await Permission.camera.status;
-    if (cameraStatus.isGranted) {
-      await _openCamera();
-    } else if (cameraStatus.isDenied) {
-      // Request permission
-      final result = await Permission.camera.request();
-      if (result.isGranted) {
-        await _openCamera();
-      } else {
-        _showPermissionDeniedMessage(context, 'Camera');
-      }
-    }
-  }
-
   Future<void> _openCamera() async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(
@@ -280,20 +264,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       widget.onImageAdded(pickedFile);
     } else if (widget.selectedImages.length >= widget.maxImages) {
       _showMaxImagesMessage(context);
-    }
-  }
-
-  Future<void> _pickImagesFromGallery() async {
-    final galleryStatus = await Permission.photos.status;
-    if (galleryStatus.isGranted) {
-      await _openGallery();
-    } else if (galleryStatus.isDenied) {
-      final result = await Permission.photos.request();
-      if (result.isGranted) {
-        await _openGallery();
-      } else {
-        _showPermissionDeniedMessage(context, 'Gallery');
-      }
     }
   }
 
@@ -340,14 +310,4 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       ),
     );
   }
-
-  void _showPermissionDeniedMessage(BuildContext context, String source) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$source permission denied'),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ),
-    );
-  }
 }
-

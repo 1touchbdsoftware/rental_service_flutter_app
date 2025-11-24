@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545780420401",
+    "project_id": "rentalappnotifs",
+    "storage_bucket": "rentalappnotifs.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545780420401:android:340e42653df0c69634aa10",
+        "android_client_info": {
+          "package_name": "com.promatrix.rental_service"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTDVlaBdkP1K8Y_geB-8TSc__sCXt4kYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
