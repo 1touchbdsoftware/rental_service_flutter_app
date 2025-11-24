@@ -23,6 +23,9 @@ class NotificationState extends Equatable {
   final Set<String> markingIds; // ids currently being marked as read
   final String? markSingleError;
 
+  final List<UserNotificationEntity> recentActivityItems;
+
+
   const NotificationState({
     this.unreadCount = 0,
     this.unreadLoading = false,
@@ -36,6 +39,8 @@ class NotificationState extends Equatable {
     this.markAllError,
     this.markingIds = const {},
     this.markSingleError,
+
+    this.recentActivityItems = const [],
   });
 
   NotificationState copyWith({
@@ -54,6 +59,7 @@ class NotificationState extends Equatable {
 
     Set<String>? markingIds,
     String? markSingleError,
+     List<UserNotificationEntity>? recentActivityItems,
   }) {
     return NotificationState(
       unreadCount: unreadCount ?? this.unreadCount,
@@ -68,6 +74,7 @@ class NotificationState extends Equatable {
       markAllError: markAllError,
       markingIds: markingIds ?? this.markingIds,
       markSingleError: markSingleError,
+      recentActivityItems : this.recentActivityItems,
     );
   }
 

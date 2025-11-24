@@ -232,17 +232,16 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
 
     res.fold(
-      (err) => emit(state.copyWith(listLoading: false, listError: err)),
-      (pageResult) => emit(
+          (err) => emit(state.copyWith(listLoading: false, listError: err)),
+          (pageResult) => emit(
         state.copyWith(
           listLoading: false,
-          items: pageResult.items,
-          page: pageResult.page,
-          listError: null,
+          recentActivityItems: pageResult.items, // updates recentActivityItems
         ),
       ),
     );
   }
+
 
   // ---------- helpers ----------
   static int _recountUnread(List<UserNotificationEntity> list) =>
