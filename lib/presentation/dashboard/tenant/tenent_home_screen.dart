@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/core/constants/app_colors.dart';
 import 'package:rental_service/presentation/auth/signin.dart';
+import '../../../common/bloc/notifications/notifications_cubit.dart';
+import '../../../common/bloc/notifications/notifications_state.dart';
 import '../../../data/model/user/user_info_model.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../widgets/drawer.dart';
@@ -14,8 +16,15 @@ class TenantHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => UserInfoCubit(UserInfoModel.empty())..loadUserInfo(),
+        ),
+        BlocProvider(
+          create: (_) => NotificationCubit()..fetchFirstPageCustom(pageSize: 5),
+        ),
+      ],
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is UnAuthenticated) {
@@ -287,60 +296,111 @@ class TenantHomeScreen extends StatelessWidget {
   }
 
   Widget _buildRecentActivity(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          S.of(context).recentActivity,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return BlocBuilder<NotificationCubit, NotificationState>(
+      builder: (context, state) {
+        if (state.listLoading) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: CircularProgressIndicator(color: colorScheme.primary),
+            ),
+          );
+        }
+
+        final notifications = state.items;
+
+        if (notifications.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'No recent activity',
+                style: TextStyle(color: Colors.grey[600]),
               ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _buildActivityItem(
-                title: 'Complaint Created',
-                description: 'Water leakage in bathroom',
-                dateTime: 'Today, 9:30 AM',
-                iconData: Icons.add_circle_outline,
-                iconColor: Colors.blue,
+            ),
+          );
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Recent Activity',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
-              const Divider(height: 1),
-              _buildActivityItem(
-                title: 'Complaint Resolved',
-                description: 'AC not working properly',
-                dateTime: 'Yesterday, 4:15 PM',
-                iconData: Icons.check_circle_outline,
-                iconColor: Colors.green,
+            ),
+            const SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              const Divider(height: 1),
-              _buildActivityItem(
-                title: 'Maintenance Scheduled',
-                description: 'Kitchen cabinet repair',
-                dateTime: '2 days ago',
-                iconData: Icons.calendar_today,
-                iconColor: Colors.orange,
+              child: Column(
+                children: List.generate(notifications.length, (index) {
+                  final n = notifications[index];
+                  return Column(
+                    children: [
+                      _buildActivityItem(
+                        title: n.title,
+                        description: n.body,
+                        dateTime: _formatDateTime(n.createdAt),
+                        iconData: Icons.notifications, // customize if you have type
+                        iconColor: n.isRead ? Colors.grey : Colors.blue,
+                        onTap: () {
+                          if (!n.isRead) {
+                            context
+                                .read<NotificationCubit>()
+                                .markSingleRead(n.userNotificationId);
+                          }
+
+                          if (n.redirectEndpoint != null) {
+                            // TODO: navigate to redirect
+                          }
+                        },
+                      ),
+                      if (index != notifications.length - 1)
+                        const Divider(height: 1),
+                    ],
+                  );
+                }),
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
+
+
+  String _formatDateTime(DateTime? dt) {
+    if (dt == null) return '';
+    final now = DateTime.now();
+    final diff = now.difference(dt);
+
+    if (diff.inDays > 7) {
+      return '${dt.day}/${dt.month}/${dt.year}';
+    } else if (diff.inDays > 0) {
+      return '${diff.inDays}d ago';
+    } else if (diff.inHours > 0) {
+      return '${diff.inHours}h ago';
+    } else if (diff.inMinutes > 0) {
+      return '${diff.inMinutes}m ago';
+    } else {
+      return 'Just now';
+    }
+  }
+
 
   Widget _buildActivityItem({
     required String title,
@@ -348,56 +408,61 @@ class TenantHomeScreen extends StatelessWidget {
     required String dateTime,
     required IconData iconData,
     required Color iconColor,
+    VoidCallback? onTap,
   }) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.1),
-              shape: BoxShape.circle,
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                iconData,
+                color: iconColor,
+                size: 20,
+              ),
             ),
-            child: Icon(
-              iconData,
-              color: iconColor,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15,
-                    color: Colors.black87,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: Colors.black87,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[600],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Text(
-            dateTime,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[500],
+            Text(
+              dateTime,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[500],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
 }

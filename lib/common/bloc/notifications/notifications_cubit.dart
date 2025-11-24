@@ -191,6 +191,31 @@ class NotificationCubit extends Cubit<NotificationState> {
     emit(const NotificationState());
   }
 
+
+
+  Future<void> fetchFirstPageCustom({int pageSize = 5}) async {
+    final currentUserId = await _getUserId();
+    emit(state.copyWith(listLoading: true, listError: null));
+
+    final res = await _repo.getUserNotifications(
+      GetUserNotificationsParams(
+        userId: currentUserId,
+        pageNumber: 1,
+        pageSize: pageSize,
+      ),
+    );
+
+    res.fold(
+          (err) => emit(state.copyWith(listLoading: false, listError: err)),
+          (pageResult) => emit(state.copyWith(
+        listLoading: false,
+        items: pageResult.items,
+        page: pageResult.page,
+        listError: null,
+      )),
+    );
+  }
+
   // ---------- helpers ----------
   static int _recountUnread(List<UserNotificationEntity> list) =>
       list.where((n) => !n.isRead).length;
