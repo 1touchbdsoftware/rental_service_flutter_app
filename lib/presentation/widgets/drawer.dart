@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_service/common/bloc/auth/auth_cubit.dart';
 import 'package:rental_service/domain/usecases/logout_usecase.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/localization/language_cubit.dart';
 import '../../data/model/user/user_info_model.dart';
@@ -176,14 +177,42 @@ Widget buildAppDrawer(BuildContext context, String username,
                 },
               ),
 
-              // Settings
+              // user manual
               _buildDrawerItem(
                 context: context,
-                icon: Icons.settings_rounded,
-                title: S.of(context).settings,
-                onTap: () {
-                  // Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/settings');
+                icon: Icons.list_alt_outlined,
+                title: "Manuals",
+                onTap: () async {
+                  final manualUrl = Uri.parse('https://promatrix.com.tr/manual');
+
+                  try {
+                    // Try external app first
+                    bool launched = await launchUrl(
+                      manualUrl,
+                      mode: LaunchMode.externalApplication,
+                    );
+
+                    if (!launched) {
+                      // fallback to platformDefault
+                      launched = await launchUrl(manualUrl, mode: LaunchMode.platformDefault);
+                    }
+
+                    if (!launched) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Could not open link'),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error opening link: $e'),
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                      ),
+                    );
+                  }
                 },
               ),
 
