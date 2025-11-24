@@ -353,7 +353,9 @@ class TenantHomeScreen extends StatelessWidget {
                     children: [
                       _buildActivityItem(
                         title: n.title,
-                        description: n.body,
+                        description: n.body.length > 60
+                            ? '${n.body.substring(0, 60)}...'
+                            : n.body,
                         dateTime: _formatDateTime(n.createdAt),
                         iconData: Icons.notifications, // customize if you have type
                         iconColor: n.isRead ? Colors.grey : Colors.blue,
