@@ -340,8 +340,8 @@ class TenantHomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 5,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -357,8 +357,6 @@ class TenantHomeScreen extends StatelessWidget {
                             ? '${n.body.substring(0, 80)}...'
                             : n.body, // <- truncate to 80 chars
                         dateTime: _formatDateTime(n.createdAt),
-                        iconData: Icons.notifications,
-                        iconColor: n.isRead ? Colors.grey : Colors.blue,
                         onTap: () {
                           if (!n.isRead) {
                             context
@@ -406,8 +404,6 @@ class TenantHomeScreen extends StatelessWidget {
     required String title,
     required String description,
     required String dateTime,
-    required IconData iconData,
-    required Color iconColor,
     VoidCallback? onTap,
   }) {
     return InkWell(
@@ -416,18 +412,6 @@ class TenantHomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                iconData,
-                color: iconColor,
-                size: 20,
-              ),
-            ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
