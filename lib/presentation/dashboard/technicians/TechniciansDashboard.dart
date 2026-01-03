@@ -135,7 +135,7 @@ class TechnicianDashboard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      S.of(context).propertyOwner,
+                      "Verified Technician",
                       style: textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -158,7 +158,7 @@ class TechnicianDashboard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Landlord ID: ${userInfo.technicianID ?? 'Not Available'}',
+                    'Technician ID: ${userInfo.technicianID ?? 'Not Available'}',
                     style: textTheme.bodyMedium?.copyWith(
                       color: colorScheme.onPrimaryContainer,
                     ),
