@@ -14,7 +14,7 @@ class GetUserLocalServiceImpl extends GetUserLocalService{
   Future<UserInfoModel> getSavedUserInfo() async{
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return UserInfoModel(
-      id: sharedPreferences.getString('id') ?? '',
+      id: sharedPreferences.getString('userId') ?? '',
       userName: sharedPreferences.getString('userName') ?? '',
       agencyID: sharedPreferences.getString('agencyID') ?? '',
       isActive: true, // Assuming always true; if you store this, retrieve it properly
@@ -30,6 +30,8 @@ class GetUserLocalServiceImpl extends GetUserLocalService{
       propertyName: sharedPreferences.getString('propertyName') ?? '',
       userType: sharedPreferences.getString('userType') ?? '',
       isDefaultPassword: sharedPreferences.getBool('isDefaultPassword') ?? true,
+      technicianID: sharedPreferences.getString('technicianID'),
+      employeeName: sharedPreferences.getString('employeeName'),
     );
   }
 

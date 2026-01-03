@@ -54,8 +54,8 @@ class TechnicianDashboard extends StatelessWidget {
                   builder: (context, userInfo) {
                     return buildAppDrawer(
                         context,
-                        userInfo.landlordName ?? "",
-                        S.of(context).landlordDashboard_1, userInfo.userType ?? ''
+                        userInfo.employeeName ?? "",
+                        userInfo.employeeName ?? '', userInfo.userType ?? ''
                     );
                   },
                 ),
@@ -127,7 +127,7 @@ class TechnicianDashboard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userInfo.landlordName ?? 'Landlord',
+                      userInfo.employeeName ?? 'Technician',
                       style: textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onSurface,

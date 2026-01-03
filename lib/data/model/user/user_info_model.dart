@@ -36,6 +36,8 @@ class UserInfoModel extends UserInfoEntity {
     emailAddress: emailAddress,
     propertyName: propertyName,
     userType: userType,
+    technicianID: technicianID,
+    employeeName: employeeName,
     isDefaultPassword: isDefaultPassword,
   );
 
