@@ -170,7 +170,10 @@ class SplashWrapperState extends State<SplashWrapper> {
                 return LandlordDashboard();
               } else if (userTypeState is UserTypeTenant) {
                 return TenantHomeScreen();
-              } else {
+              } else if (userTypeState is UserTypeTechnician) {
+                return TenantHomeScreen();
+              }
+              else {
                 return SignInPage();
               }
             }

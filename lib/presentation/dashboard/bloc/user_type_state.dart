@@ -11,6 +11,8 @@ class UserTypeLandLord extends UserTypeState {}
 
 class UserTypeTenant extends UserTypeState {}
 
+class UserTypeTechnician extends UserTypeState {}
+
 class UserTypeError extends UserTypeState {
   final String message;
   UserTypeError({required this.message});

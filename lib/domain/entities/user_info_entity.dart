@@ -15,6 +15,8 @@ class UserInfoEntity {
   final String? propertyName;
   final String? userType;
   final bool isDefaultPassword;
+  final String? employeeName;
+  final String? technicianID;
 
   const UserInfoEntity({
     required this.id,
@@ -28,6 +30,8 @@ class UserInfoEntity {
     this.propertyID,
     this.tenantInfoID,
     this.propertyName,
+    this.technicianID,
+    this.employeeName,
     required this.registrationType,
     required this.contactNumber,
     required this.emailAddress,

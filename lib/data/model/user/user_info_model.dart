@@ -13,6 +13,8 @@ class UserInfoModel extends UserInfoEntity {
     String? propertyID,
     String? propertyName,
     String? tenantInfoID,
+    String? technicianID,
+    String? employeeName,
     required String registrationType,
     required String contactNumber,
     required String emailAddress,
@@ -55,6 +57,8 @@ class UserInfoModel extends UserInfoEntity {
       propertyName: json['propertyName'],
       userType: json['registrationType'],
       isDefaultPassword: json['isDefaultPassword'],
+      technicianID: json['technicianID'],
+      employeeName: json['employeeName'],
     );
   }
 
@@ -62,7 +66,12 @@ class UserInfoModel extends UserInfoEntity {
     id: '',
     userName: 'Loading...',
     agencyID: '',
-    isActive: false, registrationType: '', contactNumber: '', emailAddress: '', userType: '', isDefaultPassword: true,
+    isActive: false,
+    registrationType: '',
+    contactNumber: '',
+    emailAddress: '',
+    userType: '',
+    isDefaultPassword: true,
     // ... other empty fields
   );
 }

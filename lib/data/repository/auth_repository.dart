@@ -37,7 +37,9 @@ class AuthRepositoryImpl extends AuthRepository {
         final validUser =
             response.data['data']['userInfo']['registrationType'] == "TENANT" ||
                     response.data['data']['userInfo']['registrationType'] ==
-                        "LANDLORD"
+                        "LANDLORD" ||
+                    response.data['data']['userInfo']['registrationType'] ==
+                        "TECHNICIAN"
                 ? true
                 : false;
 
@@ -59,7 +61,11 @@ class AuthRepositoryImpl extends AuthRepository {
               sharedPreferences.setString('userType', "LANDLORD");
             } else if (userType == "TENANT") {
               sharedPreferences.setString('userType', "TENANT");
-            } else {
+            }else if (userType == "TECHNICIAN") {
+              print("TECHNICIAN GOT");
+              sharedPreferences.setString('userType', "TECHNICIAN");
+            }
+            else {
               return Left('User Type Mismatch, Visit Website');
             }
           }else{
@@ -69,6 +75,8 @@ class AuthRepositoryImpl extends AuthRepository {
           sharedPreferences.setString('token', userModel.token);
           sharedPreferences.setString('refreshToken', userModel.refreshToken);
           sharedPreferences.setString('userName', userModel.userInfo.userName);
+          sharedPreferences.setString('technicianID', userModel.userInfo.technicianID ?? "");
+          sharedPreferences.setString('employeeName', userModel.userInfo.employeeName ?? "");
           sharedPreferences.setString(
             'tenantName',
             userModel.userInfo.tenantName ?? "",

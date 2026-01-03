@@ -21,7 +21,10 @@ class UserTypeCubit extends Cubit<UserTypeState> {
         emit(UserTypeLandLord());
       } else if (userType == "TENANT") {
         emit(UserTypeTenant());
-      } else {
+      } else if (userType == "TECHNICIAN") {
+        emit(UserTypeTechnician());
+      }
+      else {
         emit(UserTypeError(message: "Unknown user type: $userType"));
       }
     } catch (e) {

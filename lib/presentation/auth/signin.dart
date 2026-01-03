@@ -8,6 +8,7 @@ import 'package:rental_service/domain/usecases/signin_usecase.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_info_cubit.dart';
 import 'package:rental_service/presentation/dashboard/landloard/LandlordDashboard.dart';
 import 'package:rental_service/presentation/dashboard/bloc/user_type_cubit.dart';
+import 'package:rental_service/presentation/dashboard/technicians/TechniciansDashboard.dart';
 import 'package:rental_service/presentation/password/forgot_email_screen.dart';
 import 'package:rental_service/presentation/password/password_reset_screen.dart';
 import '../../core/constants/app_colors.dart';
@@ -119,7 +120,18 @@ class SignInPage extends StatelessWidget {
                       ),
                     );
                   });
-                } else if (state is UserTypeError) {
+                }else if (state is UserTypeTechnician) {
+                  print("Navigating to Technician Dashboard");
+                  Future.microtask(() {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TechnicianDashboard(),
+                      ),
+                    );
+                  });
+                }
+                else if (state is UserTypeError) {
                   print("UserType error: ${state.toString()}");
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
