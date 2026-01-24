@@ -22,6 +22,7 @@ class ApiUrls{
   static const markComplainCompleted = '${baseURL}Complain/UpdateCompletionStatus';
 
   static const getAssignedTechnician = '${baseURL}TechnicianAssign/GetAssignedTechnicianInfos';
+  static const getAssignedTechnicianComplaint = '${baseURL}TechnicianAssign/GetAssignedTechnicianComplaint';
   static const acceptAssignedTechnician = '${baseURL}TechnicianAssign/SaveAcceptAssignTechnician';
   static const rescheduleTechnician = '${baseURL}TechnicianAssign/SaveRescheduleAssignTechnician';
 
